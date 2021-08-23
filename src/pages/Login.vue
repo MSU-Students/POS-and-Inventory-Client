@@ -3,7 +3,7 @@
     <q-page-container>
       <q-page class="flex bg-image flex-center">
         <q-card
-          v-bind:style="$q.screen.lt.sm ? { width: '0%' } : { width: '20%' }"
+          v-bind:style="$q.screen.lt.sm ? { width: '90%' } : { width: '20%' }"
         >
           <q-card-section>
             <q-avatar size="125px" class="absolute-center shadow-10">
@@ -33,7 +33,6 @@
                 <q-btn
                   class="full-width"
                   label="Login"
-                  to="/Dashboard"
                   color="red-6"
                   size="lg"
                   @click="loginUser()"
@@ -48,15 +47,22 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Login',
-  data() {
-    return {
-      username: '',
-      password: '',
-    };
-  },
-};
+import { Vue } from 'vue-class-component';
+
+export default class Login extends Vue {
+  username = '';
+  password = '';
+
+  async loginUser() {
+    if (this.username == 'Admin' && this.password == 'Admin') {
+      await this.$router.replace('/Dashboard');
+    } else {
+      this.username = '';
+      this.password = '';
+      alert('Wrong Username and Password!!');
+    }
+  }
+}
 </script>
 
 <style>
