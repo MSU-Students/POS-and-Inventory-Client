@@ -23,7 +23,19 @@
                 </template>
               </q-input>
 
-              <q-input type="password" v-model="password" label="Password">
+              <q-input
+                v-model="password"
+                label="Password"
+                filled
+                :type="isPwd ? 'password' : 'text'"
+              >
+                <template v-slot:append>
+                  <q-icon
+                    :name="isPwd ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isPwd = !isPwd"
+                  />
+                </template>
                 <template v-slot:prepend>
                   <q-icon name="lock" />
                 </template>
@@ -52,10 +64,12 @@ import { Vue } from 'vue-class-component';
 export default class Login extends Vue {
   username = '';
   password = '';
+  isPwd = true;
 
   async loginUser() {
     if (this.username == 'Admin' && this.password == 'Admin') {
       await this.$router.replace('/Dashboard');
+      alert('You are logged in');
     } else {
       this.username = '';
       this.password = '';
