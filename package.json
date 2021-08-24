@@ -42,5 +42,15 @@
     "node": ">= 12.22.1",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
-  }
+  },
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MSU-Students/POS-and-Inventory-Client.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MSU-Students/POS-and-Inventory-Client/issues"
+  },
+  "homepage": "https://github.com/MSU-Students/POS-and-Inventory-Client#readme"
 }
