@@ -30,9 +30,46 @@
       :rows="rows"
       :columns="columns"
       row-key="name"
+      :rows-per-page-options="[0]"
     >
       <template v-slot:top-right>
-        <q-btn color="primary" dense flat label="Add User" icon="add" />
+        <div class="q-pa-md q-gutter-sm">
+          <q-btn
+            label="Add User"
+            color="primary"
+            dense
+            flat
+            icon="add"
+            @click="addUser = true"
+          />
+          <q-dialog v-model="addUser">
+            <q-card>
+              <q-card-section class="row">
+                <div class="text-h6">Add User</div>
+                <q-space />
+                <q-btn flat round dense icon="close" v-close-popup />
+              </q-card-section>
+
+              <q-card-section class="q-gutter-md">
+                <q-input outlined v-model="addName" label="Name" />
+                <q-input outlined v-model="addUsername" label="Username" />
+                <q-input outlined v-model="addPass" label="Password" />
+                <q-input
+                  outlined
+                  v-model="addEmail"
+                  label="Email"
+                  type="email"
+                />
+                <q-input outlined v-model="addRole" label="Role" />
+              </q-card-section>
+
+              <q-card-actions align="right">
+                <q-btn flat label="Cancel" color="red-10" v-close-popup />
+                <q-btn flat label="Add" color="primary" v-close-popup />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
+        </div>
       </template>
       <template v-slot:header="props">
         <q-tr :props="props">
@@ -47,7 +84,42 @@
         <q-tr :props="props">
           <div>
             <q-td>
-              <q-btn round color="blue" icon="edit" size="sm" flat dense />
+              <q-btn
+                round
+                color="blue"
+                icon="edit"
+                size="sm"
+                flat
+                dense
+                @click="editRow = true"
+              />
+              <q-dialog v-model="editRow">
+                <q-card>
+                  <q-card-section class="row">
+                    <div class="text-h6">Edit User</div>
+                    <q-space />
+                    <q-btn flat round dense icon="close" v-close-popup />
+                  </q-card-section>
+
+                  <q-card-section class="q-gutter-md">
+                    <q-input outlined v-model="addName" label="Name" />
+                    <q-input outlined v-model="addUsername" label="Username" />
+                    <q-input outlined v-model="addPass" label="Password" />
+                    <q-input
+                      outlined
+                      v-model="addEmail"
+                      label="Email"
+                      type="email"
+                    />
+                    <q-input outlined v-model="addRole" label="Role" />
+                  </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn flat label="Cancel" color="red-10" v-close-popup />
+                    <q-btn flat label="Add" color="primary" v-close-popup />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
               <q-btn
                 color="red-10"
                 icon="delete"
@@ -56,21 +128,31 @@
                 flat
                 round
                 dense
-                field="edit"
                 @click="dialog = true"
               />
               <q-dialog v-model="dialog" persistent>
-              <q-card>
-                <q-card-section class="row items-center">
-                  <q-avatar icon="warning" color="primary" text-color="white" />
-                  <span class="q-ml-sm">Confirm Delete?</span>
-                </q-card-section>
-                <q-card-actions align="right">
-                  <q-btn flat label="Cancel" color="primary" v-close-popup="cancelEnabled" :disable="!cancelEnabled" />
-                  <q-btn flat label="Yes" color="primary" v-close-popup />
-                </q-card-actions>
-              </q-card>
-            </q-dialog>
+                <q-card>
+                  <q-card-section class="row items-center">
+                    <q-avatar
+                      size="sm"
+                      icon="warning"
+                      color="red-10"
+                      text-color="white"
+                    />
+                    <span class="q-ml-sm">Confirm Delete?</span>
+                  </q-card-section>
+                  <q-card-actions align="right">
+                    <q-btn
+                      flat
+                      label="Cancel"
+                      color="primary"
+                      v-close-popup="cancelEnabled"
+                      :disable="!cancelEnabled"
+                    />
+                    <q-btn flat label="Confirm" color="primary" v-close-popup />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
             </q-td>
           </div>
 
@@ -83,6 +165,7 @@
   </div>
 </template>
 <script>
+import { useQuasar } from 'quasar';
 const columns = [
   {
     name: 'name',
@@ -124,17 +207,14 @@ const rows = [
   },
 ];
 export default {
-  setup() {
+  data() {
     return {
       columns,
       rows,
+      cancelEnabled: true,
+      addUser: false,
+      editRow: false,
     };
   },
-  data () {
-    return {
-      dialog: false,
-      cancelEnabled: true
-    }
-  }
 };
 </script>
