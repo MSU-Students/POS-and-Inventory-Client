@@ -57,8 +57,20 @@
                 round
                 dense
                 field="edit"
-                @click="editItem(props.row)"
+                @click="dialog = true"
               />
+              <q-dialog v-model="dialog" persistent>
+              <q-card>
+                <q-card-section class="row items-center">
+                  <q-avatar icon="warning" color="primary" text-color="white" />
+                  <span class="q-ml-sm">Confirm Delete?</span>
+                </q-card-section>
+                <q-card-actions align="right">
+                  <q-btn flat label="Cancel" color="primary" v-close-popup="cancelEnabled" :disable="!cancelEnabled" />
+                  <q-btn flat label="Yes" color="primary" v-close-popup />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
             </q-td>
           </div>
 
@@ -118,5 +130,11 @@ export default {
       rows,
     };
   },
+  data () {
+    return {
+      dialog: false,
+      cancelEnabled: true
+    }
+  }
 };
 </script>
