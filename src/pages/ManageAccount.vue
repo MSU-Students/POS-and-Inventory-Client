@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-pa-md row q-gutter-md">
+    <div class="text-h4 text-bold">Account Management</div>
+    <div class="row q-gutter-md">
       <q-card class="my-card bg-secondary text-white">
         <q-card-section>
-          <div class="text-h6">Our Changing Planet</div>
-          <div class="text-subtitle2">by John Doe</div>
+          <div class="text-h6 text-center">Total Users</div>
         </q-card-section>
         <q-separator dark />
       </q-card>
@@ -24,43 +24,50 @@
         </q-card-actions>
       </q-card>
     </div>
-    <div class="row justify-end">
-      <q-btn push color="primary" dense rounded label="Add User" icon="add" />
-    </div>
-    <div class="q-pa-md">
-      <q-table
-        title="Account List"
-        :rows="rows"
-        :columns="columns"
-        row-key="name"
-      >
-        <template v-slot:header="props">
-          <q-tr :props="props">
-            <q-th auto-width />
-            <q-th v-for="col in props.cols" :key="col.name" :props="props">
-              {{ col.label }}
-            </q-th>
-          </q-tr>
-        </template>
+    <br />
+    <q-table
+      title="Account List"
+      :rows="rows"
+      :columns="columns"
+      row-key="name"
+    >
+      <template v-slot:top-right>
+        <q-btn color="primary" dense flat label="Add User" icon="add" />
+      </template>
+      <template v-slot:header="props">
+        <q-tr :props="props">
+          <q-th auto-width />
+          <q-th v-for="col in props.cols" :key="col.name" :props="props">
+            {{ col.label }}
+          </q-th>
+        </q-tr>
+      </template>
 
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <div>
-              <q-td>
-                <q-btn size="sm" color="blue" round dense icon="edit" />
-              </q-td>
-              <q-td>
-                <q-btn size="sm" color="red-10" round dense icon="delete" />
-              </q-td>
-            </div>
-
-            <q-td v-for="col in props.cols" :key="col.name" :props="props">
-              {{ col.value }}
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <div>
+            <q-td>
+              <q-btn round color="blue" icon="edit" size="sm" flat dense />
+              <q-btn
+                color="red-10"
+                icon="delete"
+                size="sm"
+                class="q-ml-sm"
+                flat
+                round
+                dense
+                field="edit"
+                @click="editItem(props.row)"
+              />
             </q-td>
-          </q-tr>
-        </template>
-      </q-table>
-    </div>
+          </div>
+
+          <q-td v-for="col in props.cols" :key="col.name" :props="props">
+            {{ col.value }}
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
   </div>
 </template>
 <script>
@@ -94,7 +101,6 @@ const columns = [
     field: 'lastLogin',
   },
 ];
-
 const rows = [
   {
     name: 'Basam C. Serad',
@@ -105,7 +111,6 @@ const rows = [
     lastLogin: '11 / 11 / 2001',
   },
 ];
-
 export default {
   setup() {
     return {
