@@ -211,6 +211,7 @@ export default {
     return {
       columns,
       rows,
+      dialog:false,
       cancelEnabled: true,
       addUser: false,
       editRow: false,

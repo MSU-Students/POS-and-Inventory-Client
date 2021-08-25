@@ -26,7 +26,6 @@
               <q-input
                 v-model="password"
                 label="Password"
-                filled
                 :type="isPwd ? 'password' : 'text'"
               >
                 <template v-slot:append>
@@ -69,11 +68,11 @@ export default class Login extends Vue {
   async loginUser() {
     if (this.username == 'Admin' && this.password == 'Admin') {
       await this.$router.replace('/Dashboard');
-      alert('You are logged in');
+      this.$q.notify('You are logged in');
     } else {
       this.username = '';
       this.password = '';
-      alert('Wrong Username and Password!!');
+      this.$q.notify('Wrong Username and Password!!');
     }
   }
 }
