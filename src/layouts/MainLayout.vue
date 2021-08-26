@@ -13,22 +13,27 @@
                 </q-avatar>
 
                 <div class="text-subtitle1 q-mt-md q-mb-xs">Basam Serad</div>
-                <q-btn
+                
+                  <q-btn
+                  class = "q-ma-xs"
                   color="primary"
                   label="Manage"
                   push
-                  size="sm"
+                  size="md"
                   to="/Account"
                   v-close-popup
                 />
+                
+                
                 <q-btn
                   color="primary"
                   label="Logout"
                   push
-                  size="sm"
+                  size="md"
                   to=""
                   v-close-popup
                 />
+                
               </div>
             </div>
           </q-btn-dropdown>
