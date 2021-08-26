@@ -8,14 +8,12 @@
           <q-btn-dropdown flat dropdown-icon="account_circle">
             <div class="row no-wrap q-pa-md">
               <div class="column items-center">
-                <q-avatar size="90px" icon="person">
-                  
-                </q-avatar>
+                <q-avatar size="90px" icon="person"> </q-avatar>
 
                 <div class="text-subtitle1 q-mt-md q-mb-xs">Basam Serad</div>
-                
-                  <q-btn
-                  class = "q-ma-xs"
+
+                <q-btn
+                  class="q-ma-xs"
                   color="primary"
                   label="Manage"
                   push
@@ -23,8 +21,7 @@
                   to="/Account"
                   v-close-popup
                 />
-                
-                
+
                 <q-btn
                   color="primary"
                   label="Logout"
@@ -33,7 +30,6 @@
                   to=""
                   v-close-popup
                 />
-                
               </div>
             </div>
           </q-btn-dropdown>
@@ -129,12 +125,10 @@
   </div>
 </template>
 <script lang="ts">
-export default {
-  data() {
-    return {
-      drawer: false,
-      miniState: true,
-    };
-  },
-};
+import { Vue, Options } from 'vue-class-component';
+@Options({})
+export default class MainLayout extends Vue {
+  drawer = false;
+  miniState = true;
+}
 </script>

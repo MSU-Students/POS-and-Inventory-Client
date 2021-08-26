@@ -17,7 +17,13 @@
           </q-card-section>
           <q-card-section>
             <q-form class="q-gutter-md">
-              <q-input v-model="username" label="Username">
+              <q-input
+                v-model="username"
+                label="Username"
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Input your Username',
+                ]"
+              >
                 <template v-slot:prepend>
                   <q-icon name="people" />
                 </template>
@@ -27,6 +33,9 @@
                 v-model="password"
                 label="Password"
                 :type="isPwd ? 'password' : 'text'"
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Input your password',
+                ]"
               >
                 <template v-slot:append>
                   <q-icon
@@ -58,8 +67,8 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-class-component';
-
+import { Vue, Options } from 'vue-class-component';
+@Options({})
 export default class Login extends Vue {
   username = '';
   password = '';

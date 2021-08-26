@@ -8,9 +8,9 @@
       />
       Account Management
     </div>
-    
+
     <br />
-    
+
     <q-table
       title="Account List"
       :rows="rows"
@@ -21,7 +21,6 @@
     >
       <template v-slot:top-right>
         <div class="q-pa-md q-gutter-sm row">
-          
           <q-input
             outlined
             rounded
@@ -43,7 +42,7 @@
             @click="addUser = true"
           />
           <q-dialog v-model="addUser">
-            <q-card style="width: 300px">
+            <q-card style="width: 350px">
               <q-card-section class="row">
                 <div class="text-h6">Add User</div>
                 <q-space />
@@ -57,7 +56,12 @@
                 <q-input outlined v-model="username" label="Username" />
                 <q-input outlined v-model="password" label="Password" />
                 <q-input outlined v-model="email" label="Email" type="email" />
-                <q-select outlined v-model="role" :options="options" label="Roles" />
+                <q-select
+                  outlined
+                  v-model="role"
+                  :options="options"
+                  label="Roles"
+                />
               </q-card-section>
 
               <q-card-actions align="right">
@@ -91,7 +95,7 @@
                 @click="editRow = true"
               />
               <q-dialog v-model="editRow">
-                <q-card>
+                <q-card style="width: 350px">
                   <q-card-section class="row">
                     <div class="text-h6">Edit User</div>
                     <q-space />
@@ -104,13 +108,23 @@
                     <q-input outlined v-model="name" label="Last Name" />
                     <q-input outlined v-model="username" label="Username" />
                     <q-input outlined v-model="password" label="Password" />
-                    <q-input outlined v-model="email" label="Email" type="email" />
-                    <q-select outlined v-model="role" :options="options" label="Roles" />
+                    <q-input
+                      outlined
+                      v-model="email"
+                      label="Email"
+                      type="email"
+                    />
+                    <q-select
+                      outlined
+                      v-model="role"
+                      :options="options"
+                      label="Roles"
+                    />
                   </q-card-section>
 
                   <q-card-actions align="right">
                     <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                    <q-btn flat label="Add" color="primary" v-close-popup />
+                    <q-btn flat label="Save" color="primary" v-close-popup />
                   </q-card-actions>
                 </q-card>
               </q-dialog>
@@ -125,7 +139,7 @@
                 @click="dialog = true"
               />
               <q-dialog v-model="dialog" persistent>
-                <q-card>
+                <q-card style="width: 300px">
                   <q-card-section class="row items-center">
                     <q-avatar
                       size="sm"
@@ -160,11 +174,9 @@
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-
 interface IRow {
   name: string;
 }
-
 @Options({})
 export default class ManageAccount extends Vue {
   columns = [
@@ -206,6 +218,22 @@ export default class ManageAccount extends Vue {
       status: 'Active',
       lastLogin: '11 / 11 / 2001',
     },
+    {
+      name: 'Basem C. Serad',
+      email: 'basamserad1998@gmail.com',
+      dateCreated: 'December 23, 1998',
+      role: 'Admin',
+      status: 'Active',
+      lastLogin: '11 / 11 / 2001',
+    },
+    {
+      name: 'Arefa C. Serad',
+      email: 'basamserad1998@gmail.com',
+      dateCreated: 'December 23, 1998',
+      role: 'Admin',
+      status: 'Active',
+      lastLogin: '11 / 11 / 2001',
+    },
   ];
   dialog = false;
   cancelEnabled = true;
@@ -218,8 +246,6 @@ export default class ManageAccount extends Vue {
   role = '';
   filter = '';
   options = ['Admin', 'Cashier'];
-      
-  
 
   onItemClick() {
     console.log('Clicked!');
