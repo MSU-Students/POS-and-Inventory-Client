@@ -8,29 +8,7 @@
       />
       Account Management
     </div>
-    <div class="row q-gutter-md">
-      <q-card class="my-card bg-secondary text-white">
-        <q-card-section>
-          <div class="text-h6 text-center">Total Users</div>
-        </q-card-section>
-        <q-separator dark />
-      </q-card>
-      <q-card class="my-card bg-secondary text-white">
-        <q-card-section>
-          <div class="text-h6">Our Changing Planet</div>
-          <div class="text-subtitle2">by John Doe</div>
-        </q-card-section>
-
-        <q-card-section> </q-card-section>
-
-        <q-separator dark />
-
-        <q-card-actions>
-          <q-btn flat>Action 1</q-btn>
-          <q-btn flat>Action 2</q-btn>
-        </q-card-actions>
-      </q-card>
-    </div>
+    
     <br />
     
     <q-table
@@ -73,11 +51,13 @@
               </q-card-section>
 
               <q-card-section class="q-gutter-md">
-                <q-input outlined v-model="name" label="Name" />
+                <q-input outlined v-model="name" label="First Name" />
+                <q-input outlined v-model="name" label="Middle Initial" />
+                <q-input outlined v-model="name" label="Last Name" />
                 <q-input outlined v-model="username" label="Username" />
                 <q-input outlined v-model="password" label="Password" />
                 <q-input outlined v-model="email" label="Email" type="email" />
-                 <q-select outlined v-model="role" :options="options" label="Outlined" />
+                <q-select outlined v-model="role" :options="options" label="Roles" />
               </q-card-section>
 
               <q-card-actions align="right">
@@ -119,38 +99,13 @@
                   </q-card-section>
 
                   <q-card-section class="q-gutter-md">
-                    <q-input outlined v-model="name" label="Name" />
+                    <q-input outlined v-model="name" label="First Name" />
+                    <q-input outlined v-model="name" label="Middle Initial" />
+                    <q-input outlined v-model="name" label="Last Name" />
                     <q-input outlined v-model="username" label="Username" />
                     <q-input outlined v-model="password" label="Password" />
-                    <q-input
-                      outlined
-                      v-model="email"
-                      label="Email"
-                      type="email"
-                    />
-                    <!-- <q-input outlined v-model="addRole" label="Role" /> -->
-                    <div>
-                      <q-btn-dropdown
-                        class="full-width"
-                        color="primary"
-                        label="Roles"
-                        align="right"
-                      >
-                        <q-list>
-                          <q-item clickable v-close-popup @click="onItemClick">
-                            <q-item-section>
-                              <q-item-label>Admin</q-item-label>
-                            </q-item-section>
-                          </q-item>
-
-                          <q-item clickable v-close-popup @click="onItemClick">
-                            <q-item-section>
-                              <q-item-label>Cashier</q-item-label>
-                            </q-item-section>
-                          </q-item>
-                        </q-list>
-                      </q-btn-dropdown>
-                    </div>
+                    <q-input outlined v-model="email" label="Email" type="email" />
+                    <q-select outlined v-model="role" :options="options" label="Roles" />
                   </q-card-section>
 
                   <q-card-actions align="right">
@@ -262,6 +217,8 @@ export default class ManageAccount extends Vue {
   email = '';
   role = '';
   filter = '';
+  options = ['Admin', 'Cashier'];
+      
   
 
   onItemClick() {
