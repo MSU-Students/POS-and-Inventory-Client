@@ -27,7 +27,7 @@
                   label="Logout"
                   push
                   size="md"
-                  to=""
+                  to="/"
                   v-close-popup
                 />
               </div>
