@@ -2,8 +2,8 @@
   <q-layout>
     <q-page-container>
       <q-page class="flex bg-image flex-center">
-        <q-card
-          v-bind:style="$q.screen.lt.sm ? { width: '90%' } : { width: '20%' }"
+        <q-card class="shadow-20"
+          v-bind:style="$q.screen.lt.md ? { width: '90%' } : { width: '20%' }"
         >
           <q-card-section>
             <q-avatar size="125px" class="absolute-center shadow-10">
@@ -12,12 +12,13 @@
           ><br />
           <q-card-section>
             <div class="text-center q-pt-lg">
-              <div class="col text-bold text-h5 ellipsis">BesTea</div>
+              <div class="col text-bold text-h4 ellipsis">BesTea</div>
             </div>
           </q-card-section>
           <q-card-section>
             <q-form class="q-gutter-md">
               <q-input
+                
                 v-model="username"
                 label="Username"
                 :rules="[
@@ -54,7 +55,7 @@
                   class="full-width"
                   label="Login"
                   color="red-6"
-                  size="lg"
+                  size="md"
                   @click="loginUser()"
                 />
               </div>
@@ -89,6 +90,7 @@ export default class Login extends Vue {
 
 <style>
 .bg-image {
-  background-image: linear-gradient(135deg, #5de974 0%, #fdee62 100%);
+  background-image: url('../assets/green.jpg');
+  background-size: cover;  
 }
 </style>

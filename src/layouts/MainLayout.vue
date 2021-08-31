@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-layout view="hHh lpR lFf">
-      <q-header elevated class="bg-primary">
+      <q-header elevated class="bg-positive">
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>BesTea Restaurant</q-toolbar-title>
