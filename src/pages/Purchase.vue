@@ -16,14 +16,12 @@
           icon-right="archive"
           label="Import Purchase"
           no-caps
-          @click="importTable"
         />
         <q-btn
           color="purple"
           icon-right="archive"
           label="Export to csv"
           no-caps
-          @click="exportTable"
         />
       </div>
     </div>
@@ -58,54 +56,44 @@
             icon="add"
             @click="addUser = true"
           />
-          <q-dialog v-model="addUser" persistent>
-            <q-card>
-              <q-card-section class="row">
-                <div class="text-h6">Add Purchase</div>
-                <q-space />
-                <q-btn flat round dense icon="close" v-close-popup />
+          <q-dialog v-model="addUser" persistent full-width>
+            <q-card class="q-pa-md">
+              <q-card-section>
+                <div class="text-h6">Select Product</div>
+                <q-input outlined placeholder="Pleas type the product" dense />
               </q-card-section>
-
+              <q-card-section>
+                <q-table
+                  title="Order Table"
+                  :rows="rowOrder"
+                  :columns="columnOrder"
+                  row-key="Ordername"
+                  binary-state-sort
+                ></q-table>
+              </q-card-section>
               <q-card-section class="q-gutter-md row">
-                <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-                  <q-input
-                    filled
-                    v-model="name"
-                    label="Your name *"
-                    hint="Name and surname"
-                    lazy-rules
-                    :rules="[
-                      (val) =>
-                        (val && val.length > 0) || 'Please type something',
-                    ]"
-                  />
-
-                  <q-input
-                    filled
-                    type="number"
-                    v-model="age"
-                    label="Your age *"
-                    lazy-rules
-                    :rules="[
-                      (val) =>
-                        (val !== null && val !== '') || 'Please type your age',
-                      (val) =>
-                        (val > 0 && val < 100) || 'Please type a real age',
-                    ]"
-                  />
-
-                  <div>
-                    <q-btn label="Submit" type="submit" color="primary" />
-                    <q-btn
-                      label="Reset"
-                      type="reset"
-                      color="primary"
-                      flat
-                      class="q-ml-sm"
-                    />
-                  </div>
-                </q-form>
+                <div class="col">
+                  <div class="text-subtitle1 text-bold">Order Tax</div>
+                  <q-input outlined dense />
+                </div>
+                <div class="col">
+                  <div class="text-subtitle1 text-bold">Discount</div>
+                  <q-input outlined dense />
+                </div>
+                <div class="col">
+                  <div class="text-subtitle1 text-bold">Shipping Cost</div>
+                  <q-input outlined dense />
+                </div>
               </q-card-section>
+              <q-card-actions align="right">
+                <q-btn
+                  label="Cancel"
+                  color="red"
+                  v-close-popup="cancelEnabled"
+                  :disable="!cancelEnabled"
+                />
+                <q-btn label="Submit" color="deep-purple" v-close-popup />
+              </q-card-actions>
             </q-card>
           </q-dialog>
         </div>
@@ -198,12 +186,55 @@
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { exportFile } from 'quasar';
 interface IRow {
   product: string;
 }
+interface CRow {
+  prodname: string;
+}
+
 @Options({})
 export default class ManageAccount extends Vue {
+  columnOrder = [
+    {
+      name: 'prodname',
+      required: true,
+      label: 'Product',
+      align: 'left',
+      field: (row: CRow) => row.prodname,
+      format: (val: string) => `${val}`,
+    },
+    {
+      name: 'quantity',
+      align: 'center',
+      label: 'Quantity',
+      field: 'quantity',
+    },
+    {
+      name: 'netcost',
+      align: 'center',
+      label: 'Net Unit Cost',
+      field: 'netcost',
+    },
+    {
+      name: 'discount',
+      align: 'center',
+      label: 'Discount',
+      field: 'discount',
+    },
+    {
+      name: 'tax',
+      align: 'center',
+      label: 'Tax',
+      field: 'tax',
+    },
+    {
+      name: 'subtotal',
+      align: 'center',
+      label: 'SubTotal',
+      field: 'subtotal',
+    },
+  ];
   columns = [
     {
       name: 'product',
@@ -247,6 +278,10 @@ export default class ManageAccount extends Vue {
     },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
   ];
+  rowOrder = [
+    prodname : 'Chocalate Powder',
+    subtotal: '2,000',
+  ];
   rows = [
     {
       product: 'Chocolate Powder',
@@ -272,10 +307,6 @@ export default class ManageAccount extends Vue {
   age = '';
 
   options = ['Admin', 'Cashier'];
-
-  onSubmit() {}
-
-  onReset() {}
 
   onItemClick() {
     console.log('Clicked!');
