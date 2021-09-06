@@ -278,10 +278,7 @@ export default class ManageAccount extends Vue {
     },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
   ];
-  rowOrder = [
-    prodname : 'Chocalate Powder',
-    subtotal: '2,000',
-  ];
+  rowOrder = [];
   rows = [
     {
       product: 'Chocolate Powder',
