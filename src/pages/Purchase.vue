@@ -65,11 +65,45 @@
               <q-card-section>
                 <q-table
                   title="Order Table"
-                  :rows="rowOrder"
-                  :columns="columnOrder"
-                  row-key="Ordername"
+                  :rows="Prows"
+                  :columns="Pcolumns"
+                  row-key="Orderproduct"
                   binary-state-sort
-                ></q-table>
+                >
+                  <template v-slot:body="props">
+                    <q-tr :props="props">
+                      <q-td key="Orderproduct" :props="props">{{
+                        props.row.Orderproduct
+                      }}</q-td>
+                      <q-td key="quantity" :props="props">
+                        {{ props.row.quantity }}
+                        <q-popup-edit
+                          v-model="props.row.quantity"
+                          title="Update quantity"
+                          buttons
+                        >
+                          <q-input
+                            type="number"
+                            v-model="props.row.quantity"
+                            dense
+                            autofocus
+                          />
+                        </q-popup-edit>
+                      </q-td>
+
+                      <q-td key="netcost" :props="props">{{
+                        props.row.netcost
+                      }}</q-td>
+                      <q-td key="tax" :props="props">{{ props.row.tax }}</q-td>
+                      <q-td key="discount" :props="props">{{
+                        props.row.discount
+                      }}</q-td>
+                      <q-td key="subtotal" :props="props">{{
+                        props.row.subtotal
+                      }}</q-td>
+                    </q-tr>
+                  </template>
+                </q-table>
               </q-card-section>
               <q-card-section class="q-gutter-md row">
                 <div class="col">
@@ -189,50 +223,42 @@ import { Vue, Options } from 'vue-class-component';
 interface IRow {
   product: string;
 }
-interface CRow {
-  prodname: string;
+interface pdrow {
+  Orderproduct: string;
 }
 
 @Options({})
 export default class ManageAccount extends Vue {
-  columnOrder = [
+  Pcolumns = [
     {
-      name: 'prodname',
+      name: 'Orderproduct',
       required: true,
       label: 'Product',
       align: 'left',
-      field: (row: CRow) => row.prodname,
+      field: (Prows: pdrow) => Prows.Orderproduct,
       format: (val: string) => `${val}`,
+      sortable: true,
     },
-    {
-      name: 'quantity',
-      align: 'center',
-      label: 'Quantity',
-      field: 'quantity',
-    },
+    { name: 'quantity', label: 'Quantity', align: 'center', field: 'quantity' },
     {
       name: 'netcost',
       align: 'center',
       label: 'Net Unit Cost',
       field: 'netcost',
     },
+
+    { name: 'tax', label: 'Tax', align: 'center', field: 'tax' },
+    { name: 'discount', label: 'Discount', align: 'center', field: 'discount' },
+    { name: 'subtotal', label: 'SubTotal', align: 'center', field: 'subtotal' },
+  ];
+  Prows = [
     {
-      name: 'discount',
-      align: 'center',
-      label: 'Discount',
-      field: 'discount',
-    },
-    {
-      name: 'tax',
-      align: 'center',
-      label: 'Tax',
-      field: 'tax',
-    },
-    {
-      name: 'subtotal',
-      align: 'center',
-      label: 'SubTotal',
-      field: 'subtotal',
+      Orderproduct: 'Spoon',
+      quantity: '2 packs',
+      netcost: '10.00',
+      tax: '200',
+      discount: '10%',
+      subtotal: '500',
     },
   ];
   columns = [
@@ -278,7 +304,6 @@ export default class ManageAccount extends Vue {
     },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
   ];
-  rowOrder = [];
   rows = [
     {
       product: 'Chocolate Powder',
