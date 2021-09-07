@@ -273,9 +273,9 @@ export default class ManageAccount extends Vue {
 
   options = ['Admin', 'Cashier'];
 
-  onSubmit() {}
+  // onSubmit() {}
 
-  onReset() {}
+  // onReset() {}
 
   onItemClick() {
     console.log('Clicked!');
