@@ -2,7 +2,8 @@
   <q-layout>
     <q-page-container>
       <q-page class="flex bg-image flex-center">
-        <q-card class="shadow-20"
+        <q-card
+          class="shadow-20"
           v-bind:style="$q.screen.lt.md ? { width: '90%' } : { width: '20%' }"
         >
           <q-card-section>
@@ -18,7 +19,6 @@
           <q-card-section>
             <q-form class="q-gutter-md">
               <q-input
-                
                 v-model="username"
                 label="Username"
                 :rules="[
@@ -76,7 +76,10 @@ export default class Login extends Vue {
   isPwd = true;
 
   async loginUser() {
-    if (this.username == 'Admin' && this.password == 'Admin') {
+    if (
+      (this.username == 'Admin' && this.password == 'Admin') ||
+      (this.username == 'Zukhri' && this.password == 'Zukhri')
+    ) {
       await this.$router.replace('/Dashboard');
       this.$q.notify('You are logged in');
     } else {
@@ -91,6 +94,6 @@ export default class Login extends Vue {
 <style>
 .bg-image {
   background-image: url('../assets/green.jpg');
-  background-size: cover;  
+  background-size: cover;
 }
 </style>

@@ -12,12 +12,6 @@
       <div class="q-gutter-sm q-pa-sm row">
         <q-space />
         <q-btn
-          color="teal"
-          icon-right="archive"
-          label="Import Purchase"
-          no-caps
-        />
-        <q-btn
           color="purple"
           icon-right="archive"
           label="Export to csv"
@@ -49,6 +43,7 @@
           </q-input>
 
           <q-btn
+            size="13px"
             label="Add Purchase"
             color="primary"
             dense
@@ -59,8 +54,28 @@
           <q-dialog v-model="addUser" persistent full-width>
             <q-card class="q-pa-md">
               <q-card-section>
-                <div class="text-h6">Select Product</div>
-                <q-input outlined placeholder="Pleas type the product" dense />
+                <div class="text-h5">Add Purchase</div>
+              </q-card-section>
+
+              <q-card-section>
+                <div class="row q-gutter-md">
+                  <div class="col-7">
+                    <div class="text-h6">Select Product</div>
+                    <q-input
+                      outlined
+                      placeholder="Pleas type the product"
+                      dense
+                    />
+                  </div>
+                  <div class="col-4">
+                    <div class="text-h6">Select Supplier</div>
+                    <q-input
+                      outlined
+                      placeholder="Pleas enter supplier"
+                      dense
+                    />
+                  </div>
+                </div>
               </q-card-section>
               <q-card-section>
                 <q-table
@@ -145,37 +160,78 @@
               dense
               @click="editRow = true"
             />
-            <q-dialog v-model="editRow" persistent>
-              <q-card style="width: 350px">
-                <q-card-section class="row">
-                  <div class="text-h6">Edit User</div>
-                  <q-space />
-                  <q-btn flat round dense icon="close" v-close-popup />
+            <q-dialog v-model="editRow" full-width persistent>
+              <q-card class="q-pa-md">
+                <q-card-section>
+                  <div class="text-h6">Edit Order</div>
                 </q-card-section>
+                <q-card-section>
+                  <q-table
+                    title="Order Table"
+                    :rows="Prows"
+                    :columns="Pcolumns"
+                    row-key="Orderproduct"
+                    binary-state-sort
+                  >
+                    <template v-slot:body="props">
+                      <q-tr :props="props">
+                        <q-td key="Orderproduct" :props="props">{{
+                          props.row.Orderproduct
+                        }}</q-td>
+                        <q-td key="quantity" :props="props">
+                          {{ props.row.quantity }}
+                          <q-popup-edit
+                            v-model="props.row.quantity"
+                            title="Update quantity"
+                            buttons
+                          >
+                            <q-input
+                              type="number"
+                              v-model="props.row.quantity"
+                              dense
+                              autofocus
+                            />
+                          </q-popup-edit>
+                        </q-td>
 
-                <q-card-section class="q-gutter-md">
-                  <q-input outlined v-model="name" label="First Name" />
-                  <q-input outlined v-model="name" label="Middle Initial" />
-                  <q-input outlined v-model="name" label="Last Name" />
-                  <q-input outlined v-model="username" label="Username" />
-                  <q-input outlined v-model="password" label="Password" />
-                  <q-input
-                    outlined
-                    v-model="email"
-                    label="Email"
-                    type="email"
-                  />
-                  <q-select
-                    outlined
-                    v-model="role"
-                    :options="options"
-                    label="Roles"
-                  />
+                        <q-td key="netcost" :props="props">{{
+                          props.row.netcost
+                        }}</q-td>
+                        <q-td key="tax" :props="props">{{
+                          props.row.tax
+                        }}</q-td>
+                        <q-td key="discount" :props="props">{{
+                          props.row.discount
+                        }}</q-td>
+                        <q-td key="subtotal" :props="props">{{
+                          props.row.subtotal
+                        }}</q-td>
+                      </q-tr>
+                    </template>
+                  </q-table>
                 </q-card-section>
-
+                <q-card-section class="q-gutter-md row">
+                  <div class="col">
+                    <div class="text-subtitle1 text-bold">Order Tax</div>
+                    <q-input outlined dense />
+                  </div>
+                  <div class="col">
+                    <div class="text-subtitle1 text-bold">Discount</div>
+                    <q-input outlined dense />
+                  </div>
+                  <div class="col">
+                    <div class="text-subtitle1 text-bold">Shipping Cost</div>
+                    <q-input outlined dense />
+                  </div>
+                </q-card-section>
                 <q-card-actions align="right">
-                  <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                  <q-btn flat label="Save" color="primary" v-close-popup />
+                  <q-btn
+                    label="Cancel"
+                    color="red"
+                    v-close-popup="cancelEnabled"
+                    :disable="!cancelEnabled"
+                  />
+                  <q-btn label="Submit" color="deep-purple" v-close-popup />
                 </q-card-actions>
               </q-card>
             </q-dialog>
