@@ -34,7 +34,7 @@
             </template>
           </q-input>
           <q-btn
-            label="Add User"
+            label="Add Supplier"
             color="primary"
             dense
             flat
@@ -44,7 +44,7 @@
           <q-dialog v-model="addUser" persistent>
             <q-card style="width: 350px">
               <q-card-section class="row">
-                <div class="text-h6">Add User</div>
+                <div class="text-h6">Add Supplier</div>
                 <q-space />
                 <q-btn flat round dense icon="close" v-close-popup />
               </q-card-section>
@@ -52,7 +52,6 @@
               <q-card-section class="q-gutter-md">
                 <q-input outlined v-model="name" label="name" />
                 <q-input outlined v-model="contact" label="contact" />
-                
               </q-card-section>
 
               <q-card-actions align="right">
@@ -77,7 +76,6 @@
             />
             <q-dialog v-model="Details">
               <q-card class="my-card" flat bordered>
-                
                 <q-card-section>
                   <div class="text-h6">
                     Supplier Details
@@ -148,7 +146,6 @@
                 <q-card-section class="q-gutter-md">
                   <q-input outlined v-model="name" label="name" />
                   <q-input outlined v-model="contact" label="contact" />
-                  
                 </q-card-section>
 
                 <q-card-actions align="right">
@@ -214,27 +211,34 @@ export default class ManageAccount extends Vue {
       format: (val: string) => `${val}`,
     },
     {
+      name: 'company',
+      align: 'center',
+      label: 'Company Name',
+      field: 'company',
+    },
+    {
+      name: 'email',
+      align: 'center',
+      label: 'Email',
+      field: 'email',
+    },
+    {
       name: 'Contact',
       align: 'center',
       label: 'Contact',
       field: 'Contact',
     },
-    {
-      name: 'dateCreated',
-      align: 'center',
-      label: 'Date Created',
-      field: 'dateCreated',
-    },
-    { name: 'Revenue', align: 'center', label: 'Revenue', field: 'Revenue' },
+    { name: 'address', align: 'center', label: 'Address', field: 'address' },
     { name: 'Details', align: 'center', label: 'Details', field: 'Details' },
     { name: 'Actions', align: 'center', label: 'Actions', field: 'Actions' },
   ];
   rows = [
     {
       name: 'Basam C. Serad',
+      company: 'Nestle Corporation',
+      email: 'basamsera1998@gmail.com',
       Contact: '+6392222222',
-      dateCreated: 'December 23, 1998',
-      Revenue: '$500',
+      address: 'Dimaluna 2, MSU, Marawi City',
     },
   ];
   dialog = false;
