@@ -51,23 +51,21 @@
           <q-list padding>
             <q-item clickable v-ripple to="/Dashboard">
               <q-item-section avatar>
-                <q-icon name="dashboard" />
+                <q-icon name="dashboard" color="blue" />
               </q-item-section>
-
               <q-item-section> Dashboard </q-item-section>
             </q-item>
 
             <q-item clickable v-ripple to="/POS">
               <q-item-section avatar>
-                <q-icon name="point_of_sale" />
+                <q-icon name="point_of_sale" color="orange" />
               </q-item-section>
-
               <q-item-section> POS </q-item-section>
             </q-item>
 
             <q-item clickable v-ripple to="/SalesReport">
               <q-item-section avatar>
-                <q-icon name="analytics" />
+                <q-icon name="analytics" color="purple" />
               </q-item-section>
 
               <q-item-section> Sales Report </q-item-section>
@@ -75,7 +73,7 @@
 
             <q-item clickable v-ripple to="/Inventory">
               <q-item-section avatar>
-                <q-icon name="inventory_2" />
+                <q-icon name="inventory_2" color="teal" />
               </q-item-section>
 
               <q-item-section> Inventory </q-item-section>
@@ -83,7 +81,7 @@
 
             <q-item clickable v-ripple to="/Supplier">
               <q-item-section avatar>
-                <q-icon name="local_shipping" />
+                <q-icon name="local_shipping" color="deep-orange" />
               </q-item-section>
 
               <q-item-section> Supplier </q-item-section>
@@ -91,7 +89,7 @@
 
             <q-item clickable v-ripple to="/Purchase">
               <q-item-section avatar>
-                <q-icon name="checklist" />
+                <q-icon name="checklist" color="amber" />
               </q-item-section>
 
               <q-item-section> Purchase </q-item-section>
@@ -99,7 +97,7 @@
 
             <q-item clickable v-ripple to="/Expenses">
               <q-item-section avatar>
-                <q-icon name="payments" />
+                <q-icon name="payments" color="indigo" />
               </q-item-section>
 
               <q-item-section> Expenses </q-item-section>
@@ -109,7 +107,7 @@
 
             <q-item clickable v-ripple to="/">
               <q-item-section avatar>
-                <q-icon name="logout" />
+                <q-icon name="logout" color="red" />
               </q-item-section>
 
               <q-item-section> Logout </q-item-section>

@@ -16,14 +16,12 @@
           icon-right="archive"
           label="Import Purchase"
           no-caps
-          @click="importTable"
         />
         <q-btn
           color="purple"
           icon-right="archive"
           label="Export to csv"
           no-caps
-          @click="exportTable"
         />
       </div>
     </div>
@@ -58,54 +56,78 @@
             icon="add"
             @click="addUser = true"
           />
-          <q-dialog v-model="addUser" persistent>
-            <q-card>
-              <q-card-section class="row">
-                <div class="text-h6">Add Purchase</div>
-                <q-space />
-                <q-btn flat round dense icon="close" v-close-popup />
+          <q-dialog v-model="addUser" persistent full-width>
+            <q-card class="q-pa-md">
+              <q-card-section>
+                <div class="text-h6">Select Product</div>
+                <q-input outlined placeholder="Pleas type the product" dense />
               </q-card-section>
+              <q-card-section>
+                <q-table
+                  title="Order Table"
+                  :rows="Prows"
+                  :columns="Pcolumns"
+                  row-key="Orderproduct"
+                  binary-state-sort
+                >
+                  <template v-slot:body="props">
+                    <q-tr :props="props">
+                      <q-td key="Orderproduct" :props="props">{{
+                        props.row.Orderproduct
+                      }}</q-td>
+                      <q-td key="quantity" :props="props">
+                        {{ props.row.quantity }}
+                        <q-popup-edit
+                          v-model="props.row.quantity"
+                          title="Update quantity"
+                          buttons
+                        >
+                          <q-input
+                            type="number"
+                            v-model="props.row.quantity"
+                            dense
+                            autofocus
+                          />
+                        </q-popup-edit>
+                      </q-td>
 
+                      <q-td key="netcost" :props="props">{{
+                        props.row.netcost
+                      }}</q-td>
+                      <q-td key="tax" :props="props">{{ props.row.tax }}</q-td>
+                      <q-td key="discount" :props="props">{{
+                        props.row.discount
+                      }}</q-td>
+                      <q-td key="subtotal" :props="props">{{
+                        props.row.subtotal
+                      }}</q-td>
+                    </q-tr>
+                  </template>
+                </q-table>
+              </q-card-section>
               <q-card-section class="q-gutter-md row">
-                <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-                  <q-input
-                    filled
-                    v-model="name"
-                    label="Your name *"
-                    hint="Name and surname"
-                    lazy-rules
-                    :rules="[
-                      (val) =>
-                        (val && val.length > 0) || 'Please type something',
-                    ]"
-                  />
-
-                  <q-input
-                    filled
-                    type="number"
-                    v-model="age"
-                    label="Your age *"
-                    lazy-rules
-                    :rules="[
-                      (val) =>
-                        (val !== null && val !== '') || 'Please type your age',
-                      (val) =>
-                        (val > 0 && val < 100) || 'Please type a real age',
-                    ]"
-                  />
-
-                  <div>
-                    <q-btn label="Submit" type="submit" color="primary" />
-                    <q-btn
-                      label="Reset"
-                      type="reset"
-                      color="primary"
-                      flat
-                      class="q-ml-sm"
-                    />
-                  </div>
-                </q-form>
+                <div class="col">
+                  <div class="text-subtitle1 text-bold">Order Tax</div>
+                  <q-input outlined dense />
+                </div>
+                <div class="col">
+                  <div class="text-subtitle1 text-bold">Discount</div>
+                  <q-input outlined dense />
+                </div>
+                <div class="col">
+                  <div class="text-subtitle1 text-bold">Shipping Cost</div>
+                  <q-input outlined dense />
+                </div>
               </q-card-section>
+              <q-card-actions align="right">
+                <q-btn
+                  label="Cancel"
+                  color="red"
+                  v-close-popup="cancelEnabled"
+                  :disable="!cancelEnabled"
+                />
+                <q-btn label="Submit" color="deep-purple" v-close-popup />
+              </q-card-actions>
             </q-card>
           </q-dialog>
         </div>
@@ -198,12 +220,47 @@
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { exportFile } from 'quasar';
 interface IRow {
   product: string;
 }
+interface pdrow {
+  Orderproduct: string;
+}
+
 @Options({})
 export default class ManageAccount extends Vue {
+  Pcolumns = [
+    {
+      name: 'Orderproduct',
+      required: true,
+      label: 'Product',
+      align: 'left',
+      field: (Prows: pdrow) => Prows.Orderproduct,
+      format: (val: string) => `${val}`,
+      sortable: true,
+    },
+    { name: 'quantity', label: 'Quantity', align: 'center', field: 'quantity' },
+    {
+      name: 'netcost',
+      align: 'center',
+      label: 'Net Unit Cost',
+      field: 'netcost',
+    },
+
+    { name: 'tax', label: 'Tax', align: 'center', field: 'tax' },
+    { name: 'discount', label: 'Discount', align: 'center', field: 'discount' },
+    { name: 'subtotal', label: 'SubTotal', align: 'center', field: 'subtotal' },
+  ];
+  Prows = [
+    {
+      Orderproduct: 'Spoon',
+      quantity: '2 packs',
+      netcost: '10.00',
+      tax: '200',
+      discount: '10%',
+      subtotal: '500',
+    },
+  ];
   columns = [
     {
       name: 'product',
@@ -273,10 +330,13 @@ export default class ManageAccount extends Vue {
 
   options = ['Admin', 'Cashier'];
 
+<<<<<<< HEAD
   // onSubmit() {}
 
   // onReset() {}
 
+=======
+>>>>>>> a9aa97164f5ab4cc3d6eb43640dd31246ad7aaa9
   onItemClick() {
     console.log('Clicked!');
   }
