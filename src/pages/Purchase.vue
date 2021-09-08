@@ -3,7 +3,7 @@
     <div class="text-h4 text-bold">
       <q-icon
         name="shopping_bag"
-        color="light-blue-6"
+        color="amber"
         style="font-size: 4rem"
       />
       Purchase
@@ -330,13 +330,6 @@ export default class ManageAccount extends Vue {
 
   options = ['Admin', 'Cashier'];
 
-<<<<<<< HEAD
-  // onSubmit() {}
-
-  // onReset() {}
-
-=======
->>>>>>> a9aa97164f5ab4cc3d6eb43640dd31246ad7aaa9
   onItemClick() {
     console.log('Clicked!');
   }

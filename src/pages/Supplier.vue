@@ -3,14 +3,14 @@
     <div class="text-h4 text-bold">
       <q-icon
         name="local_shipping"
-        color="light-blue-6"
+        color="deep-orange"
         style="font-size: 4rem"
       />
       Supplier
     </div>
 
     <br />
-    
+
     <q-table
       title="List of suppliers"
       :rows="rows"
@@ -18,7 +18,7 @@
       row-key="name"
       :rows-per-page-options="[0]"
       :filter="filter"
-    >  
+    >
       <template v-slot:top-right>
         <div class="q-pa-md q-gutter-sm row">
           <q-input
@@ -50,9 +50,8 @@
               </q-card-section>
 
               <q-card-section class="q-gutter-md">
-                  <q-input outlined v-model="name" label="name" />
-                  <q-input outlined v-model="contact" label="contact" />
-                  <q-input outlined v-model="revenue" label="revenue" />
+                <q-input outlined v-model="name" label="name" />
+                <q-input outlined v-model="contact" label="contact" />
                 
               </q-card-section>
 
@@ -63,6 +62,68 @@
             </q-card>
           </q-dialog>
         </div>
+      </template>
+      <template v-slot:body-cell-Details="props">
+        <q-td :props="props">
+          <div class="q-gutter-sm">
+            <q-btn
+              round
+              color="blue"
+              icon="pageview"
+              size="lg"
+              flat
+              dense
+              @click="Details = true"
+            />
+            <q-dialog v-model="Details">
+              <q-card class="my-card" flat bordered>
+                
+                <q-card-section>
+                  <div class="text-h6">
+                    Supplier Details
+                    <q-btn
+                      round
+                      flat
+                      dense
+                      icon="close"
+                      class="float-right"
+                      color="grey-8"
+                      v-close-popup
+                    ></q-btn>
+                  </div>
+                </q-card-section>
+                <q-card-section horizontal>
+                  <q-card-section class="q-pt-xs col">
+                    <div class="text-overline">Padian Grocery,Marawi city</div>
+                    <div class="text-h5 q-mt-sm q-mb-xs">Basam C. Serad</div>
+                    <div class="text-caption text-grey">
+                      Padian Sales Manager/Cashier
+                    </div>
+                  </q-card-section>
+
+                  <q-card-section class="col-5 flex flex-center">
+                    <q-avatar
+                      square
+                      size="120px"
+                      font-size="82px"
+                      color="teal"
+                      text-color="white"
+                      icon="account_circle"
+                    />
+                  </q-card-section>
+                </q-card-section>
+
+                <q-separator />
+
+                <q-card-section>
+                  Assessing clients needs and present suitable promoted
+                  products. Liaising with and persuading targeted doctors to
+                  prescribe our products utilizing effective sales skills.
+                </q-card-section>
+              </q-card>
+            </q-dialog>
+          </div>
+        </q-td>
       </template>
       <template v-slot:body-cell-Actions="props">
         <q-td :props="props">
@@ -85,9 +146,8 @@
                 </q-card-section>
 
                 <q-card-section class="q-gutter-md">
-                  <q-input outlined v-model="name" label="name"/>
+                  <q-input outlined v-model="name" label="name" />
                   <q-input outlined v-model="contact" label="contact" />
-                  <q-input outlined v-model="revenue" label="revenue" />
                   
                 </q-card-section>
 
@@ -165,17 +225,9 @@ export default class ManageAccount extends Vue {
       label: 'Date Created',
       field: 'dateCreated',
     },
-    { name: 'Revenue', 
-      align: 'center', 
-      label: 'Revenue', 
-      field: 'Revenue' 
-    },
-    { name: 'Actions', 
-      align: 'center', 
-      label: 'Actions', 
-      field: 'Actions' 
-    },
-    
+    { name: 'Revenue', align: 'center', label: 'Revenue', field: 'Revenue' },
+    { name: 'Details', align: 'center', label: 'Details', field: 'Details' },
+    { name: 'Actions', align: 'center', label: 'Actions', field: 'Actions' },
   ];
   rows = [
     {
@@ -184,12 +236,12 @@ export default class ManageAccount extends Vue {
       dateCreated: 'December 23, 1998',
       Revenue: '$500',
     },
-    
   ];
   dialog = false;
   cancelEnabled = true;
   addUser = false;
   editRow = false;
+  Details = false;
   name = '';
   contact = '';
   revenue = '';
