@@ -37,12 +37,13 @@
             label="Add Supplier"
             color="primary"
             dense
+            size = "13px"
             flat
             icon="add"
             @click="addUser = true"
           />
           <q-dialog v-model="addUser" persistent>
-            <q-card style="width: 350px">
+            <q-card style="width: 900px; max-width: 80vw">
               <q-card-section class="row">
                 <div class="text-h6">Add Supplier</div>
                 <q-space />
@@ -50,8 +51,34 @@
               </q-card-section>
 
               <q-card-section class="q-gutter-md">
-                <q-input outlined v-model="name" label="name" />
-                <q-input outlined v-model="contact" label="contact" />
+                <div class="row">
+                <div class="col col-md-8">
+                <q-input class="q-py-md" outlined v-model="name" label="name" />
+                <q-input class="q-py-md" outlined v-model="company" label="Company Name" />
+                <q-input class="q-py-md" outlined v-model="Email" label="Email" />
+                </div>
+                <div class="col-md-4 q-pl-md">
+                <q-input class="q-py-md" outlined v-model="contact" label="contact" />
+                <q-input class="q-py-md" outlined v-model="Address" label="Address" />
+                
+                 <div class="q-py-md">
+                  <q-file
+                    v-model="files"
+                    label="Pick profile picture"
+                    filled
+                    counter
+                    :counter-label="counterLabelFn"
+                    max-files="3"
+                    multiple
+                    style="max-width: 300px"
+                  >
+                    <template v-slot:prepend>
+                      <q-icon name="attach_file" />
+                    </template>
+                  </q-file>
+                </div>
+                </div>
+                </div>
               </q-card-section>
 
               <q-card-actions align="right">
@@ -68,7 +95,7 @@
             <q-btn
               round
               color="blue"
-              icon="pageview"
+              icon="more_vert"
               size="lg"
               flat
               dense
@@ -136,7 +163,7 @@
               @click="editRow = true"
             />
             <q-dialog v-model="editRow" persistent>
-              <q-card style="width: 350px">
+              <q-card style="width: 900px; max-width: 80vw">
                 <q-card-section class="row">
                   <div class="text-h6">Edit User</div>
                   <q-space />
@@ -144,10 +171,35 @@
                 </q-card-section>
 
                 <q-card-section class="q-gutter-md">
-                  <q-input outlined v-model="name" label="name" />
-                  <q-input outlined v-model="contact" label="contact" />
+                <div class="row">
+                <div class="col col-md-8">
+                <q-input class="q-py-md" outlined v-model="name" label="name" />
+                <q-input class="q-py-md" outlined v-model="company" label="Company Name" />
+                <q-input class="q-py-md" outlined v-model="Email" label="Email" />
+                </div>
+                <div class="col-md-4 q-pl-md">
+                <q-input class="q-py-md" outlined v-model="contact" label="contact" />
+                <q-input class="q-py-md" outlined v-model="Address" label="Address" />
+                
+                  <div class="q-py-md">
+                    <q-file
+                      v-model="files"
+                      label="Pick profile picture"
+                      filled
+                      counter
+                      :counter-label="counterLabelFn"
+                      max-files="3"
+                      multiple
+                      style="max-width: 300px"
+                    >
+                      <template v-slot:prepend>
+                        <q-icon name="attach_file" />
+                      </template>
+                    </q-file>
+                  </div>
+                  </div>
+                  </div>
                 </q-card-section>
-
                 <q-card-actions align="right">
                   <q-btn flat label="Cancel" color="red-10" v-close-popup />
                   <q-btn flat label="Save" color="primary" v-close-popup />
@@ -247,6 +299,9 @@ export default class ManageAccount extends Vue {
   editRow = false;
   Details = false;
   name = '';
+  company ='';
+  Email = '';
+  Address = '';
   contact = '';
   revenue = '';
   filter = '';
