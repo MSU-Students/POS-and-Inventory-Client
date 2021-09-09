@@ -37,7 +37,7 @@
             label="Add Supplier"
             color="primary"
             dense
-            size = "13px"
+            size="13px"
             flat
             icon="add"
             @click="addUser = true"
@@ -52,32 +52,57 @@
 
               <q-card-section class="q-gutter-md">
                 <div class="row">
-                <div class="col col-md-8">
-                <q-input class="q-py-md" outlined v-model="name" label="name" />
-                <q-input class="q-py-md" outlined v-model="company" label="Company Name" />
-                <q-input class="q-py-md" outlined v-model="Email" label="Email" />
-                </div>
-                <div class="col-md-4 q-pl-md">
-                <q-input class="q-py-md" outlined v-model="contact" label="contact" />
-                <q-input class="q-py-md" outlined v-model="Address" label="Address" />
-                
-                 <div class="q-py-md">
-                  <q-file
-                    v-model="files"
-                    label="Pick profile picture"
-                    filled
-                    counter
-                    :counter-label="counterLabelFn"
-                    max-files="3"
-                    multiple
-                    style="max-width: 300px"
-                  >
-                    <template v-slot:prepend>
-                      <q-icon name="attach_file" />
-                    </template>
-                  </q-file>
-                </div>
-                </div>
+                  <div class="col col-md-8">
+                    <q-input
+                      class="q-py-md"
+                      outlined
+                      v-model="name"
+                      label="Name"
+                    />
+                    <q-input
+                      class="q-py-md"
+                      outlined
+                      v-model="company"
+                      label="Company Name"
+                    />
+                    <q-input
+                      class="q-py-md"
+                      outlined
+                      v-model="Email"
+                      label="Email"
+                    />
+                  </div>
+                  <div class="col-md-4 q-pl-md">
+                    <q-input
+                      class="q-py-md"
+                      outlined
+                      v-model="contact"
+                      label="Contact Number"
+                    />
+                    <q-input
+                      class="q-py-md"
+                      outlined
+                      v-model="Address"
+                      label="Address"
+                    />
+
+                    <div class="q-py-md">
+                      <q-file
+                        v-model="files"
+                        label="Pick profile picture"
+                        filled
+                        counter
+                        :counter-label="counterLabelFn"
+                        max-files="3"
+                        multiple
+                        style="max-width: 300px"
+                      >
+                        <template v-slot:prepend>
+                          <q-icon name="photo_camera" />
+                        </template>
+                      </q-file>
+                    </div>
+                  </div>
                 </div>
               </q-card-section>
 
@@ -96,7 +121,7 @@
               round
               color="blue"
               icon="more_vert"
-              size="lg"
+              size="md"
               flat
               dense
               @click="Details = true"
@@ -171,33 +196,58 @@
                 </q-card-section>
 
                 <q-card-section class="q-gutter-md">
-                <div class="row">
-                <div class="col col-md-8">
-                <q-input class="q-py-md" outlined v-model="name" label="name" />
-                <q-input class="q-py-md" outlined v-model="company" label="Company Name" />
-                <q-input class="q-py-md" outlined v-model="Email" label="Email" />
-                </div>
-                <div class="col-md-4 q-pl-md">
-                <q-input class="q-py-md" outlined v-model="contact" label="contact" />
-                <q-input class="q-py-md" outlined v-model="Address" label="Address" />
-                
-                  <div class="q-py-md">
-                    <q-file
-                      v-model="files"
-                      label="Pick profile picture"
-                      filled
-                      counter
-                      :counter-label="counterLabelFn"
-                      max-files="3"
-                      multiple
-                      style="max-width: 300px"
-                    >
-                      <template v-slot:prepend>
-                        <q-icon name="attach_file" />
-                      </template>
-                    </q-file>
-                  </div>
-                  </div>
+                  <div class="row">
+                    <div class="col col-md-8">
+                      <q-input
+                        class="q-py-md"
+                        outlined
+                        v-model="name"
+                        label="Name"
+                      />
+                      <q-input
+                        class="q-py-md"
+                        outlined
+                        v-model="company"
+                        label="Company Name"
+                      />
+                      <q-input
+                        class="q-py-md"
+                        outlined
+                        v-model="Email"
+                        label="Email"
+                      />
+                    </div>
+                    <div class="col-md-4 q-pl-md">
+                      <q-input
+                        class="q-py-md"
+                        outlined
+                        v-model="contact"
+                        label="Contact Number"
+                      />
+                      <q-input
+                        class="q-py-md"
+                        outlined
+                        v-model="Address"
+                        label="Address"
+                      />
+
+                      <div class="q-py-md">
+                        <q-file
+                          v-model="files"
+                          label="Pick profile picture"
+                          filled
+                          counter
+                          :counter-label="counterLabelFn"
+                          max-files="3"
+                          multiple
+                          style="max-width: 300px"
+                        >
+                          <template v-slot:prepend>
+                            <q-icon name="photo_camera" />
+                          </template>
+                        </q-file>
+                      </div>
+                    </div>
                   </div>
                 </q-card-section>
                 <q-card-actions align="right">
@@ -299,7 +349,7 @@ export default class ManageAccount extends Vue {
   editRow = false;
   Details = false;
   name = '';
-  company ='';
+  company = '';
   Email = '';
   Address = '';
   contact = '';
