@@ -15,7 +15,6 @@
       row-key="reference"
       :rows-per-page-options="[0]"
       :filter="filter"
-      :selected-rows-label="getSelectedString"
       selection="multiple"
       v-model:selected="selected"
     >
@@ -34,21 +33,38 @@
             </template>
           </q-input>
           <q-btn
-            label="Add User"
+            label="Add Expenses"
             color="primary"
             dense
             flat
             icon="add"
-            @click="addUser = true"
+            @click="addExp = true"
           />
-          <q-dialog v-model="addUser" persistent>
-            <q-card style="width: 350px"><div>Add expenses</div> </q-card>
+          <q-dialog v-model="addExp" persistent>
+            <q-card style="width: 700px" class="q-pa-md">
+              <q-card-section class="row">
+                <div class="text-h5">Add expenses</div>
+                <q-space />
+                <q-btn flat round dense icon="close" v-close-popup />
+              </q-card-section>
+
+              <q-card-section class="q-gutter-md row">
+                <div class="col">
+                  <q-select filled :options="options" label="Category" />
+                </div>
+                <div class="col">
+                  <q-input filled label="Amount" prefix="₱" />
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pa-md" style="max-width: 600px">
+                <q-input filled label="Note" type="textarea" />
+              </q-card-section>
+            </q-card>
           </q-dialog>
         </div>
       </template>
 
-      <template v-slot:body-cell-action="props"
-        >F
+      <template v-slot:body-cell-action="props">
         <q-td :props="props">
           <div class="q-gutter-sm">
             <q-btn
@@ -196,7 +212,7 @@ export default class Expenses extends Vue {
 
   dialog = false;
   cancelEnabled = true;
-  addUser = false;
+  addExp = false;
   editRow = false;
   name = '';
   username = '';
