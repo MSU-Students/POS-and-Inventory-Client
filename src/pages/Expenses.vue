@@ -1,15 +1,11 @@
 <template>
   <div class="q-pa-md">
     <div class="text-h4 q-pb-lg text-bold">
-      <q-icon
-        name="account_circle"
-        color="light-blue-6"
-        style="font-size: 4rem"
-      />
+      <q-icon name="payments" color="indigo" style="font-size: 4rem" />
       Expenses
     </div>
     <q-table
-      title="Account List"
+      title="Expenses List"
       :rows="rows"
       :columns="columns"
       row-key="reference"
@@ -59,11 +55,53 @@
               <q-card-section class="q-pa-md" style="max-width: 600px">
                 <q-input filled label="Note" type="textarea" />
               </q-card-section>
+              <q-card-actions align="right">
+                <q-btn flat label="Cancel" color="red-10" v-close-popup />
+                <q-btn flat label="Add" color="primary" v-close-popup />
+              </q-card-actions>
             </q-card>
           </q-dialog>
         </div>
       </template>
+      <template v-slot:body-cell-note="props">
+        <q-td :props="props">
+          <div class="q-gutter-sm">
+            <q-btn
+              round
+              color="blue"
+              icon="description"
+              size="sm"
+              flat
+              dense
+              @click="showNote = true"
+            />
+            <q-dialog v-model="showNote" persistent>
+              <q-layout view="Lhh lpR fff" container class="bg-white">
+                <q-header class="bg-primary">
+                  <q-toolbar>
+                    <q-toolbar-title>Note</q-toolbar-title>
+                    <q-btn flat v-close-popup round dense icon="close" />
+                  </q-toolbar>
+                </q-header>
 
+                <q-footer class="bg-black text-white">
+                  <q-toolbar inset>
+                    <q-toolbar-title>Written by: Cashier 1</q-toolbar-title>
+                  </q-toolbar>
+                </q-footer>
+                <q-page-container>
+                  <q-page padding>
+                    <h5>Date: 12/23/21 </h5>
+                    <p>
+                      {{ Note }}
+                    </p>
+                  </q-page>
+                </q-page-container>
+              </q-layout>
+            </q-dialog>
+          </div>
+        </q-td>
+      </template>
       <template v-slot:body-cell-action="props">
         <q-td :props="props">
           <div class="q-gutter-sm">
@@ -209,11 +247,12 @@ export default class Expenses extends Vue {
     },
   ];
   selected = [];
-
+  Note = "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!"
   dialog = false;
   cancelEnabled = true;
   addExp = false;
   editRow = false;
+  showNote = false;
   name = '';
   username = '';
   password = '';
