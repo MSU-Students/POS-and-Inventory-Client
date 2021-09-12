@@ -39,25 +39,53 @@
           <q-dialog v-model="addExp" persistent>
             <q-card style="width: 700px" class="q-pa-md">
               <q-card-section class="row">
-                <div class="text-h5">Add expenses</div>
+                <div class="text-h6">Edit Expenses</div>
                 <q-space />
                 <q-btn flat round dense icon="close" v-close-popup />
               </q-card-section>
 
               <q-card-section class="q-gutter-md row">
                 <div class="col">
-                  <q-select filled v-model="categoryInit" :options="options"  label="Category" />
+                  <q-select
+                    filled
+                    v-model="categoryInit"
+                    :options="options"
+                    label="Category"
+                  />
                 </div>
                 <div class="col">
                   <q-input filled label="Amount" prefix="₱" />
                 </div>
               </q-card-section>
+              <q-card-section class="q-gutter-md row">
+                <div class="col">
+                  <q-select
+                    label="Supplier ID (Optional)"
+                    transition-show="scale"
+                    transition-hide="scale"
+                    filled
+                    v-model="sInit"
+                    :options="suppID"
+                  />
+                </div>
+                <div class="col">
+                  <q-select
+                    label="Purchase No:"
+                    transition-show="scale"
+                    transition-hide="scale"
+                    filled
+                    v-model="pInit"
+                    :options="purNo"
+                  />
+                </div>
+              </q-card-section>
               <q-card-section class="q-pa-md" style="max-width: 600px">
                 <q-input filled label="Note" type="textarea" />
               </q-card-section>
+
               <q-card-actions align="right">
                 <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                <q-btn flat label="Add" color="primary" v-close-popup />
+                <q-btn flat label="Save" color="primary" v-close-popup />
               </q-card-actions>
             </q-card>
           </q-dialog>
@@ -115,45 +143,52 @@
               @click="editRow = true"
             />
             <q-dialog v-model="editRow" persistent>
-              <q-card style="width: 350px">
+              <q-card style="width: 700px" class="q-pa-md">
                 <q-card-section class="row">
-                  <div class="text-h6">Edit User</div>
+                  <div class="text-h6">Edit Expenses</div>
                   <q-space />
                   <q-btn flat round dense icon="close" v-close-popup />
                 </q-card-section>
 
                 <q-card-section class="q-gutter-md row">
                   <div class="col">
-                    <q-select filled v-model="categoryInit" :options="options" label="Category" />
+                    <q-select
+                      filled
+                      v-model="categoryInit"
+                      :options="options"
+                      label="Category"
+                    />
                   </div>
                   <div class="col">
                     <q-input filled label="Amount" prefix="₱" />
                   </div>
                 </q-card-section>
                 <q-card-section class="q-gutter-md row">
-                  <q-select
-                    label="Supplier ID (Optional)"
-                    transition-show="scale"
-                    transition-hide="scale"
-                    filled
-                    v-model="sInit"
-                    :options="suppID"
-                    style="width: 250px"
-                  />
-                  <q-select
-                    label="Purchase No:"
-                    transition-show="scale"
-                    transition-hide="scale"
-                    filled
-                    v-model="pInit"
-                    :options="purNo"
-                    style="width: 250px"
-                  />
+                  <div class="col">
+                    <q-select
+                      label="Supplier ID (Optional)"
+                      transition-show="scale"
+                      transition-hide="scale"
+                      filled
+                      v-model="sInit"
+                      :options="suppID"
+                    />
+                  </div>
+                  <div class="col">
+                    <q-select
+                      label="Purchase No:"
+                      transition-show="scale"
+                      transition-hide="scale"
+                      filled
+                      v-model="pInit"
+                      :options="purNo"
+                    />
+                  </div>
                 </q-card-section>
                 <q-card-section class="q-pa-md" style="max-width: 600px">
                   <q-input filled label="Note" type="textarea" />
                 </q-card-section>
-                
+
                 <q-card-actions align="right">
                   <q-btn flat label="Cancel" color="red-10" v-close-popup />
                   <q-btn flat label="Save" color="primary" v-close-popup />
@@ -230,6 +265,12 @@ export default class Expenses extends Vue {
       field: 'category',
     },
     {
+      name: 'supplier',
+      align: 'center',
+      label: 'Supplier',
+      field: 'supplier',
+    },
+    {
       name: 'amount',
       align: 'center',
       label: 'Amount',
@@ -254,6 +295,7 @@ export default class Expenses extends Vue {
       reference: 'hj4j324jbb34bj4',
       date: '12/23/2021',
       category: 'Utensils',
+      supplier: 'Coca Cola Company',
       amount: '10,000',
       note: '',
     },
@@ -266,7 +308,7 @@ export default class Expenses extends Vue {
   addExp = false;
   editRow = false;
   showNote = false;
-  suppID = [2020119,2020221,2020113];
+  suppID = [2020119, 2020221, 2020113];
   purNo = ['Chocolate Powder'];
   name = '';
   username = '';

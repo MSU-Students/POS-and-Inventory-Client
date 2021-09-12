@@ -105,7 +105,7 @@
               </template>
               <q-card>
                 <q-card-section>
-                  <q-item clickable v-ripple to="/Expenses">
+                  <q-item clickable v-ripple to="/ExpensesCat">
                     <q-item-section>Expenses Category </q-item-section>
                   </q-item>
                   <q-item clickable v-ripple to="/Expenses">

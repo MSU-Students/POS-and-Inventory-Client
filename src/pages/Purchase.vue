@@ -1,11 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="text-h4 text-bold">
-      <q-icon
-        name="shopping_bag"
-        color="amber"
-        style="font-size: 4rem"
-      />
+      <q-icon name="shopping_bag" color="amber" style="font-size: 4rem" />
       Purchase
     </div>
     <div class="q-mt-lg">
