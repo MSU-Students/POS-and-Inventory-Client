@@ -46,7 +46,7 @@
 
               <q-card-section class="q-gutter-md row">
                 <div class="col">
-                  <q-select filled :options="options" label="Category" />
+                  <q-select filled v-model="categoryInit" :options="options"  label="Category" />
                 </div>
                 <div class="col">
                   <q-input filled label="Amount" prefix="₱" />
@@ -91,7 +91,7 @@
                 </q-footer>
                 <q-page-container>
                   <q-page padding>
-                    <h5>Date: 12/23/21 </h5>
+                    <h5>Date: 12/23/21</h5>
                     <p>
                       {{ Note }}
                     </p>
@@ -122,26 +122,38 @@
                   <q-btn flat round dense icon="close" v-close-popup />
                 </q-card-section>
 
-                <q-card-section class="q-gutter-md">
-                  <q-input outlined v-model="name" label="First Name" />
-                  <q-input outlined v-model="name" label="Middle Initial" />
-                  <q-input outlined v-model="name" label="Last Name" />
-                  <q-input outlined v-model="username" label="Username" />
-                  <q-input outlined v-model="password" label="Password" />
-                  <q-input
-                    outlined
-                    v-model="email"
-                    label="Email"
-                    type="email"
+                <q-card-section class="q-gutter-md row">
+                  <div class="col">
+                    <q-select filled v-model="categoryInit" :options="options" label="Category" />
+                  </div>
+                  <div class="col">
+                    <q-input filled label="Amount" prefix="₱" />
+                  </div>
+                </q-card-section>
+                <q-card-section class="q-gutter-md row">
+                  <q-select
+                    label="Supplier ID (Optional)"
+                    transition-show="scale"
+                    transition-hide="scale"
+                    filled
+                    v-model="sInit"
+                    :options="suppID"
+                    style="width: 250px"
                   />
                   <q-select
-                    outlined
-                    v-model="role"
-                    :options="options"
-                    label="Roles"
+                    label="Purchase No:"
+                    transition-show="scale"
+                    transition-hide="scale"
+                    filled
+                    v-model="pInit"
+                    :options="purNo"
+                    style="width: 250px"
                   />
                 </q-card-section>
-
+                <q-card-section class="q-pa-md" style="max-width: 600px">
+                  <q-input filled label="Note" type="textarea" />
+                </q-card-section>
+                
                 <q-card-actions align="right">
                   <q-btn flat label="Cancel" color="red-10" v-close-popup />
                   <q-btn flat label="Save" color="primary" v-close-popup />
@@ -247,12 +259,15 @@ export default class Expenses extends Vue {
     },
   ];
   selected = [];
-  Note = "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!"
+  Note =
+    'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!';
   dialog = false;
   cancelEnabled = true;
   addExp = false;
   editRow = false;
   showNote = false;
+  suppID = [2020119,2020221,2020113];
+  purNo = ['Chocolate Powder'];
   name = '';
   username = '';
   password = '';
@@ -260,5 +275,8 @@ export default class Expenses extends Vue {
   role = '';
   filter = '';
   options = ['Admin', 'Cashier'];
+  pInit = null;
+  sInit = null;
+  categoryInit = null;
 }
 </script>
