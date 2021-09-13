@@ -156,7 +156,7 @@
               dense
               @click="editRow = true"
             />
-            <q-dialog v-model="editRow" full-width persistent>
+            <q-dialog v-model="editRow" persistent>
               <q-card class="q-pa-md">
                 <q-card-section>
                   <div class="text-h6">Edit Order</div>
@@ -217,6 +217,24 @@
                   </div>
                   <div class="col">
                     <div class="text-subtitle1 text-bold">Shipping Cost</div>
+                    <q-input outlined dense />
+                  </div>
+                </q-card-section>
+                <q-card-section class="q-gutter-md row">
+                  <div class="col">
+                    <div class="text-subtitle1 text-bold">Purchase</div>
+                    <q-input outlined dense />
+                  </div>
+                  <div class="col">
+                    <div class="text-subtitle1 text-bold">Order Tax</div>
+                    <q-input outlined dense />
+                  </div>
+                  <div class="col">
+                    <div class="text-subtitle1 text-bold">Order Tax</div>
+                    <q-input outlined dense />
+                  </div>
+                  <div class="col">
+                    <div class="text-subtitle1 text-bold">Order Tax</div>
                     <q-input outlined dense />
                   </div>
                 </q-card-section>
@@ -351,7 +369,7 @@ export default class ManageAccount extends Vue {
     {
       name: 'paystatus',
       align: 'center',
-      label: 'Purchase Status',
+      label: 'Pay Status',
       field: 'paystatus',
     },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
