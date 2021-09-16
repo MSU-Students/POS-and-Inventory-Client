@@ -43,7 +43,7 @@
             @click="addUser = true"
           />
           <q-dialog v-model="addUser" persistent>
-            <q-card style="width: 900px; max-width: 80vw">
+            <q-card style="width: 900px">
               <q-card-section class="row">
                 <div class="text-h6">Add Supplier</div>
                 <q-space />
@@ -354,6 +354,8 @@ export default class ManageAccount extends Vue {
   Address = '';
   contact = '';
   revenue = '';
+  files = '';
+  counterLabelFn = '';
   filter = '';
   options = ['Admin', 'Cashier'];
 

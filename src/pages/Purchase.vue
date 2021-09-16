@@ -102,8 +102,8 @@
                         </q-popup-edit>
                       </q-td>
 
-                      <q-td key="netcost" :props="props">{{
-                        props.row.netcost
+                      <q-td key="unitCost" :props="props">{{
+                        props.row.unitCost
                       }}</q-td>
                       <q-td key="tax" :props="props">{{ props.row.tax }}</q-td>
                       <q-td key="discount" :props="props">{{
@@ -130,6 +130,24 @@
                   <q-input outlined dense />
                 </div>
               </q-card-section>
+              <q-card-section class="q-gutter-md row">
+                <div class="col">
+                  <div class="text-subtitle1 text-bold">Purchase Status</div>
+                  <q-input outlined dense />
+                </div>
+                <div class="col">
+                  <div class="text-subtitle1 text-bold">Paid</div>
+                  <q-input outlined dense />
+                </div>
+                <div class="col">
+                  <div class="text-subtitle1 text-bold">Balance</div>
+                  <q-input outlined dense />
+                </div>
+                <div class="col">
+                  <div class="text-subtitle1 text-bold">Pay Status</div>
+                  <q-input outlined dense />
+                </div>
+              </q-card-section>
               <q-card-actions align="right">
                 <q-btn
                   label="Cancel"
@@ -144,6 +162,46 @@
         </div>
       </template>
 
+      <template v-slot:body-cell-Details="props">
+        <q-td :props="props">
+          <div class="q-gutter-sm">
+            <q-btn
+              round
+              color="blue"
+              icon="more_vert"
+              size="md"
+              flat
+              dense
+              @click="Details = true"
+            />
+            <q-dialog v-model="Details">
+              <q-card style="width: 900px" flat bordered>
+                <q-card-section>
+                  <div class="text-h6 text-center">
+                    Purchase Details
+                    <q-btn
+                      round
+                      flat
+                      dense
+                      icon="close"
+                      class="float-right"
+                      color="grey-8"
+                      v-close-popup
+                    ></q-btn>
+                  </div>
+                </q-card-section>
+                <q-separator />
+                <q-card-section>
+                  <div>Date:</div>
+                  <div>Refecence:</div>
+                  <div>Purchase Status:</div>
+                </q-card-section>
+              </q-card>
+            </q-dialog>
+          </div>
+        </q-td>
+      </template>
+
       <template v-slot:body-cell-action="props">
         <q-td :props="props">
           <div class="q-gutter-sm">
@@ -156,7 +214,7 @@
               dense
               @click="editRow = true"
             />
-            <q-dialog v-model="editRow" persistent>
+            <q-dialog v-model="editRow" full-width persistent>
               <q-card class="q-pa-md">
                 <q-card-section>
                   <div class="text-h6">Edit Order</div>
@@ -190,8 +248,8 @@
                           </q-popup-edit>
                         </q-td>
 
-                        <q-td key="netcost" :props="props">{{
-                          props.row.netcost
+                        <q-td key="unitCost" :props="props">{{
+                          props.row.unitCost
                         }}</q-td>
                         <q-td key="tax" :props="props">{{
                           props.row.tax
@@ -205,6 +263,18 @@
                       </q-tr>
                     </template>
                   </q-table>
+                </q-card-section>
+                <q-card-section>
+                  <div class="row q-gutter-md">
+                    <div class="col">
+                      <div class="text-h6">Select Supplier</div>
+                      <q-input
+                        outlined
+                        placeholder="Pleas enter supplier"
+                        dense
+                      />
+                    </div>
+                  </div>
                 </q-card-section>
                 <q-card-section class="q-gutter-md row">
                   <div class="col">
@@ -222,19 +292,19 @@
                 </q-card-section>
                 <q-card-section class="q-gutter-md row">
                   <div class="col">
-                    <div class="text-subtitle1 text-bold">Purchase</div>
+                    <div class="text-subtitle1 text-bold">Purchase Status</div>
                     <q-input outlined dense />
                   </div>
                   <div class="col">
-                    <div class="text-subtitle1 text-bold">Order Tax</div>
+                    <div class="text-subtitle1 text-bold">Paid</div>
                     <q-input outlined dense />
                   </div>
                   <div class="col">
-                    <div class="text-subtitle1 text-bold">Order Tax</div>
+                    <div class="text-subtitle1 text-bold">Balance</div>
                     <q-input outlined dense />
                   </div>
                   <div class="col">
-                    <div class="text-subtitle1 text-bold">Order Tax</div>
+                    <div class="text-subtitle1 text-bold">Pay Status</div>
                     <q-input outlined dense />
                   </div>
                 </q-card-section>
@@ -311,10 +381,10 @@ export default class ManageAccount extends Vue {
     },
     { name: 'quantity', label: 'Quantity', align: 'center', field: 'quantity' },
     {
-      name: 'netcost',
+      name: 'unitCost',
       align: 'center',
-      label: 'Net Unit Cost',
-      field: 'netcost',
+      label: 'Unit Cost',
+      field: 'unitCost',
     },
 
     { name: 'tax', label: 'Tax', align: 'center', field: 'tax' },
@@ -325,7 +395,31 @@ export default class ManageAccount extends Vue {
     {
       Orderproduct: 'Spoon',
       quantity: '2 packs',
-      netcost: '10.00',
+      unitCost: '10.00',
+      tax: '200',
+      discount: '10%',
+      subtotal: '500',
+    },
+    {
+      Orderproduct: 'Spoon',
+      quantity: '2 packs',
+      unitCost: '10.00',
+      tax: '200',
+      discount: '10%',
+      subtotal: '500',
+    },
+    {
+      Orderproduct: 'Spoon',
+      quantity: '2 packs',
+      unitCost: '10.00',
+      tax: '200',
+      discount: '10%',
+      subtotal: '500',
+    },
+    {
+      Orderproduct: 'Spoon',
+      quantity: '2 packs',
+      unitCost: '10.00',
       tax: '200',
       discount: '10%',
       subtotal: '500',
@@ -335,7 +429,7 @@ export default class ManageAccount extends Vue {
     {
       name: 'product',
       required: true,
-      label: 'Product',
+      label: 'Order Reference',
       align: 'left',
       field: (row: IRow) => row.product,
       format: (val: string) => `${val}`,
@@ -372,6 +466,7 @@ export default class ManageAccount extends Vue {
       label: 'Pay Status',
       field: 'paystatus',
     },
+    { name: 'Details', align: 'center', label: 'Details', field: 'Details' },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
   ];
   rows = [
@@ -386,17 +481,12 @@ export default class ManageAccount extends Vue {
       paystatus: 'Ongoing',
     },
   ];
+  Details = false;
   dialog = false;
   cancelEnabled = true;
   addUser = false;
   editRow = false;
-  name = '';
-  username = '';
-  password = '';
-  email = '';
-  role = '';
   filter = '';
-  age = '';
 
   options = ['Admin', 'Cashier'];
 
