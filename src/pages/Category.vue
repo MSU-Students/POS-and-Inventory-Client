@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="text-h4 q-pb-lg text-bold">
       <q-icon name="payments" color="indigo" style="font-size: 4rem" />
-      Expenses Category
+      Category
     </div>
     <q-table
       title="Category List"
@@ -29,7 +29,7 @@
             </template>
           </q-input>
           <q-btn
-            label="Add Expenses"
+            label="Add Category"
             color="primary"
             dense
             flat
@@ -83,10 +83,10 @@
 
                 <q-card-section class="q-gutter-md">
                   <div class="col">
-                    <q-input outlined v-model="text" label="Code" />
+                    <q-input outlined label="Code" />
                   </div>
                   <div class="col">
-                    <q-input outlined v-model="text" label="Name" />
+                    <q-input outlined label="Name" />
                   </div>
                 </q-card-section>
 
@@ -183,11 +183,6 @@ export default class Expenses extends Vue {
   showNote = false;
   suppID = [2020119, 2020221, 2020113];
   purNo = ['Chocolate Powder'];
-  name = '';
-  username = '';
-  password = '';
-  email = '';
-  role = '';
   filter = '';
   options = ['Admin', 'Cashier'];
   pInit = null;

@@ -78,6 +78,13 @@
 
               <q-item-section> Inventory </q-item-section>
             </q-item>
+            <q-item clickable v-ripple to="/Category">
+              <q-item-section avatar>
+                <q-icon name="category" color="amber" />
+              </q-item-section>
+
+              <q-item-section> Category </q-item-section>
+            </q-item>
 
             <q-item clickable v-ripple to="/Supplier">
               <q-item-section avatar>
@@ -94,26 +101,13 @@
 
               <q-item-section> Purchase </q-item-section>
             </q-item>
+            <q-item clickable v-ripple to="/Expenses">
+              <q-item-section avatar>
+                <q-icon name="payments" color="indigo" />
+              </q-item-section>
 
-            <q-expansion-item>
-              <template v-slot:header>
-                <q-item-section avatar>
-                  <q-icon name="payments" color="indigo" />
-                </q-item-section>
-
-                <q-item-section> Expenses </q-item-section>
-              </template>
-              <q-card>
-                <q-card-section>
-                  <q-item clickable v-ripple to="/ExpensesCat">
-                    <q-item-section>Expenses Category </q-item-section>
-                  </q-item>
-                  <q-item clickable v-ripple to="/Expenses">
-                    <q-item-section>Expenses List </q-item-section>
-                  </q-item>
-                </q-card-section>
-              </q-card>
-            </q-expansion-item>
+              <q-item-section> Expenses </q-item-section>
+            </q-item>
 
             <q-separator />
 

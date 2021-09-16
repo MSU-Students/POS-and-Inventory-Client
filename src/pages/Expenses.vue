@@ -310,11 +310,6 @@ export default class Expenses extends Vue {
   showNote = false;
   suppID = [2020119, 2020221, 2020113];
   purNo = ['Chocolate Powder'];
-  name = '';
-  username = '';
-  password = '';
-  email = '';
-  role = '';
   filter = '';
   options = ['Admin', 'Cashier'];
   pInit = null;

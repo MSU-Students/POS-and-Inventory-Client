@@ -42,26 +42,50 @@
             @click="addUser = true"
           />
           <q-dialog v-model="addUser" persistent>
-            <q-card style="width: 350px">
+            <q-card style="width: 900px">
               <q-card-section class="row">
                 <div class="text-h6">Add User</div>
                 <q-space />
                 <q-btn flat round dense icon="close" v-close-popup />
               </q-card-section>
 
-              <q-card-section class="q-gutter-md">
-                <q-input outlined v-model="name" label="First Name" />
-                <q-input outlined v-model="name" label="Middle Initial" />
-                <q-input outlined v-model="name" label="Last Name" />
-                <q-input outlined v-model="username" label="Username" />
-                <q-input outlined v-model="password" label="Password" />
-                <q-input outlined v-model="email" label="Email" type="email" />
-                <q-select
-                  outlined
-                  v-model="role"
-                  :options="options"
-                  label="Roles"
-                />
+              <q-card-section class="q-gutter-md row">
+                <div class="col">
+                  <q-input outlined v-model="Fname" label="First Name" />
+                </div>
+                <div class="col">
+                  <q-input outlined v-model="Mname" label="Middle Name" />
+                </div>
+                <div class="col">
+                  <q-input outlined v-model="Lname" label="Last Name" />
+                </div>
+              </q-card-section>
+              <q-card-section class="q-gutter-md row">
+                <div class="col">
+                  <q-input outlined v-model="username" label="Username" />
+                </div>
+                <div class="col">
+                  <q-input outlined v-model="password" label="Password" />
+                </div>
+              </q-card-section>
+
+              <q-card-section class="q-gutter-md row">
+                <div class="col">
+                  <q-input
+                    outlined
+                    v-model="email"
+                    label="Email"
+                    type="email"
+                  />
+                </div>
+                <div class="col">
+                  <q-select
+                    outlined
+                    v-model="role"
+                    :options="options"
+                    label="Roles"
+                  />
+                </div>
               </q-card-section>
 
               <q-card-actions align="right">
@@ -86,31 +110,50 @@
               @click="editRow = true"
             />
             <q-dialog v-model="editRow" persistent>
-              <q-card style="width: 350px">
+              <q-card style="width: 900px">
                 <q-card-section class="row">
-                  <div class="text-h6">Edit User</div>
+                  <div class="text-h6">Add User</div>
                   <q-space />
                   <q-btn flat round dense icon="close" v-close-popup />
                 </q-card-section>
 
-                <q-card-section class="q-gutter-md">
-                  <q-input outlined v-model="name" label="First Name" />
-                  <q-input outlined v-model="name" label="Middle Initial" />
-                  <q-input outlined v-model="name" label="Last Name" />
-                  <q-input outlined v-model="username" label="Username" />
-                  <q-input outlined v-model="password" label="Password" />
-                  <q-input
-                    outlined
-                    v-model="email"
-                    label="Email"
-                    type="email"
-                  />
-                  <q-select
-                    outlined
-                    v-model="role"
-                    :options="options"
-                    label="Roles"
-                  />
+                <q-card-section class="q-gutter-md row">
+                  <div class="col">
+                    <q-input outlined v-model="Fname" label="First Name" />
+                  </div>
+                  <div class="col">
+                    <q-input outlined v-model="Mname" label="Middle Name" />
+                  </div>
+                  <div class="col">
+                    <q-input outlined v-model="Lname" label="Last Name" />
+                  </div>
+                </q-card-section>
+                <q-card-section class="q-gutter-md row">
+                  <div class="col">
+                    <q-input outlined v-model="username" label="Username" />
+                  </div>
+                  <div class="col">
+                    <q-input outlined v-model="password" label="Password" />
+                  </div>
+                </q-card-section>
+
+                <q-card-section class="q-gutter-md row">
+                  <div class="col">
+                    <q-input
+                      outlined
+                      v-model="email"
+                      label="Email"
+                      type="email"
+                    />
+                  </div>
+                  <div class="col">
+                    <q-select
+                      outlined
+                      v-model="role"
+                      :options="options"
+                      label="Roles"
+                    />
+                  </div>
                 </q-card-section>
 
                 <q-card-actions align="right">
@@ -226,7 +269,9 @@ export default class ManageAccount extends Vue {
   cancelEnabled = true;
   addUser = false;
   editRow = false;
-  name = '';
+  Fname = '';
+  Mname = '';
+  Lname = '';
   username = '';
   password = '';
   email = '';
