@@ -4,11 +4,13 @@
       <q-icon name="inventory" color="indigo" style="font-size: 4rem" />
       Inventory
     </div>
+    <div class="row">
+    <div class="q-pr-md col-10">
     <q-table
       title="Inventory List"
       :rows="rows"
       :columns="columns"
-      row-key="prodcode"
+      row-key="itemCode"
       :rows-per-page-options="[0]"
       :filter="filter"
       
@@ -26,12 +28,17 @@
             placeholder="Search"
           >
             <template v-slot:append>
-              <q-icon name="search" />
+                <q-fab color="teal-8" icon="sort"  direction="down"  label="Filter by:" label-position="top" external-label padding="xs" >
+                    <div class="q-gutter-md">
+                    <q-fab-action color="teal-12" text-color="black" @click="filter = 'utensil'" label="utensil"  />
+                    <q-fab-action color="teal-12" text-color="black" @click="filter = 'Ingredient'" label="Ingredient"/>
+                    <q-fab-action color="teal-12" text-color="black" @click="filter = 'Equipment'" label="Equipment"/>
+                    <q-fab-action color="teal-12" text-color="black" @click="filter = ''" icon="clear"/>
+                    </div>
+                </q-fab>
+                <q-icon name="search" />
             </template>
           </q-input>
-          
-          <q-select class="q-mx-xl" outlined dense options-dense clearable v-model="filter" :options="Options"  label="Filter By:" />
-          
           <q-btn
             label="Add Product"
             color="primary"
@@ -41,19 +48,55 @@
             @click="addProd = true"
           />
           <q-dialog v-model="addProd" persistent>
-            <q-card style="width: 700px" class="q-pa-md">
+            <q-card style="width: 800px; max-width: 100vw" class="q-pa-md">
               <q-card-section class="row">
                 <div class="text-h6">Add Product</div>
                 <q-space />
                 <q-btn flat round dense icon="close" v-close-popup />
               </q-card-section>
 
-              <q-card-section class="q-gutter-md">
+              <q-card-section class="q-gutter-md row">
                 <div class="col">
-                  <q-input outlined label="Code" />
+                  <q-input outlined label="Product Code" />
                 </div>
                 <div class="col">
                   <q-input outlined label="Name" />
+                </div>
+              </q-card-section>
+              <q-card-section class="q-gutter-md row">
+                <div class="col">
+                  <q-select
+                    outlined
+                    v-model="catInv"
+                    :options="catInvOpt"
+                    label="Category"
+                  />
+                </div>
+                <div class="col">
+                  <q-select
+                    outlined
+                    v-model="unitInv"
+                    :options="unitInvOpt"
+                    label="Unit"
+                  />
+                </div>
+                <div class="col">
+                  <q-input outlined label="Quantity" />
+                </div>
+                <div class="col">
+                  <q-input filled v-model="expDate" mask="date" label="Expiry Date:" label-position="top" :rules="['date'] ">
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                        <q-date v-model="expDate">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="OK" color="primary" flat />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
                 </div>
               </q-card-section>
 
@@ -78,19 +121,40 @@
               @click="editProd = true"
             />
             <q-dialog v-model="editProd" persistent>
-              <q-card style="width: 700px" class="q-pa-md">
+              <q-card style="width: 800px; max-width: 100vw" class="q-pa-md">
                 <q-card-section class="row">
-                  <div class="text-h6">Add Category</div>
+                  <div class="text-h6">Add Product</div>
                   <q-space />
                   <q-btn flat round dense icon="close" v-close-popup />
                 </q-card-section>
 
-                <q-card-section class="q-gutter-md">
+                <q-card-section class="q-gutter-md row">
                   <div class="col">
-                    <q-input outlined label="Code" />
+                    <q-input outlined label="Product Code" />
                   </div>
                   <div class="col">
                     <q-input outlined label="Name" />
+                  </div>
+                </q-card-section>
+                <q-card-section class="q-gutter-md row">
+                  <div class="col">
+                    <q-select
+                      outlined
+                      v-model="catInv"
+                      :options="catInvOpt"
+                      label="Category"
+                    />
+                  </div>
+                  <div class="col">
+                    <q-select
+                      outlined
+                      v-model="unitInv"
+                      :options="unitInvOpt"
+                      label="Unit"
+                    />
+                  </div>
+                  <div class="col">
+                    <q-input outlined label="Quantity" />
                   </div>
                 </q-card-section>
 
@@ -137,6 +201,34 @@
         </q-td>
       </template>
     </q-table>
+    </div>
+    <div class="col">
+         <q-card flat bordered class="my-card">
+            <q-card-section>
+              <div class="text-h5">Overview</div>
+            </q-card-section>
+
+            <q-card-section class="q-pt-none">
+             <div class="text-h7">Total Products</div>
+              <div class="text-subtitle2"> 4 </div>
+            </q-card-section>
+
+            <q-separator inset />
+
+            <q-card-section class="q-pt-none">
+             <div class="text-h7">Product Issues</div>
+              <div class="text-subtitle2 text-red-10" @mouseenter="prodIssue = true" @mouseleave="prodIssue = false">1</div>
+              <q-popup-proxy v-model="prodIssue" transition-show="flip-up" transition-hide="flip-down">
+              <q-banner>
+               <div class="text-h7">Item name: Black pearls</div>
+              <div class="text-subtitle2 text-red-10">Expiry Date: 9/18/2021</div>
+              </q-banner>
+            </q-popup-proxy>
+            </q-card-section>
+          </q-card>
+          
+    </div>
+    </div>
   </div>
 </template>
 
@@ -144,24 +236,24 @@
 import { Vue, Options } from 'vue-class-component';
 
 interface IRow {
-  prodcode: string;
+  itemCode: string;
 }
 @Options({})
 export default class Expenses extends Vue {
   columns = [
     {
-      name: 'prodcode',
+      name: 'itemCode',
       required: true,
-      label: 'Product Code',
+      label: 'Item Code',
       align: 'left',
-      field: (row: IRow) => row.prodcode,
+      field: (row: IRow) => row.itemCode,
       format: (val: string) => `${val}`,
     },
     {
-      name: 'nameProd',
+      name: 'itemName',
       align: 'center',
-      label: 'Name',
-      field: 'nameProd',
+      label: 'Item Name',
+      field: 'itemName',
     },
 
     {
@@ -182,6 +274,12 @@ export default class Expenses extends Vue {
       label: 'Category',
       field: 'catProd',
     },
+    {
+      name: 'ExpiryDate',
+      align: 'center',
+      label: 'Expiry Date',
+      field: 'ExpiryDate',
+    },
 
     {
       name: 'dateProd',
@@ -200,28 +298,54 @@ export default class Expenses extends Vue {
 
   rows = [
     {
-      prodcode: 'hj4j324jbb34bj4',
-      nameProd: 'Spoon',
+      itemCode: 'hj4j324jbb34bj4',
+      itemName: 'Spoon',
       quantProd: '20000',
       unitProd: 'Packs',
       catProd: 'Utensil',
-      dateProd: '12/11/2019',
+      ExpiryDate:'None',
+      dateProd: '12/11/2021',
     },
     {
-      prodcode: 'hh123h12g3hj13',
-      nameProd: 'Sugar',
+      itemCode: 'hh123h12g3hj13',
+      itemName: 'Sugar',
       quantProd: '10',
       unitProd: 'Packs',
       catProd: 'Ingredient',
+      ExpiryDate:'12/11/2020',
+      dateProd: '12/11/2021',
+    },
+    {
+      itemCode: 'hs11121512u5',
+      itemName: 'Black pearls',
+      quantProd: '50',
+      unitProd: 'Packs',
+      catProd: 'Ingredient',
+      ExpiryDate:'09/18/2021',
       dateProd: '12/11/2019',
     },
+    {
+      itemCode: 'h434787512u5',
+      itemName: 'Blender',
+      quantProd: '1',
+      unitProd: 'Box',
+      catProd: 'Equipment',
+      ExpiryDate:'09/18/2021',
+      dateProd: '12/11/2021',
+    },
   ];
+  
+  prodIssue = false;
   selected = [];
   addProd = false;
   editProd = false;
   delProd = false;
   cancelEnabled = true;
   filter = '';
-  Options = ['Utensil','Ingredient']
+  expDate = '';
+  catInv = '';
+  unitInv = '';
+  catInvOpt = [''];
+  unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
 }
 </script>

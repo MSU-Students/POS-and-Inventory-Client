@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="text-h4 q-pb-lg text-bold">
-      <q-icon name="payments" color="indigo" style="font-size: 4rem" />
+      <q-icon name="category" color="amber" style="font-size: 4rem" />
       Category
     </div>
     <q-table
@@ -160,6 +160,18 @@ export default class Expenses extends Vue {
       field: 'name',
     },
     {
+      name: 'numProd',
+      align: 'center',
+      label: 'Number of products',
+      field: 'numProd',
+    },
+    {
+      name: 'stockQuantity',
+      align: 'center',
+      label: 'Stock quantity',
+      field: 'stockQuantity',
+    },
+    {
       name: 'action',
       align: 'center',
       label: 'Action',
@@ -170,23 +182,30 @@ export default class Expenses extends Vue {
   rows = [
     {
       code: 'hj4j324jbb34bj4',
-      name: '12/23/2021',
+      name: 'Utensils',
+      numProd: 1,
+      stockQuantity: 2000,
+    },
+    {
+      code: 'h12323h451h14h41',
+      name: 'Igredients',
+      numProd: 1,
+      stockQuantity: 60,
+    },
+    {
+      code: 'h55464dfds6sd4a1',
+      name: 'Equipments',
+      numProd: 1,
+      stockQuantity: 1,
+
     },
   ];
   selected = [];
-  Note =
-    'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!';
   dialog = false;
   cancelEnabled = true;
   addCat = false;
   editRow = false;
   showNote = false;
-  suppID = [2020119, 2020221, 2020113];
-  purNo = ['Chocolate Powder'];
   filter = '';
-  options = ['Admin', 'Cashier'];
-  pInit = null;
-  sInit = null;
-  categoryInit = null;
 }
 </script>
