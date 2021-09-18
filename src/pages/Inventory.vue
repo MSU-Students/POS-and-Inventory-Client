@@ -8,7 +8,7 @@
       title="Inventory List"
       :rows="rows"
       :columns="columns"
-      row-key="prodcode"
+      row-key="itemCode"
       :rows-per-page-options="[0]"
       :filter="filter"
       selection="multiple"
@@ -37,19 +37,40 @@
             @click="addProd = true"
           />
           <q-dialog v-model="addProd" persistent>
-            <q-card style="width: 700px" class="q-pa-md">
+            <q-card style="width: 800px; max-width: 100vw" class="q-pa-md">
               <q-card-section class="row">
                 <div class="text-h6">Add Product</div>
                 <q-space />
                 <q-btn flat round dense icon="close" v-close-popup />
               </q-card-section>
 
-              <q-card-section class="q-gutter-md">
+              <q-card-section class="q-gutter-md row">
                 <div class="col">
-                  <q-input outlined label="Code" />
+                  <q-input outlined label="Product Code" />
                 </div>
                 <div class="col">
                   <q-input outlined label="Name" />
+                </div>
+              </q-card-section>
+              <q-card-section class="q-gutter-md row">
+                <div class="col">
+                  <q-select
+                    outlined
+                    v-model="catInv"
+                    :options="catInvOpt"
+                    label="Category"
+                  />
+                </div>
+                <div class="col">
+                  <q-select
+                    outlined
+                    v-model="unitInv"
+                    :options="unitInvOpt"
+                    label="Unit"
+                  />
+                </div>
+                <div class="col">
+                  <q-input outlined label="Quantity" />
                 </div>
               </q-card-section>
 
@@ -74,19 +95,40 @@
               @click="editProd = true"
             />
             <q-dialog v-model="editProd" persistent>
-              <q-card style="width: 700px" class="q-pa-md">
+              <q-card style="width: 800px; max-width: 100vw" class="q-pa-md">
                 <q-card-section class="row">
-                  <div class="text-h6">Add Category</div>
+                  <div class="text-h6">Add Product</div>
                   <q-space />
                   <q-btn flat round dense icon="close" v-close-popup />
                 </q-card-section>
 
-                <q-card-section class="q-gutter-md">
+                <q-card-section class="q-gutter-md row">
                   <div class="col">
-                    <q-input outlined label="Code" />
+                    <q-input outlined label="Product Code" />
                   </div>
                   <div class="col">
                     <q-input outlined label="Name" />
+                  </div>
+                </q-card-section>
+                <q-card-section class="q-gutter-md row">
+                  <div class="col">
+                    <q-select
+                      outlined
+                      v-model="catInv"
+                      :options="catInvOpt"
+                      label="Category"
+                    />
+                  </div>
+                  <div class="col">
+                    <q-select
+                      outlined
+                      v-model="unitInv"
+                      :options="unitInvOpt"
+                      label="Unit"
+                    />
+                  </div>
+                  <div class="col">
+                    <q-input outlined label="Quantity" />
                   </div>
                 </q-card-section>
 
@@ -140,24 +182,24 @@
 import { Vue, Options } from 'vue-class-component';
 
 interface IRow {
-  prodcode: string;
+  itemCode: string;
 }
 @Options({})
 export default class Expenses extends Vue {
   columns = [
     {
-      name: 'prodcode',
+      name: 'itemCode',
       required: true,
-      label: 'Product Code',
+      label: 'Item Code',
       align: 'left',
-      field: (row: IRow) => row.prodcode,
+      field: (row: IRow) => row.itemCode,
       format: (val: string) => `${val}`,
     },
     {
-      name: 'nameProd',
+      name: 'itemName',
       align: 'center',
-      label: 'Name',
-      field: 'nameProd',
+      label: 'Item Name',
+      field: 'itemName',
     },
 
     {
@@ -196,8 +238,8 @@ export default class Expenses extends Vue {
 
   rows = [
     {
-      prodcode: 'hj4j324jbb34bj4',
-      nameProd: 'Spoon',
+      itemCode: 'hj4j324jbb34bj4',
+      itemName: 'Spoon',
       quantProd: '20000',
       unitProd: 'Packs',
       catProd: 'Utensil',
@@ -210,5 +252,9 @@ export default class Expenses extends Vue {
   delProd = false;
   cancelEnabled = true;
   filter = '';
+  catInv = '';
+  unitInv = '';
+  catInvOpt = [''];
+  unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
 }
 </script>
