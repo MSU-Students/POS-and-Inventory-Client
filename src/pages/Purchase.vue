@@ -49,8 +49,10 @@
           />
           <q-dialog v-model="addUser" persistent full-width>
             <q-card class="q-pa-md">
-              <q-card-section>
+              <q-card-section class="row q-pa-md">
                 <div class="text-h5">Add Purchase</div>
+                <q-space />
+                <q-btn flat round dense icon="close" v-close-popup />
               </q-card-section>
 
               <q-card-section>
@@ -63,7 +65,7 @@
                       dense
                     />
                   </div>
-                  <div class="col-4">
+                  <div class="col">
                     <div class="text-h6">Select Supplier</div>
                     <q-input
                       outlined
@@ -83,9 +85,9 @@
                 >
                   <template v-slot:body="props">
                     <q-tr :props="props">
-                      <q-td key="Orderproduct" :props="props">{{
-                        props.row.Orderproduct
-                      }}</q-td>
+                      <q-td key="Orderproduct" :props="props"
+                        >{{ props.row.Orderproduct }}
+                      </q-td>
                       <q-td key="quantity" :props="props">
                         {{ props.row.quantity }}
                         <q-popup-edit
@@ -102,16 +104,28 @@
                         </q-popup-edit>
                       </q-td>
 
-                      <q-td key="unitCost" :props="props">{{
-                        props.row.unitCost
-                      }}</q-td>
-                      <q-td key="tax" :props="props">{{ props.row.tax }}</q-td>
-                      <q-td key="discount" :props="props">{{
-                        props.row.discount
-                      }}</q-td>
-                      <q-td key="subtotal" :props="props">{{
-                        props.row.subtotal
-                      }}</q-td>
+                      <q-td key="unitCost" :props="props"
+                        >{{ props.row.unitCost }}
+                        <q-popup-edit
+                          v-model="props.row.unitCost"
+                          title="Update Unit Cost"
+                          buttons
+                        >
+                          <q-input
+                            type="number"
+                            v-model="props.row.unitCost"
+                            dense
+                            autofocus
+                          />
+                        </q-popup-edit>
+                      </q-td>
+                      <q-td key="tax" :props="props">{{ props.row.tax }} </q-td>
+                      <q-td key="discount" :props="props"
+                        >{{ props.row.discount }}
+                      </q-td>
+                      <q-td key="subtotal" :props="props"
+                        >{{ props.row.subtotal }}
+                      </q-td>
                     </q-tr>
                   </template>
                 </q-table>
@@ -175,7 +189,7 @@
               @click="Details = true"
             />
             <q-dialog v-model="Details">
-              <q-card style="width: 900px" flat bordered>
+              <q-card style="width: 800px; max-width: 100vw" flat bordered>
                 <q-card-section>
                   <div class="text-h6 text-center">
                     Purchase Details
@@ -195,6 +209,17 @@
                   <div>Date:</div>
                   <div>Refecence:</div>
                   <div>Purchase Status:</div>
+                </q-card-section>
+                <q-card-section>
+                  <q-table
+                    title="Detais Order"
+                    :rows="Peekrows"
+                    :columns="Peekcolumns"
+                    row-key="peek"
+                    :rows-per-page-options="[0]"
+                    :filter="filter"
+                  >
+                  </q-table>
                 </q-card-section>
               </q-card>
             </q-dialog>
@@ -216,8 +241,10 @@
             />
             <q-dialog v-model="editRow" full-width persistent>
               <q-card class="q-pa-md">
-                <q-card-section>
+                <q-card-section class="row">
                   <div class="text-h6">Edit Order</div>
+                  <q-space />
+                  <q-btn flat round dense icon="close" v-close-popup />
                 </q-card-section>
                 <q-card-section>
                   <q-table
@@ -248,18 +275,30 @@
                           </q-popup-edit>
                         </q-td>
 
-                        <q-td key="unitCost" :props="props">{{
-                          props.row.unitCost
-                        }}</q-td>
-                        <q-td key="tax" :props="props">{{
-                          props.row.tax
-                        }}</q-td>
-                        <q-td key="discount" :props="props">{{
-                          props.row.discount
-                        }}</q-td>
-                        <q-td key="subtotal" :props="props">{{
-                          props.row.subtotal
-                        }}</q-td>
+                        <q-td key="unitCost" :props="props"
+                          >{{ props.row.unitCost }}
+                          <q-popup-edit
+                            v-model="props.row.unitCost"
+                            title="Update Unit Cost"
+                            buttons
+                          >
+                            <q-input
+                              type="number"
+                              v-model="props.row.unitCost"
+                              dense
+                              autofocus
+                            />
+                          </q-popup-edit>
+                        </q-td>
+                        <q-td key="tax" :props="props"
+                          >{{ props.row.tax }}
+                        </q-td>
+                        <q-td key="discount" :props="props"
+                          >{{ props.row.discount }}
+                        </q-td>
+                        <q-td key="subtotal" :props="props"
+                          >{{ props.row.subtotal }}
+                        </q-td>
                       </q-tr>
                     </template>
                   </q-table>
@@ -365,6 +404,10 @@ interface IRow {
 }
 interface pdrow {
   Orderproduct: string;
+}
+
+interface peekrow {
+  peek: string;
 }
 
 @Options({})
@@ -481,6 +524,44 @@ export default class ManageAccount extends Vue {
       paystatus: 'Ongoing',
     },
   ];
+
+  Peekcolumns = [
+    {
+      name: 'peek',
+      required: true,
+      label: 'Product Order',
+      align: 'left',
+      field: (row: peekrow) => row.peek,
+      format: (val: string) => `${val}`,
+    },
+    {
+      name: 'peekQuant',
+      align: 'center',
+      label: 'Quantity',
+      field: 'peekQuant',
+    },
+    {
+      name: 'peekCost',
+      align: 'center',
+      label: 'Unit Cost',
+      field: 'peekCost',
+    },
+    {
+      name: 'peeksubtotal',
+      align: 'center',
+      label: 'Sub Total',
+      field: 'peeksubtotal',
+    },
+  ];
+  Peekrows = [
+    {
+      peek: 'Spoon',
+      peekQuant: '10',
+      peekCost: '11',
+      peeksubtotal: '100',
+    },
+  ];
+
   Details = false;
   dialog = false;
   cancelEnabled = true;

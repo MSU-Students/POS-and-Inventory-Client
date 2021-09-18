@@ -42,7 +42,7 @@
             @click="addUser = true"
           />
           <q-dialog v-model="addUser" persistent>
-            <q-card style="width: 900px">
+            <q-card style="width: 800px; max-width: 100vw" class="q-pa-sm">
               <q-card-section class="row">
                 <div class="text-h6">Add User</div>
                 <q-space />
@@ -110,7 +110,7 @@
               @click="editRow = true"
             />
             <q-dialog v-model="editRow" persistent>
-              <q-card style="width: 900px">
+              <q-card style="width: 800px; max-width: 100vw" class="q-pa-sm">
                 <q-card-section class="row">
                   <div class="text-h6">Add User</div>
                   <q-space />
