@@ -83,21 +83,6 @@
                 <div class="col">
                   <q-input outlined label="Quantity" />
                 </div>
-                <div class="col">
-                  <q-input filled v-model="expDate" mask="date" label="Expiry Date:" label-position="top" :rules="['date'] ">
-                  <template v-slot:append>
-                    <q-icon name="event" class="cursor-pointer">
-                      <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                        <q-date v-model="expDate">
-                          <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="OK" color="primary" flat />
-                          </div>
-                        </q-date>
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
-                </div>
               </q-card-section>
 
               <q-card-actions align="right">
@@ -342,7 +327,6 @@ export default class Expenses extends Vue {
   delProd = false;
   cancelEnabled = true;
   filter = '';
-  expDate = '';
   catInv = '';
   unitInv = '';
   catInvOpt = [''];
