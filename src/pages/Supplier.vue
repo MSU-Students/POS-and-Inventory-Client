@@ -91,9 +91,9 @@
                         v-model="files"
                         label="Pick profile picture"
                         filled
-                        counter
-                        :counter-label="counterLabelFn"
-                        max-files="3"
+                        
+                        
+                        
                         multiple
                         style="max-width: 300px"
                       >
@@ -236,9 +236,7 @@
                           v-model="files"
                           label="Pick profile picture"
                           filled
-                          counter
-                          :counter-label="counterLabelFn"
-                          max-files="3"
+                          
                           multiple
                           style="max-width: 300px"
                         >

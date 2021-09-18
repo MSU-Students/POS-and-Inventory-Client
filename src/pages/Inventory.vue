@@ -11,6 +11,7 @@
       row-key="prodcode"
       :rows-per-page-options="[0]"
       :filter="filter"
+      
       selection="multiple"
       v-model:selected="selected"
     >
@@ -28,6 +29,9 @@
               <q-icon name="search" />
             </template>
           </q-input>
+          
+          <q-select class="q-mx-xl" outlined dense options-dense clearable v-model="filter" :options="Options"  label="Filter By:" />
+          
           <q-btn
             label="Add Product"
             color="primary"
@@ -203,6 +207,14 @@ export default class Expenses extends Vue {
       catProd: 'Utensil',
       dateProd: '12/11/2019',
     },
+    {
+      prodcode: 'hh123h12g3hj13',
+      nameProd: 'Sugar',
+      quantProd: '10',
+      unitProd: 'Packs',
+      catProd: 'Ingredient',
+      dateProd: '12/11/2019',
+    },
   ];
   selected = [];
   addProd = false;
@@ -210,5 +222,6 @@ export default class Expenses extends Vue {
   delProd = false;
   cancelEnabled = true;
   filter = '';
+  Options = ['Utensil','Ingredient']
 }
 </script>
