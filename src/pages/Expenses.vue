@@ -34,6 +34,7 @@
             dense
             flat
             icon="add"
+            size="13px"
             @click="addExp = true"
           />
           <q-dialog v-model="addExp" persistent>
