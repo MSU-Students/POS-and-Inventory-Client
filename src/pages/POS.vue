@@ -73,17 +73,20 @@
   
 </template>
 
-<script>
+<script lang="ts">
 import { ref } from 'vue'
 
+interface IRow {
+  name: string;
+}
 const columns = [
   {
     name: 'name',
     required: true,
     label: 'Dessert (100g serving)',
     align: 'left',
-    field: row => row.name,
-    format: val => `${val}`,
+    field: (row: IRow) => row.name,
+      format: (val: string) => `${val}`,
     sortable: true
   },
   

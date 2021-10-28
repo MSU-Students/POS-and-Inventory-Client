@@ -1,32 +1,10 @@
 <template>
-<div class="q-pa-md">
-    <div class="row">
-        <div class="text-h4 q-pb-lg text-bold ">
-            <q-icon name="payments" color="indigo" style="font-size: 4rem" />
-            Sales report
-        </div>
-    </div>
-        <q-card
-      class="my-card text-white"
-      style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)"
-    >
-      <q-card-section>
-        <div class="text-h6">Our Changing Planet</div>
-        <div class="text-subtitle2">by John Doe</div>
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-          <apexchart type="donut" height="211" :options="chartOptions" :series="series" />
-      </q-card-section>
-    </q-card>
-</div>
+  <apexchart type="donut" height="211" :options="chartOptions" :series="series" />
 </template>
 
 <script>
-import Vue from 'vue'
-import VueApexCharts from 'vue-apexcharts'
-  export default{
-    name: 'ApexDonut',
+export default {
+  name: 'ApexDonut',
   data () {
     return {
       series: [44, 55, 41, 17, 15],
@@ -80,13 +58,6 @@ import VueApexCharts from 'vue-apexcharts'
         }
       }
     }
-  }  
-
   }
-
+}
 </script>
-<style lang="sass" scoped>
-.my-card
-  width: 100%
-  max-width: 250px
-</style>

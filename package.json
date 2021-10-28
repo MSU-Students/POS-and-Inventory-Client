@@ -11,11 +11,15 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "apexcharts": "^3.29.0",
     "axios": "^0.21.4",
-    "chart.js": "^3.5.1",
+    "chart.js": "^3.6.0",
     "core-js": "^3.6.5",
     "quasar": "^2.0.0",
+    "vue-apexcharts": "^1.6.2",
+    "vue-chartjs": "^3.5.1",
     "vue-class-component": "^8.0.0-rc.1",
+    "vue3-apexcharts": "^1.4.1",
     "vuex": "^4.0.1"
   },
   "devDependencies": {
@@ -24,7 +28,6 @@
     "@types/node": "^10.17.15",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
-    "electron": "^15.2.0",
     "electron": "^15.3.0",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^8.1.0",
