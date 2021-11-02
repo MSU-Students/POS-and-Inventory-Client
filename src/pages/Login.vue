@@ -17,10 +17,11 @@
             </div>
           </q-card-section>
           <q-card-section>
-            <q-form class="q-gutter-md">
+            <q-form @submit="loginUser" class="q-gutter-md">
               <q-input
                 v-model="username"
                 label="Username"
+                lazy-rules
                 :rules="[
                   (val) => (val && val.length > 0) || 'Input your Username',
                 ]"
@@ -34,6 +35,7 @@
                 v-model="password"
                 label="Password"
                 :type="isPwd ? 'password' : 'text'"
+                lazy-rules
                 :rules="[
                   (val) => (val && val.length > 0) || 'Input your password',
                 ]"
@@ -56,7 +58,7 @@
                   label="Login"
                   color="red-6"
                   size="md"
-                  @click="loginUser()"
+                  type="submit"
                 />
               </div>
             </q-form>
