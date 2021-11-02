@@ -5,8 +5,8 @@
       POS
     </div>
     <div class="row q-gutter-md">
-      <div class="full-height col-8">
-        <q-card>
+      <div class="col-8">
+        <q-card class="fit">
           <div class="q-pa-md">
             <q-table
               title="Menu"
@@ -45,27 +45,48 @@
           <div>
             <q-card flat bordered class="my-card">
               <q-card-section>
-                <q-toolbar class="bg-primary text-white shadow-2">
-                  <q-toolbar-title>Selected</q-toolbar-title>
-                </q-toolbar>
-                <q-list dense bordered padding class="rounded-borders">
-                  <q-item>
-                    <q-item-section> Item </q-item-section>
-                  </q-item>
+                <q-table
+                  title="Selected Order"
+                  :rows="SelRows"
+                  :columns="SelColumns"
+                  row-key="SelProd"
+                  hide-bottom
+                >
+                  <template v-slot:body="props">
+                    <q-tr :props="props">
+                      <q-td key="SelProd" :props="props">
+                        {{ props.row.SelProd }}
+                      </q-td>
+                      <q-td key="prodPrice" :props="props"
+                        >{{ props.row.prodPrice }}
+                      </q-td>
+                      <q-td key="prodQuant" :props="props">
+                        {{ props.row.prodQuant }}
+                        <q-popup-edit
+                          v-model="props.row.prodQuant"
+                          title="Update quantity"
+                          buttons
+                        >
+                          <q-input
+                            type="number"
+                            v-model="props.row.quantity"
+                            dense
+                            autofocus
+                          />
+                        </q-popup-edit>
+                      </q-td>
 
-                  <q-item>
-                    <q-item-section> Item </q-item-section>
-                  </q-item>
-
-                  <q-item>
-                    <q-item-section> Item </q-item-section>
-                  </q-item>
-                </q-list>
+                      <q-td key="subTotal" :props="props"
+                        >{{ props.row.subTotal }}
+                      </q-td>
+                    </q-tr>
+                  </template>
+                </q-table>
               </q-card-section>
 
               <q-separator inset />
 
-              <q-card-section> Total: </q-card-section>
+              <q-card-section>Grand Total: </q-card-section>
             </q-card>
           </div>
         </q-card>
@@ -79,6 +100,9 @@ import { Vue, Options } from 'vue-class-component';
 
 interface IRow {
   name: string;
+}
+interface SelRow {
+  SelProd: string;
 }
 
 @Options({})
@@ -152,7 +176,48 @@ export default class POS extends Vue {
     },
   ];
 
+  SelColumns = [
+    {
+      name: 'SelProd',
+      required: true,
+      label: 'Product',
+      align: 'left',
+      field: (SelRows: SelRow) => SelRows.SelProd,
+      format: (val: string) => `${val}`,
+    },
+    {
+      name: 'prodPrice',
+      align: 'center',
+      label: 'Price',
+      field: 'prodPrice',
+    },
+    {
+      name: 'prodQuant',
+      align: 'center',
+      label: 'Quantity',
+      field: 'prodQuant',
+    },
+    {
+      name: 'subTotal',
+      align: 'center',
+      label: 'Sub Total',
+      field: 'subTotal',
+    },
+  ];
+  SelRows = [
+    {
+      selProd: 'Mocah',
+      prodPrice: '120',
+      prodQuant: '1',
+      subTotal: '120',
+    },
+    {
+      selProd: 'Mocah',
+      prodPrice: '120',
+      prodQuant: '1',
+      subTotal: '120',
+    },
+  ];
   filter = '';
-  selected = [];
 }
 </script>

@@ -412,7 +412,6 @@ interface peekrow {
 
 @Options({})
 export default class ManageAccount extends Vue {
-  Post;
   Pcolumns = [
     {
       name: 'Orderproduct',

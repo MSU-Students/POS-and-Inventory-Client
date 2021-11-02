@@ -104,29 +104,35 @@
               dense
               @click="showNote = true"
             />
-            <q-dialog v-model="showNote" persistent>
-              <q-layout view="Lhh lpR fff" container class="bg-white">
-                <q-header class="bg-primary">
-                  <q-toolbar>
-                    <q-toolbar-title>Note</q-toolbar-title>
-                    <q-btn flat v-close-popup round dense icon="close" />
-                  </q-toolbar>
-                </q-header>
+            <q-dialog v-model="showNote">
+              <q-card flat bordered>
+                <q-card-section>
+                  <div class="text-h6">
+                    Expenses Note
+                    <q-btn
+                      round
+                      flat
+                      dense
+                      icon="close"
+                      class="float-right"
+                      color="grey-8"
+                      v-close-popup
+                    ></q-btn>
+                  </div>
+                  <div>Reference Number:</div>
+                  <div>Category:</div>
+                  <div>Date:</div>
+                </q-card-section>
 
-                <q-footer class="bg-black text-white">
-                  <q-toolbar inset>
-                    <q-toolbar-title>Written by: Cashier 1</q-toolbar-title>
-                  </q-toolbar>
-                </q-footer>
-                <q-page-container>
-                  <q-page padding>
-                    <h5>Date: 12/23/21</h5>
-                    <p>
-                      {{ Note }}
-                    </p>
-                  </q-page>
-                </q-page-container>
-              </q-layout>
+                <q-separator />
+
+                <q-card-section>
+                  Assessing clients needs and present suitable promoted
+                  products. Liaising with and persuading targeted doctors to
+                  prescribe our products utilizing effective sales skills.
+                </q-card-section>
+                <q-separator />
+              </q-card>
             </q-dialog>
           </div>
         </q-td>
