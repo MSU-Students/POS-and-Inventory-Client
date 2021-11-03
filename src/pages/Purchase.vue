@@ -256,9 +256,9 @@
                   >
                     <template v-slot:body="props">
                       <q-tr :props="props">
-                        <q-td key="Orderproduct" :props="props">{{
-                          props.row.Orderproduct
-                        }}</q-td>
+                        <q-td key="Orderproduct" :props="props">
+                          {{ props.row.Orderproduct }}
+                        </q-td>
                         <q-td key="quantity" :props="props">
                           {{ props.row.quantity }}
                           <q-popup-edit
