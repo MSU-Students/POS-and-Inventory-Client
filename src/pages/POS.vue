@@ -46,39 +46,37 @@
             <q-card flat bordered class="my-card">
               <q-card-section>
                 <q-table
+                  :rows="rows2"
+                  :columns="columns2"
                   title="Selected Order"
-                  :rows="SelRows"
-                  :columns="SelColumns"
-                  row-key="SelProd"
-                  hide-bottom
+                  :rows-per-page-options="[]"
+                  row-key="name"
+                  wrap-cells
                 >
                   <template v-slot:body="props">
                     <q-tr :props="props">
-                      <q-td key="SelProd" :props="props">
-                        {{ props.row.SelProd }}
-                      </q-td>
-                      <q-td key="prodPrice" :props="props"
-                        >{{ props.row.prodPrice }}
+                      <q-td key="name" :props="props">
+                        {{ props.row.name }}
                       </q-td>
                       <q-td key="prodQuant" :props="props">
                         {{ props.row.prodQuant }}
-                        <q-popup-edit
-                          v-model="props.row.prodQuant"
-                          title="Update quantity"
-                          buttons
-                        >
-                          <q-input
-                            type="number"
-                            v-model="props.row.quantity"
-                            dense
-                            autofocus
-                          />
-                        </q-popup-edit>
-                      </q-td>
-
-                      <q-td key="subTotal" :props="props"
-                        >{{ props.row.subTotal }}
-                      </q-td>
+                      <q-popup-edit v-model="props.row.prodQuant" buttons v-slot="scope">
+                         <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
+                      </q-popup-edit>
+                    </q-td>
+                    <q-td key="price" :props="props">
+                        {{ props.row.price }}
+                      <q-popup-edit v-model="props.row.price" buttons v-slot="scope">
+                         <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
+                      </q-popup-edit>
+                    </q-td>
+                    <q-td key="subtotal" :props="props">
+                        {{ props.row.subtotal }}
+                      <q-popup-edit v-model="props.row.subtotal" buttons v-slot="scope">
+                         <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
+                      </q-popup-edit>
+                    </q-td>
+                      
                     </q-tr>
                   </template>
                 </q-table>
@@ -100,9 +98,6 @@ import { Vue, Options } from 'vue-class-component';
 
 interface IRow {
   name: string;
-}
-interface SelRow {
-  SelProd: string;
 }
 
 @Options({})
@@ -176,48 +171,71 @@ export default class POS extends Vue {
     },
   ];
 
-  SelColumns = [
+  columns2 = [
     {
-      name: 'SelProd',
+      name: 'name',
       required: true,
       label: 'Product',
       align: 'left',
-      field: (SelRows: SelRow) => SelRows.SelProd,
+      field: (row: IRow) => row.name,
       format: (val: string) => `${val}`,
+      sortable: true,
     },
-    {
-      name: 'prodPrice',
-      align: 'center',
-      label: 'Price',
-      field: 'prodPrice',
-    },
+
     {
       name: 'prodQuant',
       align: 'center',
       label: 'Quantity',
       field: 'prodQuant',
+      sortable: true,    
     },
     {
-      name: 'subTotal',
+      name: 'price',
       align: 'center',
-      label: 'Sub Total',
-      field: 'subTotal',
-    },
-  ];
-  SelRows = [
-    {
-      selProd: 'Mocah',
-      prodPrice: '120',
-      prodQuant: '1',
-      subTotal: '120',
+      label: 'price',
+      field: 'price',
     },
     {
-      selProd: 'Mocah',
-      prodPrice: '120',
-      prodQuant: '1',
-      subTotal: '120',
+      name: 'subtotal',
+      align: 'center',
+      label: 'subtotal',
+      field: 'subtotal',
     },
   ];
+
+  rows2 = [
+    {
+      name: 'Frozen Yogurt',
+      prodQuant:125,
+      price: 10,
+      subtotal: 300,
+    },
+    {
+      name: 'Ice cream sandwich',
+      prodQuant:300,
+      price: 10,
+      subtotal: 300,
+    },
+    {
+      name: 'Eclair',
+      prodQuant:1,
+      price: 10,
+      subtotal: 300,
+    },
+    {
+      name: 'Cupcake',
+      prodQuant:40,
+      price: 10,
+      subtotal: 300,
+    },
+    {
+      name: 'Gingerbread',
+      prodQuant:5,
+      price: 10,
+      subtotal: 300,
+    },
+  ];
+  
   filter = '';
 }
 </script>

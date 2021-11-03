@@ -1,92 +1,27 @@
 <template>
+<q-page>
 <div class="q-pa-md">
     <div class="row">
         <div class="text-h4 q-pb-lg text-bold ">
             <q-icon name="payments" color="indigo" style="font-size: 4rem" />
             Sales report
         </div>
+        
     </div>
-        <q-card
-      class="my-card text-white"
-      style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)"
-    >
-      <q-card-section>
-        <div class="text-h6">Our Changing Planet</div>
-        <div class="text-subtitle2">by John Doe</div>
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-          <apexchart type="donut" height="211" :options="chartOptions" :series="series" />
-      </q-card-section>
-    </q-card>
+   
 </div>
+</q-page>      
 </template>
+<script lang="ts">
+import { Vue, Options } from 'vue-class-component';
+import Chart from 'components/chart.component.vue';
 
-<script>
-import Vue from 'vue'
-import VueApexCharts from 'vue-apexcharts'
-  export default{
-    name: 'ApexDonut',
-  data () {
-    return {
-      series: [44, 55, 41, 17, 15],
-      chartOptions: {
-        colors: ['#008FFB', '#00E396', '#FEB019'],
-        animations: {
-          enabled: true,
-          easing: 'easeinout',
-          speed: 1000
-        },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            shade: 'dark',
-            type: 'vertical',
-            shadeIntensity: 0.05,
-            inverseColors: false,
-            opacityFrom: 1,
-            opacityTo: 0.9,
-            stops: [0, 100]
-          }
-        },
-        chart: {
-          toolbar: {
-            show: true
-          }
-        },
-        title: {
-          text: 'Donut',
-          align: 'left',
-          style: {
-            color: '#FFF'
-          }
-        },
-        labels: ['Apple', 'Mango', 'Orange', 'Watermelon', 'Strawberry'],
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 250
-            },
-            legend: {
-              position: 'bottom'
-            }
-          }
-        }],
-        legend: {
-          labels: {
-            colors: '#FFF'
-          }
-        }
-      }
-    }
-  }  
+@Options({
 
-  }
+    components: { Chart }
 
+})
+
+export default class ChartComponent extends Vue {
+}
 </script>
-<style lang="sass" scoped>
-.my-card
-  width: 100%
-  max-width: 250px
-</style>
