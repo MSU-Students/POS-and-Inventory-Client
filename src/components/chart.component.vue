@@ -40,7 +40,7 @@ export default class ChartComponent extends Vue {
     this.chart = new Chart(
         canvas,
         {
-        type: 'line',
+        type: 'bar',
         data: data,
         options: {}
         }

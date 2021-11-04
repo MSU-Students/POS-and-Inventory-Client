@@ -8,7 +8,7 @@
         </div>
         
     </div>
-   
+   <chart/>
 </div>
 </q-page>      
 </template>

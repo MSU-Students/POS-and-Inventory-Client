@@ -99,9 +99,7 @@ import { Vue, Options } from 'vue-class-component';
 interface IRow {
   name: string;
 }
-interface SelRow {
-  SelProd: string;
-}
+
 
 @Options({})
 export default class POS extends Vue {
