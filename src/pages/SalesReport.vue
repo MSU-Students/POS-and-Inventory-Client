@@ -1,27 +1,22 @@
 <template>
-<q-page>
-<div class="q-pa-md">
-    <div class="row">
-        <div class="text-h4 q-pb-lg text-bold ">
-            <q-icon name="payments" color="indigo" style="font-size: 4rem" />
-            Sales report
+  <q-page>
+    <div class="q-pa-md">
+      <div class="row">
+        <div class="text-h4 q-pb-lg text-bold">
+          <q-icon name="payments" color="indigo" style="font-size: 4rem" />
+          Sales report
         </div>
-        
+        <chart class="" />
+      </div>
     </div>
-   
-</div>
-</q-page>      
+  </q-page>
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import Chart from 'components/chart.component.vue';
 
 @Options({
-
-    components: { Chart }
-
+  components: { Chart },
 })
-
-export default class ChartComponent extends Vue {
-}
+export default class ChartComponent extends Vue {}
 </script>

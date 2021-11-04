@@ -55,13 +55,20 @@
               </q-item-section>
               <q-item-section> Dashboard </q-item-section>
             </q-item>
-
-            <q-item clickable v-ripple to="/POS">
-              <q-item-section avatar>
-                <q-icon name="point_of_sale" color="orange" />
-              </q-item-section>
-              <q-item-section> POS </q-item-section>
-            </q-item>
+            <q-expansion-item expand icon="shopping_cart" label="Sale">
+              <q-card>
+                <q-card-section class="flex flex-center">
+                  <div>
+                    <q-item clickable v-ripple to="/POS"> POS </q-item>
+                  </div>
+                  <div>
+                    <q-item clickable v-ripple to="/ManageSale">
+                      Manage Sale
+                    </q-item>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
 
             <q-item clickable v-ripple to="/SalesReport">
               <q-item-section avatar>
@@ -85,6 +92,23 @@
 
               <q-item-section> Category </q-item-section>
             </q-item>
+
+            <q-expansion-item expand icon="inventory" label="Inventory">
+              <q-card>
+                <q-card-section class="flex flex-center">
+                  <div>
+                    <q-item clickable v-ripple to="/Inventory">
+                      Stock List
+                    </q-item>
+                  </div>
+                  <div>
+                    <q-item clickable v-ripple to="/Category">
+                      Category
+                    </q-item>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
 
             <q-item clickable v-ripple to="/Supplier">
               <q-item-section avatar>

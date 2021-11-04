@@ -88,7 +88,7 @@
                         <div>
                           <q-btn
                             color="red-10"
-                            icon="cancel"
+                            icon="remove"
                             size="sm"
                             class="q-ml-sm"
                             flat
@@ -117,8 +117,7 @@
             </q-card>
           </div>
         </q-card>
-        <div class="row justify-end q-pt-sm q-gutter-sm">
-          <q-btn push color="red" label="Cancel Order" />
+        <div class="row justify-end q-pt-sm">
           <q-btn push color="primary" label="Confirm Order" />
         </div>
       </div>
@@ -242,6 +241,7 @@ export default class POS extends Vue {
     {
       name: 'action',
       align: 'center',
+      label: 'Action',
       field: 'action',
     },
   ];

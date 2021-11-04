@@ -104,9 +104,9 @@
               flat
               round
               dense
-              @click="dialog = true"
+              @click="del = true"
             />
-            <q-dialog v-model="dialog" persistent>
+            <q-dialog v-model="del" persistent>
               <q-card style="width: 300px">
                 <q-card-section class="row items-center">
                   <q-avatar
@@ -197,11 +197,10 @@ export default class Expenses extends Vue {
       name: 'Equipments',
       numProd: 1,
       stockQuantity: 1,
-
     },
   ];
   selected = [];
-  dialog = false;
+  del = false;
   cancelEnabled = true;
   addCat = false;
   editRow = false;

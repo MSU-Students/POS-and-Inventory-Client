@@ -218,6 +218,7 @@
                     row-key="peek"
                     :rows-per-page-options="[0]"
                     :filter="filter"
+                    hide-bottom
                   >
                   </q-table>
                 </q-card-section>

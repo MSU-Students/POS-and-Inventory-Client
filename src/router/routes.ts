@@ -7,6 +7,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/Login.vue'),
   },
   {
+    path: '/POS',
+
+    component: () => import('pages/POS.vue'),
+  },
+  {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -28,8 +33,8 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/Inventory.vue'),
       },
       {
-        path: 'POS',
-        component: () => import('pages/POS.vue'),
+        path: 'ManageSale',
+        component: () => import('pages/ManageSale.vue'),
       },
       {
         path: 'Product',
