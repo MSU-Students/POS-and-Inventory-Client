@@ -1,5 +1,5 @@
 <template>
-  <div> 
+  <div > 
       <canvas></canvas>
 
 
@@ -42,7 +42,24 @@ export default class ChartComponent extends Vue {
         {
         type: 'bar',
         data: data,
-        options: {}
+        options: {
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              stacked: true,
+              grid: {
+                display: true,
+                color: "rgba(255,99,132,0.2)"
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+        }
+
+        }
         }
     );
   }

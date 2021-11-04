@@ -6,9 +6,14 @@
           <q-icon name="payments" color="indigo" style="font-size: 4rem" />
           Sales report
         </div>
-        <chart class="" />
       </div>
     </div>
+    <div class="row">
+            <q-card class=" q-ma-md q-gutter-md my-card">
+                <chart/>  
+            </q-card>
+           
+        </div>
   </q-page>
 </template>
 <script lang="ts">
@@ -20,3 +25,10 @@ import Chart from 'components/chart.component.vue';
 })
 export default class ChartComponent extends Vue {}
 </script>
+<style lang="sass" scoped>
+.my-card
+  position: relative
+  margin: auto
+  height: 80vh
+  width: 80vw
+</style>
