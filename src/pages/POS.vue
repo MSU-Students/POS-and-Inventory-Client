@@ -5,7 +5,7 @@
       POS
     </div>
     <div class="row q-gutter-md">
-      <div class="col-8">
+      <div class="col-7">
         <q-card class="fit">
           <div class="q-pa-md">
             <q-table
@@ -50,44 +50,76 @@
                   :columns="columns2"
                   title="Selected Order"
                   :rows-per-page-options="[]"
-                  row-key="name"
+                  row-key="SelProd"
                   wrap-cells
+                  hide-bottom
                 >
                   <template v-slot:body="props">
                     <q-tr :props="props">
-                      <q-td key="name" :props="props">
-                        {{ props.row.name }}
+                      <q-td key="SelProd" :props="props">
+                        {{ props.row.SelProd }}
                       </q-td>
                       <q-td key="prodQuant" :props="props">
                         {{ props.row.prodQuant }}
-                      <q-popup-edit v-model="props.row.prodQuant" buttons v-slot="scope">
-                         <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-                      </q-popup-edit>
-                    </q-td>
-                    <q-td key="price" :props="props">
+                        <q-popup-edit
+                          v-model="props.row.prodQuant"
+                          title="Update quantity"
+                          buttons
+                          v-slot="editQuant"
+                        >
+                          <q-input
+                            type="number"
+                            v-model="editQuant.value"
+                            dense
+                            autofocus
+                            counter
+                            @keyup.enter="editQuant.set"
+                          />
+                        </q-popup-edit>
+                      </q-td>
+                      <q-td key="price" :props="props">
                         {{ props.row.price }}
-                      <q-popup-edit v-model="props.row.price" buttons v-slot="scope">
-                         <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-                      </q-popup-edit>
-                    </q-td>
-                    <q-td key="subtotal" :props="props">
+                      </q-td>
+                      <q-td key="subtotal" :props="props">
                         {{ props.row.subtotal }}
-                      <q-popup-edit v-model="props.row.subtotal" buttons v-slot="scope">
-                         <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-                      </q-popup-edit>
-                    </q-td>
-                      
+                      </q-td>
+                      <q-td key="action" :props="props">
+                        {{ props.row.action }}
+                        <div>
+                          <q-btn
+                            color="red-10"
+                            icon="remove"
+                            size="sm"
+                            class="q-ml-sm"
+                            flat
+                            round
+                            dense
+                          />
+                        </div>
+                      </q-td>
                     </q-tr>
+                  </template>
+
+                  <template v-slot:body-cell-action="props">
+                    <q-td :props="props"> </q-td>
                   </template>
                 </q-table>
               </q-card-section>
 
               <q-separator inset />
 
-              <q-card-section>Grand Total: </q-card-section>
+              <q-card-section>
+                <div class="row">
+                  <div class="col">Grand Total:</div>
+                  <div class="col text-right q-px-sm">₱100000.000</div>
+                </div>
+              </q-card-section>
             </q-card>
           </div>
         </q-card>
+        <div class="row justify-end q-pt-sm">
+          <q-btn push color="primary" label="Confirm Order" />
+        </div>
       </div>
     </div>
   </div>
@@ -103,6 +135,8 @@ interface IRow {
 
 @Options({})
 export default class POS extends Vue {
+  filter = '';
+
   columns = [
     {
       name: 'name',
@@ -174,11 +208,11 @@ export default class POS extends Vue {
 
   columns2 = [
     {
-      name: 'name',
+      name: 'SelProd',
       required: true,
       label: 'Product',
       align: 'left',
-      field: (row: IRow) => row.name,
+      field: (row: SelRow) => row.SelProd,
       format: (val: string) => `${val}`,
       sortable: true,
     },
@@ -188,55 +222,59 @@ export default class POS extends Vue {
       align: 'center',
       label: 'Quantity',
       field: 'prodQuant',
-      sortable: true,    
+      sortable: true,
     },
     {
       name: 'price',
       align: 'center',
-      label: 'price',
+      label: 'Price',
       field: 'price',
     },
     {
       name: 'subtotal',
       align: 'center',
-      label: 'subtotal',
+      label: 'SubTotal',
       field: 'subtotal',
+    },
+    {
+      name: 'action',
+      align: 'center',
+      label: 'Action',
+      field: 'action',
     },
   ];
 
   rows2 = [
     {
-      name: 'Frozen Yogurt',
-      prodQuant:125,
+      SelProd: 'Frozen Yogurt',
+      prodQuant: 125,
       price: 10,
       subtotal: 300,
     },
     {
-      name: 'Ice cream sandwich',
-      prodQuant:300,
+      SelProd: 'Ice cream sandwich',
+      prodQuant: 300,
       price: 10,
       subtotal: 300,
     },
     {
-      name: 'Eclair',
-      prodQuant:1,
+      SelProd: 'Eclair',
+      prodQuant: 1,
       price: 10,
       subtotal: 300,
     },
     {
-      name: 'Cupcake',
-      prodQuant:40,
+      SelProd: 'Cupcake',
+      prodQuant: 40,
       price: 10,
       subtotal: 300,
     },
     {
-      name: 'Gingerbread',
-      prodQuant:5,
+      SelProd: 'Gingerbread',
+      prodQuant: 5,
       price: 10,
       subtotal: 300,
     },
   ];
-  
-  filter = '';
 }
 </script>

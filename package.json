@@ -12,15 +12,12 @@
   "dependencies": {
     "@quasar/cli": "^1.2.2",
     "@quasar/extras": "^1.0.0",
-    "apexcharts": "^3.29.0",
     "axios": "^0.21.4",
     "chart.js": "^3.6.0",
     "core-js": "^3.6.5",
     "quasar": "^2.0.0",
-    "vue-apexcharts": "^1.6.2",
     "vue-chartjs": "^3.5.1",
     "vue-class-component": "^8.0.0-rc.1",
-    "vue3-apexcharts": "^1.4.1",
     "vuex": "^4.0.1"
   },
   "devDependencies": {
