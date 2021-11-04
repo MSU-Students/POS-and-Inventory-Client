@@ -88,7 +88,7 @@
                         <div>
                           <q-btn
                             color="red-10"
-                            icon="remove"
+                            icon="cancel"
                             size="sm"
                             class="q-ml-sm"
                             flat
@@ -117,7 +117,8 @@
             </q-card>
           </div>
         </q-card>
-        <div class="row justify-end q-pt-sm">
+        <div class="row justify-end q-pt-sm q-gutter-sm">
+          <q-btn push color="red" label="Cancel Order" />
           <q-btn push color="primary" label="Confirm Order" />
         </div>
       </div>
@@ -132,6 +133,9 @@ interface IRow {
   name: string;
 }
 
+interface SelRow {
+  SelProd: string;
+}
 
 @Options({})
 export default class POS extends Vue {
@@ -239,7 +243,6 @@ export default class POS extends Vue {
     {
       name: 'action',
       align: 'center',
-      label: 'Action',
       field: 'action',
     },
   ];
