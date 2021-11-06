@@ -6,7 +6,7 @@
           <q-icon name="payments" color="indigo" style="font-size: 4rem" />
           Sales report
         </div>
-        <chart class="" />
+        <chart />
       </div>
     </div>
   </q-page>

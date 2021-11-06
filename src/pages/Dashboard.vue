@@ -45,11 +45,27 @@
         </q-card>
       </div>
     </div>
+    <div class="q-pa-lg">
+      <q-card
+        ><q-card-section> Yearly Report</q-card-section><YearlyChart
+      /></q-card>
+    </div>
+    <div class="row q-gutter-lg q-pa-lg">
+      <div class="col">
+        <q-card><CashFlowChart /></q-card>
+      </div>
+      <div class="col"><MonthCashFlowChart /></div>
+    </div>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
+import YearlyChart from 'components/Charts/DashYearly.vue';
+import CashFlowChart from 'components/Charts/DashSalePurchase.vue';
+import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
 
-@Options({})
+@Options({
+  components: { YearlyChart, CashFlowChart, MonthCashFlowChart },
+})
 export default class Dashboard extends Vue {}
 </script>

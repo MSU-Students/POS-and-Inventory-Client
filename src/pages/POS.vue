@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md bg-brown">
     <div class="text-h4 q-pb-lg text-bold row">
       <q-icon name="point_of_sale" color="orange" style="font-size: 4rem" />
       POS

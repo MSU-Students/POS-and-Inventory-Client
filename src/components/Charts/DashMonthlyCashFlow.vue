@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="myChart" width="600" height="600"></canvas>
+    <canvas id="myChart" width="600" height="250"></canvas>
   </div>
 </template>
 
@@ -11,27 +11,19 @@ import Chart from 'chart.js/auto';
 export default class ChartComponent extends Vue {
   chart?: Chart;
   mounted() {
-    const labels = ['Amount'];
+    const labels = ['Revenue', 'Purchase', 'Expenses'];
     const data = {
       labels: labels,
       datasets: [
         {
           label: 'Revenue',
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
-          data: [15000],
-        },
-        {
-          label: 'Purchase',
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
-          data: [4000],
-        },
-        {
-          label: 'Expenses',
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
-          data: [5000],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)',
+          ],
+          data: [15000, 4000, 5000],
+          hoverOffset: 40,
         },
       ],
     };
