@@ -1,6 +1,10 @@
 <template>
   <div>
+<<<<<<< HEAD
     <canvas class="q-pr-md" id="myChart" style="height: 70px;  width: 100px;"></canvas>
+=======
+    <canvas id="myChart" width="400" height="150"></canvas>
+>>>>>>> 4c86981e3da8a94cc5a605bb241ba79ff7cd2554
   </div>
 </template>
 

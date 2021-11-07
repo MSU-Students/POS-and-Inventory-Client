@@ -1,5 +1,9 @@
 <template>
+<<<<<<< HEAD
   <div class="q-pa-md bg-brown" container style="height: 1000px">
+=======
+  <div class="q-pa-md bg-brown">
+>>>>>>> 4c86981e3da8a94cc5a605bb241ba79ff7cd2554
     <div class="text-h4 q-pb-lg text-bold row">
       <q-icon name="point_of_sale" color="orange" style="font-size: 4rem" />
       POS

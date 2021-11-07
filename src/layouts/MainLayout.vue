@@ -80,7 +80,11 @@
                 <q-item-section avatar>
                   <q-icon name="inventory_2" color="teal" />
                 </q-item-section>
+<<<<<<< HEAD
                 <q-item-section> Inventory </q-item-section>
+=======
+                <q-item-section> Invetory </q-item-section>
+>>>>>>> 4c86981e3da8a94cc5a605bb241ba79ff7cd2554
               </template>
               <q-card>
                 <q-card-section>
@@ -122,7 +126,11 @@
                 <q-item-section avatar>
                   <q-icon name="analytics" color="purple" />
                 </q-item-section>
+<<<<<<< HEAD
                 <q-item-section> Reports </q-item-section>
+=======
+                <q-item-section> Report </q-item-section>
+>>>>>>> 4c86981e3da8a94cc5a605bb241ba79ff7cd2554
               </template>
               <q-card>
                 <q-card-section>

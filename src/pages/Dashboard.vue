@@ -51,6 +51,7 @@
       /></q-card>
     </div>
     <div class="row q-gutter-lg q-pa-lg">
+<<<<<<< HEAD
       <q-card style="height: 500px;  width: 1500px">
          <q-card-section horizontal>
           <div class="col">
@@ -61,6 +62,12 @@
             </div>
          </q-card-section> 
       </q-card>
+=======
+      <div class="col">
+        <q-card><CashFlowChart /></q-card>
+      </div>
+      <div class="col"><MonthCashFlowChart /></div>
+>>>>>>> 4c86981e3da8a94cc5a605bb241ba79ff7cd2554
     </div>
   </div>
 </template>
