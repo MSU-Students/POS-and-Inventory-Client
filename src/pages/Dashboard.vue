@@ -74,4 +74,6 @@ import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
   components: { YearlyChart, CashFlowChart, MonthCashFlowChart },
 })
 export default class Dashboard extends Vue {}
-</script>
+</script>>
+
+

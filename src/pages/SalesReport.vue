@@ -61,7 +61,7 @@
             </div>
           </div>
           <div>
-           <YearlyChart style="height: 4500px;"/>
+           <YearlyChart/>
           </div>
         </div>
         <div class="col-lg-5 col-sm-12 col-xs-12 col-md-5">
