@@ -1,5 +1,9 @@
 <template>
   <q-page>
+    <div class="text-h4 q-pl-xl text-bold row">
+      <q-icon name="stacked_bar_chart" color="orange" style="font-size: 4rem" />
+      Sales Report
+    </div>
     <q-card class="q-mt-sm">
       <q-card-section class="text-h6 q-pb-none">
         <q-item>
@@ -18,50 +22,39 @@
             <div class="col-lg-3 col-md-3 col-xs-6 col-sm-6">
               <q-item>
                 <q-item-section top avatar>
-                  <q-avatar color="blue" text-color="white" icon="bluetooth"/>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label class="text-h6 text-blue text-bold">4321</q-item-label>
-                  <q-item-label caption>Fashions</q-item-label>
-                </q-item-section>
-              </q-item>
-            </div>
-            <div class="col-lg-3 col-md-3 col-xs-6 col-sm-6">
-              <q-item>
-                <q-item-section top avatar>
-                  <q-avatar color="grey-8" text-color="white" icon="bluetooth"/>
+                  <q-avatar color="grey-8" text-color="white" icon="lunch_dining"/>
                 </q-item-section>
                 <q-item-section>
                   <q-item-label class="text-h6 text-grey-8 text-bold">9876</q-item-label>
-                  <q-item-label caption>Electronics</q-item-label>
+                  <q-item-label caption>Foods</q-item-label>
                 </q-item-section>
               </q-item>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-6 col-sm-6">
               <q-item>
                 <q-item-section top avatar>
-                  <q-avatar color="green-6" text-color="white" icon="bluetooth"/>
+                  <q-avatar color="green-6" text-color="white" icon="local_drink"/>
                 </q-item-section>
                 <q-item-section>
                   <q-item-label class="text-h6 text-green-6 text-bold">345</q-item-label>
-                  <q-item-label caption>Toys</q-item-label>
+                  <q-item-label caption>Beverage/Drinks</q-item-label>
                 </q-item-section>
               </q-item>
             </div>
             <div class="col-lg-3 col-md-3 col-xs-6 col-sm-6">
               <q-item>
                 <q-item-section top avatar>
-                  <q-avatar color="orange-8" text-color="white" icon="bluetooth"/>
+                  <q-avatar color="orange-8" text-color="white" icon=" exposure_plus_1"/>
                 </q-item-section>
                 <q-item-section>
                   <q-item-label class="text-h6 text-orange-8 text-bold">1021</q-item-label>
-                  <q-item-label caption>Vouchers</q-item-label>
+                  <q-item-label caption>Add-ons</q-item-label>
                 </q-item-section>
               </q-item>
             </div>
           </div>
           <div>
-           <YearlyChart/>
+           <monthlyProductSales/>
           </div>
         </div>
         <div class="col-lg-5 col-sm-12 col-xs-12 col-md-5">
@@ -84,12 +77,12 @@
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import Chart from 'components/chart.component.vue';
-import YearlyChart from 'components/Charts/DashYearly.vue';
+
+import monthlyProductSales from 'components/Charts/monthlyProductSales.vue';
 import CashFlowChart from 'components/Charts/DashSalePurchase.vue';
 import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
 @Options({
-  components: { YearlyChart, CashFlowChart, MonthCashFlowChart },
+  components: { monthlyProductSales, CashFlowChart, MonthCashFlowChart },
 })
 export default class ChartComponent extends Vue {}
 </script>

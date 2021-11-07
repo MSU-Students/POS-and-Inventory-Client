@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import Chart, { layouts } from 'chart.js/auto';
+import Chart from 'chart.js/auto';
 @Options({})
 export default class ChartComponent extends Vue {
   chart?: Chart;
