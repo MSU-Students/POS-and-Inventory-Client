@@ -16,7 +16,7 @@
       </div>
     </div>
     <q-table
-      title="Account List"
+      title="Purchase List"
       :rows="rows"
       :columns="columns"
       row-key="name"
@@ -37,7 +37,6 @@
               <q-icon name="search" />
             </template>
           </q-input>
-
           <q-btn
             size="13px"
             label="Add Purchase"

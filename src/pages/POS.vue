@@ -1,8 +1,17 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md bg-brown" container style="height: 1000px">
     <div class="text-h4 q-pb-lg text-bold row">
       <q-icon name="point_of_sale" color="orange" style="font-size: 4rem" />
       POS
+       <q-space/>
+      <q-btn 
+        v-if="$route.fullPath.includes('/POS')"
+        @click ="$router.go(-1)"
+        icon="arrow_back" 
+        label="Back" 
+        flat
+        dense
+       />
     </div>
     <div class="row q-gutter-md">
       <div class="col-7">

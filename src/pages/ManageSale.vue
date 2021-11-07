@@ -1,0 +1,301 @@
+<template>
+  <div class="q-pa-md">
+    <div class="q-pb-xl text-h4 text-bold">
+      <q-icon name="menu_book" color="amber" style="font-size: 4rem" />
+      Manage Products
+     
+    
+    </div> 
+    <q-table
+      title="Menu products"
+      :rows="rows"
+      :columns="columns"
+      row-key="name"
+      :rows-per-page-options="[0]"
+      :filter="filter"
+    > 
+    <template v-slot:top-right>
+        <div class="q-pa-md q-gutter-sm row">
+          <q-input
+            outlined
+            rounded
+            dense
+            debounce="300"
+            v-model="filter"
+            placeholder="Search"
+          >
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+          <q-btn
+            size="13px"
+            label="Add Product"
+            color="primary"
+            dense
+            flat
+            icon="add"
+            @click="addProd = true"
+          />
+          <q-dialog v-model="addProd" persistent>
+              <q-card style="width: 900px; max-width: 35vw">
+                <q-card-section class="row">
+                  <div class="text-h6">Add Product</div>
+                  <q-space />
+                  <q-btn flat round dense icon="close" v-close-popup />
+                </q-card-section>
+
+                <q-card-section class="q-gutter-md">
+                  <div class="row">
+                    <div class="col col-md-8">
+                      <q-input
+                        class="q-py-md"
+                        outlined
+                        v-model="Name"
+                        label="Product Name"
+                      >
+                       <template v-slot:prepend>
+                          <q-icon name="drive_file_rename_outline" />
+                        </template>
+                      </q-input>
+                      <q-select
+                        class="q-py-md"
+                        outlined
+                        :options="categoryType"
+                        v-model="category"
+                        label="Category"
+                      >
+                      <template v-slot:prepend>
+                          <q-icon name="category" />
+                        </template>
+                      </q-select>
+                      <q-input
+                        class="q-py-md"
+                        outlined
+                        type="number"
+                        v-model="price"
+                        label="price" 
+                      >
+                        <template v-slot:prepend>
+                          <q-icon name="attach_money" />
+                        </template>
+                      </q-input>
+                      <q-toggle
+                        
+                        :label="availability"
+                        class="q-py-md"
+                        outlined
+                        size="lg"
+                        color="pink"
+                        false-value="NOT AVAILABLE"
+                        true-value="YES"
+                        v-model="availability"
+                      />
+                        
+                        <q-file
+                          v-model="files"
+                          label="Pick Product picture"
+                          filled
+                          multiple
+                          style="max-width: 300px"
+                        >
+                          <template v-slot:prepend>
+                            <q-icon name="photo_camera" />
+                          </template>
+                        </q-file>
+                    </div>
+                  </div>
+                </q-card-section>
+                <q-card-actions align="right">
+                  <q-btn flat label="Cancel" color="red-10" v-close-popup />
+                  <q-btn flat label="Save" color="primary" v-close-popup />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
+          
+        </div>    
+        </template>
+        <template v-slot:body-cell-Actions="props">
+            <q-td :props="props">
+              <div class="q-gutter-sm">
+                <q-btn
+                  round
+                  color="blue"
+                  icon="edit"
+                  size="sm"
+                  flat
+                  dense
+                  @click="editRow = true"
+                />
+            <q-dialog v-model="editRow" persistent>
+              <q-card style="width: 900px; max-width: 35vw">
+                <q-card-section class="row">
+                  <div class="text-h6">Edit Product</div>
+                  <q-space />
+                  <q-btn flat round dense icon="close" v-close-popup />
+                </q-card-section>
+
+                <q-card-section class="q-gutter-md">
+                  <div class="row">
+                    <div class="col col-md-8">
+                      <q-input
+                        class="q-py-md"
+                        outlined
+                        v-model="Name"
+                        label="Product Name"
+                      >
+                       <template v-slot:prepend>
+                          <q-icon name="drive_file_rename_outline" />
+                        </template>
+                      </q-input>
+                      <q-select
+                        class="q-py-md"
+                        outlined
+                        :options="categoryType"
+                        v-model="category"
+                        label="Category"
+                      >
+                      <template v-slot:prepend>
+                          <q-icon name="category" />
+                        </template>
+                      </q-select>
+                      <q-input
+                        class="q-py-md"
+                        outlined
+                        type="number"
+                        v-model="price"
+                        label="price" 
+                      >
+                        <template v-slot:prepend>
+                          <q-icon name="attach_money" />
+                        </template>
+                      </q-input>
+                      <q-toggle
+                        
+                        :label="availability"
+                        class="q-py-md"
+                        outlined
+                        size="lg"
+                        color="pink"
+                        false-value="NOT AVAILABLE"
+                        true-value="YES"
+                        v-model="availability"
+                      />
+                        
+                        <q-file
+                          v-model="files"
+                          label="Pick Product picture"
+                          filled
+                          multiple
+                          style="max-width: 300px"
+                        >
+                          <template v-slot:prepend>
+                            <q-icon name="photo_camera" />
+                          </template>
+                        </q-file>
+                    </div>
+                  </div>
+                </q-card-section>
+                <q-card-actions align="right">
+                  <q-btn flat label="Cancel" color="red-10" v-close-popup />
+                  <q-btn flat label="Save" color="primary" v-close-popup />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
+          </div>
+        </q-td>
+      </template>
+    </q-table>
+  </div>  
+</template>
+
+
+<script lang="ts">
+import { Vue, Options } from 'vue-class-component';
+interface IRow {
+  product_ID: string;
+}
+
+
+@Options({})
+export default class ManageAccount extends Vue {
+  columns = [
+    {
+      name: 'product_ID',
+      required: true,
+      label: 'Product Number',
+      align: 'left',
+      field: (row: IRow) => row.product_ID,
+      format: (val: string) => `${val}`,
+    },
+    {
+      name: 'name',
+      align: 'center',
+      label: 'Product Name',
+      field: 'name',
+    },
+    {
+      name: 'productPrice',
+      align: 'center',
+      label: 'Price',
+      field: 'productPrice',
+    },
+    {
+      name: 'Category',
+      align: 'center',
+      label: 'Category',
+      field: 'Category',
+    },
+    {
+      name: 'Availability',
+      align: 'center',
+      label: 'Product Availability ',
+      field: 'Availability',
+    },
+    { 
+        name: 'Actions', 
+        align: 'center', 
+        label: 'Actions', 
+        field: 'Actions' 
+    },
+  ];
+  rows = [
+    {
+      product_ID: 200200001123,
+      name: 'Milk Tea',
+      productPrice: 110,
+      Category: 'Beverage/Drinks',
+      Availability: 'YES',
+    },
+    {
+      product_ID: 200200005523,
+      name: 'Burger',
+      productPrice: 50,
+      Category: 'Food',
+      Availability: 'YES',
+    },
+        {
+      product_ID: 200200006987,
+      name: 'Mango Shake',
+      productPrice: 100,
+      Category: 'Beverage/Drinks',
+      Availability: 'No',
+    },
+  ];
+
+  
+
+  Name = '';
+  price = '';
+  categoryType = ['Beverage/Drinks','Food', 'Add-ons','Appetizer'];
+  category = '';
+  addProd = false;
+  availability = 'Availability';
+  filter = '';
+  files = '';  
+  cancelEnabled = true;
+  addUser = false;
+  editRow = false;
+}
+</script>
+

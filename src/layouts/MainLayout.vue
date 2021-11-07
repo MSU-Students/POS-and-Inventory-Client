@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-layout view="hHh lpR lFf">
-      <q-header elevated class="bg-positive">
+      <q-header elevated class="bg-cyan-4">
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>BesTea Restaurant</q-toolbar-title>
@@ -55,57 +55,41 @@
               </q-item-section>
               <q-item-section> Dashboard </q-item-section>
             </q-item>
-            <q-expansion-item expand icon="shopping_cart" label="Sale">
+
+            <q-expansion-item>
+              <template v-slot:header>
+                <q-item-section avatar>
+                  <q-icon name="shopping_cart" color="indigo" />
+                </q-item-section>
+                <q-item-section> Sale </q-item-section>
+              </template>
               <q-card>
-                <q-card-section class="flex flex-center">
-                  <div>
-                    <q-item clickable v-ripple to="/POS"> POS </q-item>
-                  </div>
-                  <div>
-                    <q-item clickable v-ripple to="/ManageSale">
-                      Manage Sale
-                    </q-item>
-                  </div>
+                <q-card-section>
+                  <q-item clickable v-ripple to="/POS">
+                    <q-item-section> POS </q-item-section>
+                  </q-item>
+                  <q-item clickable v-ripple to="/ManageSale">
+                    <q-item-section> Manage Sale </q-item-section>
+                  </q-item>
                 </q-card-section>
               </q-card>
             </q-expansion-item>
 
-            <q-item clickable v-ripple to="/SalesReport">
-              <q-item-section avatar>
-                <q-icon name="analytics" color="purple" />
-              </q-item-section>
-
-              <q-item-section> Sales Report </q-item-section>
-            </q-item>
-
-            <q-item clickable v-ripple to="/Inventory">
-              <q-item-section avatar>
-                <q-icon name="inventory_2" color="teal" />
-              </q-item-section>
-
-              <q-item-section> Inventory </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple to="/Category">
-              <q-item-section avatar>
-                <q-icon name="category" color="amber" />
-              </q-item-section>
-
-              <q-item-section> Category </q-item-section>
-            </q-item>
-
-            <q-expansion-item expand icon="inventory" label="Inventory">
+            <q-expansion-item :duration="300">
+              <template v-slot:header>
+                <q-item-section avatar>
+                  <q-icon name="inventory_2" color="teal" />
+                </q-item-section>
+                <q-item-section> Inventory </q-item-section>
+              </template>
               <q-card>
-                <q-card-section class="flex flex-center">
-                  <div>
-                    <q-item clickable v-ripple to="/Inventory">
-                      Stock List
-                    </q-item>
-                  </div>
-                  <div>
-                    <q-item clickable v-ripple to="/Category">
-                      Category
-                    </q-item>
-                  </div>
+                <q-card-section>
+                  <q-item clickable v-ripple to="/Inventory">
+                    <q-item-section> Inventory </q-item-section>
+                  </q-item>
+                  <q-item clickable v-ripple to="/Category">
+                    <q-item-section> Category </q-item-section>
+                  </q-item>
                 </q-card-section>
               </q-card>
             </q-expansion-item>
@@ -132,6 +116,25 @@
 
               <q-item-section> Expenses </q-item-section>
             </q-item>
+
+            <q-expansion-item>
+              <template v-slot:header>
+                <q-item-section avatar>
+                  <q-icon name="analytics" color="purple" />
+                </q-item-section>
+                <q-item-section> Reports </q-item-section>
+              </template>
+              <q-card>
+                <q-card-section>
+                  <q-item clickable v-ripple to="/SalesReport">
+                    <q-item-section> Sales Report </q-item-section>
+                  </q-item>
+                  <q-item clickable v-ripple>
+                    <q-item-section> Stock Sale </q-item-section>
+                  </q-item>
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
 
             <q-separator />
 

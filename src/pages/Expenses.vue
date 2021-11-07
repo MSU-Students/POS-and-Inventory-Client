@@ -26,34 +26,34 @@
           >
             <template v-slot:append>
               <q-icon name="search" />
-            </template>
-          </q-input>
-          <q-btn
-            label="Add Expenses"
-            color="primary"
-            dense
-            flat
-            icon="add"
-            size="13px"
-            @click="addExp = true"
-          />
-          <q-dialog v-model="addExp" persistent>
-            <q-card style="width: 700px" class="q-pa-md">
-              <q-card-section class="row">
-                <div class="text-h6">Edit Expenses</div>
-                <q-space />
-                <q-btn flat round dense icon="close" v-close-popup />
-              </q-card-section>
+                </template>
+                  </q-input>
+                    <q-btn
+                      label="Add Expenses"
+                      color="primary"
+                      dense
+                      flat
+                      icon="add"
+                      size="13px"
+                      @click="addExp = true"
+                    />
+                  <q-dialog v-model="addExp" persistent>
+                    <q-card style="width: 700px" class="q-pa-md">
+                      <q-card-section class="row">
+                        <div class="text-h6">Edit Expenses</div>
+                        <q-space />
+                        <q-btn flat round dense icon="close" v-close-popup />
+                      </q-card-section>
 
-              <q-card-section class="q-gutter-md row">
-                <div class="col">
-                  <q-select
-                    filled
-                    v-model="categoryInit"
-                    :options="options"
-                    label="Category"
-                  />
-                </div>
+                    <q-card-section class="q-gutter-md row">
+                      <div class="col">
+                        <q-select
+                          filled
+                          v-model="categoryInit"
+                          :options="options"
+                          label="Category"
+                        />
+                     </div>
                 <div class="col">
                   <q-input filled label="Amount" prefix="₱" />
                 </div>
