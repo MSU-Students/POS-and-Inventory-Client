@@ -78,14 +78,8 @@
              <MonthCashFlowChart />
           </div>
         </div>
-<<<<<<< HEAD
       </q-card-section>
     </q-card>
-=======
-        <chart />
-      </div>
-    </div>
->>>>>>> 4c86981e3da8a94cc5a605bb241ba79ff7cd2554
   </q-page>
 </template>
 <script lang="ts">

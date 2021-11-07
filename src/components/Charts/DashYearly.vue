@@ -58,13 +58,9 @@ export default class DashYearly extends Vue {
     this.chart = new Chart(canvas, {
       type: 'bar',
       data: data,
-<<<<<<< HEAD
       options: {
         responsive:true
       },
-=======
-      options: {},
->>>>>>> 4c86981e3da8a94cc5a605bb241ba79ff7cd2554
     });
   }
 }
