@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <q-page class="q-pa-lg">
     <div class="text-h4 text-bold">
       <q-icon
         name="account_circle"
@@ -199,7 +199,7 @@
         </q-td>
       </template>
     </q-table>
-  </div>
+  </q-page>
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';

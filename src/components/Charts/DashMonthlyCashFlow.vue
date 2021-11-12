@@ -1,6 +1,10 @@
 <template>
   <div>
-    <canvas class="q-pl-md" id="myChart" style="height: 450px;  width: 70px;"></canvas>
+    <canvas
+      class="q-pl-md"
+      id="myChart"
+      style="height: 450px; width: 70px"
+    ></canvas>
   </div>
 </template>
 
@@ -34,11 +38,10 @@ export default class ChartComponent extends Vue {
       type: 'doughnut',
       data: data,
       options: {
-          aspectRatio: 1,
-          responsive: true,
-          cutout: 90,
-          maintainAspectRatio: false
-
+        aspectRatio: 1,
+        responsive: true,
+        cutout: 90,
+        maintainAspectRatio: false,
       },
     });
   }
