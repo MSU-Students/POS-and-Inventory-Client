@@ -8,7 +8,7 @@
       <div class="q-pr-md col-10">
         <q-table
           title="Inventory List"
-          :rows="rows"
+          :rows="inventory"
           :columns="columns"
           row-key="itemCode"
           :rows-per-page-options="[0]"
@@ -265,19 +265,24 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
+import { InventoryInfo } from 'src/store/inventory/state';
+import { mapState } from 'vuex';
 
-interface IRow {
-  itemCode: string;
-}
-@Options({})
+@Options({
+  computed: {
+    ...mapState('inventory', ['inventory', 'activeInventory']),
+  },
+})
 export default class Expenses extends Vue {
+  inventory!: InventoryInfo[];
+
   columns = [
     {
       name: 'itemCode',
       required: true,
       label: 'Item Code',
       align: 'left',
-      field: (row: IRow) => row.itemCode,
+      field: (row: InventoryInfo) => row.itemCode,
       format: (val: string) => `${val}`,
     },
     {
@@ -327,45 +332,6 @@ export default class Expenses extends Vue {
     },
   ];
 
-  rows = [
-    {
-      itemCode: 'hj4j324jbb34bj4',
-      itemName: 'Spoon',
-      quantProd: '20000',
-      unitProd: 'Packs',
-      catProd: 'Utensil',
-      ExpiryDate: 'None',
-      dateProd: '12/11/2021',
-    },
-    {
-      itemCode: 'hh123h12g3hj13',
-      itemName: 'Sugar',
-      quantProd: '10',
-      unitProd: 'Packs',
-      catProd: 'Ingredient',
-      ExpiryDate: '12/11/2020',
-      dateProd: '12/11/2021',
-    },
-    {
-      itemCode: 'hs11121512u5',
-      itemName: 'Black pearls',
-      quantProd: '50',
-      unitProd: 'Packs',
-      catProd: 'Ingredient',
-      ExpiryDate: '09/18/2021',
-      dateProd: '12/11/2019',
-    },
-    {
-      itemCode: 'h434787512u5',
-      itemName: 'Blender',
-      quantProd: '1',
-      unitProd: 'Box',
-      catProd: 'Equipment',
-      ExpiryDate: '09/18/2021',
-      dateProd: '12/11/2021',
-    },
-  ];
-
   prodIssue = false;
   selected = [];
   addProd = false;
@@ -376,6 +342,17 @@ export default class Expenses extends Vue {
   catInv = '';
   unitInv = '';
   catInvOpt = [''];
+
+  defaultInventory: InventoryInfo = {
+    itemCode: '',
+    itemName: '',
+    quantProd: '',
+    unitProd: '',
+    catProd: '',
+    ExpiryDate: '',
+    dateProd: '',
+  };
+  presentInventory = { ...this.defaultInventory };
   unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
 }
 </script>

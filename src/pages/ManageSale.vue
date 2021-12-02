@@ -6,7 +6,7 @@
     </div>
     <q-table
       title="Menu products"
-      :rows="rows"
+      :rows="managePOS"
       :columns="columns"
       row-key="name"
       :rows-per-page-options="[0]"
@@ -206,19 +206,23 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-interface IRow {
-  product_ID: string;
-}
+import { ManagePOSInfo } from 'src/store/managePOS/state';
+import { mapState } from 'vuex';
 
-@Options({})
+@Options({
+  computed: {
+    ...mapState('managePOS', ['managePOS', 'activeManagePOS']),
+  },
+})
 export default class ManageAccount extends Vue {
+  managePOS!: ManagePOSInfo[];
   columns = [
     {
       name: 'product_ID',
       required: true,
       label: 'Product Number',
       align: 'left',
-      field: (row: IRow) => row.product_ID,
+      field: (row: ManagePOSInfo) => row.product_ID,
       format: (val: string) => `${val}`,
     },
     {
@@ -252,30 +256,6 @@ export default class ManageAccount extends Vue {
       field: 'Actions',
     },
   ];
-  rows = [
-    {
-      product_ID: 200200001123,
-      name: 'Milk Tea',
-      productPrice: 110,
-      Category: 'Beverage/Drinks',
-      Availability: 'YES',
-    },
-    {
-      product_ID: 200200005523,
-      name: 'Burger',
-      productPrice: 50,
-      Category: 'Food',
-      Availability: 'YES',
-    },
-    {
-      product_ID: 200200006987,
-      name: 'Mango Shake',
-      productPrice: 100,
-      Category: 'Beverage/Drinks',
-      Availability: 'No',
-    },
-  ];
-
   Name = '';
   price = '';
   categoryType = ['Beverage/Drinks', 'Food', 'Add-ons', 'Appetizer'];
@@ -287,5 +267,14 @@ export default class ManageAccount extends Vue {
   cancelEnabled = true;
   addUser = false;
   editRow = false;
+
+  defaultManagePOS: ManagePOSInfo = {
+    product_ID: '',
+    name: '',
+    productPrice: 0,
+    Category: '',
+    Availability: '',
+  };
+  presentManagePOS = { ...this.defaultManagePOS };
 }
 </script>

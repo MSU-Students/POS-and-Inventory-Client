@@ -14,7 +14,7 @@
 
       <q-table
         title="List of suppliers"
-        :rows="rows"
+        :rows="supplier"
         :columns="columns"
         row-key="name"
         :rows-per-page-options="[0]"
@@ -57,7 +57,7 @@
                       <q-input
                         class="q-py-md"
                         outlined
-                        v-model="name"
+                        v-model="supplierName"
                         label="Name"
                       />
                       <q-input
@@ -201,7 +201,7 @@
                         <q-input
                           class="q-py-md"
                           outlined
-                          v-model="name"
+                          v-model="supplierName"
                           label="Name"
                         />
                         <q-input
@@ -296,18 +296,24 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-interface IRow {
-  name: string;
-}
-@Options({})
+import { SupplierInfo } from 'src/store/supplier/state';
+import { mapState } from 'vuex';
+
+@Options({
+  computed: {
+    ...mapState('supplier', ['supplier', 'SupplierInfo']),
+  },
+})
 export default class ManageAccount extends Vue {
+  supplier!: SupplierInfo[];
+
   columns = [
     {
       name: 'name',
       required: true,
       label: 'Name',
       align: 'left',
-      field: (row: IRow) => row.name,
+      field: (row: SupplierInfo) => row.supplierName,
       format: (val: string) => `${val}`,
     },
     {
@@ -332,21 +338,12 @@ export default class ManageAccount extends Vue {
     { name: 'Details', align: 'center', label: 'Details', field: 'Details' },
     { name: 'Actions', align: 'center', label: 'Actions', field: 'Actions' },
   ];
-  rows = [
-    {
-      name: 'Basam C. Serad',
-      company: 'Nestle Corporation',
-      email: 'basamsera1998@gmail.com',
-      Contact: '+6392222222',
-      address: 'Dimaluna 2, MSU, Marawi City',
-    },
-  ];
   dialog = false;
   cancelEnabled = true;
   addUser = false;
   editRow = false;
   Details = false;
-  name = '';
+  supplierName = '';
   company = '';
   Email = '';
   Address = '';
@@ -355,6 +352,16 @@ export default class ManageAccount extends Vue {
   files = '';
   counterLabelFn = '';
   filter = '';
+
+  defaultSupplier: SupplierInfo = {
+    supplierName: '',
+    company: '',
+    email: '',
+    Contact: '',
+    address: '',
+  };
+  presentSupplier = { ...this.defaultSupplier };
+
   options = ['Admin', 'Cashier'];
 
   onItemClick() {
