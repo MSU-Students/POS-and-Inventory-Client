@@ -16,7 +16,7 @@
             :rows="expenses"
             :columns="columns"
             row-key="reference"
-            :rows-per-page-options="[10]"
+            :rows-per-page-options="[5]"
           >
           </q-table>
         </div>

@@ -71,29 +71,33 @@
                     </q-file>
                   </div>
                 </div>
-
-                <q-select
-                  class="q-py-md"
-                  outlined
-                  :options="categoryType"
-                  v-model="category"
-                  label="Category"
-                >
-                  <template v-slot:prepend>
-                    <q-icon name="category" />
-                  </template>
-                </q-select>
-                <q-input
-                  class="q-py-md"
-                  outlined
-                  type="number"
-                  v-model="price"
-                  label="price"
-                >
-                  <template v-slot:prepend>
-                    <q-icon name="attach_money" />
-                  </template>
-                </q-input>
+                <div class="row q-gutter-md">
+                  <div class="col">
+                    <q-select
+                      class="q-py-md"
+                      outlined
+                      :options="categoryType"
+                      v-model="category"
+                      label="Category"
+                    >
+                      <template v-slot:prepend>
+                        <q-icon name="category" />
+                      </template>
+                    </q-select>
+                  </div>
+                  <div class="col">
+                    <q-input
+                      class="q-py-md"
+                      outlined
+                      label="Amount"
+                      mask="#.##"
+                      fill-mask="0"
+                      reverse-fill-mask
+                    >
+                      <template v-slot:prepend> ₱ </template>
+                    </q-input>
+                  </div>
+                </div>
               </q-card-section>
               <q-card-actions align="right">
                 <q-btn flat label="Cancel" color="red-10" v-close-popup />
@@ -122,10 +126,9 @@
                   <q-space />
                   <q-btn flat round dense icon="close" v-close-popup />
                 </q-card-section>
-
-                <q-card-section class="q-gutter-md">
-                  <div class="row">
-                    <div class="col col-md-8">
+                <q-card-section>
+                  <div class="row q-gutter-md">
+                    <div class="col">
                       <q-input
                         class="q-py-md"
                         outlined
@@ -136,6 +139,23 @@
                           <q-icon name="drive_file_rename_outline" />
                         </template>
                       </q-input>
+                    </div>
+                    <div class="col">
+                      <q-file
+                        class="q-py-md"
+                        outlined
+                        v-model="Name"
+                        label="Product Name"
+                        accept=".jpg, image/*"
+                      >
+                        <template v-slot:prepend>
+                          <q-icon name="drive_file_rename_outline" />
+                        </template>
+                      </q-file>
+                    </div>
+                  </div>
+                  <div class="row q-gutter-md">
+                    <div class="col">
                       <q-select
                         class="q-py-md"
                         outlined
@@ -147,45 +167,74 @@
                           <q-icon name="category" />
                         </template>
                       </q-select>
+                    </div>
+                    <div class="col">
                       <q-input
                         class="q-py-md"
                         outlined
-                        type="number"
-                        v-model="price"
-                        label="price"
+                        label="Amount"
+                        mask="#.##"
+                        fill-mask="0"
+                        reverse-fill-mask
                       >
-                        <template v-slot:prepend>
-                          <q-icon name="attach_money" />
-                        </template>
+                        <template v-slot:prepend> ₱ </template>
                       </q-input>
+                    </div>
+                  </div>
+                  <q-item tag="label" v-ripple>
+                    <q-item-section>
+                      <q-item-label>Availability</q-item-label>
+                    </q-item-section>
+                    <q-item-section avatar>
                       <q-toggle
                         :label="availability"
                         class="q-py-md"
                         outlined
                         size="lg"
                         color="pink"
-                        false-value="NOT AVAILABLE"
+                        false-value="NO"
                         true-value="YES"
                         v-model="availability"
                       />
-
-                      <q-file
-                        v-model="files"
-                        label="Pick Product picture"
-                        filled
-                        multiple
-                        style="max-width: 300px"
-                      >
-                        <template v-slot:prepend>
-                          <q-icon name="photo_camera" />
-                        </template>
-                      </q-file>
-                    </div>
-                  </div>
+                    </q-item-section>
+                  </q-item>
                 </q-card-section>
                 <q-card-actions align="right">
                   <q-btn flat label="Cancel" color="red-10" v-close-popup />
                   <q-btn flat label="Save" color="primary" v-close-popup />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
+            <q-btn
+              color="red-10"
+              icon="delete"
+              size="sm"
+              class="q-ml-sm"
+              flat
+              round
+              dense
+              @click="ConfirmDelete = true"
+            />
+            <q-dialog v-model="ConfirmDelete" persistent>
+              <q-card style="width: 300px">
+                <q-card-section class="row items-center">
+                  <q-avatar
+                    size="sm"
+                    icon="warning"
+                    color="red-10"
+                    text-color="white"
+                  />
+                  <span class="q-ml-sm">Confirm Delete?</span>
+                </q-card-section>
+                <q-card-actions align="right">
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="primary"
+                    v-close-popup="cancelEnabled"
+                    :disable="!cancelEnabled"
+                  />
+                  <q-btn flat label="Confirm" color="primary" v-close-popup />
                 </q-card-actions>
               </q-card>
             </q-dialog>
@@ -253,12 +302,13 @@ export default class ManageAccount extends Vue {
   categoryType = ['Beverage/Drinks', 'Food', 'Add-ons', 'Appetizer'];
   category = '';
   addProd = false;
-  availability = 'Availability';
+  availability = 'Availability Option';
   filter = '';
   files = '';
   cancelEnabled = true;
   addUser = false;
   editRow = false;
+  ConfirmDelete = false;
 
   defaultManagePOS: ManagePOSInfo = {
     product_ID: '',
