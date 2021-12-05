@@ -29,6 +29,17 @@ function state(): AccountStateInterface {
         role: 'Admin',
         status: 'Active',
       },
+      {
+        FName: 'Basem',
+        MName: 'C',
+        LName: 'Serad',
+        username: 'Sam',
+        password: 'Sam',
+        email: 'sam@gmail.com',
+        dateCreated: '12/23/1998',
+        role: 'Admin',
+        status: 'Active',
+      },
     ],
   };
 }

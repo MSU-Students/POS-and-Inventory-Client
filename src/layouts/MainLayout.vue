@@ -131,6 +131,9 @@
                 <q-item clickable v-ripple>
                   <q-item-section> Stock Sale </q-item-section>
                 </q-item>
+                <q-item clickable v-ripple to="/ExpnsesReportChart">
+                  <q-item-section> Expenses Report </q-item-section>
+                </q-item>
               </q-card-section>
             </q-card>
           </q-expansion-item>

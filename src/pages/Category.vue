@@ -142,10 +142,6 @@
 import { Vue, Options } from 'vue-class-component';
 import { CategoryInfo } from 'src/store/category/state';
 import { mapState } from 'vuex';
-
-interface IRow {
-  code: string;
-}
 @Options({
   computed: {
     ...mapState('category', ['category', 'activeCategory']),
