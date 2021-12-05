@@ -36,16 +36,16 @@
             @click="addProd = true"
           />
           <q-dialog v-model="addProd" persistent>
-            <q-card style="width: 900px; max-width: 35vw">
+            <q-card style="width: 600px; max-width: 35vw">
               <q-card-section class="row">
                 <div class="text-h6">Add Product</div>
                 <q-space />
                 <q-btn flat round dense icon="close" v-close-popup />
               </q-card-section>
 
-              <q-card-section class="q-gutter-md">
-                <div class="row">
-                  <div class="col col-md-8">
+              <q-card-section>
+                <div class="row q-gutter-md">
+                  <div class="col">
                     <q-input
                       class="q-py-md"
                       outlined
@@ -56,52 +56,44 @@
                         <q-icon name="drive_file_rename_outline" />
                       </template>
                     </q-input>
-                    <q-select
-                      class="q-py-md"
-                      outlined
-                      :options="categoryType"
-                      v-model="category"
-                      label="Category"
-                    >
-                      <template v-slot:prepend>
-                        <q-icon name="category" />
-                      </template>
-                    </q-select>
-                    <q-input
-                      class="q-py-md"
-                      outlined
-                      type="number"
-                      v-model="price"
-                      label="price"
-                    >
-                      <template v-slot:prepend>
-                        <q-icon name="attach_money" />
-                      </template>
-                    </q-input>
-                    <q-toggle
-                      :label="availability"
-                      class="q-py-md"
-                      outlined
-                      size="lg"
-                      color="pink"
-                      false-value="NOT AVAILABLE"
-                      true-value="YES"
-                      v-model="availability"
-                    />
-
+                  </div>
+                  <div class="col">
                     <q-file
-                      v-model="files"
-                      label="Pick Product picture"
-                      filled
-                      multiple
-                      style="max-width: 300px"
+                      class="q-py-md"
+                      outlined
+                      v-model="Name"
+                      label="Product Name"
+                      accept=".jpg, image/*"
                     >
                       <template v-slot:prepend>
-                        <q-icon name="photo_camera" />
+                        <q-icon name="drive_file_rename_outline" />
                       </template>
                     </q-file>
                   </div>
                 </div>
+
+                <q-select
+                  class="q-py-md"
+                  outlined
+                  :options="categoryType"
+                  v-model="category"
+                  label="Category"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="category" />
+                  </template>
+                </q-select>
+                <q-input
+                  class="q-py-md"
+                  outlined
+                  type="number"
+                  v-model="price"
+                  label="price"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="attach_money" />
+                  </template>
+                </q-input>
               </q-card-section>
               <q-card-actions align="right">
                 <q-btn flat label="Cancel" color="red-10" v-close-popup />

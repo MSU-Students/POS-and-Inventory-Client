@@ -62,7 +62,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'ExpenseReport',
-        component: () => import('pages/ExpenseReport.vue'),
+        component: () => import('pages/ExpensesReport.vue'),
       },
     ],
   },
