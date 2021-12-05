@@ -137,6 +137,9 @@
                  <q-item clickable v-ripple to="ExpenseReport" >
                   <q-item-section> Expense Report </q-item-section>
                 </q-item>
+                <q-item clickable v-ripple to="/ExpnsesReportChart">
+                  <q-item-section> Expenses Report </q-item-section>
+                </q-item>
               </q-card-section>
             </q-card>
           </q-expansion-item>

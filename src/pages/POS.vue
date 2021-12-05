@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md bg-blue-grey-1" container style="height: 1000px">
+  <div class="q-pa-md bg-image" container style="height: 730px">
     <div class="text-h4 q-pb-lg text-bold row">
       <q-icon name="point_of_sale" color="orange" style="font-size: 4rem" />
       POS
@@ -279,7 +279,12 @@
                   Transanction Finish
                 </div>
                 <q-stepper-navigation>
-                  <q-btn color="primary" @click="done3 = true" label="Finish" />
+                  <q-btn
+                    color="primary"
+                    @click="done3 = true"
+                    label="Finish"
+                    v-close-popup
+                  />
                   <q-btn
                     flat
                     @click="StepConfirm = 2"
@@ -457,3 +462,9 @@ export default class POS extends Vue {
   ];
 }
 </script>
+<style>
+.bg-image {
+  background-image: url('../assets/green.jpg');
+  background-size: cover;
+}
+</style>

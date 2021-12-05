@@ -19,7 +19,7 @@ import expenses from './expenses';
 import { ExpensesStateInterface } from './expenses/state';
 
 import managePOS from './managePOS';
-import { ManagePOSStateInterface } from './managePos/state';
+import { ManagePOSStateInterface } from './managePOS/state';
 
 import purchase from './purchase';
 import { PurchaseStateInterface } from './purchase/state';

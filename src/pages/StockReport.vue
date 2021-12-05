@@ -1,5 +1,5 @@
 <template>
-    <q-page class="q-pa-lg">
+  <q-page class="q-pa-lg">
     <div class="text-h4 q-pb-lg text-bold">
       <q-icon name="archive" color="indigo" style="font-size: 4rem" />
       Stock Report
@@ -8,70 +8,68 @@
       <div class="q-pr-md col-10">
         <q-card class="">
           <q-table
-          title="Inventory List"
-          :rows="rows"
-          :columns="columns"
-          row-key="itemCode"
-          :rows-per-page-options="[0]"
-          :filter="filter"
-          selection="multiple"
-          
-          v-model:selected="selected"
-        >
-          <template v-slot:top-right>
-            <div class="q-pa-md q-gutter-sm row">
-              <q-input
-                outlined
-                rounded
-                dense
-                debounce="300"
-                v-model="filter"
-                placeholder="Search"
-              >
-                <template v-slot:append>
-                  <q-fab
-                    color="teal-8"
-                    icon="sort"
-                    direction="down"
-                    label="Filter by:"
-                    label-position="top"
-                    external-label
-                    padding="xs"
-                  >
-                    <div class="q-gutter-md">
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = 'utensil'"
-                        label="utensil"
-                      />
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = 'Ingredient'"
-                        label="Ingredient"
-                      />
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = 'Equipment'"
-                        label="Equipment"
-                      />
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = ''"
-                        icon="clear"
-                      />
-                    </div>
-                  </q-fab>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
-            </div>
-          </template>
-        </q-table>
-
+            title="Inventory List"
+            :rows="rows"
+            :columns="columns"
+            row-key="itemCode"
+            :rows-per-page-options="[0]"
+            :filter="filter"
+            selection="multiple"
+            v-model:selected="selected"
+          >
+            <template v-slot:top-right>
+              <div class="q-pa-md q-gutter-sm row">
+                <q-input
+                  outlined
+                  rounded
+                  dense
+                  debounce="300"
+                  v-model="filter"
+                  placeholder="Search"
+                >
+                  <template v-slot:append>
+                    <q-fab
+                      color="teal-8"
+                      icon="sort"
+                      direction="down"
+                      label="Filter by:"
+                      label-position="top"
+                      external-label
+                      padding="xs"
+                    >
+                      <div class="q-gutter-md">
+                        <q-fab-action
+                          color="teal-12"
+                          text-color="black"
+                          @click="filter = 'utensil'"
+                          label="utensil"
+                        />
+                        <q-fab-action
+                          color="teal-12"
+                          text-color="black"
+                          @click="filter = 'Ingredient'"
+                          label="Ingredient"
+                        />
+                        <q-fab-action
+                          color="teal-12"
+                          text-color="black"
+                          @click="filter = 'Equipment'"
+                          label="Equipment"
+                        />
+                        <q-fab-action
+                          color="teal-12"
+                          text-color="black"
+                          @click="filter = ''"
+                          icon="clear"
+                        />
+                      </div>
+                    </q-fab>
+                    <q-icon name="search" />
+                  </template>
+                </q-input>
+              </div>
+            </template>
+          </q-table>
         </q-card>
       </div>
     </div>
@@ -132,7 +130,6 @@ export default class Expenses extends Vue {
       label: 'Date Stock In',
       field: 'dateProd',
     },
-
   ];
 
   rows = [
@@ -186,7 +183,6 @@ export default class Expenses extends Vue {
   catInvOpt = [''];
   unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
 }
-
 </script>
 <style lang="sass" scoped>
 .my-card
