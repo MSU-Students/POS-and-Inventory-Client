@@ -95,11 +95,11 @@
       <div class="q-pt-lg col">
         <q-card>
           <q-list>
-            <q-item>
-              <q-item-section>
-                <q-item-label class="text-h6"> Invetory Details </q-item-label>
-              </q-item-section>
-            </q-item>
+              <q-item>
+                <q-item-section>
+                  <q-item-label class="text-h6"> Invetory Details </q-item-label>
+                </q-item-section>
+              </q-item>
             <q-separator />
             <q-item>
               <q-item-section>Total Stock Item</q-item-section>
@@ -159,7 +159,7 @@
                   <q-item>
                     <q-item-section>Pending</q-item-section>
                     <q-item-section class="text-h6 text-bold" side>
-                      245
+                      2
                     </q-item-section>
                   </q-item>
                   <q-separator inset />

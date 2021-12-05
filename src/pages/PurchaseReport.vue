@@ -4,17 +4,15 @@
       <q-icon name="request_quote" color="indigo" style="font-size: 4rem" />
       Purchase Report
     </div>
-    <div class="row my-table">
+    <div class="row my-card">
       <div class="q-pr-md col-10 ">
         <q-table
-          
           title="Purchase List"
           :rows="rows"
           :columns="columns"
           row-key="itemCode"
           :rows-per-page-options="[0]"
           :filter="filter"
-        
         >
           <template v-slot:top-right>
             <div class="q-pa-md q-gutter-sm row">
@@ -69,6 +67,122 @@
             </div>
           </template>
         </q-table>
+      </div>
+    </div>
+    <div class="q-py-md row">
+      <div class="q-px-sm col-8">
+        <q-card>
+          <q-list bordered class="rounded-borders" style="width: 800px max-width: 800px">
+            <q-item-label header>Pending Purchase</q-item-label>
+
+            <q-item>
+              <q-item-section avatar top>
+                <q-icon name="pending_actions" color="black" size="34px" />
+              </q-item-section>
+
+              <q-item-section top class="col-2 gt-sm">
+                <q-item-label class="q-mt-sm">Milk</q-item-label>
+              </q-item-section>
+
+              <q-item-section top>
+                <q-item-label lines="1">
+                  <span class="text-weight-medium">Supplier:</span>
+                  <span class="text-grey-8">  Nestle Company</span>
+                </q-item-label>
+                <q-item-label caption lines="1">
+                  Purchase Quantity: 300 Packs
+                </q-item-label>
+              </q-item-section>
+
+              <q-item-section top side>
+                <q-item-label lines="1">
+                  <span class="text-weight-medium">Price:</span>
+                  <span class="text-grey-8"> ₱4500.00</span>
+                </q-item-label>
+                <q-item-label caption lines="1">
+                  Date: 04/03/2021
+                </q-item-label>
+              </q-item-section>
+
+              
+            </q-item>
+
+            <q-separator spaced />
+
+            <q-item>
+              
+              <q-item-section avatar top>
+                <q-icon name="pending_actions" color="black" size="34px" />
+              </q-item-section>
+
+              <q-item-section top class="col-2 gt-sm">
+                <q-item-label class="q-mt-sm">Beef Patty</q-item-label>
+              </q-item-section>
+
+              <q-item-section top>
+                <q-item-label lines="1">
+                  <span class="text-weight-medium">Supplier:</span>
+                  <span class="text-grey-8">  CDO corps.</span>
+                </q-item-label>
+                <q-item-label caption lines="1">
+                  Purchase Quantity: 50 Boxes
+                </q-item-label>
+              
+              </q-item-section>
+
+                <q-item-section top side>
+                  <q-item-label lines="1">
+                    <span class="text-weight-medium">Price:</span>
+                    <span class="text-grey-8"> ₱8000.00</span>
+                  </q-item-label>
+                  <q-item-label caption lines="1">
+                    Date: 05/11/2021
+                  </q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card>
+      </div>
+      <div class="q-px-sm col-4">
+        <q-card style="width: 470px">
+          <q-list bordered class="rounded-borders" style="max-width: 800px">
+            <q-item-label header>Canceled List</q-item-label>
+
+            <q-item>
+              <q-item-section avatar top>
+                <q-icon name="assignment_return" color="black" size="34px" />
+              </q-item-section>
+
+              <q-item-section top class="col-2 gt-sm">
+                <q-item-label class="q-mt-sm">Pepper</q-item-label>
+              </q-item-section>
+
+              <q-item-section top>
+                <q-item-label lines="1">
+                  <span class="text-weight-medium">Supplier:</span>
+                  <span class="text-grey-8">  None</span>
+                </q-item-label>
+                <q-item-label caption lines="1">
+                  Purchase Quantity: 10 Packs
+                </q-item-label>
+              </q-item-section>
+
+              <q-item-section top side>
+                <q-item-label lines="1">
+                  <span class="text-weight-medium">Price:</span>
+                  <span class="text-grey-8"> ₱250.00</span>
+                </q-item-label>
+                <q-item-label caption lines="1">
+                  Date: 04/03/2021
+                </q-item-label>
+              </q-item-section>
+
+              
+            </q-item>
+
+            <q-separator spaced />
+          </q-list>
+        </q-card>
       </div>
     </div>
     <div class="q-pt-sm row">
@@ -215,6 +329,6 @@ export default class Expenses extends Vue {
   position: relative
   margin: auto
   height: 56vh
-  width: 16vw
+  width: 113vw
 
 </style>

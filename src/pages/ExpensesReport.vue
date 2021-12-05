@@ -7,7 +7,7 @@
           color="orange"
           style="font-size: 4rem"
         />
-        Sales Report
+        Expense Report
       </div>
       <div class="row q-pb-lg q-gutter-xl">
         <div class="col-9">

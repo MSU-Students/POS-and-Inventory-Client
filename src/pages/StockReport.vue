@@ -5,17 +5,16 @@
       Stock Report
     </div>
     <div class="row">
+    <div class="col-8">
       <div class="q-pr-md col-10">
-        <q-card class="">
+        <q-card>
           <q-table
-            title="Inventory List"
+            title="Stock List"
             :rows="rows"
             :columns="columns"
             row-key="itemCode"
             :rows-per-page-options="[0]"
             :filter="filter"
-            selection="multiple"
-            v-model:selected="selected"
           >
             <template v-slot:top-right>
               <div class="q-pa-md q-gutter-sm row">
@@ -71,6 +70,49 @@
             </template>
           </q-table>
         </q-card>
+      </div>
+    </div>
+      <div class="col-4">
+        <q-card>
+          <q-list>
+              <q-item>
+                <q-item-section>
+                  <q-item-label class="text-h6"> Low stock Items </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+               <q-item>
+                <q-item-section>Black Pearls</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-red-10" side>
+                    20 packs
+                  </q-item-section>
+              </q-item>
+              <q-separator inset/>
+              <q-item>
+                <q-item-section>Sugar</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-red-10" side>
+                    5 packs
+                  </q-item-section>
+              </q-item>
+              <q-separator inset/>
+              <q-item>
+                <q-item-section>Plastic Cup</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-red-10" side>
+                    3 Boxs
+                  </q-item-section>
+              </q-item>
+              <q-separator inset/>
+              <q-item>
+                <q-item-section>Plastic Straw</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-red-10" side>
+                    15 Boxs
+                  </q-item-section>
+              </q-item>
+              <q-separator inset/>
+
+          </q-list>
+        </q-card>
+
       </div>
     </div>
   </q-page>
@@ -161,6 +203,24 @@ export default class Expenses extends Vue {
       dateProd: '12/11/2019',
     },
     {
+      itemCode: 'hs11121512u5',
+      itemName: 'Plastic Straw',
+      quantProd: '15',
+      unitProd: 'box',
+      catProd: 'Utensil',
+      ExpiryDate: '09/18/2021',
+      dateProd: '12/11/2019',
+    },
+    {
+      itemCode: 'hs11121512u5',
+      itemName: 'Plastic Cup',
+      quantProd: '3',
+      unitProd: 'box',
+      catProd: 'Utensil',
+      ExpiryDate: '09/18/2021',
+      dateProd: '12/11/2019',
+    },
+    {
       itemCode: 'h434787512u5',
       itemName: 'Blender',
       quantProd: '1',
@@ -172,7 +232,7 @@ export default class Expenses extends Vue {
   ];
 
   prodIssue = false;
-  selected = [];
+ 
   addProd = false;
   editProd = false;
   delProd = false;
@@ -188,6 +248,6 @@ export default class Expenses extends Vue {
 .my-card
   position: relative
   margin: auto
-  height: 80vh
-  width: 80vw
+  height: 70vh
+  width: 90vw
 </style>

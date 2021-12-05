@@ -91,12 +91,12 @@
             </q-item-section>
           </q-item>
           <div>
-            <MonthCashFlowChart />
+            <MonthCashFlowChart/>
           </div>
         </div>
       </q-card-section>
     </q-card>
-    <q-card class="q-pa-lg">
+    <q-card class="q-py-lg">
       <q-card-section>
         <q-item-section>
           <div class="text-h6">Yearly Sales</div>
@@ -105,6 +105,16 @@
       <div>
         <YearlySaleReport />
       </div>
+    </q-card>
+     <q-card class="q-py-md">
+        <q-card-section>
+          <q-item-section>
+            <div class="text-h6">Best Seller</div>
+          </q-item-section>
+        </q-card-section>
+        <div>
+          <BestSeller/>
+        </div>
     </q-card>
   </q-page>
 </template>
@@ -115,12 +125,14 @@ import monthlyProductSales from 'components/Charts/monthlyProductSales.vue';
 import CashFlowChart from 'components/Charts/DashSalePurchase.vue';
 import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
 import YearlySaleReport from 'components/Charts/YearlySaleReport.vue';
+import BestSeller from 'components/Charts/BestSellerChart.vue';
 @Options({
   components: {
     monthlyProductSales,
     CashFlowChart,
     MonthCashFlowChart,
     YearlySaleReport,
+    BestSeller,
   },
 })
 export default class ChartComponent extends Vue {}
