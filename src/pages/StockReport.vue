@@ -6,7 +6,8 @@
     </div>
     <div class="row">
       <div class="q-pr-md col-10">
-        <q-table
+        <q-card class="">
+          <q-table
           title="Inventory List"
           :rows="rows"
           :columns="columns"
@@ -14,6 +15,7 @@
           :rows-per-page-options="[0]"
           :filter="filter"
           selection="multiple"
+          
           v-model:selected="selected"
         >
           <template v-slot:top-right>
@@ -69,42 +71,7 @@
             </div>
           </template>
         </q-table>
-      </div>
-      <div class="col">
-        <q-card flat bordered class="my-card">
-          <q-card-section>
-            <div class="text-h5">Overview</div>
-          </q-card-section>
 
-          <q-card-section class="q-pt-none">
-            <div class="text-h7">Total Products</div>
-            <div class="text-subtitle2">4</div>
-          </q-card-section>
-
-          <q-separator inset />
-
-          <q-card-section class="q-pt-none">
-            <div class="text-h7">Product Issues</div>
-            <div
-              class="text-subtitle2 text-red-10"
-              @mouseenter="prodIssue = true"
-              @mouseleave="prodIssue = false"
-            >
-              1
-            </div>
-            <q-popup-proxy
-              v-model="prodIssue"
-              transition-show="flip-up"
-              transition-hide="flip-down"
-            >
-              <q-banner>
-                <div class="text-h7">Item name: Black pearls</div>
-                <div class="text-subtitle2 text-red-10">
-                  Expiry Date: 9/18/2021
-                </div>
-              </q-banner>
-            </q-popup-proxy>
-          </q-card-section>
         </q-card>
       </div>
     </div>
@@ -219,4 +186,12 @@ export default class Expenses extends Vue {
   catInvOpt = [''];
   unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
 }
+
 </script>
+<style lang="sass" scoped>
+.my-card
+  position: relative
+  margin: auto
+  height: 80vh
+  width: 80vw
+</style>
