@@ -128,8 +128,14 @@
                 <q-item clickable v-ripple to="/SalesReport">
                   <q-item-section> Sales Report </q-item-section>
                 </q-item>
-                <q-item clickable v-ripple>
-                  <q-item-section> Stock Sale </q-item-section>
+                <q-item clickable v-ripple to="/StockReport">
+                  <q-item-section> Stock Report </q-item-section>
+                </q-item>
+                 <q-item clickable v-ripple to="/PurchaseReport">
+                  <q-item-section> Purchase Report </q-item-section>
+                </q-item>
+                 <q-item clickable v-ripple to="ExpenseReport" >
+                  <q-item-section> Expense Report </q-item-section>
                 </q-item>
                 <q-item clickable v-ripple to="/ExpnsesReportChart">
                   <q-item-section> Expenses Report </q-item-section>
