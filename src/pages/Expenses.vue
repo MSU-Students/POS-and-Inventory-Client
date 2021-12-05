@@ -55,7 +55,14 @@
                   />
                 </div>
                 <div class="col">
-                  <q-input filled label="Amount" prefix="₱" />
+                  <q-input
+                    filled
+                    label="Amount"
+                    prefix="₱"
+                    mask="#.##"
+                    fill-mask="0"
+                    reverse-fill-mask
+                  />
                 </div>
               </q-card-section>
               <q-card-section class="q-gutter-md row">
@@ -167,7 +174,14 @@
                     />
                   </div>
                   <div class="col">
-                    <q-input filled label="Amount" prefix="₱" />
+                    <q-input
+                      filled
+                      label="Amount"
+                      prefix="₱"
+                      mask="#.##"
+                      fill-mask="0"
+                      reverse-fill-mask
+                    />
                   </div>
                 </q-card-section>
                 <q-card-section class="q-gutter-md row">
@@ -210,9 +224,9 @@
               flat
               round
               dense
-              @click="dialog = true"
+              @click="ConfirmDelete = true"
             />
-            <q-dialog v-model="dialog" persistent>
+            <q-dialog v-model="ConfirmDelete" persistent>
               <q-card style="width: 300px">
                 <q-card-section class="row items-center">
                   <q-avatar
@@ -304,7 +318,7 @@ export default class Expenses extends Vue {
   selected = [];
   Note =
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!';
-  dialog = false;
+  ConfirmDelete = false;
   cancelEnabled = true;
   addExp = false;
   editRow = false;
