@@ -103,7 +103,7 @@
         </q-item-section>
       </q-card-section>
       <div>
-        <YearlySaleReport />
+        <YearlySaleReport/>
       </div>
     </q-card>
      <q-card class="q-py-md">
