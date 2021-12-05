@@ -17,7 +17,7 @@
     </div>
     <q-table
       title="Purchase List"
-      :rows="rows"
+      :rows="purchase"
       :columns="columns"
       row-key="name"
       :rows-per-page-options="[0]"
@@ -290,14 +290,14 @@
                             />
                           </q-popup-edit>
                         </q-td>
-                        <q-td key="tax" :props="props"
-                          >{{ props.row.tax }}
+                        <q-td key="tax" :props="props">
+                          {{ props.row.tax }}
                         </q-td>
-                        <q-td key="discount" :props="props"
-                          >{{ props.row.discount }}
+                        <q-td key="discount" :props="props">
+                          {{ props.row.discount }}
                         </q-td>
-                        <q-td key="subtotal" :props="props"
-                          >{{ props.row.subtotal }}
+                        <q-td key="subtotal" :props="props">
+                          {{ props.row.subtotal }}
                         </q-td>
                       </q-tr>
                     </template>
@@ -399,9 +399,9 @@
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-interface IRow {
-  product: string;
-}
+import { PurchaseInfo } from 'src/store/purchase/state';
+import { mapState } from 'vuex';
+
 interface pdrow {
   Orderproduct: string;
 }
@@ -410,8 +410,59 @@ interface peekrow {
   peek: string;
 }
 
-@Options({})
+@Options({
+  computed: {
+    ...mapState('purchase', ['purchase', 'PurchaseInfo']),
+  },
+})
 export default class ManageAccount extends Vue {
+  purchase!: PurchaseInfo[];
+
+  columns = [
+    {
+      name: 'product',
+      required: true,
+      label: 'Order Reference',
+      align: 'left',
+      field: (row: PurchaseInfo) => row.product,
+      format: (val: string) => `${val}`,
+    },
+    {
+      name: 'date',
+      align: 'center',
+      label: 'Date',
+      field: 'date',
+    },
+    {
+      name: 'supplier',
+      align: 'center',
+      label: 'Supplier',
+      field: 'supplier',
+    },
+    {
+      name: 'status',
+      align: 'center',
+      label: 'Purchase Status',
+      field: 'status',
+    },
+    {
+      name: 'total',
+      align: 'center',
+      label: 'Grand Total',
+      field: 'total',
+    },
+    { name: 'paid', align: 'center', label: 'Paid', field: 'paid' },
+    { name: 'balance', align: 'center', label: 'Balance', field: 'balance' },
+    {
+      name: 'paystatus',
+      align: 'center',
+      label: 'Pay Status',
+      field: 'paystatus',
+    },
+    { name: 'Details', align: 'center', label: 'Details', field: 'Details' },
+    { name: 'action', align: 'center', label: 'Action', field: 'action' },
+  ];
+
   Pcolumns = [
     {
       name: 'Orderproduct',
@@ -468,62 +519,6 @@ export default class ManageAccount extends Vue {
       subtotal: '500',
     },
   ];
-  columns = [
-    {
-      name: 'product',
-      required: true,
-      label: 'Order Reference',
-      align: 'left',
-      field: (row: IRow) => row.product,
-      format: (val: string) => `${val}`,
-    },
-    {
-      name: 'date',
-      align: 'center',
-      label: 'Date',
-      field: 'date',
-    },
-    {
-      name: 'supplier',
-      align: 'center',
-      label: 'Supplier',
-      field: 'supplier',
-    },
-    {
-      name: 'status',
-      align: 'center',
-      label: 'Purchase Status',
-      field: 'status',
-    },
-    {
-      name: 'total',
-      align: 'center',
-      label: 'Grand Total',
-      field: 'total',
-    },
-    { name: 'paid', align: 'center', label: 'Paid', field: 'paid' },
-    { name: 'balance', align: 'center', label: 'Balance', field: 'balance' },
-    {
-      name: 'paystatus',
-      align: 'center',
-      label: 'Pay Status',
-      field: 'paystatus',
-    },
-    { name: 'Details', align: 'center', label: 'Details', field: 'Details' },
-    { name: 'action', align: 'center', label: 'Action', field: 'action' },
-  ];
-  rows = [
-    {
-      product: 'Chocolate Powder',
-      date: '9/24/2021',
-      supplier: 'Milo Company',
-      status: 'Pending',
-      total: '200 packs',
-      paid: 'Partial',
-      balance: 'Paid',
-      paystatus: 'Ongoing',
-    },
-  ];
 
   Peekcolumns = [
     {
@@ -574,5 +569,17 @@ export default class ManageAccount extends Vue {
   onItemClick() {
     console.log('Clicked!');
   }
+
+  defaultPurchse: PurchaseInfo = {
+    product: ' ',
+    date: '',
+    supplier: '',
+    status: '',
+    total: '',
+    paid: '',
+    balance: '',
+    paystatus: '',
+  };
+  presentPurchase = { ...this.defaultPurchse };
 }
 </script>

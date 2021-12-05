@@ -13,7 +13,7 @@
 
     <q-table
       title="Account List"
-      :rows="rows"
+      :rows="account"
       :columns="columns"
       row-key="name"
       :rows-per-page-options="[0]"
@@ -36,10 +36,11 @@
           <q-btn
             label="Add User"
             color="primary"
+            e
             dense
             flat
             icon="add"
-            @click="addUser = true"
+            @click="onAddAccount()"
           />
           <q-dialog v-model="addUser" persistent>
             <q-card style="width: 800px; max-width: 100vw" class="q-pa-sm">
@@ -51,21 +52,41 @@
 
               <q-card-section class="q-gutter-md row">
                 <div class="col">
-                  <q-input outlined v-model="Fname" label="First Name" />
+                  <q-input
+                    outlined
+                    v-model="presentAccount.FName"
+                    label="First Name"
+                  />
                 </div>
                 <div class="col">
-                  <q-input outlined v-model="Mname" label="Middle Name" />
+                  <q-input
+                    outlined
+                    v-model="presentAccount.MName"
+                    label="Middle Initial"
+                  />
                 </div>
                 <div class="col">
-                  <q-input outlined v-model="Lname" label="Last Name" />
+                  <q-input
+                    outlined
+                    v-model="presentAccount.LName"
+                    label="Last Name"
+                  />
                 </div>
               </q-card-section>
               <q-card-section class="q-gutter-md row">
                 <div class="col">
-                  <q-input outlined v-model="username" label="Username" />
+                  <q-input
+                    outlined
+                    v-model="presentAccount.username"
+                    label="Username"
+                  />
                 </div>
                 <div class="col">
-                  <q-input outlined v-model="password" label="Password" />
+                  <q-input
+                    outlined
+                    v-model="presentAccount.password"
+                    label="Password"
+                  />
                 </div>
               </q-card-section>
 
@@ -73,7 +94,7 @@
                 <div class="col">
                   <q-input
                     outlined
-                    v-model="email"
+                    v-model="presentAccount.email"
                     label="Email"
                     type="email"
                   />
@@ -81,7 +102,7 @@
                 <div class="col">
                   <q-select
                     outlined
-                    v-model="role"
+                    v-model="presentAccount.role"
                     :options="options"
                     label="Roles"
                   />
@@ -90,7 +111,13 @@
 
               <q-card-actions align="right">
                 <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                <q-btn flat label="Add" color="primary" v-close-popup />
+                <q-btn
+                  flat
+                  label="Add"
+                  color="primary"
+                  @click="onSaveAccount"
+                  v-close-popup
+                />
               </q-card-actions>
             </q-card>
           </q-dialog>
@@ -107,7 +134,7 @@
               size="sm"
               flat
               dense
-              @click="editRow = true"
+              @click="onEditAccount(props.row)"
             />
             <q-dialog v-model="editRow" persistent>
               <q-card style="width: 800px; max-width: 100vw" class="q-pa-sm">
@@ -119,21 +146,41 @@
 
                 <q-card-section class="q-gutter-md row">
                   <div class="col">
-                    <q-input outlined v-model="Fname" label="First Name" />
+                    <q-input
+                      outlined
+                      v-model="presentAccount.FName"
+                      label="First Name"
+                    />
                   </div>
                   <div class="col">
-                    <q-input outlined v-model="Mname" label="Middle Name" />
+                    <q-input
+                      outlined
+                      v-model="presentAccount.MName"
+                      label="Middle Initial"
+                    />
                   </div>
                   <div class="col">
-                    <q-input outlined v-model="Lname" label="Last Name" />
+                    <q-input
+                      outlined
+                      v-model="presentAccount.LName"
+                      label="Last Name"
+                    />
                   </div>
                 </q-card-section>
                 <q-card-section class="q-gutter-md row">
                   <div class="col">
-                    <q-input outlined v-model="username" label="Username" />
+                    <q-input
+                      outlined
+                      v-model="presentAccount.username"
+                      label="Username"
+                    />
                   </div>
                   <div class="col">
-                    <q-input outlined v-model="password" label="Password" />
+                    <q-input
+                      outlined
+                      v-model="presentAccount.password"
+                      label="Password"
+                    />
                   </div>
                 </q-card-section>
 
@@ -141,7 +188,7 @@
                   <div class="col">
                     <q-input
                       outlined
-                      v-model="email"
+                      v-model="presentAccount.email"
                       label="Email"
                       type="email"
                     />
@@ -149,7 +196,7 @@
                   <div class="col">
                     <q-select
                       outlined
-                      v-model="role"
+                      v-model="presentAccount.role"
                       :options="options"
                       label="Roles"
                     />
@@ -158,7 +205,13 @@
 
                 <q-card-actions align="right">
                   <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                  <q-btn flat label="Save" color="primary" v-close-popup />
+                  <q-btn
+                    flat
+                    label="Save"
+                    @click="onEditAccount"
+                    color="primary"
+                    v-close-popup
+                  />
                 </q-card-actions>
               </q-card>
             </q-dialog>
@@ -170,9 +223,9 @@
               flat
               round
               dense
-              @click="dialog = true"
+              @click="onDeleteAccount(props.row)"
             />
-            <q-dialog v-model="dialog" persistent>
+            <q-dialog v-model="deleting" persistent>
               <q-card style="width: 300px">
                 <q-card-section class="row items-center">
                   <q-avatar
@@ -191,7 +244,13 @@
                     v-close-popup="cancelEnabled"
                     :disable="!cancelEnabled"
                   />
-                  <q-btn flat label="Confirm" color="primary" v-close-popup />
+                  <q-btn
+                    flat
+                    label="Confirm"
+                    color="primary"
+                    @click="onConfirmDeleteAccount"
+                    v-close-popup
+                  />
                 </q-card-actions>
               </q-card>
             </q-dialog>
@@ -201,20 +260,34 @@
     </q-table>
   </q-page>
 </template>
+
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-interface IRow {
-  name: string;
-}
-@Options({})
+import { AccountInfo } from 'src/store/account/state';
+import { mapActions, mapState } from 'vuex';
+
+@Options({
+  computed: {
+    ...mapState('account', ['account', 'activeAccount']),
+  },
+  method: {
+    ...mapActions('account', ['newAccount', 'editAccount', 'deleteAccount']),
+  },
+})
 export default class ManageAccount extends Vue {
+  account!: AccountInfo[];
+  newAccount!: (account: AccountInfo) => Promise<void>;
+  editAccount!: (account: AccountInfo) => Promise<void>;
+  deleteAccount!: (account: AccountInfo) => Promise<void>;
+
   columns = [
     {
       name: 'name',
       required: true,
       label: 'Name',
       align: 'left',
-      field: (row: IRow) => row.name,
+      field: (row: AccountInfo) =>
+        row.FName + ' ' + row.MName + '. ' + row.LName,
       format: (val: string) => `${val}`,
     },
     {
@@ -231,56 +304,57 @@ export default class ManageAccount extends Vue {
     },
     { name: 'role', align: 'center', label: 'Role', field: 'role' },
     { name: 'status', align: 'center', label: 'Status', field: 'status' },
-    {
-      name: 'lastLogin',
-      align: 'center',
-      label: 'Last Login',
-      field: 'lastLogin',
-    },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
   ];
-  rows = [
-    {
-      name: 'Basam C. Serad',
-      email: 'basamserad1998@gmail.com',
-      dateCreated: 'December 23, 1998',
-      role: 'Admin',
-      status: 'Active',
-      lastLogin: '11 / 11 / 2001',
-    },
-    {
-      name: 'Basem C. Serad',
-      email: 'basamserad1998@gmail.com',
-      dateCreated: 'December 23, 1998',
-      role: 'Admin',
-      status: 'Active',
-      lastLogin: '11 / 11 / 2001',
-    },
-    {
-      name: 'Arefa C. Serad',
-      email: 'basamserad1998@gmail.com',
-      dateCreated: 'December 23, 1998',
-      role: 'Admin',
-      status: 'Active',
-      lastLogin: '11 / 11 / 2001',
-    },
-  ];
-  dialog = false;
+
+  deleting = false;
   cancelEnabled = true;
   addUser = false;
   editRow = false;
-  Fname = '';
-  Mname = '';
-  Lname = '';
-  username = '';
-  password = '';
-  email = '';
-  role = '';
+
+  defaultAccount: AccountInfo = {
+    FName: '',
+    MName: '',
+    LName: '',
+    username: '',
+    password: '',
+    email: '',
+    role: '',
+    dateCreated: '',
+    status: 'Active',
+  };
+  presentAccount = { ...this.defaultAccount };
   filter = '';
   options = ['Admin', 'Cashier'];
 
-  onItemClick() {
-    console.log('Clicked!');
+  onAddAccount() {
+    this.presentAccount = { ...this.defaultAccount };
+    this.editRow = false;
+    this.addUser = true;
+  }
+
+  onEditAccount(account: AccountInfo) {
+    this.presentAccount = { ...account };
+    this.editRow = true;
+    this.addUser = false;
+  }
+
+  onDeleteAccount(account: AccountInfo) {
+    this.presentAccount = { ...account };
+    this.deleting = true;
+  }
+
+  async onSaveAccount() {
+    if (!this.editRow) {
+      await this.newAccount(this.presentAccount);
+    } else {
+      await this.editAccount(this.presentAccount);
+    }
+  }
+
+  async onConfirmDeleteAccount() {
+    await this.deleteAccount(this.presentAccount);
+    this.deleting = true;
   }
 }
 </script>

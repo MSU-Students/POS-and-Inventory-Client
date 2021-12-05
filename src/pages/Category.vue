@@ -7,7 +7,7 @@
       </div>
       <q-table
         title="Category List"
-        :rows="rows"
+        :rows="category"
         :columns="columns"
         row-key="code"
         :rows-per-page-options="[0]"
@@ -140,19 +140,27 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
+import { CategoryInfo } from 'src/store/category/state';
+import { mapState } from 'vuex';
 
 interface IRow {
   code: string;
 }
-@Options({})
+@Options({
+  computed: {
+    ...mapState('category', ['category', 'activeCategory']),
+  },
+})
 export default class Expenses extends Vue {
+  category!: CategoryInfo[];
+
   columns = [
     {
       name: 'code',
       required: true,
       label: 'Code',
       align: 'left',
-      field: (row: IRow) => row.code,
+      field: (row: CategoryInfo) => row.code,
       format: (val: string) => `${val}`,
     },
     {
@@ -181,26 +189,6 @@ export default class Expenses extends Vue {
     },
   ];
 
-  rows = [
-    {
-      code: 'hj4j324jbb34bj4',
-      name: 'Utensils',
-      numProd: 1,
-      stockQuantity: 2000,
-    },
-    {
-      code: 'h12323h451h14h41',
-      name: 'Igredients',
-      numProd: 1,
-      stockQuantity: 60,
-    },
-    {
-      code: 'h55464dfds6sd4a1',
-      name: 'Equipments',
-      numProd: 1,
-      stockQuantity: 1,
-    },
-  ];
   selected = [];
   del = false;
   cancelEnabled = true;
@@ -208,5 +196,13 @@ export default class Expenses extends Vue {
   editRow = false;
   showNote = false;
   filter = '';
+
+  defaultCategory: CategoryInfo = {
+    code: '',
+    name: '',
+    numProd: 0,
+    stockQuantity: 0,
+  };
+  presentCategory = { ...this.defaultCategory };
 }
 </script>

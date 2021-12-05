@@ -6,7 +6,7 @@
     </div>
     <q-table
       title="Expenses List"
-      :rows="rows"
+      :rows="expenses"
       :columns="columns"
       row-key="reference"
       :rows-per-page-options="[0]"
@@ -244,19 +244,23 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-
-interface IRow {
-  reference: string;
-}
-@Options({})
+import { ExpensesInfo } from 'src/store/expenses/state';
+import { mapState } from 'vuex';
+@Options({
+  computed: {
+    ...mapState('expenses', ['expenses', 'activeExpenses']),
+  },
+})
 export default class Expenses extends Vue {
+  expenses!: ExpensesInfo;
+
   columns = [
     {
       name: 'reference',
       required: true,
       label: 'Reference Number',
       align: 'left',
-      field: (row: IRow) => row.reference,
+      field: (row: ExpensesInfo) => row.reference,
       format: (val: string) => `${val}`,
     },
     {
@@ -297,16 +301,6 @@ export default class Expenses extends Vue {
     },
   ];
 
-  rows = [
-    {
-      reference: 'hj4j324jbb34bj4',
-      date: '12/23/2021',
-      category: 'Utensils',
-      supplier: 'Coca Cola Company',
-      amount: '10,000',
-      note: '',
-    },
-  ];
   selected = [];
   Note =
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!';
@@ -315,12 +309,23 @@ export default class Expenses extends Vue {
   addExp = false;
   editRow = false;
   showNote = false;
-  suppID = [2020119, 2020221, 2020113];
-  purNo = ['Chocolate Powder'];
   filter = '';
-  options = ['Admin', 'Cashier'];
+
   pInit = null;
   sInit = null;
   categoryInit = null;
+
+  defaultExpenses: ExpensesInfo = {
+    reference: '',
+    date: '',
+    category: '',
+    supplier: '',
+    amount: 0,
+    note: '',
+  };
+  presentExpenses = { ...this.defaultExpenses };
+  suppID = [2020119, 2020221, 2020113];
+  purNo = ['Chocolate Powder'];
+  options = ['Admin', 'Cashier'];
 }
 </script>
