@@ -4,7 +4,7 @@
       <q-icon name="stacked_bar_chart" color="orange" style="font-size: 4rem" />
       Sales Report
     </div>
-    <q-card class="q-mt-sm">
+    <q-card class="q-my-lg">
       <q-card-section class="text-h6 q-pb-none">
         <q-item>
           <q-item-section avatar class="">
@@ -12,7 +12,7 @@
           </q-item-section>
 
           <q-item-section>
-            <div class="text-h6">Product Sales Stats</div>
+            <div class="text-h6">Monthly Sales </div>
           </q-item-section>
         </q-item>
       </q-card-section>
@@ -96,6 +96,20 @@
         </div>
       </q-card-section>
     </q-card>
+    <q-card class="q-pa-lg">
+      <q-card-section>
+        <q-item-section>
+          <div class="text-h6">
+            Yearly Sales 
+
+          </div>
+        </q-item-section>
+      </q-card-section>
+      <div>
+        <YearlySaleReport/>
+      </div>
+
+    </q-card>
   </q-page>
 </template>
 <script lang="ts">
@@ -104,8 +118,9 @@ import { Vue, Options } from 'vue-class-component';
 import monthlyProductSales from 'components/Charts/monthlyProductSales.vue';
 import CashFlowChart from 'components/Charts/DashSalePurchase.vue';
 import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
+import YearlySaleReport from 'components/Charts/YearlySaleReport.vue';
 @Options({
-  components: { monthlyProductSales, CashFlowChart, MonthCashFlowChart },
+  components: { monthlyProductSales, CashFlowChart, MonthCashFlowChart,YearlySaleReport },
 })
 export default class ChartComponent extends Vue {}
 </script>
