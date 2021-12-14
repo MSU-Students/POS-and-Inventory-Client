@@ -14,7 +14,7 @@
 
       <q-table
         title="List of suppliers"
-        :rows="supplier"
+        :rows="allSupplier"
         :columns="columns"
         row-key="name"
         :rows-per-page-options="[0]"
@@ -57,19 +57,19 @@
                       <q-input
                         class="q-py-md"
                         outlined
-                        v-model="supplierName"
+                        v-model="inputSupplier.supplierName"
                         label="Name"
                       />
                       <q-input
                         class="q-py-md"
                         outlined
-                        v-model="company"
+                        v-model="inputSupplier.company"
                         label="Company Name"
                       />
                       <q-input
                         class="q-py-md"
                         outlined
-                        v-model="Email"
+                        v-model="inputSupplier.email"
                         label="Email"
                       />
                     </div>
@@ -77,13 +77,13 @@
                       <q-input
                         class="q-py-md"
                         outlined
-                        v-model="contact"
+                        v-model="inputSupplier.contact"
                         label="Contact Number"
                       />
                       <q-input
                         class="q-py-md"
                         outlined
-                        v-model="Address"
+                        v-model="inputSupplier.address"
                         label="Address"
                       />
 
@@ -101,12 +101,17 @@
                         </q-file>
                       </div>
                     </div>
-                  </div>
-                </q-card-section>
+                  </div> </q-card-section
+                >a
 
                 <q-card-actions align="right">
                   <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                  <q-btn flat label="Add" color="primary" v-close-popup />
+                  <q-btn
+                    flat
+                    label="Add"
+                    color="primary"
+                    @click="onAddSupplier()"
+                  />
                 </q-card-actions>
               </q-card>
             </q-dialog>
@@ -185,7 +190,7 @@
                 size="sm"
                 flat
                 dense
-                @click="editRow = true"
+                @click="openEditDialog(props.row)"
               />
               <q-dialog v-model="editRow" persistent>
                 <q-card style="width: 900px; max-width: 80vw">
@@ -201,19 +206,19 @@
                         <q-input
                           class="q-py-md"
                           outlined
-                          v-model="supplierName"
+                          v-model="inputSupplier.supplierName"
                           label="Name"
                         />
                         <q-input
                           class="q-py-md"
                           outlined
-                          v-model="company"
+                          v-model="inputSupplier.company"
                           label="Company Name"
                         />
                         <q-input
                           class="q-py-md"
                           outlined
-                          v-model="Email"
+                          v-model="inputSupplier.email"
                           label="Email"
                         />
                       </div>
@@ -221,13 +226,13 @@
                         <q-input
                           class="q-py-md"
                           outlined
-                          v-model="contact"
+                          v-model="inputSupplier.contact"
                           label="Contact Number"
                         />
                         <q-input
                           class="q-py-md"
                           outlined
-                          v-model="Address"
+                          v-model="inputSupplier.address"
                           label="Address"
                         />
 
@@ -249,7 +254,12 @@
                   </q-card-section>
                   <q-card-actions align="right">
                     <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                    <q-btn flat label="Save" color="primary" v-close-popup />
+                    <q-btn
+                      flat
+                      label="Save"
+                      color="primary"
+                      @click="onEditSupplier()"
+                    />
                   </q-card-actions>
                 </q-card>
               </q-dialog>
@@ -261,31 +271,8 @@
                 flat
                 round
                 dense
-                @click="dialog = true"
+                @click="deleteSpecificSupplier(props.row)"
               />
-              <q-dialog v-model="dialog" persistent>
-                <q-card style="width: 300px">
-                  <q-card-section class="row items-center">
-                    <q-avatar
-                      size="sm"
-                      icon="warning"
-                      color="red-10"
-                      text-color="white"
-                    />
-                    <span class="q-ml-sm">Confirm Delete?</span>
-                  </q-card-section>
-                  <q-card-actions align="right">
-                    <q-btn
-                      flat
-                      label="Cancel"
-                      color="primary"
-                      v-close-popup="cancelEnabled"
-                      :disable="!cancelEnabled"
-                    />
-                    <q-btn flat label="Confirm" color="primary" v-close-popup />
-                  </q-card-actions>
-                </q-card>
-              </q-dialog>
             </div>
           </q-td>
         </template>
@@ -296,16 +283,26 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { SupplierInfo } from 'src/store/supplier/state';
-import { mapState } from 'vuex';
+import { ISupplierInfo } from 'src/store/supplier/state';
+import { mapState, mapActions } from 'vuex';
 
 @Options({
   computed: {
-    ...mapState('supplier', ['supplier', 'SupplierInfo']),
+    ...mapState('supplier', ['allSupplier']),
+  },
+  methods: {
+    ...mapActions('supplier', [
+      'addSupplier',
+      'editSupplier',
+      'deleteSupplier',
+    ]),
   },
 })
 export default class ManageAccount extends Vue {
-  supplier!: SupplierInfo[];
+  addSupplier!: (payload: ISupplierInfo) => Promise<void>;
+  editSupplier!: (payload: ISupplierInfo) => Promise<void>;
+  deleteSupplier!: (payload: ISupplierInfo) => Promise<void>;
+  allSupplier!: ISupplierInfo[];
 
   columns = [
     {
@@ -313,7 +310,7 @@ export default class ManageAccount extends Vue {
       required: true,
       label: 'Name',
       align: 'left',
-      field: (row: SupplierInfo) => row.supplierName,
+      field: (row: ISupplierInfo) => row.supplierName,
       format: (val: string) => `${val}`,
     },
     {
@@ -332,7 +329,7 @@ export default class ManageAccount extends Vue {
       name: 'Contact',
       align: 'center',
       label: 'Contact',
-      field: 'Contact',
+      field: 'contact',
     },
     { name: 'address', align: 'center', label: 'Address', field: 'address' },
     { name: 'Details', align: 'center', label: 'Details', field: 'Details' },
@@ -343,29 +340,61 @@ export default class ManageAccount extends Vue {
   addUser = false;
   editRow = false;
   Details = false;
-  supplierName = '';
-  company = '';
-  Email = '';
-  Address = '';
-  contact = '';
-  revenue = '';
   files = '';
-  counterLabelFn = '';
   filter = '';
 
-  defaultSupplier: SupplierInfo = {
+  inputSupplier: ISupplierInfo = {
     supplierName: '',
     company: '',
     email: '',
-    Contact: '',
+    contact: '',
     address: '',
   };
-  presentSupplier = { ...this.defaultSupplier };
 
   options = ['Admin', 'Cashier'];
 
-  onItemClick() {
-    console.log('Clicked!');
+  async onAddSupplier() {
+    await this.addSupplier(this.inputSupplier);
+    this.addUser = false;
+    this.resetModel();
+  }
+
+  async onEditSupplier() {
+    await this.editSupplier(this.inputSupplier);
+    this.editRow = false;
+    this.resetModel();
+    debugger;
+  }
+
+  deleteSpecificSupplier(val: ISupplierInfo) {
+    this.$q
+      .dialog({
+        message: 'Confirm to delete?',
+        cancel: true,
+        persistent: true,
+      })
+      .onOk(async () => {
+        await this.deleteSupplier(val);
+        this.$q.notify({
+          type: 'positive',
+          message: 'Successfully deleted!',
+        });
+      });
+  }
+
+  openEditDialog(val: ISupplierInfo) {
+    this.editRow = true;
+    this.inputSupplier = { ...val };
+  }
+
+  resetModel() {
+    this.inputSupplier = {
+      supplierName: '',
+      company: '',
+      email: '',
+      contact: '',
+      address: '',
+    };
   }
 }
 </script>

@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
-import { InventoryInfo, InventoryStateInterface } from './state';
+import { ManagePOSStateInterface } from './state';
 
-const mutation: MutationTree<InventoryStateInterface> = {};
+const mutation: MutationTree<ManagePOSStateInterface> = {};
 
 export default mutation;

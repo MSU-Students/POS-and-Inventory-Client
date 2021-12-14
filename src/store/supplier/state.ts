@@ -1,24 +1,24 @@
-export interface SupplierInfo {
+export interface ISupplierInfo {
   supplierName: string;
   company: string;
   email: string;
-  Contact: string;
+  contact: string;
   address: string;
 }
 
 export interface SupplierStateInterface {
-  supplier: SupplierInfo[];
-  activeSupplier?: SupplierInfo;
+  allSupplier: ISupplierInfo[];
+  activeSupplier?: ISupplierInfo;
 }
 
 function state(): SupplierStateInterface {
   return {
-    supplier: [
+    allSupplier: [
       {
         supplierName: 'Basam C. Serad',
         company: 'Nestle Corporation',
         email: 'basamsera1998@gmail.com',
-        Contact: '+6392222222',
+        contact: '+6392222222',
         address: 'Dimaluna 2, MSU, Marawi City',
       },
     ],
