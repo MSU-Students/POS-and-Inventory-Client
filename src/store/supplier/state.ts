@@ -1,4 +1,5 @@
 export interface ISupplierInfo {
+  supplierId?: string;
   supplierName: string;
   company: string;
   email: string;
