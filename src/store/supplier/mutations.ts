@@ -7,7 +7,7 @@ const mutation: MutationTree<SupplierStateInterface> = {
   },
   setNewSupplier(state, payload: ISupplierInfo) {
     const index = state.allSupplier.findIndex(
-      (s) => s.supplierId === payload.supplierId
+      (s) => s.supplierName === payload.supplierName
     );
     if (index >= 0) {
       state.allSupplier.splice(index, 1, payload);
@@ -15,7 +15,7 @@ const mutation: MutationTree<SupplierStateInterface> = {
   },
   deleteSupplier(state, payload: ISupplierInfo) {
     const index = state.allSupplier.findIndex(
-      (s) => s.supplierId === payload.supplierId
+      (s) => s.supplierName === payload.supplierName
     );
     if (index >= 0) {
       state.allSupplier.splice(index, 1);

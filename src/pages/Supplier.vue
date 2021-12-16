@@ -55,7 +55,6 @@
                   <div class="row">
                     <div class="col col-md-8">
                       <q-input
-                        autofocus
                         class="q-py-md"
                         outlined
                         v-model="inputSupplier.supplierName"
@@ -202,80 +201,66 @@
                   </q-card-section>
 
                   <q-card-section class="q-gutter-md">
-                    <q-form @submit="onEditSupplier">
-                      <div class="row">
-                        <div class="col col-md-8">
-                          <q-input
-                            autofocus
-                            class="q-py-md"
-                            outlined
-                            v-model="inputSupplier.supplierName"
-                            label="Name"
-                            lazy-rules
-                            :rules="[
-                              (val) =>
-                                (val && val.length > 0) ||
-                                'Does not accept empty input',
-                            ]"
-                          />
-                          <q-input
-                            class="q-py-md"
-                            outlined
-                            v-model="inputSupplier.company"
-                            label="Company Name"
-                          />
-                          <q-input
-                            class="q-py-md"
-                            outlined
-                            v-model="inputSupplier.email"
-                            label="Email"
-                          />
-                        </div>
-                        <div class="col-md-4 q-pl-md">
-                          <q-input
-                            class="q-py-md"
-                            outlined
-                            v-model="inputSupplier.contact"
-                            label="Contact Number"
-                          />
-                          <q-input
-                            class="q-py-md"
-                            outlined
-                            v-model="inputSupplier.address"
-                            label="Address"
-                          />
+                    <div class="row">
+                      <div class="col col-md-8">
+                        <q-input
+                          class="q-py-md"
+                          outlined
+                          v-model="inputSupplier.supplierName"
+                          label="Name"
+                        />
+                        <q-input
+                          class="q-py-md"
+                          outlined
+                          v-model="inputSupplier.company"
+                          label="Company Name"
+                        />
+                        <q-input
+                          class="q-py-md"
+                          outlined
+                          v-model="inputSupplier.email"
+                          label="Email"
+                        />
+                      </div>
+                      <div class="col-md-4 q-pl-md">
+                        <q-input
+                          class="q-py-md"
+                          outlined
+                          v-model="inputSupplier.contact"
+                          label="Contact Number"
+                        />
+                        <q-input
+                          class="q-py-md"
+                          outlined
+                          v-model="inputSupplier.address"
+                          label="Address"
+                        />
 
-                          <div class="q-py-md">
-                            <q-file
-                              v-model="files"
-                              label="Pick profile picture"
-                              filled
-                              multiple
-                              style="max-width: 300px"
-                            >
-                              <template v-slot:prepend>
-                                <q-icon name="photo_camera" />
-                              </template>
-                            </q-file>
-                          </div>
+                        <div class="q-py-md">
+                          <q-file
+                            v-model="files"
+                            label="Pick profile picture"
+                            filled
+                            multiple
+                            style="max-width: 300px"
+                          >
+                            <template v-slot:prepend>
+                              <q-icon name="photo_camera" />
+                            </template>
+                          </q-file>
                         </div>
                       </div>
-                      <div align="right">
-                        <q-btn
-                          flat
-                          label="Cancel"
-                          color="red-10"
-                          v-close-popup
-                        />
-                        <q-btn
-                          flat
-                          label="Save"
-                          color="primary"
-                          type="submit"
-                        />
-                      </div>
-                    </q-form>
+                    </div>
                   </q-card-section>
+                  <q-card-actions align="right">
+                    <q-btn flat label="Cancel" color="red-10" v-close-popup />
+                    <q-btn
+                      flat
+                      label="Save"
+                      color="primary"
+                      @click="onEditSupplier()"
+                    />
+                  </q-card-actions>
                 </q-card>
               </q-dialog>
               <q-btn
