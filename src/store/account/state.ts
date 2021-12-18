@@ -1,43 +1,34 @@
-export interface AccountInfo {
+export interface IAccountInfo {
+  accountID?: string;
   FName: string;
   MName: string;
   LName: string;
   username: string;
   password: string;
   email: string;
-  dateCreated: string;
   role: string;
+  dateCreated: string;
   status: 'Active' | 'Inactive';
 }
 
 export interface AccountStateInterface {
-  account: AccountInfo[];
-  activeAccount?: AccountInfo;
+  allAccount: IAccountInfo[];
+  activeAccount?: IAccountInfo;
 }
 
 function state(): AccountStateInterface {
   return {
-    account: [
+    allAccount: [
       {
+        accountID: '01',
         FName: 'Basam',
         MName: 'C',
         LName: 'Serad',
         username: 'Sam',
-        password: 'Sam',
-        email: 'sam@gmail.com',
-        dateCreated: '12/23/1998',
+        password: 'samserad23',
+        email: 'basamserad1998@gmail.com',
         role: 'Admin',
-        status: 'Active',
-      },
-      {
-        FName: 'Basem',
-        MName: 'C',
-        LName: 'Serad',
-        username: 'Sam',
-        password: 'Sam',
-        email: 'sam@gmail.com',
-        dateCreated: '12/23/1998',
-        role: 'Admin',
+        dateCreated: '12/17/2021',
         status: 'Active',
       },
     ],

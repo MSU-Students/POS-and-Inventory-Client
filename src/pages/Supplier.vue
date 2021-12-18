@@ -41,83 +41,123 @@
               size="13px"
               flat
               icon="add"
-              @click="addUser = true"
+              @click="addNewSupplier = true"
             />
-            <q-dialog v-model="addUser" persistent>
-              <q-card style="width: 900px">
+            <q-dialog v-model="addNewSupplier" persistent>
+              <q-card style="width: 800px; max-width: 80vw">
                 <q-card-section class="row">
                   <div class="text-h6">Add Supplier</div>
                   <q-space />
-                  <q-btn flat round dense icon="close" v-close-popup />
-                </q-card-section>
-
-                <q-card-section class="q-gutter-md">
-                  <div class="row">
-                    <div class="col col-md-8">
-                      <q-input
-                        class="q-py-md"
-                        outlined
-                        v-model="inputSupplier.supplierName"
-                        label="Name"
-                      />
-                      <q-input
-                        class="q-py-md"
-                        outlined
-                        v-model="inputSupplier.company"
-                        label="Company Name"
-                      />
-                      <q-input
-                        class="q-py-md"
-                        outlined
-                        v-model="inputSupplier.email"
-                        label="Email"
-                      />
-                    </div>
-                    <div class="col-md-4 q-pl-md">
-                      <q-input
-                        class="q-py-md"
-                        outlined
-                        v-model="inputSupplier.contact"
-                        label="Contact Number"
-                      />
-                      <q-input
-                        class="q-py-md"
-                        outlined
-                        v-model="inputSupplier.address"
-                        label="Address"
-                      />
-
-                      <div class="q-py-md">
-                        <q-file
-                          v-model="files"
-                          label="Pick profile picture"
-                          filled
-                          multiple
-                          style="max-width: 300px"
-                        >
-                          <template v-slot:prepend>
-                            <q-icon name="photo_camera" />
-                          </template>
-                        </q-file>
-                      </div>
-                    </div>
-                  </div> </q-card-section
-                >a
-
-                <q-card-actions align="right">
-                  <q-btn flat label="Cancel" color="red-10" v-close-popup />
                   <q-btn
                     flat
-                    label="Add"
-                    color="primary"
-                    @click="onAddSupplier()"
+                    round
+                    dense
+                    icon="close"
+                    v-close-popup
+                    @click="resetModel()"
                   />
-                </q-card-actions>
+                </q-card-section>
+
+                <q-card-section>
+                  <q-form @submit="onAddSupplier" class="q-gutter-md">
+                    <div class="row">
+                      <div class="col col-md-8">
+                        <q-input
+                          autofocus
+                          class="q-py-md"
+                          outlined
+                          v-model="inputSupplier.supplierName"
+                          label="Name"
+                          lazy-rules
+                          :rules="[
+                            (val) =>
+                              (val && val.length > 0) ||
+                              'Does not accept empty input',
+                          ]"
+                        />
+                        <q-input
+                          class="q-py-md"
+                          outlined
+                          v-model="inputSupplier.company"
+                          label="Company Name"
+                          lazy-rules
+                          :rules="[
+                            (val) =>
+                              (val && val.length > 0) ||
+                              'Does not accept empty input',
+                          ]"
+                        />
+                        <q-input
+                          class="q-py-md"
+                          outlined
+                          v-model="inputSupplier.email"
+                          label="Email"
+                          lazy-rules
+                          :rules="[
+                            (val) =>
+                              (val && val.length > 0) ||
+                              'Does not accept empty input',
+                          ]"
+                        />
+                      </div>
+                      <div class="col-md-4 q-pl-md">
+                        <q-input
+                          class="q-py-md"
+                          outlined
+                          v-model="inputSupplier.contact"
+                          label="Contact Number"
+                          lazy-rules
+                          :rules="[
+                            (val) =>
+                              (val && val.length > 0) ||
+                              'Does not accept empty input',
+                          ]"
+                        />
+                        <q-input
+                          class="q-py-md"
+                          outlined
+                          v-model="inputSupplier.address"
+                          label="Address"
+                          lazy-rules
+                          :rules="[
+                            (val) =>
+                              (val && val.length > 0) ||
+                              'Does not accept empty input',
+                          ]"
+                        />
+
+                        <div class="q-py-md">
+                          <q-file
+                            v-model="files"
+                            label="Pick profile picture"
+                            filled
+                            multiple
+                            style="max-width: 300px"
+                          >
+                            <template v-slot:prepend>
+                              <q-icon name="photo_camera" />
+                            </template>
+                          </q-file>
+                        </div>
+                      </div>
+                    </div>
+                    <div align="right">
+                      <q-btn
+                        flat
+                        label="Cancel"
+                        color="red-10"
+                        v-close-popup
+                        @click="resetModel()"
+                      />
+                      <q-btn flat label="Add" color="primary" type="submit" />
+                    </div>
+                  </q-form>
+                </q-card-section>
               </q-card>
             </q-dialog>
           </div>
         </template>
-        <template v-slot:body-cell-Details="props">
+        <template v-slot:body-cell-supplierDetails="props">
           <q-td :props="props">
             <div class="q-gutter-sm">
               <q-btn
@@ -127,9 +167,9 @@
                 size="md"
                 flat
                 dense
-                @click="Details = true"
+                @click="supplierDetails = true"
               />
-              <q-dialog v-model="Details">
+              <q-dialog v-model="supplierDetails">
                 <q-card class="my-card" flat bordered>
                   <q-card-section>
                     <div class="text-h6">
@@ -192,75 +232,121 @@
                 dense
                 @click="openEditDialog(props.row)"
               />
-              <q-dialog v-model="editRow" persistent>
-                <q-card style="width: 900px; max-width: 80vw">
+              <q-dialog v-model="editRowSupplier" persistent>
+                <q-card style="width: 800px; max-width: 80vw">
                   <q-card-section class="row">
                     <div class="text-h6">Edit User</div>
                     <q-space />
-                    <q-btn flat round dense icon="close" v-close-popup />
+                    <q-btn
+                      flat
+                      round
+                      dense
+                      icon="close"
+                      v-close-popup
+                      @click="resetModel()"
+                    />
                   </q-card-section>
 
                   <q-card-section class="q-gutter-md">
-                    <div class="row">
-                      <div class="col col-md-8">
-                        <q-input
-                          class="q-py-md"
-                          outlined
-                          v-model="inputSupplier.supplierName"
-                          label="Name"
-                        />
-                        <q-input
-                          class="q-py-md"
-                          outlined
-                          v-model="inputSupplier.company"
-                          label="Company Name"
-                        />
-                        <q-input
-                          class="q-py-md"
-                          outlined
-                          v-model="inputSupplier.email"
-                          label="Email"
-                        />
-                      </div>
-                      <div class="col-md-4 q-pl-md">
-                        <q-input
-                          class="q-py-md"
-                          outlined
-                          v-model="inputSupplier.contact"
-                          label="Contact Number"
-                        />
-                        <q-input
-                          class="q-py-md"
-                          outlined
-                          v-model="inputSupplier.address"
-                          label="Address"
-                        />
+                    <q-form @submit="onEditSupplier">
+                      <div class="row">
+                        <div class="col col-md-8">
+                          <q-input
+                            autofocus
+                            class="q-py-md"
+                            outlined
+                            v-model="inputSupplier.supplierName"
+                            label="Name"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                (val && val.length > 0) ||
+                                'Does not accept empty input',
+                            ]"
+                          />
+                          <q-input
+                            class="q-py-md"
+                            outlined
+                            v-model="inputSupplier.company"
+                            label="Company Name"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                (val && val.length > 0) ||
+                                'Does not accept empty input',
+                            ]"
+                          />
+                          <q-input
+                            class="q-py-md"
+                            outlined
+                            v-model="inputSupplier.email"
+                            label="Email"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                (val && val.length > 0) ||
+                                'Does not accept empty input',
+                            ]"
+                          />
+                        </div>
+                        <div class="col-md-4 q-pl-md">
+                          <q-input
+                            class="q-py-md"
+                            outlined
+                            v-model="inputSupplier.contact"
+                            label="Contact Number"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                (val && val.length > 0) ||
+                                'Does not accept empty input',
+                            ]"
+                          />
+                          <q-input
+                            class="q-py-md"
+                            outlined
+                            v-model="inputSupplier.address"
+                            label="Address"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                (val && val.length > 0) ||
+                                'Does not accept empty input',
+                            ]"
+                          />
 
-                        <div class="q-py-md">
-                          <q-file
-                            v-model="files"
-                            label="Pick profile picture"
-                            filled
-                            multiple
-                            style="max-width: 300px"
-                          >
-                            <template v-slot:prepend>
-                              <q-icon name="photo_camera" />
-                            </template>
-                          </q-file>
+                          <div class="q-py-md">
+                            <q-file
+                              v-model="files"
+                              label="Pick profile picture"
+                              filled
+                              multiple
+                              style="max-width: 300px"
+                            >
+                              <template v-slot:prepend>
+                                <q-icon name="photo_camera" />
+                              </template>
+                            </q-file>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                      <div align="right">
+                        <q-btn
+                          flat
+                          label="Cancel"
+                          color="red-10"
+                          v-close-popup
+                          @click="resetModel()"
+                        />
+                        <q-btn
+                          flat
+                          label="Save"
+                          color="primary"
+                          type="submit"
+                        />
+                      </div>
+                    </q-form>
                   </q-card-section>
-                  <q-card-actions align="right">
-                    <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                    <q-btn
-                      flat
-                      label="Save"
-                      color="primary"
-                      @click="onEditSupplier()"
-                    />
-                  </q-card-actions>
                 </q-card>
               </q-dialog>
               <q-btn
@@ -283,7 +369,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { ISupplierInfo } from 'src/store/supplier/state';
+import { ISupplierInfo } from '../store/supplier/state';
 import { mapState, mapActions } from 'vuex';
 
 @Options({
@@ -332,14 +418,19 @@ export default class ManageAccount extends Vue {
       field: 'contact',
     },
     { name: 'address', align: 'center', label: 'Address', field: 'address' },
-    { name: 'Details', align: 'center', label: 'Details', field: 'Details' },
+    {
+      name: 'supplierDetails',
+      align: 'center',
+      label: 'supplierDetails',
+      field: 'supplierDetails',
+    },
     { name: 'Actions', align: 'center', label: 'Actions', field: 'Actions' },
   ];
   dialog = false;
   cancelEnabled = true;
-  addUser = false;
-  editRow = false;
-  Details = false;
+  addNewSupplier = false;
+  editRowSupplier = false;
+  supplierDetails = false;
   files = '';
   filter = '';
 
@@ -355,15 +446,22 @@ export default class ManageAccount extends Vue {
 
   async onAddSupplier() {
     await this.addSupplier(this.inputSupplier);
-    this.addUser = false;
+    this.addNewSupplier = false;
     this.resetModel();
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Adeded.',
+    });
   }
 
   async onEditSupplier() {
     await this.editSupplier(this.inputSupplier);
-    this.editRow = false;
+    this.editRowSupplier = false;
     this.resetModel();
-    debugger;
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Edit.',
+    });
   }
 
   deleteSpecificSupplier(val: ISupplierInfo) {
@@ -376,14 +474,14 @@ export default class ManageAccount extends Vue {
       .onOk(async () => {
         await this.deleteSupplier(val);
         this.$q.notify({
-          type: 'positive',
-          message: 'Successfully deleted!',
+          type: 'warning',
+          message: 'Successfully deleted',
         });
       });
   }
 
   openEditDialog(val: ISupplierInfo) {
-    this.editRow = true;
+    this.editRowSupplier = true;
     this.inputSupplier = { ...val };
   }
 

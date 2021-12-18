@@ -1,4 +1,5 @@
 export interface ISupplierInfo {
+  supplierID?: string;
   supplierName: string;
   company: string;
   email: string;
@@ -15,6 +16,7 @@ function state(): SupplierStateInterface {
   return {
     allSupplier: [
       {
+        supplierID: 'DjeyU5OFMPjmzxVobvDFmNAhY',
         supplierName: 'Basam C. Serad',
         company: 'Nestle Corporation',
         email: 'basamsera1998@gmail.com',

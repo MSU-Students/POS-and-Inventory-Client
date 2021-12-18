@@ -19,6 +19,7 @@
           <q-card-section>
             <q-form @submit="loginUser" class="q-gutter-md">
               <q-input
+                autofocus
                 v-model="username"
                 label="Username"
                 lazy-rules
@@ -83,11 +84,18 @@ export default class Login extends Vue {
       (this.username == 'Zukhri' && this.password == 'Zukhri')
     ) {
       await this.$router.replace('/Dashboard');
-      this.$q.notify('You are logged in');
+      this.$q.notify({
+        position: 'top',
+        type: 'positive',
+        message: 'You are logged in',
+      });
     } else {
       this.username = '';
       this.password = '';
-      this.$q.notify('Wrong Username and Password!!');
+      this.$q.notify({
+        type: 'negative',
+        message: 'Wrong Username and Password!!',
+      });
     }
   }
 }

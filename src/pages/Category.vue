@@ -7,7 +7,7 @@
       </div>
       <q-table
         title="Category List"
-        :rows="category"
+        :rows="allCategory"
         :columns="columns"
         row-key="code"
         :rows-per-page-options="[0]"
@@ -47,16 +47,29 @@
 
                 <q-card-section class="q-gutter-md">
                   <div class="col">
-                    <q-input outlined label="Code" />
+                    <q-input
+                      outlined
+                      label="Category ID"
+                      v-model="inputCategory.categoryID"
+                    />
                   </div>
                   <div class="col">
-                    <q-input outlined label="Name" />
+                    <q-input
+                      outlined
+                      label="Name"
+                      v-model="inputCategory.categoryName"
+                    />
                   </div>
                 </q-card-section>
 
                 <q-card-actions align="right">
                   <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                  <q-btn flat label="Add" color="primary" v-close-popup />
+                  <q-btn
+                    flat
+                    label="Add"
+                    color="primary"
+                    @click="onAddCategory()"
+                  />
                 </q-card-actions>
               </q-card>
             </q-dialog>
@@ -72,7 +85,7 @@
                 size="sm"
                 flat
                 dense
-                @click="editRow = true"
+                @click="openEditDialog(props.row)"
               />
               <q-dialog v-model="editRow" persistent>
                 <q-card style="width: 700px" class="q-pa-md">
@@ -84,16 +97,30 @@
 
                   <q-card-section class="q-gutter-md">
                     <div class="col">
-                      <q-input outlined label="Code" />
+                      <q-input
+                        outlined
+                        label="Category ID"
+                        v-model="inputCategory.categoryID"
+                        disable
+                      />
                     </div>
                     <div class="col">
-                      <q-input outlined label="Name" />
+                      <q-input
+                        outlined
+                        label="Name"
+                        v-model="inputCategory.categoryName"
+                      />
                     </div>
                   </q-card-section>
 
                   <q-card-actions align="right">
                     <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                    <q-btn flat label="Save" color="primary" v-close-popup />
+                    <q-btn
+                      flat
+                      label="Save"
+                      color="primary"
+                      @click="onEditCategory()"
+                    />
                   </q-card-actions>
                 </q-card>
               </q-dialog>
@@ -105,31 +132,8 @@
                 flat
                 round
                 dense
-                @click="del = true"
+                @click="deleteSpecificCategory(props.row)"
               />
-              <q-dialog v-model="del" persistent>
-                <q-card style="width: 300px">
-                  <q-card-section class="row items-center">
-                    <q-avatar
-                      size="sm"
-                      icon="warning"
-                      color="red-10"
-                      text-color="white"
-                    />
-                    <span class="q-ml-sm">Confirm Delete?</span>
-                  </q-card-section>
-                  <q-card-actions align="right">
-                    <q-btn
-                      flat
-                      label="Cancel"
-                      color="primary"
-                      v-close-popup="cancelEnabled"
-                      :disable="!cancelEnabled"
-                    />
-                    <q-btn flat label="Confirm" color="primary" v-close-popup />
-                  </q-card-actions>
-                </q-card>
-              </q-dialog>
             </div>
           </q-td>
         </template>
@@ -140,30 +144,40 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { CategoryInfo } from 'src/store/category/state';
-import { mapState } from 'vuex';
+import { ICategoryInfo } from '../store/category/state';
+import { mapState, mapActions } from 'vuex';
 @Options({
   computed: {
-    ...mapState('category', ['category', 'activeCategory']),
+    ...mapState('category', ['allCategory']),
+  },
+  methods: {
+    ...mapActions('category', [
+      'addCategory',
+      'editCategory',
+      'deleteCategory',
+    ]),
   },
 })
 export default class Expenses extends Vue {
-  category!: CategoryInfo[];
+  addCategory!: (payload: ICategoryInfo) => Promise<void>;
+  editCategory!: (payload: ICategoryInfo) => Promise<void>;
+  deleteCategory!: (payload: ICategoryInfo) => Promise<void>;
+  allCategory!: ICategoryInfo[];
 
   columns = [
     {
-      name: 'code',
+      name: 'categoryID',
       required: true,
-      label: 'Code',
+      label: 'Category ID',
       align: 'left',
-      field: (row: CategoryInfo) => row.code,
+      field: (row: ICategoryInfo) => row.categoryID,
       format: (val: string) => `${val}`,
     },
     {
-      name: 'name',
+      name: 'categoryName',
       align: 'center',
       label: 'Name',
-      field: 'name',
+      field: 'categoryName',
     },
     {
       name: 'numProd',
@@ -193,12 +207,58 @@ export default class Expenses extends Vue {
   showNote = false;
   filter = '';
 
-  defaultCategory: CategoryInfo = {
-    code: '',
-    name: '',
-    numProd: 0,
-    stockQuantity: 0,
+  inputCategory: ICategoryInfo = {
+    categoryID: '',
+    categoryName: '',
   };
-  presentCategory = { ...this.defaultCategory };
+
+  async onAddCategory() {
+    await this.addCategory(this.inputCategory);
+    this.addCat = false;
+    this.resetModel();
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Adeded.',
+    });
+  }
+
+  async onEditCategory() {
+    await this.editCategory(this.inputCategory);
+    this.editRow = false;
+    this.resetModel();
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Edit.',
+    });
+  }
+
+  deleteSpecificCategory(val: ICategoryInfo) {
+    this.$q
+      .dialog({
+        message: 'Confirm to delete?',
+        cancel: true,
+        persistent: true,
+      })
+      .onOk(async () => {
+        await this.deleteCategory(val);
+        this.$q.notify({
+          type: 'warning',
+          message: 'Successfully deleted',
+        });
+      });
+  }
+
+  openEditDialog(val: ICategoryInfo) {
+    this.editRow = true;
+    this.inputCategory = { ...val };
+  }
+  resetModel() {
+    this.inputCategory = {
+      categoryID: '',
+      categoryName: '',
+      numProd: '',
+      stockQuantity: '',
+    };
+  }
 }
 </script>

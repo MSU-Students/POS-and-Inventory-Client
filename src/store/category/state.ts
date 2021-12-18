@@ -1,35 +1,23 @@
-export interface CategoryInfo {
-  code: string;
-  name: string;
-  numProd: number;
-  stockQuantity: number;
+export interface ICategoryInfo {
+  categoryID: string;
+  categoryName: string;
+  numProd?: string;
+  stockQuantity?: string;
 }
 
 export interface CategoryStateInterface {
-  category: CategoryInfo[];
-  activeCategory?: CategoryInfo;
+  allCategory: ICategoryInfo[];
+  activeCategory?: ICategoryInfo;
 }
 
 function state(): CategoryStateInterface {
   return {
-    category: [
+    allCategory: [
       {
-        code: 'hj4j324jbb34bj4',
-        name: 'Utensils',
-        numProd: 1,
-        stockQuantity: 2000,
-      },
-      {
-        code: 'h12323h451h14h41',
-        name: 'Ingredients',
-        numProd: 1,
-        stockQuantity: 60,
-      },
-      {
-        code: 'h55464dfds6sd4a1',
-        name: 'Equipments',
-        numProd: 1,
-        stockQuantity: 1,
+        categoryID: '01',
+        categoryName: 'Rent',
+        numProd: '20',
+        stockQuantity: '30',
       },
     ],
   };
