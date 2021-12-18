@@ -1,107 +1,56 @@
-export interface ExpensesInfo {
-  reference: string;
-  date: string;
+export interface IExpensesInfo {
+  expensesReference: string;
+  expensesName: string;
+  expensesDateCreated: string;
   category: string;
   supplier: string;
-  amount: number;
-  note: string;
+  expensesAmount: number;
+  expensesNote: string;
 }
 
 export interface ExpensesStateInterface {
-  expenses: ExpensesInfo[];
-  activeExpenses?: ExpensesInfo;
+  allExpenses: IExpensesInfo[];
+  activeExpenses?: IExpensesInfo;
 }
 
 function state(): ExpensesStateInterface {
   return {
-    expenses: [
+    allExpenses: [
       {
-        reference: 'hj4j324jbb34bj4',
-        date: '12/23/2021',
+        expensesReference: 'hj4j324jbb34bj4',
+        expensesName: 'Spoon',
+        expensesDateCreated: '12/23/2021',
         category: 'Utensils',
         supplier: 'Coca Cola Company',
-        amount: 10000,
-        note: '',
+        expensesAmount: 10000,
+        expensesNote: '',
       },
       {
-        reference: 'hj4j324jbb34bj4',
-        date: '12/23/2021',
+        expensesReference: 'hj4j324jbb34bj4',
+        expensesName: 'Spoon',
+        expensesDateCreated: '12/23/2021',
         category: 'Utensils',
         supplier: 'Coca Cola Company',
-        amount: 10000,
-        note: '',
+        expensesAmount: 10000,
+        expensesNote: '',
       },
       {
-        reference: 'hj4j324jbb34bj4',
-        date: '12/23/2021',
+        expensesReference: 'hj4j324jbb34bj4',
+        expensesName: 'Spoon',
+        expensesDateCreated: '12/23/2021',
         category: 'Utensils',
         supplier: 'Coca Cola Company',
-        amount: 10000,
-        note: '',
+        expensesAmount: 10000,
+        expensesNote: '',
       },
       {
-        reference: 'hj4j324jbb34bj4',
-        date: '12/23/2021',
+        expensesReference: 'hj4j324jbb34bj4',
+        expensesName: 'Spoon',
+        expensesDateCreated: '12/23/2021',
         category: 'Utensils',
         supplier: 'Coca Cola Company',
-        amount: 10000,
-        note: '',
-      },
-      {
-        reference: 'hj4j324jbb34bj4',
-        date: '12/23/2021',
-        category: 'Utensils',
-        supplier: 'Coca Cola Company',
-        amount: 10000,
-        note: '',
-      },
-      {
-        reference: 'hj4j324jbb34bj4',
-        date: '12/23/2021',
-        category: 'Utensils',
-        supplier: 'Coca Cola Company',
-        amount: 10000,
-        note: '',
-      },
-      {
-        reference: 'hj4j324jbb34bj4',
-        date: '12/23/2021',
-        category: 'Utensils',
-        supplier: 'Coca Cola Company',
-        amount: 10000,
-        note: '',
-      },
-      {
-        reference: 'hj4j324jbb34bj4',
-        date: '12/23/2021',
-        category: 'Utensils',
-        supplier: 'Coca Cola Company',
-        amount: 10000,
-        note: '',
-      },
-      {
-        reference: 'hj4j324jbb34bj4',
-        date: '12/23/2021',
-        category: 'Utensils',
-        supplier: 'Coca Cola Company',
-        amount: 10000,
-        note: '',
-      },
-      {
-        reference: 'hj4j324jbb34bj4',
-        date: '12/23/2021',
-        category: 'Utensils',
-        supplier: 'Coca Cola Company',
-        amount: 10000,
-        note: '',
-      },
-      {
-        reference: 'hj4j324jbb34bj4',
-        date: '12/23/2021',
-        category: 'Utensils',
-        supplier: 'Coca Cola Company',
-        amount: 10000,
-        note: '',
+        expensesAmount: 10000,
+        expensesNote: '',
       },
     ],
   };

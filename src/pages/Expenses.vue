@@ -6,7 +6,7 @@
     </div>
     <q-table
       title="Expenses List"
-      :rows="expenses"
+      :rows="allExpenses"
       :columns="columns"
       row-key="reference"
       :rows-per-page-options="[0]"
@@ -35,71 +35,90 @@
             flat
             icon="add"
             size="13px"
-            @click="addExp = true"
+            @click="addNewExpenses = true"
           />
-          <q-dialog v-model="addExp" persistent>
+          <q-dialog v-model="addNewExpenses" persistent>
             <q-card style="width: 700px" class="q-pa-md">
               <q-card-section class="row">
                 <div class="text-h6">Edit Expenses</div>
                 <q-space />
-                <q-btn flat round dense icon="close" v-close-popup />
+                <q-btn
+                  flat
+                  round
+                  dense
+                  icon="close"
+                  v-close-popup
+                  @click="resetModel()"
+                />
               </q-card-section>
 
-              <q-card-section class="q-gutter-md row">
-                <div class="col">
-                  <q-select
-                    filled
-                    v-model="categoryInit"
-                    :options="options"
-                    label="Category"
-                  />
-                </div>
-                <div class="col">
-                  <q-input
-                    filled
-                    label="Amount"
-                    prefix="₱"
-                    mask="#.##"
-                    fill-mask="0"
-                    reverse-fill-mask
-                  />
-                </div>
+              <q-card-section>
+                <q-form @submit="onAddExpenses">
+                  <div class="q-gutter-md q-py-sm row">
+                    <div class="col">
+                      <q-input
+                        filled
+                        label="Expenses Name"
+                        v-model="inputExpenses.expensesName"
+                      />
+                    </div>
+                    <div class="col">
+                      <q-input
+                        filled
+                        label="Amount"
+                        prefix="₱"
+                        mask="#.##"
+                        fill-mask="0"
+                        reverse-fill-mask
+                        v-model="inputExpenses.expensesAmount"
+                      />
+                    </div>
+                  </div>
+                  <div class="q-gutter-md q-py-sm row">
+                    <div class="col">
+                      <q-select
+                        label="Category"
+                        transition-show="scale"
+                        transition-hide="scale"
+                        filled
+                        v-model="inputExpenses.category"
+                      />
+                    </div>
+                    <div class="col">
+                      <q-select
+                        label="Supplier"
+                        transition-show="scale"
+                        transition-hide="scale"
+                        filled
+                        v-model="inputExpenses.supplier"
+                      />
+                    </div>
+                  </div>
+                  <div class="q-pa-md" style="full-width" full-width>
+                    <q-input
+                      filled
+                      label="Note"
+                      type="textarea"
+                      v-model="inputExpenses.expensesNote"
+                    />
+                  </div>
+                  <div align="right">
+                    <q-btn
+                      flat
+                      label="Cancel"
+                      color="red-10"
+                      v-close-popup
+                      @click="resetModel()"
+                    />
+                    <q-btn flat label="Save" color="primary" type="submit" />
+                  </div>
+                </q-form>
               </q-card-section>
-              <q-card-section class="q-gutter-md row">
-                <div class="col">
-                  <q-select
-                    label="Supplier ID (Optional)"
-                    transition-show="scale"
-                    transition-hide="scale"
-                    filled
-                    v-model="sInit"
-                    :options="suppID"
-                  />
-                </div>
-                <div class="col">
-                  <q-select
-                    label="Purchase No:"
-                    transition-show="scale"
-                    transition-hide="scale"
-                    filled
-                    v-model="pInit"
-                    :options="purNo"
-                  />
-                </div>
-              </q-card-section>
-              <q-card-section class="q-pa-md" style="max-width: 600px">
-                <q-input filled label="Note" type="textarea" />
-              </q-card-section>
-
-              <q-card-actions align="right">
-                <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                <q-btn flat label="Save" color="primary" v-close-popup />
-              </q-card-actions>
             </q-card>
           </q-dialog>
         </div>
       </template>
-      <template v-slot:body-cell-note="props">
+      <template v-slot:body-cell-expensesNote="props">
         <q-td :props="props">
           <div class="q-gutter-sm">
             <q-btn
@@ -109,13 +128,13 @@
               size="sm"
               flat
               dense
-              @click="showNote = true"
+              @click="showexpensesNote = true"
             />
-            <q-dialog v-model="showNote">
+            <q-dialog v-model="showexpensesNote">
               <q-card flat bordered>
                 <q-card-section>
                   <div class="text-h6">
-                    Expenses Note
+                    Expenses expensesNote
                     <q-btn
                       round
                       flat
@@ -154,66 +173,85 @@
               size="sm"
               flat
               dense
-              @click="editRow = true"
+              @click="openEditDialog(props.row)"
             />
-            <q-dialog v-model="editRow" persistent>
+            <q-dialog v-model="editRowExpenses" persistent>
               <q-card style="width: 700px" class="q-pa-md">
                 <q-card-section class="row">
                   <div class="text-h6">Edit Expenses</div>
                   <q-space />
-                  <q-btn flat round dense icon="close" v-close-popup />
+                  <q-btn
+                    flat
+                    round
+                    dense
+                    icon="close"
+                    v-close-popup
+                    @click="resetModel()"
+                  />
                 </q-card-section>
 
-                <q-card-section class="q-gutter-md row">
-                  <div class="col">
-                    <q-select
-                      filled
-                      v-model="categoryInit"
-                      :options="options"
-                      label="Category"
-                    />
-                  </div>
-                  <div class="col">
-                    <q-input
-                      filled
-                      label="Amount"
-                      prefix="₱"
-                      mask="#.##"
-                      fill-mask="0"
-                      reverse-fill-mask
-                    />
-                  </div>
+                <q-card-section>
+                  <q-form @submit="onEditExpenses">
+                    <div class="q-gutter-md q-py-sm row">
+                      <div class="col">
+                        <q-input
+                          filled
+                          label="Expenses Name"
+                          v-model="inputExpenses.expensesName"
+                        />
+                      </div>
+                      <div class="col">
+                        <q-input
+                          filled
+                          label="Amount"
+                          prefix="₱"
+                          mask="#.##"
+                          fill-mask="0"
+                          reverse-fill-mask
+                          v-model="inputExpenses.expensesAmount"
+                        />
+                      </div>
+                    </div>
+                    <div class="q-gutter-md q-py-sm row">
+                      <div class="col">
+                        <q-select
+                          label="Category"
+                          transition-show="scale"
+                          transition-hide="scale"
+                          filled
+                          v-model="inputExpenses.category"
+                        />
+                      </div>
+                      <div class="col">
+                        <q-select
+                          label="Supplier"
+                          transition-show="scale"
+                          transition-hide="scale"
+                          filled
+                          v-model="inputExpenses.supplier"
+                        />
+                      </div>
+                    </div>
+                    <div class="q-pa-md" style="full-width" full-width>
+                      <q-input
+                        filled
+                        label="Note"
+                        type="textarea"
+                        v-model="inputExpenses.expensesNote"
+                      />
+                    </div>
+                    <div align="right">
+                      <q-btn
+                        flat
+                        label="Cancel"
+                        color="red-10"
+                        v-close-popup
+                        @click="resetModel()"
+                      />
+                      <q-btn flat label="Save" color="primary" type="submit" />
+                    </div>
+                  </q-form>
                 </q-card-section>
-                <q-card-section class="q-gutter-md row">
-                  <div class="col">
-                    <q-select
-                      label="Supplier ID (Optional)"
-                      transition-show="scale"
-                      transition-hide="scale"
-                      filled
-                      v-model="sInit"
-                      :options="suppID"
-                    />
-                  </div>
-                  <div class="col">
-                    <q-select
-                      label="Purchase No:"
-                      transition-show="scale"
-                      transition-hide="scale"
-                      filled
-                      v-model="pInit"
-                      :options="purNo"
-                    />
-                  </div>
-                </q-card-section>
-                <q-card-section class="q-pa-md" style="max-width: 600px">
-                  <q-input filled label="Note" type="textarea" />
-                </q-card-section>
-
-                <q-card-actions align="right">
-                  <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                  <q-btn flat label="Save" color="primary" v-close-popup />
-                </q-card-actions>
               </q-card>
             </q-dialog>
             <q-btn
@@ -224,31 +262,8 @@
               flat
               round
               dense
-              @click="ConfirmDelete = true"
+              @click="deleteSpecificExpenses(props.row)"
             />
-            <q-dialog v-model="ConfirmDelete" persistent>
-              <q-card style="width: 300px">
-                <q-card-section class="row items-center">
-                  <q-avatar
-                    size="sm"
-                    icon="warning"
-                    color="red-10"
-                    text-color="white"
-                  />
-                  <span class="q-ml-sm">Confirm Delete?</span>
-                </q-card-section>
-                <q-card-actions align="right">
-                  <q-btn
-                    flat
-                    label="Cancel"
-                    color="primary"
-                    v-close-popup="cancelEnabled"
-                    :disable="!cancelEnabled"
-                  />
-                  <q-btn flat label="Confirm" color="primary" v-close-popup />
-                </q-card-actions>
-              </q-card>
-            </q-dialog>
           </div>
         </q-td>
       </template>
@@ -258,15 +273,25 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { ExpensesInfo } from 'src/store/expenses/state';
-import { mapState } from 'vuex';
+import { IExpensesInfo } from '../store/expenses/state';
+import { mapState, mapActions } from 'vuex';
 @Options({
   computed: {
-    ...mapState('expenses', ['expenses', 'activeExpenses']),
+    ...mapState('expenses', ['allExpenses']),
+  },
+  methods: {
+    ...mapActions('expenses', [
+      'addExpenses',
+      'editExpenses',
+      'deleteExpenses',
+    ]),
   },
 })
 export default class Expenses extends Vue {
-  expenses!: ExpensesInfo;
+  allExpenses!: IExpensesInfo;
+  addExpenses!: (payload: IExpensesInfo) => Promise<void>;
+  editExpenses!: (payload: IExpensesInfo) => Promise<void>;
+  deleteExpenses!: (payload: IExpensesInfo) => Promise<void>;
 
   columns = [
     {
@@ -274,14 +299,20 @@ export default class Expenses extends Vue {
       required: true,
       label: 'Reference Number',
       align: 'left',
-      field: (row: ExpensesInfo) => row.reference,
+      field: (row: IExpensesInfo) => row.expensesReference,
       format: (val: string) => `${val}`,
     },
     {
-      name: 'date',
+      name: 'expensesName',
+      align: 'center',
+      label: 'Expenses',
+      field: 'expensesName',
+    },
+    {
+      name: 'expensesDateCreated',
       align: 'center',
       label: 'Date',
-      field: 'date',
+      field: 'expensesDateCreated',
     },
     {
       name: 'category',
@@ -290,22 +321,16 @@ export default class Expenses extends Vue {
       field: 'category',
     },
     {
-      name: 'supplier',
-      align: 'center',
-      label: 'Supplier',
-      field: 'supplier',
-    },
-    {
-      name: 'amount',
+      name: 'expensesAmount',
       align: 'center',
       label: 'Amount',
-      field: 'amount',
+      field: 'expensesAmount',
     },
     {
-      name: 'note',
+      name: 'expensesNote',
       align: 'center',
       label: 'Note',
-      field: 'note',
+      field: 'expensesNote',
     },
     {
       name: 'action',
@@ -316,30 +341,83 @@ export default class Expenses extends Vue {
   ];
 
   selected = [];
-  Note =
+  expensesNote =
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!';
   ConfirmDelete = false;
   cancelEnabled = true;
-  addExp = false;
-  editRow = false;
-  showNote = false;
+  addNewExpenses = false;
+  editRowExpenses = false;
+  showexpensesNote = false;
   filter = '';
 
   pInit = null;
   sInit = null;
   categoryInit = null;
-
-  defaultExpenses: ExpensesInfo = {
-    reference: '',
-    date: '',
-    category: '',
-    supplier: '',
-    amount: 0,
-    note: '',
-  };
-  presentExpenses = { ...this.defaultExpenses };
   suppID = [2020119, 2020221, 2020113];
   purNo = ['Chocolate Powder'];
   options = ['Admin', 'Cashier'];
+
+  inputExpenses: IExpensesInfo = {
+    expensesReference: '',
+    expensesName: '',
+    expensesDateCreated: '',
+    category: '',
+    supplier: '',
+    expensesAmount: 0,
+    expensesNote: '',
+  };
+
+  async onAddExpenses() {
+    await this.addExpenses(this.inputExpenses);
+    this.addNewExpenses = false;
+    this.resetModel();
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Adeded.',
+    });
+  }
+
+  async onEditExpenses() {
+    await this.editExpenses(this.inputExpenses);
+    this.editRowExpenses = false;
+    this.resetModel();
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Edit.',
+    });
+  }
+
+  deleteSpecificExpenses(val: IExpensesInfo) {
+    this.$q
+      .dialog({
+        message: 'Confirm to delete?',
+        cancel: true,
+        persistent: true,
+      })
+      .onOk(async () => {
+        await this.deleteExpenses(val);
+        this.$q.notify({
+          type: 'warning',
+          message: 'Successfully deleted',
+        });
+      });
+  }
+
+  openEditDialog(val: IExpensesInfo) {
+    this.editRowExpenses = true;
+    this.inputExpenses = { ...val };
+  }
+
+  resetModel() {
+    this.inputExpenses = {
+      expensesReference: '',
+      expensesName: '',
+      expensesDateCreated: '',
+      category: '',
+      supplier: '',
+      expensesAmount: 0,
+      expensesNote: '',
+    };
+  }
 }
 </script>
