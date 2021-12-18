@@ -1,38 +1,38 @@
-export interface InventoryInfo {
+export interface iInventoryInfo {
   itemCode: string;
   itemName: string;
-  quantProd: string;
-  unitProd: string;
-  catProd: string;
-  ExpiryDate: string;
-  dateProd: string;
+  itemQuantProd: string;
+  itemUnitProd: string;
+  itemCategory: string;
+  itemExpiryDate: string;
+  itemDateCreated: string;
 }
 
 export interface InventoryStateInterface {
-  inventory: InventoryInfo[];
-  activeInventory?: InventoryInfo;
+  allInventory: iInventoryInfo[];
+  activeInventory?: iInventoryInfo;
 }
 
 function state(): InventoryStateInterface {
   return {
-    inventory: [
+    allInventory: [
       {
         itemCode: '3DDS456FVGHS23',
         itemName: 'Chocolate Powder',
-        quantProd: '34',
-        unitProd: 'Kilogram (kg)',
-        catProd: 'Powder',
-        ExpiryDate: '12/23/2022',
-        dateProd: '12/23/2313',
+        itemQuantProd: '34',
+        itemUnitProd: 'Kilogram (kg)',
+        itemCategory: 'Powder',
+        itemExpiryDate: '12/23/2022',
+        itemDateCreated: '12/23/2313',
       },
       {
         itemCode: '3DDS456FVGHS23',
         itemName: 'Milk Powder',
-        quantProd: '34',
-        unitProd: 'Kilogram (kg)',
-        catProd: 'Powder',
-        ExpiryDate: '12/23/2022',
-        dateProd: '12/23/2313',
+        itemQuantProd: '34',
+        itemUnitProd: 'Kilogram (kg)',
+        itemCategory: 'Powder',
+        itemExpiryDate: '12/23/2022',
+        itemDateCreated: '12/23/2313',
       },
     ],
   };

@@ -8,7 +8,7 @@
       <div class="q-pr-md col-10">
         <q-table
           title="Inventory List"
-          :rows="inventory"
+          :rows="allInventory"
           :columns="columns"
           row-key="itemCode"
           :rows-per-page-options="[0]"
@@ -72,50 +72,78 @@
                 dense
                 flat
                 icon="add"
-                @click="addProd = true"
+                @click="addNewInventory = true"
               />
-              <q-dialog v-model="addProd" persistent>
+              <q-dialog v-model="addNewInventory" persistent>
                 <q-card style="width: 800px; max-width: 100vw" class="q-pa-md">
                   <q-card-section class="row">
                     <div class="text-h6">Add Product</div>
                     <q-space />
-                    <q-btn flat round dense icon="close" v-close-popup />
+                    <q-btn
+                      flat
+                      round
+                      dense
+                      icon="close"
+                      v-close-popup
+                      @click="resetModel()"
+                    />
                   </q-card-section>
 
-                  <q-card-section class="q-gutter-md row">
-                    <div class="col">
-                      <q-input outlined label="Product Code" />
-                    </div>
-                    <div class="col">
-                      <q-input outlined label="Name" />
-                    </div>
+                  <q-card-section>
+                    <q-form @submit="onAddInventory">
+                      <div class="q-py-sm q-gutter-md row">
+                        <div class="col">
+                          <q-input
+                            outlined
+                            label="Product Code"
+                            v-model="inputInventory.itemCode"
+                          />
+                        </div>
+                        <div class="col">
+                          <q-input
+                            outlined
+                            label="Name"
+                            v-model="inputInventory.itemName"
+                          />
+                        </div>
+                      </div>
+                      <div class="q-py-sm q-gutter-md row">
+                        <div class="col">
+                          <q-select
+                            outlined
+                            v-model="inputInventory.itemCategory"
+                            :options="catInvOpt"
+                            label="Category"
+                          />
+                        </div>
+                        <div class="col">
+                          <q-select
+                            outlined
+                            v-model="inputInventory.itemUnitProd"
+                            :options="unitInvOpt"
+                            label="Unit"
+                          />
+                        </div>
+                        <div class="col">
+                          <q-input
+                            outlined
+                            label="Quantity"
+                            v-model="inputInventory.itemQuantProd"
+                          />
+                        </div>
+                      </div>
+                      <div align="right">
+                        <q-btn
+                          flat
+                          label="Cancel"
+                          color="red-10"
+                          v-close-popup
+                          @click="resetModel()"
+                        />
+                        <q-btn flat label="Add" color="primary" type="submit" />
+                      </div>
+                    </q-form>
                   </q-card-section>
-                  <q-card-section class="q-gutter-md row">
-                    <div class="col">
-                      <q-select
-                        outlined
-                        v-model="catInv"
-                        :options="catInvOpt"
-                        label="Category"
-                      />
-                    </div>
-                    <div class="col">
-                      <q-select
-                        outlined
-                        v-model="unitInv"
-                        :options="unitInvOpt"
-                        label="Unit"
-                      />
-                    </div>
-                    <div class="col">
-                      <q-input outlined label="Quantity" />
-                    </div>
-                  </q-card-section>
-
-                  <q-card-actions align="right">
-                    <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                    <q-btn flat label="Add" color="primary" v-close-popup />
-                  </q-card-actions>
                 </q-card>
               </q-dialog>
             </div>
@@ -130,9 +158,9 @@
                   size="sm"
                   flat
                   dense
-                  @click="editProd = true"
+                  @click="openEditDialog(props.row)"
                 />
-                <q-dialog v-model="editProd" persistent>
+                <q-dialog v-model="editRowInventory" persistent>
                   <q-card
                     style="width: 800px; max-width: 100vw"
                     class="q-pa-md"
@@ -140,43 +168,76 @@
                     <q-card-section class="row">
                       <div class="text-h6">Add Product</div>
                       <q-space />
-                      <q-btn flat round dense icon="close" v-close-popup />
+                      <q-btn
+                        flat
+                        round
+                        dense
+                        icon="close"
+                        v-close-popup
+                        @click="resetModel()"
+                      />
                     </q-card-section>
 
-                    <q-card-section class="q-gutter-md row">
-                      <div class="col">
-                        <q-input outlined label="Product Code" />
-                      </div>
-                      <div class="col">
-                        <q-input outlined label="Name" />
-                      </div>
+                    <q-card-section>
+                      <q-form @submit="onEditInventory">
+                        <div class="q-py-sm q-gutter-md row">
+                          <div class="col">
+                            <q-input
+                              outlined
+                              label="Product Code"
+                              v-model="inputInventory.itemCode"
+                            />
+                          </div>
+                          <div class="col">
+                            <q-input
+                              outlined
+                              label="Name"
+                              v-model="inputInventory.itemName"
+                            />
+                          </div>
+                        </div>
+                        <div class="q-py-sm q-gutter-md row">
+                          <div class="col">
+                            <q-select
+                              outlined
+                              v-model="inputInventory.itemCategory"
+                              :options="catInvOpt"
+                              label="Category"
+                            />
+                          </div>
+                          <div class="col">
+                            <q-select
+                              outlined
+                              v-model="inputInventory.itemUnitProd"
+                              :options="unitInvOpt"
+                              label="Unit"
+                            />
+                          </div>
+                          <div class="col">
+                            <q-input
+                              outlined
+                              label="Quantity"
+                              v-model="inputInventory.itemQuantProd"
+                            />
+                          </div>
+                        </div>
+                        <div align="right">
+                          <q-btn
+                            flat
+                            label="Cancel"
+                            color="red-10"
+                            v-close-popup
+                            @click="resetModel()"
+                          />
+                          <q-btn
+                            flat
+                            label="Add"
+                            color="primary"
+                            type="submit"
+                          />
+                        </div>
+                      </q-form>
                     </q-card-section>
-                    <q-card-section class="q-gutter-md row">
-                      <div class="col">
-                        <q-select
-                          outlined
-                          v-model="catInv"
-                          :options="catInvOpt"
-                          label="Category"
-                        />
-                      </div>
-                      <div class="col">
-                        <q-select
-                          outlined
-                          v-model="unitInv"
-                          :options="unitInvOpt"
-                          label="Unit"
-                        />
-                      </div>
-                      <div class="col">
-                        <q-input outlined label="Quantity" />
-                      </div>
-                    </q-card-section>
-
-                    <q-card-actions align="right">
-                      <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                      <q-btn flat label="Save" color="primary" v-close-popup />
-                    </q-card-actions>
                   </q-card>
                 </q-dialog>
                 <q-btn
@@ -187,36 +248,8 @@
                   flat
                   round
                   dense
-                  @click="delProd = true"
+                  @click="deleteSpecificInventory(props.row)"
                 />
-                <q-dialog v-model="delProd" persistent>
-                  <q-card style="width: 300px">
-                    <q-card-section class="row items-center">
-                      <q-avatar
-                        size="sm"
-                        icon="warning"
-                        color="red-10"
-                        text-color="white"
-                      />
-                      <span class="q-ml-sm">Confirm Delete?</span>
-                    </q-card-section>
-                    <q-card-actions align="right">
-                      <q-btn
-                        flat
-                        label="Cancel"
-                        color="primary"
-                        v-close-popup="cancelEnabled"
-                        :disable="!cancelEnabled"
-                      />
-                      <q-btn
-                        flat
-                        label="Confirm"
-                        color="primary"
-                        v-close-popup
-                      />
-                    </q-card-actions>
-                  </q-card>
-                </q-dialog>
               </div>
             </q-td>
           </template>
@@ -265,16 +298,26 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { InventoryInfo } from 'src/store/inventory/state';
-import { mapState } from 'vuex';
+import { iInventoryInfo } from '../store/inventory/state';
+import { mapState, mapActions } from 'vuex';
 
 @Options({
   computed: {
-    ...mapState('inventory', ['inventory', 'activeInventory']),
+    ...mapState('inventory', ['allInventory']),
+  },
+  methods: {
+    ...mapActions('inventory', [
+      'addInventory',
+      'editInventory',
+      'deleteInventory',
+    ]),
   },
 })
 export default class Expenses extends Vue {
-  inventory!: InventoryInfo[];
+  allInventory!: iInventoryInfo[];
+  addInventory!: (payload: iInventoryInfo) => Promise<void>;
+  editInventory!: (payload: iInventoryInfo) => Promise<void>;
+  deleteInventory!: (payload: iInventoryInfo) => Promise<void>;
 
   columns = [
     {
@@ -282,7 +325,7 @@ export default class Expenses extends Vue {
       required: true,
       label: 'Item Code',
       align: 'left',
-      field: (row: InventoryInfo) => row.itemCode,
+      field: (row: iInventoryInfo) => row.itemCode,
       format: (val: string) => `${val}`,
     },
     {
@@ -293,35 +336,35 @@ export default class Expenses extends Vue {
     },
 
     {
-      name: 'quantProd',
+      name: 'itemQuantProd',
       align: 'center',
       label: 'Quantity',
-      field: 'quantProd',
+      field: 'itemQuantProd',
     },
     {
-      name: 'unitProd',
+      name: 'itemUnitProd',
       align: 'center',
       label: 'Unit',
-      field: 'unitProd',
+      field: 'itemUnitProd',
     },
     {
-      name: 'catProd',
+      name: 'itemCategory',
       align: 'center',
       label: 'Category',
-      field: 'catProd',
+      field: 'itemCategory',
     },
     {
-      name: 'ExpiryDate',
+      name: 'itemExpiryDate',
       align: 'center',
       label: 'Expiry Date',
-      field: 'ExpiryDate',
+      field: 'itemExpiryDate',
     },
 
     {
-      name: 'dateProd',
+      name: 'itemDateCreated',
       align: 'center',
       label: 'Date Stock In',
-      field: 'dateProd',
+      field: 'itemDateCreated',
     },
 
     {
@@ -334,25 +377,77 @@ export default class Expenses extends Vue {
 
   prodIssue = false;
   selected = [];
-  addProd = false;
-  editProd = false;
+  addNewInventory = false;
+  editRowInventory = false;
   delProd = false;
   cancelEnabled = true;
   filter = '';
   catInv = '';
   unitInv = '';
   catInvOpt = [''];
+  unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
 
-  defaultInventory: InventoryInfo = {
+  inputInventory: iInventoryInfo = {
     itemCode: '',
     itemName: '',
-    quantProd: '',
-    unitProd: '',
-    catProd: '',
-    ExpiryDate: '',
-    dateProd: '',
+    itemQuantProd: '',
+    itemUnitProd: '',
+    itemCategory: '',
+    itemExpiryDate: '',
+    itemDateCreated: '',
   };
-  presentInventory = { ...this.defaultInventory };
-  unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
+
+  async onAddInventory() {
+    await this.addInventory(this.inputInventory);
+    this.addNewInventory = false;
+    this.resetModel();
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Adeded.',
+    });
+  }
+
+  async onEditInventory() {
+    await this.editInventory(this.inputInventory);
+    this.editRowInventory = false;
+    this.resetModel();
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Edit.',
+    });
+  }
+
+  deleteSpecificInventory(val: iInventoryInfo) {
+    this.$q
+      .dialog({
+        message: 'Confirm to delete?',
+        cancel: true,
+        persistent: true,
+      })
+      .onOk(async () => {
+        await this.deleteInventory(val);
+        this.$q.notify({
+          type: 'warning',
+          message: 'Successfully deleted',
+        });
+      });
+  }
+
+  openEditDialog(val: iInventoryInfo) {
+    this.editRowInventory = true;
+    this.inputInventory = { ...val };
+  }
+
+  resetModel() {
+    this.inputInventory = {
+      itemCode: '',
+      itemName: '',
+      itemQuantProd: '',
+      itemUnitProd: '',
+      itemCategory: '',
+      itemExpiryDate: '',
+      itemDateCreated: '',
+    };
+  }
 }
 </script>
