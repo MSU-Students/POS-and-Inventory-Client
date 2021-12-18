@@ -6,7 +6,7 @@
     </div>
     <q-table
       title="Menu products"
-      :rows="managePOS"
+      :rows="allManageSale"
       :columns="columns"
       row-key="name"
       :rows-per-page-options="[0]"
@@ -33,106 +33,31 @@
             dense
             flat
             icon="add"
-            @click="addProd = true"
+            @click="addNewManageSale = true"
           />
-          <q-dialog v-model="addProd" persistent>
+          <q-dialog v-model="addNewManageSale" persistent>
             <q-card style="width: 600px; max-width: 35vw">
               <q-card-section class="row">
                 <div class="text-h6">Add Product</div>
                 <q-space />
-                <q-btn flat round dense icon="close" v-close-popup />
+                <q-btn
+                  flat
+                  round
+                  dense
+                  icon="close"
+                  v-close-popup
+                  @click="resetModel()"
+                />
               </q-card-section>
 
               <q-card-section>
-                <div class="row q-gutter-md">
-                  <div class="col">
-                    <q-input
-                      class="q-py-md"
-                      outlined
-                      v-model="Name"
-                      label="Product Name"
-                    >
-                      <template v-slot:prepend>
-                        <q-icon name="drive_file_rename_outline" />
-                      </template>
-                    </q-input>
-                  </div>
-                  <div class="col">
-                    <q-file
-                      class="q-py-md"
-                      outlined
-                      v-model="Name"
-                      label="Product Name"
-                      accept=".jpg, image/*"
-                    >
-                      <template v-slot:prepend>
-                        <q-icon name="drive_file_rename_outline" />
-                      </template>
-                    </q-file>
-                  </div>
-                </div>
-                <div class="row q-gutter-md">
-                  <div class="col">
-                    <q-select
-                      class="q-py-md"
-                      outlined
-                      :options="categoryType"
-                      v-model="category"
-                      label="Category"
-                    >
-                      <template v-slot:prepend>
-                        <q-icon name="category" />
-                      </template>
-                    </q-select>
-                  </div>
-                  <div class="col">
-                    <q-input
-                      class="q-py-md"
-                      outlined
-                      label="Amount"
-                      mask="#.##"
-                      fill-mask="0"
-                      reverse-fill-mask
-                    >
-                      <template v-slot:prepend> ₱ </template>
-                    </q-input>
-                  </div>
-                </div>
-              </q-card-section>
-              <q-card-actions align="right">
-                <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                <q-btn flat label="Save" color="primary" v-close-popup />
-              </q-card-actions>
-            </q-card>
-          </q-dialog>
-        </div>
-      </template>
-      <template v-slot:body-cell-Actions="props">
-        <q-td :props="props">
-          <div class="q-gutter-sm">
-            <q-btn
-              round
-              color="blue"
-              icon="edit"
-              size="sm"
-              flat
-              dense
-              @click="editRow = true"
-            />
-            <q-dialog v-model="editRow" persistent>
-              <q-card style="width: 900px; max-width: 35vw">
-                <q-card-section class="row">
-                  <div class="text-h6">Edit Product</div>
-                  <q-space />
-                  <q-btn flat round dense icon="close" v-close-popup />
-                </q-card-section>
-                <q-card-section>
+                <q-form @submit="onAddManageSale">
                   <div class="row q-gutter-md">
                     <div class="col">
                       <q-input
                         class="q-py-md"
                         outlined
-                        v-model="Name"
+                        v-model="inputManageSale.productName"
                         label="Product Name"
                       >
                         <template v-slot:prepend>
@@ -145,11 +70,11 @@
                         class="q-py-md"
                         outlined
                         v-model="Name"
-                        label="Product Name"
+                        label="Product Image"
                         accept=".jpg, image/*"
                       >
                         <template v-slot:prepend>
-                          <q-icon name="drive_file_rename_outline" />
+                          <q-icon name="camera" />
                         </template>
                       </q-file>
                     </div>
@@ -159,8 +84,8 @@
                       <q-select
                         class="q-py-md"
                         outlined
-                        :options="categoryType"
-                        v-model="category"
+                        :options="productCategoryType"
+                        v-model="inputManageSale.productCategory"
                         label="Category"
                       >
                         <template v-slot:prepend>
@@ -176,6 +101,7 @@
                         mask="#.##"
                         fill-mask="0"
                         reverse-fill-mask
+                        v-model="inputManageSale.productPrice"
                       >
                         <template v-slot:prepend> ₱ </template>
                       </q-input>
@@ -187,22 +113,145 @@
                     </q-item-section>
                     <q-item-section avatar>
                       <q-toggle
-                        :label="availability"
+                        :label="productAvailability"
                         class="q-py-md"
                         outlined
                         size="lg"
                         color="pink"
                         false-value="NO"
                         true-value="YES"
-                        v-model="availability"
+                        v-model="inputManageSale.productAvailability"
                       />
                     </q-item-section>
                   </q-item>
+                  <div align="right">
+                    <q-btn
+                      flat
+                      label="Cancel"
+                      color="red-10"
+                      v-close-popup
+                      @click="resetModel()"
+                    />
+                    <q-btn flat label="Save" color="primary" type="submit" />
+                  </div>
+                </q-form>
+              </q-card-section>
+            </q-card>
+          </q-dialog>
+        </div>
+      </template>
+      <template v-slot:body-cell-Actions="props">
+        <q-td :props="props">
+          <div class="q-gutter-sm">
+            <q-btn
+              round
+              color="blue"
+              icon="edit"
+              size="sm"
+              flat
+              dense
+              @click="openEditDialog(props.row)"
+            />
+            <q-dialog v-model="editRowManageSale" persistent>
+              <q-card style="width: 900px; max-width: 35vw">
+                <q-card-section class="row">
+                  <div class="text-h6">Edit Product</div>
+                  <q-space />
+                  <q-btn
+                    flat
+                    round
+                    dense
+                    icon="close"
+                    v-close-popup
+                    @click="resetModel()"
+                  />
                 </q-card-section>
-                <q-card-actions align="right">
-                  <q-btn flat label="Cancel" color="red-10" v-close-popup />
-                  <q-btn flat label="Save" color="primary" v-close-popup />
-                </q-card-actions>
+                <q-card-section>
+                  <q-form @submit="onEditManageSale">
+                    <div class="row q-gutter-md">
+                      <div class="col">
+                        <q-input
+                          class="q-py-md"
+                          outlined
+                          v-model="inputManageSale.productName"
+                          label="Product Name"
+                        >
+                          <template v-slot:prepend>
+                            <q-icon name="drive_file_rename_outline" />
+                          </template>
+                        </q-input>
+                      </div>
+                      <div class="col">
+                        <q-file
+                          class="q-py-md"
+                          outlined
+                          v-model="Name"
+                          label="Product Image"
+                          accept=".jpg, image/*"
+                        >
+                          <template v-slot:prepend>
+                            <q-icon name="camera" />
+                          </template>
+                        </q-file>
+                      </div>
+                    </div>
+                    <div class="row q-gutter-md">
+                      <div class="col">
+                        <q-select
+                          class="q-py-md"
+                          outlined
+                          :options="productCategoryType"
+                          v-model="inputManageSale.productCategory"
+                          label="Category"
+                        >
+                          <template v-slot:prepend>
+                            <q-icon name="category" />
+                          </template>
+                        </q-select>
+                      </div>
+                      <div class="col">
+                        <q-input
+                          class="q-py-md"
+                          outlined
+                          label="Amount"
+                          mask="#.##"
+                          fill-mask="0"
+                          reverse-fill-mask
+                          v-model="inputManageSale.productPrice"
+                        >
+                          <template v-slot:prepend> ₱ </template>
+                        </q-input>
+                      </div>
+                    </div>
+                    <q-item tag="label" v-ripple>
+                      <q-item-section>
+                        <q-item-label>Availability</q-item-label>
+                      </q-item-section>
+                      <q-item-section avatar>
+                        <q-toggle
+                          :label="productAvailability"
+                          class="q-py-md"
+                          outlined
+                          size="lg"
+                          color="pink"
+                          false-value="NO"
+                          true-value="YES"
+                          v-model="inputManageSale.productAvailability"
+                        />
+                      </q-item-section>
+                    </q-item>
+                    <div align="right">
+                      <q-btn
+                        flat
+                        label="Cancel"
+                        color="red-10"
+                        v-close-popup
+                        @click="resetModel()"
+                      />
+                      <q-btn flat label="Save" color="primary" type="submit" />
+                    </div>
+                  </q-form>
+                </q-card-section>
               </q-card>
             </q-dialog>
             <q-btn
@@ -213,31 +262,8 @@
               flat
               round
               dense
-              @click="ConfirmDelete = true"
+              @click="deleteSpecificManageSale(props.row)"
             />
-            <q-dialog v-model="ConfirmDelete" persistent>
-              <q-card style="width: 300px">
-                <q-card-section class="row items-center">
-                  <q-avatar
-                    size="sm"
-                    icon="warning"
-                    color="red-10"
-                    text-color="white"
-                  />
-                  <span class="q-ml-sm">Confirm Delete?</span>
-                </q-card-section>
-                <q-card-actions align="right">
-                  <q-btn
-                    flat
-                    label="Cancel"
-                    color="primary"
-                    v-close-popup="cancelEnabled"
-                    :disable="!cancelEnabled"
-                  />
-                  <q-btn flat label="Confirm" color="primary" v-close-popup />
-                </q-card-actions>
-              </q-card>
-            </q-dialog>
           </div>
         </q-td>
       </template>
@@ -247,30 +273,41 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { ManagePOSInfo } from 'src/store/managePOS/state';
-import { mapState } from 'vuex';
+import { IManageSaleInfo } from '../store/manageSale/state';
+import { mapState, mapActions } from 'vuex';
 
 @Options({
   computed: {
-    ...mapState('managePOS', ['managePOS', 'activeManagePOS']),
+    ...mapState('manageSale', ['allManageSale']),
+  },
+  methods: {
+    ...mapActions('manageSale', [
+      'addManageSale',
+      'editManageSale',
+      'deleteManageSale',
+    ]),
   },
 })
 export default class ManageAccount extends Vue {
-  managePOS!: ManagePOSInfo[];
+  allManageSale!: IManageSaleInfo[];
+  addManageSale!: (payload: IManageSaleInfo) => Promise<void>;
+  editManageSale!: (payload: IManageSaleInfo) => Promise<void>;
+  deleteManageSale!: (payload: IManageSaleInfo) => Promise<void>;
+
   columns = [
     {
       name: 'product_ID',
       required: true,
       label: 'Product Number',
       align: 'left',
-      field: (row: ManagePOSInfo) => row.product_ID,
+      field: (row: IManageSaleInfo) => row.product_ID,
       format: (val: string) => `${val}`,
     },
     {
-      name: 'name',
+      name: 'productName',
       align: 'center',
       label: 'Product Name',
-      field: 'name',
+      field: 'productName',
     },
     {
       name: 'productPrice',
@@ -279,16 +316,16 @@ export default class ManageAccount extends Vue {
       field: 'productPrice',
     },
     {
-      name: 'Category',
+      name: 'productCategory',
       align: 'center',
-      label: 'Category',
-      field: 'Category',
+      label: 'productCategory',
+      field: 'productCategory',
     },
     {
-      name: 'Availability',
+      name: 'productAvailability',
       align: 'center',
-      label: 'Product Availability ',
-      field: 'Availability',
+      label: 'Product productAvailability ',
+      field: 'productAvailability',
     },
     {
       name: 'Actions',
@@ -299,24 +336,73 @@ export default class ManageAccount extends Vue {
   ];
   Name = '';
   price = '';
-  categoryType = ['Beverage/Drinks', 'Food', 'Add-ons', 'Appetizer'];
-  category = '';
-  addProd = false;
-  availability = 'Availability Option';
+  productCategoryType = ['Beverage/Drinks', 'Food', 'Add-ons', 'Appetizer'];
+  addNewManageSale = false;
+  productAvailability = 'productAvailability Option';
   filter = '';
   files = '';
   cancelEnabled = true;
   addUser = false;
-  editRow = false;
+  editRowManageSale = false;
   ConfirmDelete = false;
 
-  defaultManagePOS: ManagePOSInfo = {
+  inputManageSale: IManageSaleInfo = {
     product_ID: '',
-    name: '',
+    productName: '',
     productPrice: 0,
-    Category: '',
-    Availability: '',
+    productCategory: '',
+    productAvailability: '',
   };
-  presentManagePOS = { ...this.defaultManagePOS };
+
+  async onAddManageSale() {
+    await this.addManageSale(this.inputManageSale);
+    this.addNewManageSale = false;
+    this.resetModel();
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Adeded.',
+    });
+  }
+
+  async onEditManageSale() {
+    await this.editManageSale(this.inputManageSale);
+    this.editRowManageSale = false;
+    this.resetModel();
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Edit.',
+    });
+  }
+
+  deleteSpecificManageSale(val: IManageSaleInfo) {
+    this.$q
+      .dialog({
+        message: 'Confirm to delete?',
+        cancel: true,
+        persistent: true,
+      })
+      .onOk(async () => {
+        await this.deleteManageSale(val);
+        this.$q.notify({
+          type: 'warning',
+          message: 'Successfully deleted',
+        });
+      });
+  }
+
+  openEditDialog(val: IManageSaleInfo) {
+    this.editRowManageSale = true;
+    this.inputManageSale = { ...val };
+  }
+
+  resetModel() {
+    this.inputManageSale = {
+      product_ID: '',
+      productName: '',
+      productPrice: 0,
+      productCategory: '',
+      productAvailability: '',
+    };
+  }
 }
 </script>
