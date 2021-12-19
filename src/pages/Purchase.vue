@@ -17,7 +17,7 @@
     </div>
     <q-table
       title="Purchase List"
-      :rows="purchase"
+      :rows="allPurchase"
       :columns="columns"
       row-key="name"
       :rows-per-page-options="[0]"
@@ -399,7 +399,7 @@
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { PurchaseInfo } from 'src/store/purchase/state';
+import { IPurchaseInfo } from '../store/purchase/state';
 import { mapState } from 'vuex';
 
 interface pdrow {
@@ -412,26 +412,26 @@ interface peekrow {
 
 @Options({
   computed: {
-    ...mapState('purchase', ['purchase', 'PurchaseInfo']),
+    ...mapState('purchase', ['allPurchase']),
   },
 })
 export default class ManageAccount extends Vue {
-  purchase!: PurchaseInfo[];
+  allPurchase!: IPurchaseInfo[];
 
   columns = [
     {
-      name: 'product',
+      name: 'purchaseProduct',
       required: true,
       label: 'Order Reference',
       align: 'left',
-      field: (row: PurchaseInfo) => row.product,
+      field: (row: IPurchaseInfo) => row.purchaseProduct,
       format: (val: string) => `${val}`,
     },
     {
-      name: 'date',
+      name: 'purchaseDate',
       align: 'center',
       label: 'Date',
-      field: 'date',
+      field: 'purchaseDate',
     },
     {
       name: 'supplier',
@@ -440,24 +440,34 @@ export default class ManageAccount extends Vue {
       field: 'supplier',
     },
     {
-      name: 'status',
+      name: 'purchaseStatus',
       align: 'center',
       label: 'Purchase Status',
-      field: 'status',
+      field: 'purchaseStatus',
     },
     {
-      name: 'total',
+      name: 'purchaseTotal',
       align: 'center',
       label: 'Grand Total',
-      field: 'total',
+      field: 'purchaseTotal',
     },
-    { name: 'paid', align: 'center', label: 'Paid', field: 'paid' },
-    { name: 'balance', align: 'center', label: 'Balance', field: 'balance' },
     {
-      name: 'paystatus',
+      name: 'purchasePaid',
+      align: 'center',
+      label: 'Paid',
+      field: 'purchasePaid',
+    },
+    {
+      name: 'purchaseBalance',
+      align: 'center',
+      label: 'Balance',
+      field: 'purchaseBalance',
+    },
+    {
+      name: 'purchasePayStatus',
       align: 'center',
       label: 'Pay Status',
-      field: 'paystatus',
+      field: 'purchasePayStatus',
     },
     { name: 'Details', align: 'center', label: 'Details', field: 'Details' },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
@@ -570,16 +580,15 @@ export default class ManageAccount extends Vue {
     console.log('Clicked!');
   }
 
-  defaultPurchse: PurchaseInfo = {
-    product: ' ',
-    date: '',
+  inputPurchse: IPurchaseInfo = {
+    purchaseProduct: '',
+    purchaseDate: '',
     supplier: '',
-    status: '',
-    total: '',
-    paid: '',
-    balance: '',
-    paystatus: '',
+    purchaseStatus: '',
+    purchaseTotal: '',
+    purchasePaid: '',
+    purchaseBalance: '',
+    purchasePayStatus: '',
   };
-  presentPurchase = { ...this.defaultPurchse };
 }
 </script>

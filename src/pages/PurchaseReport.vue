@@ -1,11 +1,11 @@
 <template>
-    <q-page class="q-pa-lg">
+  <q-page class="q-pa-lg">
     <div class="text-h4 q-pb-lg text-bold">
       <q-icon name="request_quote" color="indigo" style="font-size: 4rem" />
       Purchase Report
     </div>
     <div class="row my-card">
-      <div class="q-pr-md col-10 ">
+      <div class="q-pr-md col-10">
         <q-table
           title="Purchase List"
           :rows="rows"
@@ -72,7 +72,11 @@
     <div class="q-py-md row">
       <div class="q-px-sm col-8">
         <q-card>
-          <q-list bordered class="rounded-borders" style="width: 800px max-width: 800px">
+          <q-list
+            bordered
+            class="rounded-borders"
+            style="width: 800px max-width: 800px"
+          >
             <q-item-label header>Pending Purchase</q-item-label>
 
             <q-item>
@@ -87,7 +91,7 @@
               <q-item-section top>
                 <q-item-label lines="1">
                   <span class="text-weight-medium">Supplier:</span>
-                  <span class="text-grey-8">  Nestle Company</span>
+                  <span class="text-grey-8"> Nestle Company</span>
                 </q-item-label>
                 <q-item-label caption lines="1">
                   Purchase Quantity: 300 Packs
@@ -103,14 +107,11 @@
                   Date: 04/03/2021
                 </q-item-label>
               </q-item-section>
-
-              
             </q-item>
 
             <q-separator spaced />
 
             <q-item>
-              
               <q-item-section avatar top>
                 <q-icon name="pending_actions" color="black" size="34px" />
               </q-item-section>
@@ -122,22 +123,21 @@
               <q-item-section top>
                 <q-item-label lines="1">
                   <span class="text-weight-medium">Supplier:</span>
-                  <span class="text-grey-8">  CDO corps.</span>
+                  <span class="text-grey-8"> CDO corps.</span>
                 </q-item-label>
                 <q-item-label caption lines="1">
                   Purchase Quantity: 50 Boxes
                 </q-item-label>
-              
               </q-item-section>
 
-                <q-item-section top side>
-                  <q-item-label lines="1">
-                    <span class="text-weight-medium">Price:</span>
-                    <span class="text-grey-8"> ₱8000.00</span>
-                  </q-item-label>
-                  <q-item-label caption lines="1">
-                    Date: 05/11/2021
-                  </q-item-label>
+              <q-item-section top side>
+                <q-item-label lines="1">
+                  <span class="text-weight-medium">Price:</span>
+                  <span class="text-grey-8"> ₱8000.00</span>
+                </q-item-label>
+                <q-item-label caption lines="1">
+                  Date: 05/11/2021
+                </q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -160,7 +160,7 @@
               <q-item-section top>
                 <q-item-label lines="1">
                   <span class="text-weight-medium">Supplier:</span>
-                  <span class="text-grey-8">  None</span>
+                  <span class="text-grey-8"> None</span>
                 </q-item-label>
                 <q-item-label caption lines="1">
                   Purchase Quantity: 10 Packs
@@ -176,8 +176,6 @@
                   Date: 04/03/2021
                 </q-item-label>
               </q-item-section>
-
-              
             </q-item>
 
             <q-separator spaced />
@@ -186,16 +184,14 @@
       </div>
     </div>
     <div class="q-pt-sm row">
-        <q-card>
-          <q-card-section>
+      <q-card>
+        <q-card-section>
           <q-item-section>
-            <div class="text-h6">
-              Monthly Cost 
-            </div>
+            <div class="text-h6">Monthly Cost</div>
           </q-item-section>
         </q-card-section>
         <q-card-section>
-          <costChart/>
+          <costChart />
         </q-card-section>
       </q-card>
     </div>
@@ -252,7 +248,7 @@ export default class Expenses extends Vue {
       label: 'Category',
       field: 'catProd',
     },
-     {
+    {
       name: 'Amount',
       align: 'center',
       label: 'Purchase Amount',
@@ -307,13 +303,12 @@ export default class Expenses extends Vue {
       catProd: 'Equipment',
       Amount: '11500',
       dateProd: '12/11/2021',
-    },  
-
+    },
   ];
 
   prodIssue = false;
   selected = [];
- 
+
   editProd = false;
   delProd = false;
   cancelEnabled = true;
@@ -321,7 +316,6 @@ export default class Expenses extends Vue {
   catInv = '';
   unitInv = '';
   catInvOpt = [''];
-  
 }
 </script>
 <style lang="sass" scoped>
@@ -330,5 +324,4 @@ export default class Expenses extends Vue {
   margin: auto
   height: 56vh
   width: 113vw
-
 </style>

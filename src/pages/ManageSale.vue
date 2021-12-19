@@ -97,7 +97,7 @@
                       <q-input
                         class="q-py-md"
                         outlined
-                        label="Amount"
+                        label="Price"
                         mask="#.##"
                         fill-mask="0"
                         reverse-fill-mask
@@ -107,24 +107,24 @@
                       </q-input>
                     </div>
                   </div>
-                  <q-item tag="label" v-ripple>
+                  <q-item>
                     <q-item-section>
-                      <q-item-label>Availability</q-item-label>
+                      <q-item-label class="text-subtitle1">
+                        Availability
+                      </q-item-label>
                     </q-item-section>
                     <q-item-section avatar>
                       <q-toggle
-                        :label="productAvailability"
-                        class="q-py-md"
                         outlined
                         size="lg"
-                        color="pink"
-                        false-value="NO"
-                        true-value="YES"
+                        color="green"
+                        false-value="No"
+                        true-value="Yes"
                         v-model="inputManageSale.productAvailability"
                       />
                     </q-item-section>
                   </q-item>
-                  <div align="right">
+                  <div class="q-py-md" align="right">
                     <q-btn
                       flat
                       label="Cancel"
@@ -213,7 +213,7 @@
                         <q-input
                           class="q-py-md"
                           outlined
-                          label="Amount"
+                          label="Price"
                           mask="#.##"
                           fill-mask="0"
                           reverse-fill-mask
@@ -223,24 +223,24 @@
                         </q-input>
                       </div>
                     </div>
-                    <q-item tag="label" v-ripple>
+                    <q-item>
                       <q-item-section>
-                        <q-item-label>Availability</q-item-label>
+                        <q-item-label class="text-subtitle1">
+                          Availability
+                        </q-item-label>
                       </q-item-section>
                       <q-item-section avatar>
                         <q-toggle
-                          :label="productAvailability"
-                          class="q-py-md"
                           outlined
                           size="lg"
-                          color="pink"
-                          false-value="NO"
-                          true-value="YES"
+                          color="green"
+                          false-value="No"
+                          true-value="Yes"
                           v-model="inputManageSale.productAvailability"
                         />
                       </q-item-section>
                     </q-item>
-                    <div align="right">
+                    <div class="q-py-md" align="right">
                       <q-btn
                         flat
                         label="Cancel"
@@ -318,13 +318,13 @@ export default class ManageAccount extends Vue {
     {
       name: 'productCategory',
       align: 'center',
-      label: 'productCategory',
+      label: 'Category',
       field: 'productCategory',
     },
     {
       name: 'productAvailability',
       align: 'center',
-      label: 'Product productAvailability ',
+      label: 'Product Availability ',
       field: 'productAvailability',
     },
     {
@@ -338,7 +338,8 @@ export default class ManageAccount extends Vue {
   price = '';
   productCategoryType = ['Beverage/Drinks', 'Food', 'Add-ons', 'Appetizer'];
   addNewManageSale = false;
-  productAvailability = 'productAvailability Option';
+  productAvailability = 'Availability Option';
+  availabilityOption = ['No', 'Yes'];
   filter = '';
   files = '';
   cancelEnabled = true;

@@ -13,7 +13,7 @@
         <div class="col-9">
           <q-table
             title="Expenses List"
-            :rows="expenses"
+            :rows="allExpenses"
             :columns="columns"
             row-key="reference"
             :rows-per-page-options="[5]"
@@ -52,32 +52,37 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import ExpensesChart from 'components/Charts/ExpensesReportChart.vue';
-import { ExpensesInfo } from 'src/store/expenses/state';
+import { IExpensesInfo } from '../store/expenses/state';
 import { mapState } from 'vuex';
 
 @Options({
   components: { ExpensesChart },
   computed: {
-    ...mapState('expenses', ['expenses', 'activeExpenses']),
+    ...mapState('expenses', ['allExpenses']),
   },
 })
 export default class ExpensesReport extends Vue {
-  expenses!: ExpensesInfo;
+  allExpenses!: IExpensesInfo;
   columns = [
     {
       name: 'reference',
       required: true,
       label: 'Reference Number',
       align: 'left',
-      field: (row: ExpensesInfo) => row.reference,
+      field: (row: IExpensesInfo) => row.expensesReference,
       format: (val: string) => `${val}`,
     },
     {
-      name: 'date',
+      name: 'expensesName',
+      align: 'center',
+      label: 'Expenses',
+      field: 'expensesName',
+    },
+    {
+      name: 'expensesDateCreated',
       align: 'center',
       label: 'Date',
-      field: 'date',
-      sortable: true,
+      field: 'expensesDateCreated',
     },
     {
       name: 'category',
@@ -86,27 +91,24 @@ export default class ExpensesReport extends Vue {
       field: 'category',
     },
     {
-      name: 'supplier',
-      align: 'center',
-      label: 'Supplier',
-      field: 'supplier',
-    },
-    {
-      name: 'amount',
+      name: 'expensesAmount',
       align: 'center',
       label: 'Amount',
-      field: 'amount',
+      field: 'expensesAmount',
+    },
+    {
+      name: 'expensesNote',
+      align: 'center',
+      label: 'Note',
+      field: 'expensesNote',
+    },
+    {
+      name: 'action',
+      align: 'center',
+      label: 'Action',
+      field: 'action',
     },
   ];
-  defaultExpenses: ExpensesInfo = {
-    reference: '',
-    date: '',
-    category: '',
-    supplier: '',
-    amount: 0,
-    note: '',
-  };
-  presentExpenses = { ...this.defaultExpenses };
 }
 </script>
 

@@ -37,10 +37,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/ManageSale.vue'),
       },
       {
-        path: 'Product',
-        component: () => import('pages/Product.vue'),
-      },
-      {
         path: 'Purchase',
         component: () => import('pages/Purchase.vue'),
       },

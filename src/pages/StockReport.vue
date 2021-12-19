@@ -5,133 +5,135 @@
       Stock Report
     </div>
     <div class="row">
-    <div class="col-8">
-      <div class="q-pr-md col-10">
-        <q-card>
-          <q-table
-            title="Stock List"
-            :rows="rows"
-            :columns="columns"
-            row-key="itemCode"
-            :rows-per-page-options="[0]"
-            :filter="filter"
-          >
-            <template v-slot:top-right>
-              <div class="q-pa-md q-gutter-sm row">
-                <q-input
-                  outlined
-                  rounded
-                  dense
-                  debounce="300"
-                  v-model="filter"
-                  placeholder="Search"
-                >
-                  <template v-slot:append>
-                    <q-fab
-                      color="teal-8"
-                      icon="sort"
-                      direction="down"
-                      label="Filter by:"
-                      label-position="top"
-                      external-label
-                      padding="xs"
-                    >
-                      <div class="q-gutter-md">
-                        <q-fab-action
-                          color="teal-12"
-                          text-color="black"
-                          @click="filter = 'utensil'"
-                          label="utensil"
-                        />
-                        <q-fab-action
-                          color="teal-12"
-                          text-color="black"
-                          @click="filter = 'Ingredient'"
-                          label="Ingredient"
-                        />
-                        <q-fab-action
-                          color="teal-12"
-                          text-color="black"
-                          @click="filter = 'Equipment'"
-                          label="Equipment"
-                        />
-                        <q-fab-action
-                          color="teal-12"
-                          text-color="black"
-                          @click="filter = ''"
-                          icon="clear"
-                        />
-                      </div>
-                    </q-fab>
-                    <q-icon name="search" />
-                  </template>
-                </q-input>
-              </div>
-            </template>
-          </q-table>
-        </q-card>
+      <div class="col-8">
+        <div class="q-pr-md col-10">
+          <q-card>
+            <q-table
+              title="Stock List"
+              :rows="allInventory"
+              :columns="columns"
+              row-key="itemCode"
+              :rows-per-page-options="[0]"
+              :filter="filter"
+            >
+              <template v-slot:top-right>
+                <div class="q-pa-md q-gutter-sm row">
+                  <q-input
+                    outlined
+                    rounded
+                    dense
+                    debounce="300"
+                    v-model="filter"
+                    placeholder="Search"
+                  >
+                    <template v-slot:append>
+                      <q-fab
+                        color="teal-8"
+                        icon="sort"
+                        direction="down"
+                        label="Filter by:"
+                        label-position="top"
+                        external-label
+                        padding="xs"
+                      >
+                        <div class="q-gutter-md">
+                          <q-fab-action
+                            color="teal-12"
+                            text-color="black"
+                            @click="filter = 'utensil'"
+                            label="utensil"
+                          />
+                          <q-fab-action
+                            color="teal-12"
+                            text-color="black"
+                            @click="filter = 'Ingredient'"
+                            label="Ingredient"
+                          />
+                          <q-fab-action
+                            color="teal-12"
+                            text-color="black"
+                            @click="filter = 'Equipment'"
+                            label="Equipment"
+                          />
+                          <q-fab-action
+                            color="teal-12"
+                            text-color="black"
+                            @click="filter = ''"
+                            icon="clear"
+                          />
+                        </div>
+                      </q-fab>
+                      <q-icon name="search" />
+                    </template>
+                  </q-input>
+                </div>
+              </template>
+            </q-table>
+          </q-card>
+        </div>
       </div>
-    </div>
       <div class="col-4">
         <q-card>
           <q-list>
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="text-h6"> Low stock Items </q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-               <q-item>
-                <q-item-section>Black Pearls</q-item-section>
-                  <q-item-section class="text-h6 text-bold text-red-10" side>
-                    20 packs
-                  </q-item-section>
-              </q-item>
-              <q-separator inset/>
-              <q-item>
-                <q-item-section>Sugar</q-item-section>
-                  <q-item-section class="text-h6 text-bold text-red-10" side>
-                    5 packs
-                  </q-item-section>
-              </q-item>
-              <q-separator inset/>
-              <q-item>
-                <q-item-section>Plastic Cup</q-item-section>
-                  <q-item-section class="text-h6 text-bold text-red-10" side>
-                    3 Boxs
-                  </q-item-section>
-              </q-item>
-              <q-separator inset/>
-              <q-item>
-                <q-item-section>Plastic Straw</q-item-section>
-                  <q-item-section class="text-h6 text-bold text-red-10" side>
-                    15 Boxs
-                  </q-item-section>
-              </q-item>
-              <q-separator inset/>
-
+            <q-item>
+              <q-item-section>
+                <q-item-label class="text-h6"> Low stock Items </q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item>
+              <q-item-section>Black Pearls</q-item-section>
+              <q-item-section class="text-h6 text-bold text-red-10" side>
+                20 packs
+              </q-item-section>
+            </q-item>
+            <q-separator inset />
+            <q-item>
+              <q-item-section>Sugar</q-item-section>
+              <q-item-section class="text-h6 text-bold text-red-10" side>
+                5 packs
+              </q-item-section>
+            </q-item>
+            <q-separator inset />
+            <q-item>
+              <q-item-section>Plastic Cup</q-item-section>
+              <q-item-section class="text-h6 text-bold text-red-10" side>
+                3 Boxs
+              </q-item-section>
+            </q-item>
+            <q-separator inset />
+            <q-item>
+              <q-item-section>Plastic Straw</q-item-section>
+              <q-item-section class="text-h6 text-bold text-red-10" side>
+                15 Boxs
+              </q-item-section>
+            </q-item>
+            <q-separator inset />
           </q-list>
         </q-card>
-
       </div>
     </div>
   </q-page>
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
+import { iInventoryInfo } from '../store/inventory/state';
+import { mapState } from 'vuex';
 
-interface IRow {
-  itemCode: string;
-}
-@Options({})
+@Options({
+  computed: {
+    ...mapState('inventory', ['allInventory']),
+  },
+})
 export default class Expenses extends Vue {
+  allInventory!: iInventoryInfo[];
   columns = [
     {
       name: 'itemCode',
       required: true,
       label: 'Item Code',
       align: 'left',
-      field: (row: IRow) => row.itemCode,
+      field: (row: iInventoryInfo) => row.itemCode,
       format: (val: string) => `${val}`,
     },
     {
@@ -142,97 +144,46 @@ export default class Expenses extends Vue {
     },
 
     {
-      name: 'quantProd',
+      name: 'itemQuantProd',
       align: 'center',
       label: 'Quantity',
-      field: 'quantProd',
+      field: 'itemQuantProd',
     },
     {
-      name: 'unitProd',
+      name: 'itemUnitProd',
       align: 'center',
       label: 'Unit',
-      field: 'unitProd',
+      field: 'itemUnitProd',
     },
     {
-      name: 'catProd',
+      name: 'itemCategory',
       align: 'center',
       label: 'Category',
-      field: 'catProd',
+      field: 'itemCategory',
     },
     {
-      name: 'ExpiryDate',
+      name: 'itemExpiryDate',
       align: 'center',
       label: 'Expiry Date',
-      field: 'ExpiryDate',
+      field: 'itemExpiryDate',
     },
 
     {
-      name: 'dateProd',
+      name: 'itemDateCreated',
       align: 'center',
       label: 'Date Stock In',
-      field: 'dateProd',
+      field: 'itemDateCreated',
+    },
+
+    {
+      name: 'action',
+      align: 'center',
+      label: 'Action',
+      field: 'action',
     },
   ];
-
-  rows = [
-    {
-      itemCode: 'hj4j324jbb34bj4',
-      itemName: 'Spoon',
-      quantProd: '20000',
-      unitProd: 'Packs',
-      catProd: 'Utensil',
-      ExpiryDate: 'None',
-      dateProd: '12/11/2021',
-    },
-    {
-      itemCode: 'hh123h12g3hj13',
-      itemName: 'Sugar',
-      quantProd: '10',
-      unitProd: 'Packs',
-      catProd: 'Ingredient',
-      ExpiryDate: '12/11/2020',
-      dateProd: '12/11/2021',
-    },
-    {
-      itemCode: 'hs11121512u5',
-      itemName: 'Black pearls',
-      quantProd: '50',
-      unitProd: 'Packs',
-      catProd: 'Ingredient',
-      ExpiryDate: '09/18/2021',
-      dateProd: '12/11/2019',
-    },
-    {
-      itemCode: 'hs11121512u5',
-      itemName: 'Plastic Straw',
-      quantProd: '15',
-      unitProd: 'box',
-      catProd: 'Utensil',
-      ExpiryDate: '09/18/2021',
-      dateProd: '12/11/2019',
-    },
-    {
-      itemCode: 'hs11121512u5',
-      itemName: 'Plastic Cup',
-      quantProd: '3',
-      unitProd: 'box',
-      catProd: 'Utensil',
-      ExpiryDate: '09/18/2021',
-      dateProd: '12/11/2019',
-    },
-    {
-      itemCode: 'h434787512u5',
-      itemName: 'Blender',
-      quantProd: '1',
-      unitProd: 'Box',
-      catProd: 'Equipment',
-      ExpiryDate: '09/18/2021',
-      dateProd: '12/11/2021',
-    },
-  ];
-
   prodIssue = false;
- 
+
   addProd = false;
   editProd = false;
   delProd = false;

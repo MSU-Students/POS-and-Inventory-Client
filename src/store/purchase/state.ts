@@ -1,31 +1,32 @@
-export interface PurchaseInfo {
-  product: string;
-  date: string;
+export interface IPurchaseInfo {
+  purchaseReference?: string;
+  purchaseProduct: string;
+  purchaseDate: string;
   supplier: string;
-  status: string;
-  total: string;
-  paid: string;
-  balance: string;
-  paystatus: string;
+  purchaseStatus: string;
+  purchaseTotal: string;
+  purchasePaid: string;
+  purchaseBalance: string;
+  purchasePayStatus: string;
 }
 
 export interface PurchaseStateInterface {
-  purchase: PurchaseInfo[];
-  activePurchase?: PurchaseInfo;
+  allPurchase: IPurchaseInfo[];
+  activePurchase?: IPurchaseInfo;
 }
 
 function state(): PurchaseStateInterface {
   return {
-    purchase: [
+    allPurchase: [
       {
-        product: 'Chocolate Powder',
-        date: '9/24/2021',
+        purchaseProduct: 'Chocolate Powder',
+        purchaseDate: '9/24/2021',
         supplier: 'Milo Company',
-        status: 'Pending',
-        total: '200 packs',
-        paid: 'Partial',
-        balance: 'Paid',
-        paystatus: 'Ongoing',
+        purchaseStatus: 'Pending',
+        purchaseTotal: '200 packs',
+        purchasePaid: 'Partial',
+        purchaseBalance: '1000',
+        purchasePayStatus: 'Ongoing',
       },
     ],
   };

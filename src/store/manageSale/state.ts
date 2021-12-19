@@ -19,14 +19,14 @@ function state(): ManageSaleStateInterface {
         productName: 'Milk Tea',
         productPrice: 110,
         productCategory: 'Beverage/Drinks',
-        productAvailability: 'YES',
+        productAvailability: 'Yes',
       },
       {
         product_ID: '200200005523',
         productName: 'Burger',
         productPrice: 50,
         productCategory: 'Food',
-        productAvailability: 'YES',
+        productAvailability: 'Yes',
       },
       {
         product_ID: '200200006987',

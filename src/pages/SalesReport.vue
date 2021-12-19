@@ -91,7 +91,7 @@
             </q-item-section>
           </q-item>
           <div>
-            <MonthCashFlowChart/>
+            <MonthCashFlowChart />
           </div>
         </div>
       </q-card-section>
@@ -103,18 +103,18 @@
         </q-item-section>
       </q-card-section>
       <div>
-        <YearlySaleReport/>
+        <YearlySaleReport />
       </div>
     </q-card>
-     <q-card class="q-py-md">
-        <q-card-section>
-          <q-item-section>
-            <div class="text-h6">Best Seller</div>
-          </q-item-section>
-        </q-card-section>
-        <div>
-          <BestSeller/>
-        </div>
+    <q-card class="q-py-md">
+      <q-card-section>
+        <q-item-section>
+          <div class="text-h6">Best Seller</div>
+        </q-item-section>
+      </q-card-section>
+      <div>
+        <BestSeller />
+      </div>
     </q-card>
   </q-page>
 </template>

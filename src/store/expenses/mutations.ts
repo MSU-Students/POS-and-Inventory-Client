@@ -7,7 +7,7 @@ const mutation: MutationTree<ExpensesStateInterface> = {
   },
   setNewExpenses(state, payload: IExpensesInfo) {
     const index = state.allExpenses.findIndex(
-      (s) => s.reference === payload.reference
+      (s) => s.expensesReference === payload.expensesReference
     );
     if (index >= 0) {
       state.allExpenses.splice(index, 1, payload);
@@ -15,7 +15,7 @@ const mutation: MutationTree<ExpensesStateInterface> = {
   },
   deleteExpenses(state, payload: IExpensesInfo) {
     const index = state.allExpenses.findIndex(
-      (s) => s.reference === payload.reference
+      (s) => s.expensesReference === payload.expensesReference
     );
     if (index >= 0) {
       state.allExpenses.splice(index, 1);
