@@ -69,7 +69,6 @@
                       <q-file
                         class="q-py-md"
                         outlined
-                        v-model="Name"
                         label="Product Image"
                         accept=".jpg, image/*"
                       >
@@ -185,7 +184,6 @@
                         <q-file
                           class="q-py-md"
                           outlined
-                          v-model="Name"
                           label="Product Image"
                           accept=".jpg, image/*"
                         >
@@ -334,18 +332,10 @@ export default class ManageAccount extends Vue {
       field: 'Actions',
     },
   ];
-  Name = '';
-  price = '';
   productCategoryType = ['Beverage/Drinks', 'Food', 'Add-ons', 'Appetizer'];
   addNewManageSale = false;
-  productAvailability = 'Availability Option';
-  availabilityOption = ['No', 'Yes'];
   filter = '';
-  files = '';
-  cancelEnabled = true;
-  addUser = false;
   editRowManageSale = false;
-  ConfirmDelete = false;
 
   inputManageSale: IManageSaleInfo = {
     product_ID: '',

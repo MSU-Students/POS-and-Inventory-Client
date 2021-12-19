@@ -128,9 +128,9 @@
               size="sm"
               flat
               dense
-              @click="showexpensesNote = true"
+              @click="showExpensesNote = true"
             />
-            <q-dialog v-model="showexpensesNote">
+            <q-dialog v-model="showExpensesNote">
               <q-card flat bordered>
                 <q-card-section>
                   <div class="text-h6">
@@ -343,19 +343,10 @@ export default class Expenses extends Vue {
   selected = [];
   expensesNote =
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!';
-  ConfirmDelete = false;
-  cancelEnabled = true;
   addNewExpenses = false;
   editRowExpenses = false;
-  showexpensesNote = false;
+  showExpensesNote = false;
   filter = '';
-
-  pInit = null;
-  sInit = null;
-  categoryInit = null;
-  suppID = [2020119, 2020221, 2020113];
-  purNo = ['Chocolate Powder'];
-  options = ['Admin', 'Cashier'];
 
   inputExpenses: IExpensesInfo = {
     expensesReference: '',

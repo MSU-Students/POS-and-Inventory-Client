@@ -379,8 +379,6 @@ export default class Expenses extends Vue {
   selected = [];
   addNewInventory = false;
   editRowInventory = false;
-  delProd = false;
-  cancelEnabled = true;
   filter = '';
   catInv = '';
   unitInv = '';

@@ -305,17 +305,7 @@ export default class Expenses extends Vue {
       dateProd: '12/11/2021',
     },
   ];
-
-  prodIssue = false;
-  selected = [];
-
-  editProd = false;
-  delProd = false;
-  cancelEnabled = true;
   filter = '';
-  catInv = '';
-  unitInv = '';
-  catInvOpt = [''];
 }
 </script>
 <style lang="sass" scoped>

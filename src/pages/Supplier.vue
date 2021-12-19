@@ -426,8 +426,6 @@ export default class ManageAccount extends Vue {
     },
     { name: 'Actions', align: 'center', label: 'Actions', field: 'Actions' },
   ];
-  dialog = false;
-  cancelEnabled = true;
   addNewSupplier = false;
   editRowSupplier = false;
   supplierDetails = false;

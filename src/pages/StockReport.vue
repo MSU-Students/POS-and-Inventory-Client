@@ -182,17 +182,7 @@ export default class Expenses extends Vue {
       field: 'action',
     },
   ];
-  prodIssue = false;
-
-  addProd = false;
-  editProd = false;
-  delProd = false;
-  cancelEnabled = true;
   filter = '';
-  catInv = '';
-  unitInv = '';
-  catInvOpt = [''];
-  unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
 }
 </script>
 <style lang="sass" scoped>

@@ -35,9 +35,9 @@
               dense
               flat
               icon="add"
-              @click="addCat = true"
+              @click="addNewCategory = true"
             />
-            <q-dialog v-model="addCat" persistent>
+            <q-dialog v-model="addNewCategory" persistent>
               <q-card style="width: 700px" class="q-pa-md">
                 <q-card-section class="row">
                   <div class="text-h6">Add Category</div>
@@ -87,7 +87,7 @@
                 dense
                 @click="openEditDialog(props.row)"
               />
-              <q-dialog v-model="editRow" persistent>
+              <q-dialog v-model="editRowCategory" persistent>
                 <q-card style="width: 700px" class="q-pa-md">
                   <q-card-section class="row">
                     <div class="text-h6">Add Category</div>
@@ -200,11 +200,9 @@ export default class Expenses extends Vue {
   ];
 
   selected = [];
-  del = false;
-  cancelEnabled = true;
-  addCat = false;
-  editRow = false;
-  showNote = false;
+  addNewCategory = false;
+  editRowCategory = false;
+  showNoteCategory = false;
   filter = '';
 
   inputCategory: ICategoryInfo = {
@@ -214,7 +212,7 @@ export default class Expenses extends Vue {
 
   async onAddCategory() {
     await this.addCategory(this.inputCategory);
-    this.addCat = false;
+    this.addNewCategory = false;
     this.resetModel();
     this.$q.notify({
       type: 'positive',
@@ -224,7 +222,7 @@ export default class Expenses extends Vue {
 
   async onEditCategory() {
     await this.editCategory(this.inputCategory);
-    this.editRow = false;
+    this.editRowCategory = false;
     this.resetModel();
     this.$q.notify({
       type: 'positive',
@@ -249,7 +247,7 @@ export default class Expenses extends Vue {
   }
 
   openEditDialog(val: ICategoryInfo) {
-    this.editRow = true;
+    this.editRowCategory = true;
     this.inputCategory = { ...val };
   }
   resetModel() {

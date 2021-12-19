@@ -297,11 +297,10 @@ export default class ManageAccount extends Vue {
     { name: 'status', align: 'center', label: 'Status', field: 'status' },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
   ];
-
-  deleting = false;
-  cancelEnabled = true;
   addNewAccount = false;
   updateAccount = false;
+  filter = '';
+  options = ['Admin', 'Cashier'];
 
   inputAccount: IAccountInfo = {
     FName: '',
@@ -314,8 +313,6 @@ export default class ManageAccount extends Vue {
     dateCreated: '',
     status: 'Active',
   };
-  filter = '';
-  options = ['Admin', 'Cashier'];
 
   async onaddAccount() {
     await this.addAccount(this.inputAccount);
