@@ -8,9 +8,10 @@
     </div>
     <div class="row q-gutter-md">
       <div class="col-7">
-        <q-card class="fit">
-          <div class="q-pa-md">
-            <q-table
+        <q-card class="fit" style="max-height: 600px">
+          <q-scroll-area style="height: 600px;">
+          <div class="q-pa-md row" >
+            <!-- <q-table
               title="Menu"
               :rows="rows"
               :columns="columns"
@@ -38,8 +39,50 @@
                   <q-badge :label="props.value"></q-badge>
                 </q-td>
               </template>
-            </q-table>
+            </q-table> -->
+          <q-toolbar class="bg-green text-white shadow-2">
+            <q-toolbar-title>Menu</q-toolbar-title>
+          </q-toolbar>
+
+
+          <div class="col-6">
+          <q-list>
+            <q-item v-for="data in rows" :key="data.id" class="q-ma-sm" clickable v-ripple>
+              
+              <q-item-section>
+                <q-card>
+                   <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" style="max-width: 380px; height: 150px;"/>
+                   <div class="absolute-bottom text-subtitle1 text-center">
+                      
+                      <q-item-label class="text-center text-white">{{ data.name }}</q-item-label>
+                      <q-item-label caption lines="1" class="text-center text-white">{{ data.price }}</q-item-label>
+                  </div>
+                </q-card>           
+              </q-item-section>        
+            </q-item>
+          </q-list>
           </div>
+
+          <div class="col-6">
+          <q-list>
+            <q-item v-for="data in rows" :key="data.id" class="q-ma-sm" clickable v-ripple>
+              
+              <q-item-section >
+                <q-card>
+                   <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" style="max-width: 380px; height: 150px;"/>
+                   <div class="absolute-bottom text-subtitle1 text-center">
+                      
+                      <q-item-label class="text-center text-white">{{ data.name }}</q-item-label>
+                      <q-item-label caption lines="1" class="text-center text-white">{{ data.price }}</q-item-label>
+                  </div>
+                </q-card>           
+              </q-item-section>        
+            </q-item>
+          </q-list>
+          </div>
+
+          </div>
+          </q-scroll-area>
         </q-card>
       </div>
       <div class="col">
@@ -48,11 +91,11 @@
             <q-card flat bordered class="my-card">
               <q-card-section>
                 <q-table
-                  :rows="rows2"
+                  :rows="allOrder"
                   :columns="columns2"
                   title="Selected Order"
                   :rows-per-page-options="[]"
-                  row-key="SelProd"
+                  row-key="OrderID"
                   wrap-cells
                   hide-bottom
                 >
@@ -145,7 +188,7 @@
                 <q-card flat bordered class="my-card">
                   <q-card-section>
                     <q-table
-                      :rows="rows2"
+                      :rows="allOrder"
                       :columns="columns2"
                       title="Selected Order"
                       :rows-per-page-options="[]"
@@ -304,7 +347,8 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-
+import { IOrderInfo } from '../store/Order/state';
+import { mapState, mapActions } from 'vuex';
 interface IRow {
   name: string;
 }
@@ -312,8 +356,25 @@ interface SelRow {
   SelProd: string;
 }
 
-@Options({})
+@Options({
+  computed: {
+    ...mapState('Order', ['allOrder'],),
+     
+  },
+  methods: {
+    ...mapActions('Order', [
+      'addOrder',
+      'editOrder',
+      'deleteOrder',
+    ]),
+  },
+})
 export default class POS extends Vue {
+  addOrder!: (payload: IOrderInfo) => Promise<void>;
+  editOrder!: (payload: IOrderInfo) => Promise<void>;
+  deleteOrder!: (payload: IOrderInfo) => Promise<void>;
+  allOrder!: IOrderInfo[];
+
   filter = '';
   ConfirmOrder = false;
   StepConfirm = 1;
@@ -350,55 +411,75 @@ export default class POS extends Vue {
 
   rows = [
     {
+      id: 1,
       name: 'Frozen Yogurt',
-      price: 10,
+      price: "₱10",
+      
     },
     {
+      id: 2,
       name: 'Ice cream sandwich',
-      price: 10,
+      price: "₱10",
     },
     {
+      id: 3,
       name: 'Eclair',
-      price: 10,
+      price: "₱10",
+
     },
     {
+      id: 4,
       name: 'Cupcake',
-      price: 10,
+      price: "₱10",
     },
     {
+      id: 5,
       name: 'Gingerbread',
-      price: 10,
+      price: "₱10",
     },
     {
+      id: 6,
       name: 'Jelly bean',
-      price: 10,
+      price: "₱10",
     },
     {
+      id: 7,
       name: 'Lollipop',
-      price: 10,
+      price: "₱10",
     },
     {
+      id: 8,
       name: 'Honeycomb',
-      price: 10,
+      price: "₱10",
     },
     {
+      id: 8,
       name: 'Donut',
-      price: 10,
+      price: "₱10",
     },
     {
+      id: 9,
       name: 'KitKat',
-      price: 10,
+      price: "₱10",
+      
     },
   ];
 
   columns2 = [
     {
-      name: 'SelProd',
+      name: 'OrderID',
       required: true,
-      label: 'Product',
+      label: 'order number',
       align: 'left',
-      field: (row: SelRow) => row.SelProd,
+      field: (row: IOrderInfo) => row.OrderID,
       format: (val: string) => `${val}`,
+      sortable: true,
+    },
+    {
+      name: 'prodName',
+      align: 'center',
+      label: 'Product',
+      field: 'prodName',
       sortable: true,
     },
 
@@ -428,38 +509,7 @@ export default class POS extends Vue {
     },
   ];
 
-  rows2 = [
-    {
-      SelProd: 'Frozen Yogurt',
-      prodQuant: 125,
-      price: 10,
-      subtotal: 300,
-    },
-    {
-      SelProd: 'Ice cream sandwich',
-      prodQuant: 300,
-      price: 10,
-      subtotal: 300,
-    },
-    {
-      SelProd: 'Eclair',
-      prodQuant: 1,
-      price: 10,
-      subtotal: 300,
-    },
-    {
-      SelProd: 'Cupcake',
-      prodQuant: 40,
-      price: 10,
-      subtotal: 300,
-    },
-    {
-      SelProd: 'Gingerbread',
-      prodQuant: 5,
-      price: 10,
-      subtotal: 300,
-    },
-  ];
+  
 }
 </script>
 <style>

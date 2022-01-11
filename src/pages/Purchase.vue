@@ -452,22 +452,10 @@ export default class ManageAccount extends Vue {
       field: 'purchaseTotal',
     },
     {
-      name: 'purchasePaid',
+      name: 'purchaseAmount',
       align: 'center',
-      label: 'Paid',
-      field: 'purchasePaid',
-    },
-    {
-      name: 'purchaseBalance',
-      align: 'center',
-      label: 'Balance',
-      field: 'purchaseBalance',
-    },
-    {
-      name: 'purchasePayStatus',
-      align: 'center',
-      label: 'Pay Status',
-      field: 'purchasePayStatus',
+      label: 'Total Amount',
+      field: 'purchaseAmount',
     },
     { name: 'Details', align: 'center', label: 'Details', field: 'Details' },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
@@ -580,15 +568,13 @@ export default class ManageAccount extends Vue {
     console.log('Clicked!');
   }
 
-  inputPurchse: IPurchaseInfo = {
+  inputPurchase: IPurchaseInfo = {
     purchaseProduct: '',
     purchaseDate: '',
     supplier: '',
     purchaseStatus: '',
     purchaseTotal: '',
-    purchasePaid: '',
-    purchaseBalance: '',
-    purchasePayStatus: '',
+    purchaseAmount:'',
   };
 }
 </script>

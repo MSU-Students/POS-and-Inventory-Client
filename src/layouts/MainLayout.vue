@@ -68,30 +68,19 @@
                   <q-item-section> POS </q-item-section>
                 </q-item>
                 <q-item clickable v-ripple to="/ManageSale">
-                  <q-item-section> Manage Sale </q-item-section>
+                  <q-item-section> Manage Product </q-item-section>
                 </q-item>
               </q-card-section>
             </q-card>
           </q-expansion-item>
 
-          <q-expansion-item :duration="300">
-            <template v-slot:header>
-              <q-item-section avatar>
-                <q-icon name="inventory_2" color="green-2" />
-              </q-item-section>
-              <q-item-section> Inventory </q-item-section>
-            </template>
-            <q-card>
-              <q-card-section>
-                <q-item clickable v-ripple to="/Inventory">
-                  <q-item-section> Inventory </q-item-section>
-                </q-item>
-                <q-item clickable v-ripple to="/Category">
-                  <q-item-section> Category </q-item-section>
-                </q-item>
-              </q-card-section>
-            </q-card>
-          </q-expansion-item>
+          <q-item clickable v-ripple to="/Inventory">
+            <q-item-section avatar>
+              <q-icon name="inventory_2" color="green-2" />
+            </q-item-section>
+
+            <q-item-section> Inventory </q-item-section>
+          </q-item>
 
           <q-item clickable v-ripple to="/Supplier">
             <q-item-section avatar>
@@ -115,6 +104,23 @@
 
             <q-item-section> Expenses </q-item-section>
           </q-item>
+          
+          <q-expansion-item>
+            <template v-slot:header>
+              <q-item-section avatar>
+                <q-icon name="category" color="green-2" />
+              </q-item-section>
+              <q-item-section> Category </q-item-section>
+            </template>
+            <q-card>
+              <q-card-section>
+                <q-item clickable v-ripple to="/category">
+                  <q-item-section> Inventory Category </q-item-section>
+                </q-item>
+                
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
 
           <q-expansion-item>
             <template v-slot:header>

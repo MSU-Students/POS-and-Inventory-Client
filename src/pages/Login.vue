@@ -89,7 +89,17 @@ export default class Login extends Vue {
         type: 'positive',
         message: 'You are logged in',
       });
-    } else {
+    }
+    else if (
+      (this.username == 'Cashier' && this.password == 'Cashier')) {
+      await this.$router.replace('/POS');
+      this.$q.notify({
+        position: 'top',
+        type: 'positive',
+        message: 'You are logged in',
+      });
+    }
+    else {
       this.username = '';
       this.password = '';
       this.$q.notify({

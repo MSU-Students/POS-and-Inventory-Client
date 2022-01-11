@@ -5,9 +5,7 @@ export interface IPurchaseInfo {
   supplier: string;
   purchaseStatus: string;
   purchaseTotal: string;
-  purchasePaid: string;
-  purchaseBalance: string;
-  purchasePayStatus: string;
+  purchaseAmount: string;
 }
 
 export interface PurchaseStateInterface {
@@ -24,9 +22,7 @@ function state(): PurchaseStateInterface {
         supplier: 'Milo Company',
         purchaseStatus: 'Pending',
         purchaseTotal: '200 packs',
-        purchasePaid: 'Partial',
-        purchaseBalance: '1000',
-        purchasePayStatus: 'Ongoing',
+        purchaseAmount: '1000',
       },
     ],
   };
