@@ -7,7 +7,7 @@ const mutation: MutationTree<OrderStateInterface> = {
   },
   setNewOrder(state, payload: IOrderInfo) {
     const index = state.allOrder.findIndex(
-      (s) => s.OrderID === payload.OrderID
+      (s) => s.orderID === payload.orderID
     );
     if (index >= 0) {
       state.allOrder.splice(index, 1, payload);
@@ -15,7 +15,7 @@ const mutation: MutationTree<OrderStateInterface> = {
   },
   deleteOrder(state, payload: IOrderInfo) {
     const index = state.allOrder.findIndex(
-      (s) => s.OrderID === payload.OrderID
+      (s) => s.orderID === payload.orderID
     );
     if (index >= 0) {
       state.allOrder.splice(index, 1);

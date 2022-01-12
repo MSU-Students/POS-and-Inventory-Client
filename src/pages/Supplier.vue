@@ -10,8 +10,6 @@
         Supplier
       </div>
 
-      <br />
-
       <q-table
         title="List of suppliers"
         :rows="allSupplier"

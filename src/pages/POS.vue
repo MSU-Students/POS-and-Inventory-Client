@@ -9,9 +9,9 @@
     <div class="row q-gutter-md">
       <div class="col-7">
         <q-card class="fit" style="max-height: 600px">
-          <q-scroll-area style="height: 600px;">
-          <div class="q-pa-md row" >
-            <!-- <q-table
+          <q-scroll-area style="height: 600px">
+            <div class="q-pa-md row">
+              <!-- <q-table
               title="Menu"
               :rows="rows"
               :columns="columns"
@@ -40,48 +40,76 @@
                 </q-td>
               </template>
             </q-table> -->
-          <q-toolbar class="bg-green text-white shadow-2">
-            <q-toolbar-title>Menu</q-toolbar-title>
-          </q-toolbar>
+              <q-toolbar class="bg-green text-white shadow-2">
+                <q-toolbar-title>Menu</q-toolbar-title>
+              </q-toolbar>
 
+              <div class="col-6">
+                <q-list>
+                  <q-item
+                    v-for="data in rows"
+                    :key="data.id"
+                    class="q-ma-sm"
+                    clickable
+                    v-ripple
+                  >
+                    <q-btn />
+                    <q-item-section>
+                      <q-card>
+                        <q-img
+                          src="https://cdn.quasar.dev/img/parallax2.jpg"
+                          style="max-width: 380px; height: 150px"
+                        />
+                        <div class="absolute-bottom text-subtitle1 text-center">
+                          <q-item-label class="text-center text-white">
+                            { { data.name } }
+                          </q-item-label>
+                          <q-item-label
+                            caption
+                            lines="1"
+                            class="text-center text-white"
+                            >{{ data.price }}</q-item-label
+                          >
+                        </div>
+                      </q-card>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </div>
 
-          <div class="col-6">
-          <q-list>
-            <q-item v-for="data in rows" :key="data.id" class="q-ma-sm" clickable v-ripple>
-              
-              <q-item-section>
-                <q-card>
-                   <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" style="max-width: 380px; height: 150px;"/>
-                   <div class="absolute-bottom text-subtitle1 text-center">
-                      
-                      <q-item-label class="text-center text-white">{{ data.name }}</q-item-label>
-                      <q-item-label caption lines="1" class="text-center text-white">{{ data.price }}</q-item-label>
-                  </div>
-                </q-card>           
-              </q-item-section>        
-            </q-item>
-          </q-list>
-          </div>
-
-          <div class="col-6">
-          <q-list>
-            <q-item v-for="data in rows" :key="data.id" class="q-ma-sm" clickable v-ripple>
-              
-              <q-item-section >
-                <q-card>
-                   <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" style="max-width: 380px; height: 150px;"/>
-                   <div class="absolute-bottom text-subtitle1 text-center">
-                      
-                      <q-item-label class="text-center text-white">{{ data.name }}</q-item-label>
-                      <q-item-label caption lines="1" class="text-center text-white">{{ data.price }}</q-item-label>
-                  </div>
-                </q-card>           
-              </q-item-section>        
-            </q-item>
-          </q-list>
-          </div>
-
-          </div>
+              <div class="col-6">
+                <q-list>
+                  <q-item
+                    v-for="data in rows"
+                    :key="data.id"
+                    class="q-ma-sm"
+                    clickable
+                    v-ripple
+                  >
+                    <q-item-section>
+                      <q-card>
+                        <q-img
+                          src="https://cdn.quasar.dev/img/parallax2.jpg"
+                          style="max-width: 380px; height: 150px"
+                        />
+                        <div class="absolute-bottom text-subtitle1 text-center">
+                          <q-item-label class="text-center text-white">
+                            { { data.name } }
+                          </q-item-label>
+                          <q-item-label
+                            caption
+                            lines="1"
+                            class="text-center text-white"
+                          >
+                            {{ data.price }}
+                          </q-item-label>
+                        </div>
+                      </q-card>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </div>
+            </div>
           </q-scroll-area>
         </q-card>
       </div>
@@ -92,7 +120,7 @@
               <q-card-section>
                 <q-table
                   :rows="allOrder"
-                  :columns="columns2"
+                  :columns="selectedOrder"
                   title="Selected Order"
                   :rows-per-page-options="[]"
                   row-key="OrderID"
@@ -101,8 +129,8 @@
                 >
                   <template v-slot:body="props">
                     <q-tr :props="props">
-                      <q-td key="SelProd" :props="props">
-                        {{ props.row.SelProd }}
+                      <q-td key="productName" :props="props">
+                        {{ props.row.prodName }}
                       </q-td>
                       <q-td key="prodQuant" :props="props">
                         {{ props.row.prodQuant }}
@@ -125,8 +153,8 @@
                       <q-td key="price" :props="props">
                         {{ props.row.price }}
                       </q-td>
-                      <q-td key="subtotal" :props="props">
-                        {{ props.row.subtotal }}
+                      <q-td key="subTotal" :props="props">
+                        {{ props.row.subTotal }}
                       </q-td>
                       <q-td key="action" :props="props">
                         {{ props.row.action }}
@@ -189,7 +217,7 @@
                   <q-card-section>
                     <q-table
                       :rows="allOrder"
-                      :columns="columns2"
+                      :columns="selectedOrder"
                       title="Selected Order"
                       :rows-per-page-options="[]"
                       row-key="SelProd"
@@ -198,46 +226,17 @@
                     >
                       <template v-slot:body="props">
                         <q-tr :props="props">
-                          <q-td key="SelProd" :props="props">
-                            {{ props.row.SelProd }}
+                          <q-td key="productName" :props="props">
+                            {{ props.row.prodName }}
                           </q-td>
                           <q-td key="prodQuant" :props="props">
                             {{ props.row.prodQuant }}
-                            <q-popup-edit
-                              v-model="props.row.prodQuant"
-                              title="Update quantity"
-                              buttons
-                              v-slot="editQuant"
-                            >
-                              <q-input
-                                type="number"
-                                v-model="editQuant.value"
-                                dense
-                                autofocus
-                                counter
-                                @keyup.enter="editQuant.set"
-                              />
-                            </q-popup-edit>
                           </q-td>
                           <q-td key="price" :props="props">
                             {{ props.row.price }}
                           </q-td>
-                          <q-td key="subtotal" :props="props">
-                            {{ props.row.subtotal }}
-                          </q-td>
-                          <q-td key="action" :props="props">
-                            {{ props.row.action }}
-                            <div>
-                              <q-btn
-                                color="red-10"
-                                icon="cancel"
-                                size="sm"
-                                class="q-ml-sm"
-                                flat
-                                round
-                                dense
-                              />
-                            </div>
+                          <q-td key="subTotal" :props="props">
+                            {{ props.row.subTotal }}
                           </q-td>
                         </q-tr>
                       </template>
@@ -352,21 +351,12 @@ import { mapState, mapActions } from 'vuex';
 interface IRow {
   name: string;
 }
-interface SelRow {
-  SelProd: string;
-}
-
 @Options({
   computed: {
-    ...mapState('Order', ['allOrder'],),
-     
+    ...mapState('Order', ['allOrder']),
   },
   methods: {
-    ...mapActions('Order', [
-      'addOrder',
-      'editOrder',
-      'deleteOrder',
-    ]),
+    ...mapActions('Order', ['addOrder', 'editOrder', 'deleteOrder']),
   },
 })
 export default class POS extends Vue {
@@ -413,73 +403,63 @@ export default class POS extends Vue {
     {
       id: 1,
       name: 'Frozen Yogurt',
-      price: "₱10",
-      
+      price: '₱10',
     },
     {
       id: 2,
       name: 'Ice cream sandwich',
-      price: "₱10",
+      price: '₱10',
     },
     {
       id: 3,
       name: 'Eclair',
-      price: "₱10",
-
+      price: '₱10',
     },
     {
       id: 4,
       name: 'Cupcake',
-      price: "₱10",
+      price: '₱10',
     },
     {
       id: 5,
       name: 'Gingerbread',
-      price: "₱10",
+      price: '₱10',
     },
     {
       id: 6,
       name: 'Jelly bean',
-      price: "₱10",
+      price: '₱10',
     },
     {
       id: 7,
       name: 'Lollipop',
-      price: "₱10",
+      price: '₱10',
     },
     {
       id: 8,
       name: 'Honeycomb',
-      price: "₱10",
+      price: '₱10',
     },
     {
       id: 8,
       name: 'Donut',
-      price: "₱10",
+      price: '₱10',
     },
     {
       id: 9,
       name: 'KitKat',
-      price: "₱10",
-      
+      price: '₱10',
     },
   ];
 
-  columns2 = [
+  selectedOrder = [
     {
-      name: 'OrderID',
+      name: 'productName',
       required: true,
-      label: 'order number',
+      label: 'Product Name',
       align: 'left',
-      field: (row: IOrderInfo) => row.OrderID,
+      field: (row: IOrderInfo) => row.prodName,
       format: (val: string) => `${val}`,
-      sortable: true,
-    },
-    {
-      name: 'prodName',
-      align: 'center',
-      label: 'Product',
-      field: 'prodName',
       sortable: true,
     },
 
@@ -497,10 +477,10 @@ export default class POS extends Vue {
       field: 'price',
     },
     {
-      name: 'subtotal',
+      name: 'subTotal',
       align: 'center',
       label: 'SubTotal',
-      field: 'subtotal',
+      field: 'subTotal',
     },
     {
       name: 'action',
@@ -508,8 +488,6 @@ export default class POS extends Vue {
       field: 'action',
     },
   ];
-
-  
 }
 </script>
 <style>

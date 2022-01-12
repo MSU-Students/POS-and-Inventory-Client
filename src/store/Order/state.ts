@@ -1,9 +1,9 @@
 export interface IOrderInfo {
-  OrderID: string;
+  orderID?: string;
   prodName: string;
-  prodQuant?: string;
-  price: string;
-  total: string;
+  prodQuant: number;
+  price: number;
+  subTotal: number;
 }
 
 export interface OrderStateInterface {
@@ -15,11 +15,11 @@ function state(): OrderStateInterface {
   return {
     allOrder: [
       {
-        OrderID: '01',
-        prodName: 'Frozen Yogurt',
-        prodQuant: '1',
-        price: '10.00',
-        total: '10.00',
+        orderID: '01',
+        prodName: 'Monster Frappe',
+        prodQuant: 2,
+        price: 150,
+        subTotal: 300,
       },
     ],
   };
