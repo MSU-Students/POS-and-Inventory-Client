@@ -47,8 +47,8 @@
               <div class="col-6">
                 <q-list>
                   <q-item
-                    v-for="data in rows"
-                    :key="data.id"
+                    v-for="data in allOrder"
+                    :key="data.orderID"
                     class="q-ma-sm"
                     clickable
                     v-ripple
@@ -62,14 +62,15 @@
                         />
                         <div class="absolute-bottom text-subtitle1 text-center">
                           <q-item-label class="text-center text-white">
-                            { { data.name } }
+                            {{data.prodName}}
                           </q-item-label>
                           <q-item-label
                             caption
                             lines="1"
                             class="text-center text-white"
-                            >{{ data.price }}</q-item-label
-                          >
+                            >{{data.price}}
+                            
+                            </q-item-label>
                         </div>
                       </q-card>
                     </q-item-section>
@@ -80,8 +81,8 @@
               <div class="col-6">
                 <q-list>
                   <q-item
-                    v-for="data in rows"
-                    :key="data.id"
+                    v-for="data in allOrder"
+                    :key="data.orderID"
                     class="q-ma-sm"
                     clickable
                     v-ripple
@@ -94,7 +95,7 @@
                         />
                         <div class="absolute-bottom text-subtitle1 text-center">
                           <q-item-label class="text-center text-white">
-                            { { data.name } }
+                            {{data.prodName}}
                           </q-item-label>
                           <q-item-label
                             caption
