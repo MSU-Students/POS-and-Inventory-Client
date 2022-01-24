@@ -78,7 +78,7 @@
                 <q-card style="width: 800px; max-width: 100vw" class="q-pa-md">
                   <q-card-section class="row">
                     <div class="text-h6">Add Product</div>
-                    <q-space />
+                    <q-space/>
                     <q-btn
                       flat
                       round
