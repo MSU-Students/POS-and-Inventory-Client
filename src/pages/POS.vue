@@ -13,7 +13,63 @@
             <div class="q-pa-md row">
 
             <q-toolbar class="bg-green text-white shadow-2">
-                <q-toolbar-title>Menu</q-toolbar-title>
+                <q-toolbar-title>
+                  Menu
+                </q-toolbar-title>
+                
+                <div class="q-pa-md q-gutter-sm row">
+                    <q-input
+                      dark 
+                      dense 
+                      standout
+                      debounce="300"
+                      v-model="filter"
+                      placeholder="Search"
+                    >
+                      <template v-slot:append>
+                        <q-icon name="search" />
+                      </template>               
+                    </q-input>
+                  </div>
+                  
+                  <q-fab
+                    color="teal-8"
+                    icon="sort"
+                    square
+                    direction="down"
+                    label="Filter by:"
+                    label-position="top"
+                    external-label
+                    padding="xs"
+                  >
+                    <div class="q-gutter-md">
+                      <q-fab-action
+                        color="teal-12"
+                        text-color="black"
+                        @click="filter = 'utensil'"
+                        label="utensil"
+                      />
+                      <q-fab-action
+                        color="teal-12"
+                        text-color="black"
+                        @click="filter = 'Ingredient'"
+                        label="Ingredient"
+                      />
+                      <q-fab-action
+                        color="teal-12"
+                        text-color="black"
+                        @click="filter = 'Equipment'"
+                        label="Equipment"
+                      />
+                      <q-fab-action
+                        color="teal-12"
+                        text-color="black"
+                        @click="filter = ''"
+                        icon="clear"
+                      />
+                    </div>
+                  </q-fab>
+
             </q-toolbar>
             <div class="q-pa-md" v-for="data in allOrder">
               <q-card  clickable v-ripple class="my-card">
@@ -30,13 +86,13 @@
                    style="max-width: 380px; height: 200px"
                   />
                   <div class="absolute-bottom text-subtitle1 text-center">
-                          <q-item-label class="text-center text-white">
+                          <q-item-label class="text-center text-black">
                             {{data.prodName}}
                           </q-item-label>
                           <q-item-label
                             caption
                             lines="1"
-                            class="text-center text-white"
+                            class="text-center text-black"
                             >{{data.price}}
                             
                             </q-item-label>
