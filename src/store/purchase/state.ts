@@ -4,8 +4,10 @@ export interface IPurchaseInfo {
   purchaseDate: string;
   supplier: string;
   purchaseStatus: string;
-  purchaseTotal: string;
-  purchaseAmount: string;
+  purchaseQuant: number;
+  purchaseUnit: string;
+  purchaseUnitPrice: number;
+  purchaseAmount: number;
 }
 
 export interface PurchaseStateInterface {
@@ -21,8 +23,10 @@ function state(): PurchaseStateInterface {
         purchaseDate: '9/24/2021',
         supplier: 'Milo Company',
         purchaseStatus: 'Pending',
-        purchaseTotal: '200 packs',
-        purchaseAmount: '1000',
+        purchaseQuant: 200,
+        purchaseUnit: 'Kilogram(kg)',
+        purchaseUnitPrice: 10,
+        purchaseAmount: 1000,
       },
     ],
   };

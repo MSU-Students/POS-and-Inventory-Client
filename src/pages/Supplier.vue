@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-lg">
     <div>
-      <div class="text-h4 text-bold">
+      <div class="text-h4 q-pb-lg text-bold">
         <q-icon
           name="local_shipping"
           color="deep-orange"
@@ -123,20 +123,6 @@
                               'Does not accept empty input',
                           ]"
                         />
-
-                        <div class="q-py-md">
-                          <q-file
-                            v-model="files"
-                            label="Pick profile picture"
-                            filled
-                            multiple
-                            style="max-width: 300px"
-                          >
-                            <template v-slot:prepend>
-                              <q-icon name="photo_camera" />
-                            </template>
-                          </q-file>
-                        </div>
                       </div>
                     </div>
                     <div align="right">
@@ -154,69 +140,6 @@
               </q-card>
             </q-dialog>
           </div>
-        </template>
-        <template v-slot:body-cell-supplierDetails="props">
-          <q-td :props="props">
-            <div class="q-gutter-sm">
-              <q-btn
-                round
-                color="blue"
-                icon="more_vert"
-                size="md"
-                flat
-                dense
-                @click="supplierDetails = true"
-              />
-              <q-dialog v-model="supplierDetails">
-                <q-card class="my-card" flat bordered>
-                  <q-card-section>
-                    <div class="text-h6">
-                      Supplier Details
-                      <q-btn
-                        round
-                        flat
-                        dense
-                        icon="close"
-                        class="float-right"
-                        color="grey-8"
-                        v-close-popup
-                      ></q-btn>
-                    </div>
-                  </q-card-section>
-                  <q-card-section horizontal>
-                    <q-card-section class="q-pt-xs col">
-                      <div class="text-overline">
-                        Padian Grocery,Marawi city
-                      </div>
-                      <div class="text-h5 q-mt-sm q-mb-xs">Basam C. Serad</div>
-                      <div class="text-caption text-grey">
-                        Padian Sales Manager/Cashier
-                      </div>
-                    </q-card-section>
-
-                    <q-card-section class="col-5 flex flex-center">
-                      <q-avatar
-                        square
-                        size="120px"
-                        font-size="82px"
-                        color="teal"
-                        text-color="white"
-                        icon="account_circle"
-                      />
-                    </q-card-section>
-                  </q-card-section>
-
-                  <q-separator />
-
-                  <q-card-section>
-                    Assessing clients needs and present suitable promoted
-                    products. Liaising with and persuading targeted doctors to
-                    prescribe our products utilizing effective sales skills.
-                  </q-card-section>
-                </q-card>
-              </q-dialog>
-            </div>
-          </q-td>
         </template>
         <template v-slot:body-cell-Actions="props">
           <q-td :props="props">
@@ -312,20 +235,6 @@
                                 'Does not accept empty input',
                             ]"
                           />
-
-                          <div class="q-py-md">
-                            <q-file
-                              v-model="files"
-                              label="Pick profile picture"
-                              filled
-                              multiple
-                              style="max-width: 300px"
-                            >
-                              <template v-slot:prepend>
-                                <q-icon name="photo_camera" />
-                              </template>
-                            </q-file>
-                          </div>
                         </div>
                       </div>
                       <div align="right">
@@ -416,12 +325,6 @@ export default class ManageAccount extends Vue {
       field: 'contact',
     },
     { name: 'address', align: 'center', label: 'Address', field: 'address' },
-    {
-      name: 'supplierDetails',
-      align: 'center',
-      label: 'supplierDetails',
-      field: 'supplierDetails',
-    },
     { name: 'Actions', align: 'center', label: 'Actions', field: 'Actions' },
   ];
   addNewSupplier = false;

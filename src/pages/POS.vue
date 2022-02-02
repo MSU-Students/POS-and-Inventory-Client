@@ -11,99 +11,89 @@
         <q-card class="fit" style="max-height: 600px">
           <q-scroll-area style="height: 600px">
             <div class="q-pa-md row">
+              <q-toolbar class="bg-green text-white shadow-2">
+                <q-toolbar-title> Menu </q-toolbar-title>
 
-            <q-toolbar class="bg-green text-white shadow-2">
-                <q-toolbar-title>
-                  Menu
-                </q-toolbar-title>
-                
                 <div class="q-pa-md q-gutter-sm row">
-                    <q-input
-                      dark 
-                      dense 
-                      standout
-                      debounce="300"
-                      v-model="filter"
-                      placeholder="Search"
-                    >
-                      <template v-slot:append>
-                        <q-icon name="search" />
-                      </template>               
-                    </q-input>
-                  </div>
-                  
-                  <q-fab
-                    color="teal-8"
-                    icon="sort"
-                    square
-                    direction="down"
-                    label="Filter by:"
-                    label-position="top"
-                    external-label
-                    padding="xs"
+                  <q-input
+                    dark
+                    dense
+                    standout
+                    debounce="300"
+                    v-model="filter"
+                    placeholder="Search"
                   >
-                    <div class="q-gutter-md">
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = 'utensil'"
-                        label="utensil"
-                      />
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = 'Ingredient'"
-                        label="Ingredient"
-                      />
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = 'Equipment'"
-                        label="Equipment"
-                      />
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = ''"
-                        icon="clear"
-                      />
-                    </div>
-                  </q-fab>
+                    <template v-slot:append>
+                      <q-icon name="search" />
+                    </template>
+                  </q-input>
+                </div>
 
-            </q-toolbar>
-            <div class="q-pa-md" v-for="data in allOrder">
-              <q-card  clickable v-ripple class="my-card">
+                <q-fab
+                  color="teal-8"
+                  icon="sort"
+                  square
+                  direction="down"
+                  label="Filter by:"
+                  label-position="top"
+                  external-label
+                  padding="xs"
+                >
+                  <div class="q-gutter-md">
+                    <q-fab-action
+                      color="teal-12"
+                      text-color="black"
+                      @click="filter = 'utensil'"
+                      label="utensil"
+                    />
+                    <q-fab-action
+                      color="teal-12"
+                      text-color="black"
+                      @click="filter = 'Ingredient'"
+                      label="Ingredient"
+                    />
+                    <q-fab-action
+                      color="teal-12"
+                      text-color="black"
+                      @click="filter = 'Equipment'"
+                      label="Equipment"
+                    />
+                    <q-fab-action
+                      color="teal-12"
+                      text-color="black"
+                      @click="filter = ''"
+                      icon="clear"
+                    />
+                  </div>
+                </q-fab>
+              </q-toolbar>
+              <div class="q-pa-md" v-for="data in allOrder">
+                <q-card clickable v-ripple class="my-card">
                   <q-popup-proxy context-menu>
                     <q-banner>
                       <template v-slot:avatar>
                         <q-icon name="tag" color="green" />
                       </template>
-                      <q-input type="number"/>
+                      <q-input type="number" />
                     </q-banner>
                   </q-popup-proxy>
                   <q-img
-                   src="https://cdn.quasar.dev/img/parallax2.jpg"
-                   style="max-width: 380px; height: 200px"
+                    src="https://cdn.quasar.dev/img/parallax2.jpg"
+                    style="max-width: 380px; height: 200px"
                   />
                   <div class="absolute-bottom text-subtitle1 text-center">
-                          <q-item-label class="text-center text-black">
-                            {{data.prodName}}
-                          </q-item-label>
-                          <q-item-label
-                            caption
-                            lines="1"
-                            class="text-center text-black"
-                            >{{data.price}}
-                            
-                            </q-item-label>
+                    <q-item-label class="text-center text-black">
+                      {{ data.prodName }}
+                    </q-item-label>
+                    <q-item-label
+                      caption
+                      lines="1"
+                      class="text-center text-black"
+                      >{{ data.price }}
+                    </q-item-label>
                   </div>
-                  
-                  
-              </q-card>
-
-            </div>
-
-
+                </q-card>
+              </div>
             </div>
           </q-scroll-area>
         </q-card>
@@ -111,7 +101,7 @@
       <div class="col">
         <q-card>
           <div>
-            <q-card flat bordered >
+            <q-card flat bordered>
               <q-card-section>
                 <q-table
                   :rows="allOrder"
@@ -399,7 +389,6 @@ export default class POS extends Vue {
       id: 1,
       name: 'Frozen Yogurt',
       price: '₱10',
-      
     },
     {
       id: 2,
@@ -420,7 +409,6 @@ export default class POS extends Vue {
       id: 5,
       name: 'Gingerbread',
       price: '₱10',
-     
     },
     {
       id: 6,
@@ -486,24 +474,29 @@ export default class POS extends Vue {
     },
   ];
 
-  tempInput( orderID: number, prodName: string, prodQuant: number,price: number,subTotal: number){
-      this.inputOrder.orderID = orderID;
-      this.inputOrder.prodName = prodName;
-      this.inputOrder.prodQuant =  prodQuant;
-      this.inputOrder.price = price;
-      this.inputOrder.subTotal = subTotal;
-      
+  tempInput(
+    orderID: number,
+    prodName: string,
+    prodQuant: number,
+    price: number,
+    subTotal: number
+  ) {
+    this.inputOrder.orderID = orderID;
+    this.inputOrder.prodName = prodName;
+    this.inputOrder.prodQuant = prodQuant;
+    this.inputOrder.price = price;
+    this.inputOrder.subTotal = subTotal;
   }
 
   inputOrder: IOrderInfo = {
-    orderID:0,
-    prodName:'',
-    prodQuant:0,
-    price:0,
-    subTotal:0,
-
+    orderID: 0,
+    prodName: '',
+    prodQuant: 0,
+    price: 0,
+    subTotal: 0,
+    orderDate: '',
   };
-   async onAddOrder() {
+  async onAddOrder() {
     await this.addOrder(this.inputOrder);
     this.$q.notify({
       type: 'positive',
@@ -517,12 +510,10 @@ export default class POS extends Vue {
   background-image: url('../assets/green.jpg');
   background-size: cover;
 }
-.my-card{
+.my-card {
   position: relative;
   margin: auto;
   height: 25vh;
   width: 16.4vw;
 }
-  
-
 </style>

@@ -9,8 +9,8 @@
         />
         Expense Report
       </div>
-      <div class="row q-pb-lg q-gutter-xl">
-        <div class="col-9">
+      <div class="row q-pb-lg q-gutter-lg">
+        <div class="col-8">
           <q-table
             title="Expenses List"
             :rows="allExpenses"
@@ -21,24 +21,26 @@
           </q-table>
         </div>
         <div class="col">
-          <q-card align="center">
-            <q-card-section>
-              <q-icon
-                name="shopping_bag"
-                color="green-2"
-                style="font-size: 2rem"
-              >
-              </q-icon>
-              <div class="text-h6 q-pb-md">Total Expenses List</div>
-              <div class="text-h6">140</div>
-            </q-card-section>
-            <q-separator />
-            <q-card-section>
-              <q-icon name="paid" color="green-2" style="font-size: 2rem">
-              </q-icon>
-              <div class="text-h6 q-pb-md">Total Expenses</div>
-              <div class="text-h6">100000.000</div>
-            </q-card-section>
+          <q-card>
+            <q-list bordered class="rounded-borders" style="max-width: 800px">
+              <q-item-label header> Expenses Overview </q-item-label>
+
+              <q-item>
+                <q-item-section avatar top>
+                  <q-icon name="payment" color="teal" size="35px" />
+                </q-item-section>
+
+                <q-item-section top>
+                  <q-item-label class="q-mt-sm">Total Cost</q-item-label>
+                </q-item-section>
+
+                <q-item-section top side>
+                  <q-item-label class="q-mt-sm">₱250.00</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-separator spaced />
+            </q-list>
           </q-card>
         </div>
       </div>
@@ -83,6 +85,7 @@ export default class ExpensesReport extends Vue {
       align: 'center',
       label: 'Date',
       field: 'expensesDateCreated',
+      sortable: true,
     },
     {
       name: 'category',
@@ -95,18 +98,6 @@ export default class ExpensesReport extends Vue {
       align: 'center',
       label: 'Amount',
       field: 'expensesAmount',
-    },
-    {
-      name: 'expensesNote',
-      align: 'center',
-      label: 'Note',
-      field: 'expensesNote',
-    },
-    {
-      name: 'action',
-      align: 'center',
-      label: 'Action',
-      field: 'action',
     },
   ];
 }

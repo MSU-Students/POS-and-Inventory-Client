@@ -4,79 +4,73 @@
       <q-icon name="request_quote" color="indigo" style="font-size: 4rem" />
       Purchase Report
     </div>
-    <div class="row my-card">
-      <div class="q-pr-md col-10">
-        <q-table
-          title="Purchase List"
-          :rows="rows"
-          :columns="columns"
-          row-key="itemCode"
-          :rows-per-page-options="[0]"
-          :filter="filter"
-        >
-          <template v-slot:top-right>
-            <div class="q-pa-md q-gutter-sm row">
-              <q-input
-                outlined
-                rounded
-                dense
-                debounce="300"
-                v-model="filter"
-                placeholder="Search"
-              >
-                <template v-slot:append>
-                  <q-fab
-                    color="teal-8"
-                    icon="sort"
-                    direction="down"
-                    label="Filter by:"
-                    label-position="top"
-                    external-label
-                    padding="xs"
-                  >
-                    <div class="q-gutter-md">
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = 'utensil'"
-                        label="utensil"
-                      />
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = 'Ingredient'"
-                        label="Ingredient"
-                      />
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = 'Equipment'"
-                        label="Equipment"
-                      />
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = ''"
-                        icon="clear"
-                      />
-                    </div>
-                  </q-fab>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
-            </div>
-          </template>
-        </q-table>
-      </div>
+    <div>
+      <q-table
+        title="Purchase List"
+        :rows="rows"
+        :columns="columns"
+        row-key="itemCode"
+        :rows-per-page-options="[0]"
+        :filter="filter"
+      >
+        <template v-slot:top-right>
+          <div class="q-pa-md q-gutter-sm row">
+            <q-input
+              outlined
+              rounded
+              dense
+              debounce="300"
+              v-model="filter"
+              placeholder="Search"
+            >
+              <template v-slot:append>
+                <q-fab
+                  color="teal-8"
+                  icon="sort"
+                  direction="down"
+                  label="Filter by:"
+                  label-position="top"
+                  external-label
+                  padding="xs"
+                >
+                  <div class="q-gutter-md">
+                    <q-fab-action
+                      color="teal-12"
+                      text-color="black"
+                      @click="filter = 'utensil'"
+                      label="utensil"
+                    />
+                    <q-fab-action
+                      color="teal-12"
+                      text-color="black"
+                      @click="filter = 'Ingredient'"
+                      label="Ingredient"
+                    />
+                    <q-fab-action
+                      color="teal-12"
+                      text-color="black"
+                      @click="filter = 'Equipment'"
+                      label="Equipment"
+                    />
+                    <q-fab-action
+                      color="teal-12"
+                      text-color="black"
+                      @click="filter = ''"
+                      icon="clear"
+                    />
+                  </div>
+                </q-fab>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </div>
+        </template>
+      </q-table>
     </div>
-    <div class="q-py-md row">
-      <div class="q-px-sm col-8">
+    <div class="q-py-lg row q-gutter-xl">
+      <div class="col">
         <q-card>
-          <q-list
-            bordered
-            class="rounded-borders"
-            style="width: 800px max-width: 800px"
-          >
+          <q-list bordered class="rounded-borders">
             <q-item-label header>Pending Purchase</q-item-label>
 
             <q-item>
@@ -143,9 +137,9 @@
           </q-list>
         </q-card>
       </div>
-      <div class="q-px-sm col-4">
-        <q-card style="width: 470px">
-          <q-list bordered class="rounded-borders" style="max-width: 800px">
+      <div class="col-5">
+        <q-card>
+          <q-list bordered class="rounded-borders">
             <q-item-label header>Canceled List</q-item-label>
 
             <q-item>

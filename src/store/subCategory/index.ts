@@ -1,11 +1,11 @@
 import { Module } from 'vuex';
 import { StateInterface } from '../index';
-import state, { SubprodCategoryStateInterface } from './state';
+import state, { SubCategoryStateInterface } from './state';
 import actions from './actions';
-import getters from './getters';
 import mutations from './mutations';
+import getters from './getters';
 
-const exampleModule: Module< SubprodCategoryStateInterface, StateInterface> = {
+const exampleModule: Module<SubCategoryStateInterface, StateInterface> = {
   namespaced: true,
   actions,
   getters,

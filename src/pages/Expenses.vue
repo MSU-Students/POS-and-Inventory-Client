@@ -94,7 +94,7 @@
                       />
                     </div>
                   </div>
-                  <div class="q-pa-md" style="full-width" full-width>
+                  <div>
                     <q-input
                       filled
                       label="Note"
@@ -232,7 +232,7 @@
                         />
                       </div>
                     </div>
-                    <div class="q-pa-md" style="full-width" full-width>
+                    <div>
                       <q-input
                         filled
                         label="Note"

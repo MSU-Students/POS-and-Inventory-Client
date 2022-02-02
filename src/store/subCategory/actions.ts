@@ -1,8 +1,8 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
-import { SubprodCategoryStateInterface, ISubProdCategoryInfo } from './state';
+import { SubCategoryStateInterface, ISubProdCategoryInfo } from './state';
 
-const actions: ActionTree<SubprodCategoryStateInterface, StateInterface> = {
+const actions: ActionTree<SubCategoryStateInterface, StateInterface> = {
   addSubCategory(context, payload: ISubProdCategoryInfo) {
     context.commit('setSubCategory', payload);
   },

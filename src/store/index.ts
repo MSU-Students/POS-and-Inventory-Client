@@ -27,11 +27,11 @@ import { PurchaseStateInterface } from './purchase/state';
 import supplier from './supplier';
 import { SupplierStateInterface } from './supplier/state';
 
-import subprodcategory from './subprodcategory';
-import { SubprodCategoryStateInterface } from './subprodcategory/state';
-
 import Order from './Order';
 import { OrderStateInterface } from './Order/state';
+
+import subCategory from './subCategory';
+import { SubCategoryStateInterface } from './subCategory/state';
 
 /*
  * If not building with SSR mode, you can
@@ -54,7 +54,7 @@ export interface StateInterface {
   purchase: PurchaseStateInterface;
   supply: SupplierStateInterface;
   Order: OrderStateInterface;
-  subprodcategory:SubprodCategoryStateInterface,
+  subCategory: SubCategoryStateInterface;
 }
 
 // provide typings for `this.$store`
@@ -80,7 +80,7 @@ export default store(function (/* { ssrContext } */) {
       purchase,
       supplier,
       Order,
-      subprodcategory,
+      subCategory,
     },
 
     // enable strict mode (adds overhead!)

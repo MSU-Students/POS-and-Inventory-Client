@@ -6,9 +6,9 @@
         Category
       </div>
       <div class="q-px-md row">
-        <div class="q-pr-md col-6">
+        <div class="q-pr-md col">
           <q-table
-            title="Category List"
+            title="Product Category"
             :rows="allCategory"
             :columns="columns"
             row-key="code"
@@ -87,7 +87,7 @@
                     size="sm"
                     flat
                     dense
-                    @click="openEditDialog(props.row)"
+                    @click="openEditDialogProd(props.row)"
                   />
                   <q-dialog v-model="editRowCategory" persistent>
                     <q-card style="width: 700px" class="q-pa-md">
@@ -116,7 +116,12 @@
                       </q-card-section>
 
                       <q-card-actions align="right">
-                        <q-btn flat label="Cancel" color="red-10" v-close-popup />
+                        <q-btn
+                          flat
+                          label="Cancel"
+                          color="red-10"
+                          v-close-popup
+                        />
                         <q-btn
                           flat
                           label="Save"
@@ -141,16 +146,14 @@
             </template>
           </q-table>
         </div>
-        <div class="q-pl-md col-6">
+
+        <div class="q-pl-md col">
           <q-table
-            title="Sub-Category List"
-            :rows="allSubCategory"
+            title="Sub-Product Category"
+            :rows="allSubProdCat"
             :columns="subColumns"
-            row-key="subCategoryID"
+            row-key="subProdCat"
             :rows-per-page-options="[0]"
-            :filter="filter"
-            selection="multiple"
-            v-model:selected="selected"
           >
             <template v-slot:top-right>
               <div class="q-pa-md q-gutter-sm row">
@@ -172,14 +175,21 @@
                   dense
                   flat
                   icon="add"
-                  @click="addNewCategory = true"
+                  @click="addNewSubProdCat = true"
                 />
-                <q-dialog v-model="addNewCategory" persistent>
+                <q-dialog v-model="addNewSubProdCat" persistent>
                   <q-card style="width: 700px" class="q-pa-md">
                     <q-card-section class="row">
                       <div class="text-h6">Add Category</div>
                       <q-space />
-                      <q-btn flat round dense icon="close" v-close-popup />
+                      <q-btn
+                        flat
+                        round
+                        dense
+                        icon="close"
+                        v-close-popup
+                        @click="resetModelSubProd()"
+                      />
                     </q-card-section>
 
                     <q-card-section class="q-gutter-md">
@@ -188,6 +198,7 @@
                           outlined
                           label="Category ID"
                           v-model="inputCategory.categoryID"
+                          disable
                         />
                       </div>
                       <div class="col">
@@ -200,12 +211,18 @@
                     </q-card-section>
 
                     <q-card-actions align="right">
-                      <q-btn flat label="Cancel" color="red-10" v-close-popup />
+                      <q-btn
+                        flat
+                        label="Cancel"
+                        color="red-10"
+                        v-close-popup
+                        @click="resetModelSubProd()"
+                      />
                       <q-btn
                         flat
                         label="Add"
                         color="primary"
-                        @click="onAddCategory()"
+                        @click="onAddSubProdCat()"
                       />
                     </q-card-actions>
                   </q-card>
@@ -222,14 +239,21 @@
                     size="sm"
                     flat
                     dense
-                    @click="openEditDialog(props.row)"
+                    @click="openEditDialogSubProd(props.row)"
                   />
-                  <q-dialog v-model="editRowCategory" persistent>
+                  <q-dialog v-model="editRowSubProdCat" persistent>
                     <q-card style="width: 700px" class="q-pa-md">
                       <q-card-section class="row">
                         <div class="text-h6">Add Category</div>
                         <q-space />
-                        <q-btn flat round dense icon="close" v-close-popup />
+                        <q-btn
+                          flat
+                          round
+                          dense
+                          icon="close"
+                          v-close-popup
+                          @click="resetModelSubProd()"
+                        />
                       </q-card-section>
 
                       <q-card-section class="q-gutter-md">
@@ -251,12 +275,18 @@
                       </q-card-section>
 
                       <q-card-actions align="right">
-                        <q-btn flat label="Cancel" color="red-10" v-close-popup />
+                        <q-btn
+                          flat
+                          label="Cancel"
+                          color="red-10"
+                          v-close-popup
+                          @click="resetModelSubProd()"
+                        />
                         <q-btn
                           flat
                           label="Save"
                           color="primary"
-                          @click="onEditCategory()"
+                          @click="onEditSubProdCat()"
                         />
                       </q-card-actions>
                     </q-card>
@@ -269,7 +299,7 @@
                     flat
                     round
                     dense
-                    @click="deleteSpecificCategory(props.row)"
+                    @click="deleteSpecificSubProdCat(props.row)"
                   />
                 </div>
               </q-td>
@@ -284,12 +314,12 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import { ICategoryInfo } from '../store/category/state';
-import { ISubProdCategoryInfo } from '../store/subprodcategory/state';
+import { ISubProdCategoryInfo } from '../store/subCategory/state';
 import { mapState, mapActions } from 'vuex';
 @Options({
   computed: {
-    ...mapState('category', ['allCategory'],),
-    ...mapState('subCategory', ['allSubCategory']), 
+    ...mapState('category', ['allCategory']),
+    ...mapState('subCategory', ['allSubProdCat']),
   },
   methods: {
     ...mapActions('category', [
@@ -309,15 +339,11 @@ export default class Expenses extends Vue {
   editCategory!: (payload: ICategoryInfo) => Promise<void>;
   deleteCategory!: (payload: ICategoryInfo) => Promise<void>;
   allCategory!: ICategoryInfo[];
-  addSubCategory!: (payload: ISubProdCategoryInfo) => Promise<void>;
-  editSubCategory!: (payload: ISubProdCategoryInfo) => Promise<void>;
-  deleteSubCategory!: (payload: ISubProdCategoryInfo) => Promise<void>;
-  allSubCategory!: ISubProdCategoryInfo[];
 
   columns = [
     {
       name: 'categoryID',
-      required: true, 
+      required: true,
       label: 'Category ID',
       align: 'left',
       field: (row: ICategoryInfo) => row.categoryID,
@@ -348,28 +374,28 @@ export default class Expenses extends Vue {
       field: 'action',
     },
   ];
-   subColumns = [
+
+  addSubCategory!: (payload: ISubProdCategoryInfo) => Promise<void>;
+  editSubCategory!: (payload: ISubProdCategoryInfo) => Promise<void>;
+  deleteSubCategory!: (payload: ISubProdCategoryInfo) => Promise<void>;
+  allSubProdCat!: ISubProdCategoryInfo[];
+
+  subColumns = [
     {
-      name: 'Sub-categoryID',
+      name: 'subProdCat',
       required: true,
-      label: 'Category ID',
+      label: 'Sub-Product Name',
       align: 'left',
-      field: (row: ISubProdCategoryInfo) => row.subCategoryID,
+      field: (row: ISubProdCategoryInfo) => row.subProdCat,
       format: (val: string) => `${val}`,
     },
     {
-      name: 'MainCategoryName',
+      name: 'productCategory',
       align: 'center',
       label: 'Main Category',
-      field: 'MainCategoryName',
+      field: 'productCategory',
     },
     {
-      name: 'subCategoryName',
-      align: 'center',
-      label: 'Name',
-      field: 'categoryName',
-    },
-     {
       name: 'action',
       align: 'center',
       label: 'Action',
@@ -381,6 +407,8 @@ export default class Expenses extends Vue {
   addNewCategory = false;
   editRowCategory = false;
   showNoteCategory = false;
+  addNewSubProdCat = false;
+  editRowSubProdCat = false;
   filter = '';
 
   inputCategory: ICategoryInfo = {
@@ -391,7 +419,7 @@ export default class Expenses extends Vue {
   async onAddCategory() {
     await this.addCategory(this.inputCategory);
     this.addNewCategory = false;
-    this.resetModel();
+    this.resetModelProd();
     this.$q.notify({
       type: 'positive',
       message: 'Successfully Added.',
@@ -401,7 +429,7 @@ export default class Expenses extends Vue {
   async onEditCategory() {
     await this.editCategory(this.inputCategory);
     this.editRowCategory = false;
-    this.resetModel();
+    this.resetModelProd();
     this.$q.notify({
       type: 'positive',
       message: 'Successfully Edit.',
@@ -424,16 +452,68 @@ export default class Expenses extends Vue {
       });
   }
 
-  openEditDialog(val: ICategoryInfo) {
+  openEditDialogProd(val: ICategoryInfo) {
     this.editRowCategory = true;
     this.inputCategory = { ...val };
   }
-  resetModel() {
+  resetModelProd() {
     this.inputCategory = {
       categoryID: '',
       categoryName: '',
       numProd: '',
       stockQuantity: '',
+    };
+  }
+
+  inputSubCategory: ISubProdCategoryInfo = {
+    productCategory: '',
+    subProdCat: '',
+  };
+
+  async onAddSubProdCat() {
+    await this.addSubCategory(this.inputSubCategory);
+    this.addNewSubProdCat = false;
+    this.resetModelProd();
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Added.',
+    });
+  }
+
+  async onEditSubProdCat() {
+    await this.editSubCategory(this.inputSubCategory);
+    this.editRowSubProdCat = false;
+    this.resetModelProd();
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Edit.',
+    });
+  }
+
+  deleteSpecificSubProdCat(val: ISubProdCategoryInfo) {
+    this.$q
+      .dialog({
+        message: 'Confirm to delete?',
+        cancel: true,
+        persistent: true,
+      })
+      .onOk(async () => {
+        await this.deleteSubCategory(val);
+        this.$q.notify({
+          type: 'warning',
+          message: 'Successfully deleted',
+        });
+      });
+  }
+
+  openEditDialogSubProd(val: ISubProdCategoryInfo) {
+    this.editRowSubProdCat = true;
+    this.inputSubCategory = { ...val };
+  }
+  resetModelSubProd() {
+    this.inputSubCategory = {
+      productCategory: '',
+      subProdCat: '',
     };
   }
 }

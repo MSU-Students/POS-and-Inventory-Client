@@ -46,60 +46,14 @@
       </div>
     </div>
     <div class="row q-gutter-lg">
-      <div class="q-pt-lg col" style="max-width: 415px">
-        <q-card>
-          <q-item>
-            <q-item-section>
-              <q-item-label class="text-h6"> Users </q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-list>
-            <div class="row q-gutter-md q-pa-md flex flex-center">
-              <q-card>
-                <q-item class="col">
-                  <q-item-section avatar>
-                    <q-icon
-                      color="primary"
-                      name="groups"
-                      style="font-size: 5rem"
-                    />
-                    <q-item-label>Daily Customer</q-item-label>
-                  </q-item-section>
-                  <q-item-section class="text-h6 text-bold" side-left>
-                    240
-                  </q-item-section>
-                </q-item>
-              </q-card>
-              <q-card>
-                <div class="col">
-                  <q-item class="col">
-                    <q-item-section avatar>
-                      <q-icon
-                        color="primary"
-                        name="groups"
-                        style="font-size: 5rem"
-                      />
-                      <q-item-label>Total Supplier</q-item-label>
-                    </q-item-section>
-                    <q-item-section class="text-h6 text-bold" side-left>
-                      240
-                    </q-item-section>
-                  </q-item>
-                </div></q-card
-              >
-            </div>
-          </q-list>
-        </q-card>
-      </div>
       <div class="q-pt-lg col">
         <q-card>
           <q-list>
-              <q-item>
-                <q-item-section>
-                  <q-item-label class="text-h6"> Invetory Details </q-item-label>
-                </q-item-section>
-              </q-item>
+            <q-item>
+              <q-item-section>
+                <q-item-label class="text-h6"> Invetory Details </q-item-label>
+              </q-item-section>
+            </q-item>
             <q-separator />
             <q-item>
               <q-item-section>Total Stock Item</q-item-section>

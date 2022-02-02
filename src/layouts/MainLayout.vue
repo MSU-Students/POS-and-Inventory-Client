@@ -104,23 +104,14 @@
 
             <q-item-section> Expenses </q-item-section>
           </q-item>
-          
-          <q-expansion-item>
-            <template v-slot:header>
-              <q-item-section avatar>
-                <q-icon name="category" color="green-2" />
-              </q-item-section>
-              <q-item-section> Category </q-item-section>
-            </template>
-            <q-card>
-              <q-card-section>
-                <q-item clickable v-ripple to="/category">
-                  <q-item-section> Inventory Category </q-item-section>
-                </q-item>
-                
-              </q-card-section>
-            </q-card>
-          </q-expansion-item>
+
+          <q-item clickable v-ripple to="/category">
+            <q-item-section avatar>
+              <q-icon name="category" color="green-2" />
+            </q-item-section>
+
+            <q-item-section> Category </q-item-section>
+          </q-item>
 
           <q-expansion-item>
             <template v-slot:header>

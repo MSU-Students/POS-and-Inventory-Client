@@ -5,8 +5,8 @@
       Stock Report
     </div>
     <div class="row">
-      <div class="col-8">
-        <div class="q-pr-md col-10">
+      <div class="col-9">
+        <div class="q-pr-md">
           <q-card>
             <q-table
               title="Stock List"
@@ -72,7 +72,7 @@
           </q-card>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col">
         <q-card>
           <q-list>
             <q-item>
@@ -173,13 +173,6 @@ export default class Expenses extends Vue {
       align: 'center',
       label: 'Date Stock In',
       field: 'itemDateCreated',
-    },
-
-    {
-      name: 'action',
-      align: 'center',
-      label: 'Action',
-      field: 'action',
     },
   ];
   filter = '';

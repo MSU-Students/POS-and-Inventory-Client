@@ -4,6 +4,13 @@
       <q-icon name="stacked_bar_chart" color="orange" style="font-size: 4rem" />
       Sales Report
     </div>
+    <q-table
+      title="Sales Record"
+      :rows="allOrder"
+      :columns="column"
+      row-key="subCategoryID"
+      :rows-per-page-options="[0]"
+    />
     <q-card class="q-my-lg">
       <q-card-section class="text-h6 q-pb-none">
         <q-item>
@@ -126,6 +133,8 @@ import CashFlowChart from 'components/Charts/DashSalePurchase.vue';
 import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
 import YearlySaleReport from 'components/Charts/YearlySaleReport.vue';
 import BestSeller from 'components/Charts/BestSellerChart.vue';
+import { mapState } from 'vuex';
+import { IOrderInfo } from '../store/Order/state';
 @Options({
   components: {
     monthlyProductSales,
@@ -134,8 +143,48 @@ import BestSeller from 'components/Charts/BestSellerChart.vue';
     YearlySaleReport,
     BestSeller,
   },
+  computed: {
+    ...mapState('Order', ['allOrder']),
+  },
 })
-export default class ChartComponent extends Vue {}
+export default class ChartComponent extends Vue {
+  allOrder!: IOrderInfo[];
+
+  column = [
+    {
+      name: 'prodName',
+      required: true,
+      label: 'Product',
+      align: 'left',
+      field: (row: IOrderInfo) => row.prodName,
+      format: (val: string) => `${val}`,
+    },
+    {
+      name: 'prodQuant',
+      align: 'center',
+      label: 'Product Quantity',
+      field: 'prodQuant',
+    },
+    {
+      name: 'price',
+      align: 'center',
+      label: 'Price',
+      field: 'price',
+    },
+    {
+      name: 'subTotal',
+      align: 'center',
+      label: 'Total',
+      field: 'subTotal',
+    },
+    {
+      name: 'orderDate',
+      align: 'center',
+      label: 'Date Order',
+      field: 'orderDate',
+    },
+  ];
+}
 </script>
 <style lang="sass" scoped>
 .my-card
