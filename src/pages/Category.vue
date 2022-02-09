@@ -5,8 +5,8 @@
         <q-icon name="category" color="amber" style="font-size: 4rem" />
         Category
       </div>
-      <div class="q-px-md row">
-        <div class="q-pr-md col">
+      <div class="q-px-md q-gutter-md row">
+        <div class="col">
           <q-table
             title="Product Category"
             :rows="allCategory"
@@ -147,7 +147,7 @@
           </q-table>
         </div>
 
-        <div class="q-pl-md col">
+        <div class="col">
           <q-table
             title="Sub-Product Category"
             :rows="allSubProdCat"
@@ -178,7 +178,7 @@
                   @click="addNewSubProdCat = true"
                 />
                 <q-dialog v-model="addNewSubProdCat" persistent>
-                  <q-card style="width: 700px" class="q-pa-md">
+                  <q-card style="width: 300px" class="q-pa-md">
                     <q-card-section class="row">
                       <div class="text-h6">Add Category</div>
                       <q-space />

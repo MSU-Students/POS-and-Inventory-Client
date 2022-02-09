@@ -67,7 +67,11 @@
                   </div>
                 </q-fab>
               </q-toolbar>
-              <div class="q-pa-md" v-for="data in allOrder">
+              <div
+                class="q-pa-md"
+                v-for="data in allOrder"
+                v-bind:key="data.orderID"
+              >
                 <q-card clickable v-ripple class="my-card">
                   <q-popup-proxy context-menu>
                     <q-banner>
@@ -514,6 +518,6 @@ export default class POS extends Vue {
   position: relative;
   margin: auto;
   height: 25vh;
-  width: 16.4vw;
+  width: 16vw;
 }
 </style>

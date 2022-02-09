@@ -7,12 +7,7 @@
     <div class="q-mt-lg">
       <div class="q-gutter-sm q-pa-sm row">
         <q-space />
-        <q-btn
-          color="primary"
-          icon-right="archive"
-          label="Export to csv"
-          no-caps
-        />
+        <q-btn color="primary" icon-right="archive" label="Export to csv" />
       </div>
     </div>
     <q-table
@@ -372,5 +367,49 @@ export default class ManageAccount extends Vue {
       purchaseAmount: 0,
     };
   }
+
+  // wrapCsvValue(val: any, formatFn?: any) {
+  //   let formatted = formatFn !== void 0 ? formatFn(val) : val;
+
+  //   formatted =
+  //     formatted === void 0 || formatted === null ? '' : String(formatted);
+
+  //   formatted = formatted.split('"').join('""');
+
+  //   return `"${formatted}"`;
+  // }
+
+  // exportTable() {
+  //   const content = [this.columns.map((col) => this.wrapCsvValue(col.label))]
+  //     .concat(
+  //       this.data.map((row) =>
+  //         this.columns
+  //           .map((col) =>
+  //             this.wrapCsvValue(
+  //               typeof col.field === 'function'
+  //                 ? col.field(row)
+  //                 : row[col.field === void 0 ? col.name : col.field],
+  //               col.format
+  //             )
+  //           )
+  //           .join(',')
+  //       )
+  //     )
+  //     .join('\r\n');
+
+  //   const status = exportFile(
+  //     `table-${this.$route.name as string}.csv`,
+  //     content,
+  //     'text/csv'
+  //   );
+
+  //   if (status !== true) {
+  //     this.$q.notify({
+  //       message: 'Browser denied file download...',
+  //       color: 'negative',
+  //       icon: "warning can't download",
+  //     });
+  //   }
+  // }
 }
 </script>

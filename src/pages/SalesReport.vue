@@ -4,13 +4,15 @@
       <q-icon name="stacked_bar_chart" color="orange" style="font-size: 4rem" />
       Sales Report
     </div>
-    <q-table
-      title="Sales Record"
-      :rows="allOrder"
-      :columns="column"
-      row-key="subCategoryID"
-      :rows-per-page-options="[0]"
-    />
+    <div class="q-py-lg">
+      <q-table
+        title="Sales Record"
+        :rows="allOrder"
+        :columns="column"
+        row-key="subCategoryID"
+        :rows-per-page-options="[0]"
+      />
+    </div>
     <q-card class="q-my-lg">
       <q-card-section class="text-h6 q-pb-none">
         <q-item>
@@ -103,13 +105,13 @@
         </div>
       </q-card-section>
     </q-card>
-    <q-card class="q-py-lg">
+    <q-card class="q-my-lg">
       <q-card-section>
         <q-item-section>
           <div class="text-h6">Yearly Sales</div>
         </q-item-section>
       </q-card-section>
-      <div>
+      <div class="q-pa-lg">
         <YearlySaleReport />
       </div>
     </q-card>
@@ -119,7 +121,7 @@
           <div class="text-h6">Best Seller</div>
         </q-item-section>
       </q-card-section>
-      <div>
+      <div class="q-pa-lg">
         <BestSeller />
       </div>
     </q-card>
@@ -160,6 +162,13 @@ export default class ChartComponent extends Vue {
       format: (val: string) => `${val}`,
     },
     {
+      name: 'orderDate',
+      align: 'center',
+      label: 'Date Order',
+      field: 'orderDate',
+      sortable: true,
+    },
+    {
       name: 'prodQuant',
       align: 'center',
       label: 'Product Quantity',
@@ -176,12 +185,6 @@ export default class ChartComponent extends Vue {
       align: 'center',
       label: 'Total',
       field: 'subTotal',
-    },
-    {
-      name: 'orderDate',
-      align: 'center',
-      label: 'Date Order',
-      field: 'orderDate',
     },
   ];
 }

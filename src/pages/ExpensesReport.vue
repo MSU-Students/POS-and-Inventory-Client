@@ -54,8 +54,8 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import ExpensesChart from 'components/Charts/ExpensesReportChart.vue';
-import { IExpensesInfo } from '../store/expenses/state';
 import { mapState } from 'vuex';
+import { IExpensesInfo } from 'src/store/expenses/state';
 
 @Options({
   components: { ExpensesChart },

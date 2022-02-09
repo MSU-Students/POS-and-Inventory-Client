@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="myChart" width="400" height="200"></canvas>
+    <canvas id="myChart" width="300" height="100"></canvas>
   </div>
 </template>
 
@@ -11,37 +11,30 @@ import Chart from 'chart.js/auto';
 export default class monthlyProductSales extends Vue {
   chart?: Chart;
   mounted() {
-    const labels = [
-      '2019',
-      '2020',
-      '2021',
-    ];
+    const labels = ['2019', '2020', '2021'];
     const data = {
-      
       labels: labels,
       datasets: [
         {
           label: '2019',
-          data:[34, 281, 213],
+          data: [34, 281, 213],
           backgroundColor: 'grey',
-          borderColor:'grey',  
+          borderColor: 'grey',
         },
         {
           label: '2020',
-          data:[34, 103, 512, 223],
+          data: [34, 103, 512, 223],
           backgroundColor: 'green',
           borderColor: 'green',
         },
-        {    
+        {
           label: '2021',
-          data:[299, 13, 40],
+          data: [299, 13, 40],
           backgroundColor: 'orange',
           borderColor: 'orange',
         },
       ],
     };
-    
-       
 
     const wrapper = this.$el as HTMLElement;
     const canvas = wrapper.querySelector('canvas') as HTMLCanvasElement;
@@ -49,17 +42,14 @@ export default class monthlyProductSales extends Vue {
       type: 'line',
       data: data,
       options: {
-        responsive:true,
+        responsive: true,
         plugins: {
-          legend:{
-           display: true,
-           position: 'top',
-
-          }
-
-        }
+          legend: {
+            display: true,
+            position: 'top',
+          },
+        },
       },
-      
     });
   }
 }
