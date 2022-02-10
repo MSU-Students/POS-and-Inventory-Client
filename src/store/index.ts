@@ -33,6 +33,11 @@ import { OrderStateInterface } from './Order/state';
 import subCategory from './subCategory';
 import { SubCategoryStateInterface } from './subCategory/state';
 
+import expensesCategory from './expensesCategory';
+import { expensesCategoryStateInterface } from './expensesCategory/state';
+
+import inventoryCategory from './inventoryCategory';
+import { InventoryCatStateInterface } from './inventoryCategory/state';
 /*
  * If not building with SSR mode, you can
  * directly export the Store instantiation;
@@ -55,6 +60,8 @@ export interface StateInterface {
   supply: SupplierStateInterface;
   Order: OrderStateInterface;
   subCategory: SubCategoryStateInterface;
+  expensesCategory: expensesCategoryStateInterface;
+  inventoryCategory: InventoryCatStateInterface;
 }
 
 // provide typings for `this.$store`
@@ -81,6 +88,8 @@ export default store(function (/* { ssrContext } */) {
       supplier,
       Order,
       subCategory,
+      expensesCategory,
+      inventoryCategory,
     },
 
     // enable strict mode (adds overhead!)

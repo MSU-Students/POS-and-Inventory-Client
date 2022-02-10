@@ -13,7 +13,6 @@ export interface IAccountInfo {
 
 export interface AccountStateInterface {
   allAccount: IAccountInfo[];
-  activeAccount?: IAccountInfo;
 }
 
 function state(): AccountStateInterface {
