@@ -298,7 +298,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { iInventoryInfo } from '../store/inventory/state';
+import { iInventoryInfo } from '../../store/inventory/state';
 import { mapState, mapActions } from 'vuex';
 
 @Options({

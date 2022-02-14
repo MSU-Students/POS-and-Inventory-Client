@@ -221,7 +221,7 @@
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { IPurchaseInfo } from '../store/purchase/state';
+import { IPurchaseInfo } from '../../store/purchase/state';
 import { mapActions, mapState } from 'vuex';
 
 @Options({

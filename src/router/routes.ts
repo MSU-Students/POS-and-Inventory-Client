@@ -9,16 +9,16 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/POS',
 
-    component: () => import('pages/POS.vue'),
+    component: () => import('../pages/POS/POS.vue'),
   },
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: 'Dashboard', component: () => import('src/pages/Dashboard.vue') },
+      { path: 'Dashboard', component: () => import('../pages/Dashboard.vue') },
       {
         path: 'account',
-        component: () => import('src/pages/ManageAccount.vue'),
+        component: () => import('../pages/ManageAccount.vue'),
       },
       {
         path: 'Expenses',
@@ -26,39 +26,39 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'Category',
-        component: () => import('src/pages/Category.vue'),
+        component: () => import('../pages/Category.vue'),
       },
       {
         path: 'Inventory',
-        component: () => import('pages/Inventory.vue'),
+        component: () => import('../pages/Inventory/Inventory.vue'),
       },
       {
         path: 'ManageSale',
-        component: () => import('pages/ManageSale.vue'),
+        component: () => import('../pages/POS/ManageSale.vue'),
       },
       {
         path: 'Purchase',
-        component: () => import('pages/Purchase.vue'),
+        component: () => import('src/pages/Inventory/Purchase.vue'),
       },
       {
         path: 'SalesReport',
-        component: () => import('pages/SalesReport.vue'),
+        component: () => import('../pages/Reports/SalesReport.vue'),
       },
       {
         path: 'Supplier',
-        component: () => import('pages/Supplier.vue'),
+        component: () => import('../pages/Inventory/Supplier.vue'),
       },
       {
         path: 'StockReport',
-        component: () => import('pages/StockReport.vue'),
+        component: () => import('../pages/Reports/StockReport.vue'),
       },
       {
         path: 'PurchaseReport',
-        component: () => import('pages/PurchaseReport.vue'),
+        component: () => import('../pages/Reports/PurchaseReport.vue'),
       },
       {
         path: 'ExpenseReport',
-        component: () => import('pages/ExpensesReport.vue'),
+        component: () => import('../pages/Reports/ExpensesReport.vue'),
       },
     ],
   },

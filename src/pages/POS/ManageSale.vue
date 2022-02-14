@@ -271,7 +271,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { IManageSaleInfo } from '../store/manageSale/state';
+import { IManageSaleInfo } from '../../store/manageSale/state';
 import { mapState, mapActions } from 'vuex';
 
 @Options({

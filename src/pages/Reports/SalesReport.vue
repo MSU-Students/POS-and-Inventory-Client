@@ -136,7 +136,7 @@ import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
 import YearlySaleReport from 'components/Charts/YearlySaleReport.vue';
 import BestSeller from 'components/Charts/BestSellerChart.vue';
 import { mapState } from 'vuex';
-import { IOrderInfo } from '../store/Order/state';
+import { IOrderInfo } from '../../store/Order/state';
 @Options({
   components: {
     monthlyProductSales,

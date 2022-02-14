@@ -11,7 +11,6 @@
       </div>
 
       <q-table
-        class="my-sticky-header-table"
         title="List of suppliers"
         :rows="allSupplier"
         :columns="columns"
@@ -277,7 +276,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { ISupplierInfo } from '../store/supplier/state';
+import { ISupplierInfo } from '../../store/supplier/state';
 import { mapState, mapActions } from 'vuex';
 
 @Options({
@@ -396,23 +395,4 @@ export default class ManageAccount extends Vue {
   }
 }
 </script>
-<style lang="sass">
-.my-sticky-header-table
-  /* height or max-height is important */
-
-  .q-table__top,
-  thead tr:first-child th
-    /* bg color is important for th; just specify one */
-    background-color: #c1f4cd
-
-  thead tr th
-    position: sticky
-    z-index: 1
-  thead tr:first-child th
-    top: 0
-
-  /* this is when the loading indicator appears */
-  &.q-table--loading thead tr:last-child th
-    /* height of all previous header rows */
-    top: 48px
-</style>
+<style lang="sass"></style>

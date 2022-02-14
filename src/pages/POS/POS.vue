@@ -150,7 +150,7 @@
                         <div>
                           <q-btn
                             color="red-10"
-                            icon="cancel"
+                            icon="delete"
                             size="sm"
                             class="q-ml-sm"
                             flat
@@ -335,7 +335,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { IOrderInfo } from '../store/Order/state';
+import { IOrderInfo } from '../../store/Order/state';
 import { mapState, mapActions } from 'vuex';
 interface IRow {
   name: string;
@@ -511,7 +511,7 @@ export default class POS extends Vue {
 </script>
 <style>
 .bg-image {
-  background-image: url('../assets/green.jpg');
+  background-image: url('../../assets/green.jpg');
   background-size: cover;
 }
 .my-card {
