@@ -13,7 +13,41 @@
             <div class="q-pa-md row">
               <q-toolbar class="bg-green text-white shadow-2">
                 <q-toolbar-title> Menu </q-toolbar-title>
-
+                <q-fab
+                  color="teal-8"
+                  icon="sort"
+                  square
+                  label="Filter by:"
+                  label-position="top"
+                  external-label
+                  padding="xs"
+                  direction="left"
+                >
+                  <q-fab-action
+                    color="teal-12"
+                    text-color="black"
+                    @click="filter = 'utensil'"
+                    label="utensil"
+                  />
+                  <q-fab-action
+                    color="teal-12"
+                    text-color="black"
+                    @click="filter = 'Ingredient'"
+                    label="Ingredient"
+                  />
+                  <q-fab-action
+                    color="teal-12"
+                    text-color="black"
+                    @click="filter = 'Equipment'"
+                    label="Equipment"
+                  />
+                  <q-fab-action
+                    color="teal-12"
+                    text-color="black"
+                    @click="filter = ''"
+                    icon="clear"
+                  />
+                </q-fab>
                 <div class="q-pa-md q-gutter-sm row">
                   <q-input
                     dark
@@ -28,44 +62,6 @@
                     </template>
                   </q-input>
                 </div>
-
-                <q-fab
-                  color="teal-8"
-                  icon="sort"
-                  square
-                  direction="down"
-                  label="Filter by:"
-                  label-position="top"
-                  external-label
-                  padding="xs"
-                >
-                  <div class="q-gutter-md">
-                    <q-fab-action
-                      color="teal-12"
-                      text-color="black"
-                      @click="filter = 'utensil'"
-                      label="utensil"
-                    />
-                    <q-fab-action
-                      color="teal-12"
-                      text-color="black"
-                      @click="filter = 'Ingredient'"
-                      label="Ingredient"
-                    />
-                    <q-fab-action
-                      color="teal-12"
-                      text-color="black"
-                      @click="filter = 'Equipment'"
-                      label="Equipment"
-                    />
-                    <q-fab-action
-                      color="teal-12"
-                      text-color="black"
-                      @click="filter = ''"
-                      icon="clear"
-                    />
-                  </div>
-                </q-fab>
               </q-toolbar>
               <div
                 class="q-pa-md"

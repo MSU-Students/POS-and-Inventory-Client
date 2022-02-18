@@ -30,38 +30,36 @@
                   <q-fab
                     color="teal-8"
                     icon="sort"
-                    direction="down"
+                    direction="left"
                     label="Filter by:"
                     label-position="top"
                     external-label
                     padding="xs"
                   >
-                    <div class="q-gutter-md">
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = 'utensil'"
-                        label="utensil"
-                      />
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = 'Ingredient'"
-                        label="Ingredient"
-                      />
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = 'Equipment'"
-                        label="Equipment"
-                      />
-                      <q-fab-action
-                        color="teal-12"
-                        text-color="black"
-                        @click="filter = ''"
-                        icon="clear"
-                      />
-                    </div>
+                    <q-fab-action
+                      color="teal-12"
+                      text-color="black"
+                      @click="filter = 'utensil'"
+                      label="utensil"
+                    />
+                    <q-fab-action
+                      color="teal-12"
+                      text-color="black"
+                      @click="filter = 'Ingredient'"
+                      label="Ingredient"
+                    />
+                    <q-fab-action
+                      color="teal-12"
+                      text-color="black"
+                      @click="filter = 'Equipment'"
+                      label="Equipment"
+                    />
+                    <q-fab-action
+                      color="teal-12"
+                      text-color="black"
+                      @click="filter = ''"
+                      icon="clear"
+                    />
                   </q-fab>
                   <q-icon name="search" />
                 </template>
