@@ -68,7 +68,7 @@
                 v-for="data in allOrder"
                 v-bind:key="data.orderID"
               >
-                <q-card clickable v-ripple class="my-card">
+                <q-card class="my-card">
                   <q-popup-proxy context-menu>
                     <q-banner>
                       <template v-slot:avatar>
@@ -90,6 +90,74 @@
                       lines="1"
                       class="text-center text-black"
                       >{{ data.price }}
+                    </q-item-label>
+                    <q-item-label>
+                      <q-btn
+                        unelevated
+                        rounded
+                        color="primary"
+                        label="Order"
+                        class="q-my-sm"
+                        @click="chooseSize = true"
+                      />
+                      <q-dialog v-model="chooseSize">
+                        <q-card style="width: 400px">
+                          <q-card-section>
+                            <div class="text-h6">Choose size and quantity</div>
+                          </q-card-section>
+
+                          <q-card-section class="q-pt-none">
+                            <q-input
+                              placeholder="Enter quantity"
+                              type="number"
+                              filled
+                              style="max-width: 200px"
+                            />
+                          </q-card-section>
+
+                          <q-card-actions>
+                            <div class="q-pa-md q-gutter-sm">
+                              <div class="q-gutter-sm">
+                                <q-radio
+                                  v-model="radioBTN"
+                                  dense
+                                  val="small"
+                                  label="small"
+                                />
+                                <q-radio
+                                  v-model="radioBTN"
+                                  dense
+                                  val="Medium"
+                                  label="Medium"
+                                />
+                                <q-radio
+                                  v-model="radioBTN"
+                                  dense
+                                  val="Large"
+                                  label="Large"
+                                />
+                                <q-radio
+                                  v-model="radioBTN"
+                                  dense
+                                  val="regular"
+                                  label="Regular"
+                                />
+                              </div>
+                              <div class="q-px-sm q-pt-sm">
+                                Your selection is:
+                                <strong>{{ radioBTN }}</strong>
+                              </div>
+                            </div>
+                          </q-card-actions>
+
+                          <q-card-actions
+                            align="right"
+                            class="bg-white text-teal"
+                          >
+                            <q-btn flat label="OK" v-close-popup />
+                          </q-card-actions>
+                        </q-card>
+                      </q-dialog>
                     </q-item-label>
                   </div>
                 </q-card>
@@ -357,6 +425,8 @@ export default class POS extends Vue {
   done2 = false;
   done3 = false;
   cancelOrder = true;
+  chooseSize = false;
+  radioBTN = '';
 
   columns = [
     {
@@ -513,7 +583,7 @@ export default class POS extends Vue {
 .my-card {
   position: relative;
   margin: auto;
-  height: 25vh;
+  height: 35vh;
   width: 16vw;
 }
 </style>

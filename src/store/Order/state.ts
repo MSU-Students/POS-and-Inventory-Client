@@ -39,6 +39,14 @@ function state(): OrderStateInterface {
         subTotal: 150,
         orderDate: '01/31/2022',
       },
+      {
+        orderID: 4,
+        prodName: 'Milk Tea',
+        prodQuant: 2,
+        price: 75,
+        subTotal: 150,
+        orderDate: '01/31/2022',
+      },
     ],
   };
 }
