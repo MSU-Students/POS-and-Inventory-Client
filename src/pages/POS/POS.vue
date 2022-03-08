@@ -65,8 +65,8 @@
               </q-toolbar>
               <div
                 class="q-pa-md"
-                v-for="data in allOrder"
-                v-bind:key="data.orderID"
+                v-for="data in allProduct"
+                v-bind:key="data.productID"
               >
                 <q-card class="my-card">
                   <q-popup-proxy context-menu>
@@ -81,23 +81,29 @@
                     src="https://cdn.quasar.dev/img/parallax2.jpg"
                     style="max-width: 380px; height: 200px"
                   />
+                  <q-badge rounded floating color="green">
+                    {{ data.price }}
+                  </q-badge>
                   <div class="absolute-bottom text-subtitle1 text-center">
-                    <q-item-label class="text-center text-black">
-                      {{ data.prodName }}
-                    </q-item-label>
-                    <q-item-label
+                    <!-- <q-item-label class="text-center text-black">
+                      
+                    </q-item-label> -->
+
+                    <!-- <q-item-label
                       caption
                       lines="1"
                       class="text-center text-black"
                       >{{ data.price }}
-                    </q-item-label>
+                    </q-item-label> -->
                     <q-item-label>
+                      {{ data.prodName }}
+
                       <q-btn
                         unelevated
                         rounded
                         color="primary"
                         label="Order"
-                        class="q-my-sm"
+                        class="q-ml-xl q-my-sm"
                         @click="chooseSize = true"
                       />
                       <q-dialog v-model="chooseSize">
@@ -111,7 +117,7 @@
                               placeholder="Enter quantity"
                               type="number"
                               filled
-                              style="max-width: 200px"
+                              style="full-width"
                             />
                           </q-card-section>
 
@@ -400,16 +406,20 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import { IOrderInfo } from '../../store/Order/state';
-import { mapState, mapActions } from 'vuex';
+import { IProductInfo } from '../../store/product/state';
+import { mapState, mapActions, mapGetters } from 'vuex';
 interface IRow {
   name: string;
 }
 @Options({
   computed: {
     ...mapState('Order', ['allOrder']),
+    //...mapState('Product', ['allProduct']),
+    ...mapGetters('product', ['allProduct']),
   },
   methods: {
     ...mapActions('Order', ['addOrder', 'editOrder', 'deleteOrder']),
+    ...mapActions('Product', ['addProduct', 'editProduct', 'deleteProduct']),
   },
 })
 export default class POS extends Vue {
@@ -417,6 +427,10 @@ export default class POS extends Vue {
   editOrder!: (payload: IOrderInfo) => Promise<void>;
   deleteOrder!: (payload: IOrderInfo) => Promise<void>;
   allOrder!: IOrderInfo[];
+  addProduct!: (payload: IOrderInfo) => Promise<void>;
+  editProduct!: (payload: IOrderInfo) => Promise<void>;
+  deleteProduct!: (payload: IOrderInfo) => Promise<void>;
+  allProduct!: IProductInfo[];
 
   filter = '';
   ConfirmOrder = false;

@@ -320,7 +320,7 @@ export default class ManageAccount extends Vue {
     this.resetModel();
     this.$q.notify({
       type: 'positive',
-      message: 'Successfully Adeded.',
+      message: 'Successfully Added.',
     });
   }
 

@@ -17,7 +17,60 @@
             :columns="columns"
             row-key="reference"
             :rows-per-page-options="[5]"
+            :filter="filter"
           >
+            <template v-slot:top-right>
+              <div>
+                <q-fab
+                  color="teal-8"
+                  icon="sort"
+                  direction="left"
+                  label="Filter by:"
+                  label-position="top"
+                  external-label
+                  padding="xs"
+                >
+                  <q-fab-action
+                    color="white"
+                    text-color="black"
+                    @click="filter = 'utensil'"
+                    label="utensil"
+                  />
+                  <q-fab-action
+                    color="white"
+                    text-color="black"
+                    @click="filter = 'Ingredient'"
+                    label="Ingredient"
+                  />
+                  <q-fab-action
+                    color="white"
+                    text-color="black"
+                    @click="filter = 'Equipment'"
+                    label="Equipment"
+                  />
+                  <q-fab-action
+                    color="white"
+                    text-color="black"
+                    @click="filter = ''"
+                    icon="clear"
+                  />
+                </q-fab>
+              </div>
+              <div class="q-pa-md q-gutter-sm row">
+                <q-input
+                  outlined
+                  rounded
+                  dense
+                  debounce="300"
+                  v-model="filter"
+                  placeholder="Search"
+                >
+                  <template v-slot:append>
+                    <q-icon name="search" />
+                  </template>
+                </q-input>
+              </div>
+            </template>
           </q-table>
         </div>
         <div class="col">
@@ -64,6 +117,7 @@ import { IExpensesInfo } from 'src/store/expenses/state';
   },
 })
 export default class ExpensesReport extends Vue {
+  filter = '';
   allExpenses!: IExpensesInfo;
   columns = [
     {

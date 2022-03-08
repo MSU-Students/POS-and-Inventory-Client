@@ -13,6 +13,7 @@
             :columns="columns"
             row-key="code"
             :rows-per-page-options="[0]"
+            style="max-height: 300px"
           >
             <template v-slot:top-right>
               <div class="q-pa-md q-gutter-sm row">
@@ -21,7 +22,7 @@
                   rounded
                   dense
                   debounce="300"
-                  v-model="filter"
+                  v-model="prodFilter"
                   placeholder="Search"
                 >
                   <template v-slot:append>
@@ -151,6 +152,7 @@
             :columns="subColumns"
             row-key="subProdCat"
             :rows-per-page-options="[0]"
+            style="max-height: 300px"
           >
             <template v-slot:top-right>
               <div class="q-pa-md q-gutter-sm row">
@@ -159,7 +161,7 @@
                   rounded
                   dense
                   debounce="300"
-                  v-model="filter"
+                  v-model="subFilter"
                   placeholder="Search"
                 >
                   <template v-slot:append>
@@ -312,6 +314,7 @@
             :columns="InvCatColumns"
             row-key="invCategoryName"
             :rows-per-page-options="[0]"
+            style="max-height: 300px"
           >
             <template v-slot:top-right>
               <div class="q-pa-md q-gutter-sm row">
@@ -320,7 +323,7 @@
                   rounded
                   dense
                   debounce="300"
-                  v-model="filter"
+                  v-model="invFilter"
                   placeholder="Search"
                 >
                   <template v-slot:append>
@@ -451,6 +454,7 @@
             :columns="expensesCatColumns"
             row-key="expensesCategoryName"
             :rows-per-page-options="[0]"
+            style="max-height: 300px"
           >
             <template v-slot:top-right>
               <div class="q-pa-md q-gutter-sm row">
@@ -459,7 +463,7 @@
                   rounded
                   dense
                   debounce="300"
-                  v-model="filter"
+                  v-model="expFilter"
                   placeholder="Search"
                 >
                   <template v-slot:append>
@@ -632,7 +636,10 @@ export default class Expenses extends Vue {
   showNoteCategory = false;
   addNewSubProdCat = false;
   editRowSubProdCat = false;
-  filter = '';
+  prodFilter = '';
+  subFilter = '';
+  invFilter = '';
+  expFilter = '';
 
   //---------------------------> Product Category <----------------------------------------------
   addCategory!: (payload: ICategoryInfo) => Promise<void>;
