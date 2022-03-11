@@ -17,7 +17,7 @@
             </div>
           </q-card-section>
           <q-card-section>
-            <q-form @submit="loginUser" class="q-gutter-md">
+            <q-form @submit="loginUser()" class="q-gutter-md">
               <q-input
                 autofocus
                 v-model="username"
@@ -72,42 +72,75 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-@Options({})
+import { AUser } from 'src/store/auth/state';
+import { mapActions } from 'vuex';
+
+@Options({
+  methods: {
+    ...mapActions('auth', ['login']),
+  },
+})
 export default class Login extends Vue {
   username = '';
   password = '';
+  type = '';
   isPwd = true;
 
+  login!: (auth: {
+    userName: string;
+    password: string;
+    type: any;
+  }) => Promise<AUser>;
   async loginUser() {
-    if (
-      (this.username == 'Admin' && this.password == 'Admin') ||
-      (this.username == 'Zukhri' && this.password == 'Zukhri')
-    ) {
-      await this.$router.replace('/Dashboard');
-      this.$q.notify({
-        position: 'top',
-        type: 'positive',
-        message: 'You are logged in',
+    try {
+      const res = await this.login({
+        userName: this.username,
+        password: this.password,
+        type: this.type,
       });
-    }
-    else if (
-      (this.username == 'Cashier' && this.password == 'Cashier')) {
-      await this.$router.replace('/POS');
-      this.$q.notify({
-        position: 'top',
-        type: 'positive',
-        message: 'You are logged in',
-      });
-    }
-    else {
-      this.username = '';
-      this.password = '';
+      if (res.type == 'admin') {
+        await this.$router.replace('/Dashboard');
+        this.$q.notify({
+          position: 'top',
+          type: 'positive',
+          message: 'You are logged in',
+        });
+      }
+    } catch (error) {
       this.$q.notify({
         type: 'negative',
-        message: 'Wrong Username and Password!!',
+        message: 'Wrong Username or Password!',
       });
     }
+    debugger;
   }
+  // async loginUser() {
+  //   if (
+  //     (this.username == 'Admin' && this.password == 'Admin') ||
+  //     (this.username == 'Zukhri' && this.password == 'Zukhri')
+  //   ) {
+  //     await this.$router.replace('/Dashboard');
+  // this.$q.notify({
+  //   position: 'top',
+  //   type: 'positive',
+  //   message: 'You are logged in',
+  // });
+  //   } else if (this.username == 'Cashier' && this.password == 'Cashier') {
+  //     await this.$router.replace('/POS');
+  //     this.$q.notify({
+  //       position: 'top',
+  //       type: 'positive',
+  //       message: 'You are logged in',
+  //     });
+  //   } else {
+  //     this.username = '';
+  //     this.password = '';
+  //     this.$q.notify({
+  //       type: 'negative',
+  //       message: 'Wrong Username and Password!!',
+  //     });
+  //   }
+  // }
 }
 </script>
 

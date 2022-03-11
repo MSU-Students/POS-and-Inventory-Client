@@ -1,0 +1,12 @@
+export interface User {
+  id?: number;
+  FName: string;
+  MName?: string;
+  LName: string;
+  username?: string;
+  password?: string;
+  type?: 'admin' | 'cashier';
+  contact?: string;
+  email?: string;
+  status: 'active' | 'inactive';
+}

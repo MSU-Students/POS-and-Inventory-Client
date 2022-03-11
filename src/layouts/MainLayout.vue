@@ -1,11 +1,40 @@
 <template>
   <q-layout view="hHh Lpr lFf">
-    <q-header elevated class="bg-cyan-4">
+    <q-header elevated class="bg-green">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+        <q-avatar>
+          <img src="src/assets/BesTea.jpg" />
+        </q-avatar>
         <q-toolbar-title>BesTea Restaurant</q-toolbar-title>
         <q-btn-dropdown flat dropdown-icon="account_circle">
           <div class="row no-wrap q-pa-md">
+            <div class="column">
+              <div class="text-h6 q-mb-md">Menu</div>
+              <div class="q-pb-md">
+                <q-btn
+                  color="green"
+                  label="Manage"
+                  push
+                  to="/Account"
+                  v-close-popup
+                />
+              </div>
+
+              <q-btn color="green" label="Logout" push to="/" v-close-popup />
+            </div>
+
+            <q-separator vertical inset class="q-mx-lg" />
+
+            <div class="column q-py-md items-center">
+              <q-avatar size="72px">
+                <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              </q-avatar>
+
+              <div class="text-subtitle1 q-mt-md q-mb-xs">Basam C. Serad</div>
+            </div>
+          </div>
+          <!-- <div class="row no-wrap q-pa-md">
             <div class="column items-center">
               <q-avatar size="90px" icon="person"> </q-avatar>
 
@@ -30,7 +59,7 @@
                 v-close-popup
               />
             </div>
-          </div>
+          </div> -->
         </q-btn-dropdown>
       </q-toolbar>
     </q-header>

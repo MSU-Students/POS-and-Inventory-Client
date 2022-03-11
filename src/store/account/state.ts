@@ -1,3 +1,4 @@
+import { User } from 'src/interfaces/user.interface';
 export interface IAccountInfo {
   accountID?: string;
   FName: string;
@@ -10,27 +11,13 @@ export interface IAccountInfo {
   dateCreated: string;
   status: 'Active' | 'Inactive';
 }
-
 export interface AccountStateInterface {
-  allAccount: IAccountInfo[];
+  allAccount: User[];
 }
 
 function state(): AccountStateInterface {
   return {
-    allAccount: [
-      {
-        accountID: '01',
-        FName: 'Basam',
-        MName: 'C',
-        LName: 'Serad',
-        username: 'Admin',
-        password: 'Admin',
-        email: 'basamserad1998@gmail.com',
-        role: 'Admin',
-        dateCreated: '12/17/2021',
-        status: 'Active',
-      },
-    ],
+    allAccount: [],
   };
 }
 

@@ -1,18 +1,38 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
-import { AccountStateInterface, IAccountInfo } from './state';
+import { AccountStateInterface } from './state';
+import userService from 'src/services/user.service';
 
 const actions: ActionTree<AccountStateInterface, StateInterface> = {
-  addAccount(context, payload: IAccountInfo) {
-    context.commit('setAccount', payload);
+  async addAccount(context, payload: any): Promise<any> {
+    const result = await userService.create(payload);
+    context.commit('createAccount', result);
   },
 
-  editAccount(context, payload: IAccountInfo) {
-    context.commit('setNewAccount', payload);
+  async editAccount(context, payload: any): Promise<any> {
+    await userService.update(payload.id, payload);
+    await context.dispatch('updateAccount');
   },
 
-  deleteAccount(context, payload: IAccountInfo) {
-    context.commit('deleteAccount', payload);
+  async deleteAccount(context, id: number): Promise<any> {
+    const result = await userService.delete(id);
+    context.commit('deleteAccount', result);
+  },
+
+  async getAllUser(context): Promise<any> {
+    const res = await userService.getAll();
+    context.commit('getAllUser', res);
+  },
+
+  async getOneUser(context, id: number): Promise<any> {
+    const res = await userService.getOne(id);
+    context.commit('getOneUser', res);
+  },
+
+  async getProfile(context): Promise<any> {
+    const res = await userService.getUserProfile();
+    context.commit('getProfile', res);
+    return res;
   },
 };
 
