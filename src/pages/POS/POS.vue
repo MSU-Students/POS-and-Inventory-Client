@@ -3,9 +3,7 @@
     <q-header reveal elevated class="bg-green text-white">
       <q-toolbar>
         <q-toolbar-title>
-          <q-avatar>
-            <img src="src/assets/BesTea.jpg" />
-          </q-avatar>
+          <q-avatar class="image" />
           Welcome Basam C. Serad
         </q-toolbar-title>
         <q-btn
@@ -606,6 +604,10 @@ export default class POS extends Vue {
 <style>
 .bg-image {
   background-image: url('../../assets/green.jpg');
+  background-size: cover;
+}
+.image {
+  background-image: url('../../assets/BesTea.jpg');
   background-size: cover;
 }
 .my-card {
