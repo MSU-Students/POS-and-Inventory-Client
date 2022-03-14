@@ -1,9 +1,6 @@
 <template>
   <q-page class="q-pa-lg">
-    <div class="text-h4 text-bold row">
-      <q-icon name="stacked_bar_chart" color="orange" style="font-size: 4rem" />
-      Sales Report
-    </div>
+    <div class="text-h4 text-bold row">Sales Report</div>
     <div class="q-py-lg">
       <q-table
         title="Sales Record"
