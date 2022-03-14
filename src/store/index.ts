@@ -41,6 +41,9 @@ import { InventoryCatStateInterface } from './inventoryCategory/state';
 
 import product from './product';
 import { ProductStateInterface } from './product/state';
+
+import auth from './auth';
+import { IAuthState } from './auth/state';
 /*
  * If not building with SSR mode, you can
  * directly export the Store instantiation;
@@ -66,6 +69,7 @@ export interface StateInterface {
   expensesCategory: expensesCategoryStateInterface;
   inventoryCategory: InventoryCatStateInterface;
   product: ProductStateInterface;
+  auth: IAuthState;
 }
 
 // provide typings for `this.$store`
@@ -95,6 +99,7 @@ export default store(function (/* { ssrContext } */) {
       expensesCategory,
       inventoryCategory,
       product,
+      auth,
     },
 
     // enable strict mode (adds overhead!)

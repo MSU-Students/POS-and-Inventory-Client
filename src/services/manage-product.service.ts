@@ -14,7 +14,7 @@ class ProductService extends DefaultApi {
   }
 
   async getOne(id: string): Promise<ManageProductDto> {
-    const response = await posApiService.getProducts(id);
+    const response = await posApiService.getProduct(id);
     return response.data;
   }
 

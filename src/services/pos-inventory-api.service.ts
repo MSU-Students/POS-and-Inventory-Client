@@ -2,11 +2,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Configuration, DefaultApi } from './rest-api';
 
 const localBasePath = 'http://' + location.hostname + ':3000';
-class PosApiService extends DefaultApi {
-  constructor() {
-    super(new Configuration(), localBasePath, getAxiosInstance());
-  }
-}
 
 interface AxiosRequestConfig2 extends AxiosRequestConfig {
   _retry?: boolean;
@@ -52,6 +47,37 @@ function getAxiosInstance() {
     }
   );
   return axiosInstance;
+}
+
+class PosApiService extends DefaultApi {
+  constructor() {
+    super(new Configuration(), localBasePath, getAxiosInstance());
+  }
+
+  async loginUser(userName: string, password: string) {
+    const response = await posApiService.login(userName, password);
+    if (response.status == 201) {
+      console.log(response);
+      sessionStorage.setItem('access-token', response.data.accessToken || '');
+      sessionStorage.setItem(
+        'refresh-token',
+        String(response.data.refreshToken)
+      );
+      const user = await this.getUserProfile();
+      return user.data;
+    }
+  }
+
+  async logoutUser() {
+    const response = await posApiService.logout();
+    localStorage.removeItem('access-token');
+    return response;
+  }
+
+  async getUserProfile() {
+    const response = await posApiService.getProfile();
+    return response;
+  }
 }
 
 export const posApiService = new PosApiService();

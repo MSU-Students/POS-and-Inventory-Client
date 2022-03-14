@@ -13,7 +13,11 @@
  */
 
 import { Configuration } from './configuration';
-import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
+import globalAxios, {
+  AxiosPromise,
+  AxiosInstance,
+  AxiosRequestConfig,
+} from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import {
@@ -436,7 +440,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     addExpenses: async (
       expensesDto: ExpensesDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'expensesDto' is not null or undefined
       assertParamExists('addExpenses', 'expensesDto', expensesDto);
@@ -486,7 +490,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     addExpensesCategory: async (
       expensesCategoryDto: ExpensesCategoryDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'expensesCategoryDto' is not null or undefined
       assertParamExists(
@@ -540,7 +544,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     addInventory: async (
       inventoryDto: InventoryDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'inventoryDto' is not null or undefined
       assertParamExists('addInventory', 'inventoryDto', inventoryDto);
@@ -590,7 +594,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     addInventoryCategory: async (
       inventoryCategoryDto: InventoryCategoryDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'inventoryCategoryDto' is not null or undefined
       assertParamExists(
@@ -644,7 +648,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     addProduct: async (
       manageProductDto: ManageProductDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'manageProductDto' is not null or undefined
       assertParamExists('addProduct', 'manageProductDto', manageProductDto);
@@ -694,7 +698,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     addProductCategory: async (
       prodCategoryDto: ProdCategoryDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'prodCategoryDto' is not null or undefined
       assertParamExists(
@@ -748,7 +752,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     addProductSize: async (
       productSizeDto: ProductSizeDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'productSizeDto' is not null or undefined
       assertParamExists('addProductSize', 'productSizeDto', productSizeDto);
@@ -798,7 +802,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     addPurchase: async (
       purchaseDto: PurchaseDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'purchaseDto' is not null or undefined
       assertParamExists('addPurchase', 'purchaseDto', purchaseDto);
@@ -848,7 +852,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     addSellRecord: async (
       sellRecordDto: SellRecordDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'sellRecordDto' is not null or undefined
       assertParamExists('addSellRecord', 'sellRecordDto', sellRecordDto);
@@ -898,7 +902,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     addSubCategoryProduct: async (
       subprodCategoryDto: SubprodCategoryDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'subprodCategoryDto' is not null or undefined
       assertParamExists(
@@ -952,7 +956,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     addSupplier: async (
       supplierDto: SupplierDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'supplierDto' is not null or undefined
       assertParamExists('addSupplier', 'supplierDto', supplierDto);
@@ -1002,7 +1006,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     addUser: async (
       userDto: UserDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'userDto' is not null or undefined
       assertParamExists('addUser', 'userDto', userDto);
@@ -1052,7 +1056,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     deleteExpense: async (
       id: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('deleteExpense', 'id', id);
@@ -1098,7 +1102,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     deleteExpensesCategory: async (
       expensesCategoryID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'expensesCategoryID' is not null or undefined
       assertParamExists(
@@ -1148,7 +1152,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     deleteInventory: async (
       itemCode: string,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'itemCode' is not null or undefined
       assertParamExists('deleteInventory', 'itemCode', itemCode);
@@ -1194,7 +1198,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     deleteInventoryCategory: async (
       categoryID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'categoryID' is not null or undefined
       assertParamExists('deleteInventoryCategory', 'categoryID', categoryID);
@@ -1240,7 +1244,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     deleteMedia: async (
       id: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('deleteMedia', 'id', id);
@@ -1286,7 +1290,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     deleteProduct: async (
       productID: string,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'productID' is not null or undefined
       assertParamExists('deleteProduct', 'productID', productID);
@@ -1332,7 +1336,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     deleteProductSize: async (
       productSizeID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'productSizeID' is not null or undefined
       assertParamExists('deleteProductSize', 'productSizeID', productSizeID);
@@ -1378,7 +1382,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     deletePurchase: async (
       purchaseID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'purchaseID' is not null or undefined
       assertParamExists('deletePurchase', 'purchaseID', purchaseID);
@@ -1424,7 +1428,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     deleteSellRecord: async (
       invoiceID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'invoiceID' is not null or undefined
       assertParamExists('deleteSellRecord', 'invoiceID', invoiceID);
@@ -1470,7 +1474,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     deleteSubCategoryOfProduct: async (
       subProdCategoryID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'subProdCategoryID' is not null or undefined
       assertParamExists(
@@ -1520,7 +1524,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     deleteSupplier: async (
       supplierID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'supplierID' is not null or undefined
       assertParamExists('deleteSupplier', 'supplierID', supplierID);
@@ -1564,7 +1568,10 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    deleteUser: async (id: number, options: any = {}): Promise<RequestArgs> => {
+    deleteUser: async (
+      id: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('deleteUser', 'id', id);
       const localVarPath = `/user/{id}`.replace(
@@ -1611,7 +1618,10 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getExpense: async (id: number, options: any = {}): Promise<RequestArgs> => {
+    getExpense: async (
+      id: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('getExpense', 'id', id);
       const localVarPath = `/expenses/{id}`.replace(
@@ -1653,7 +1663,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getExpenses: async (options: any = {}): Promise<RequestArgs> => {
+    getExpenses: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/expenses`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1693,7 +1705,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     getExpensesCategory: async (
       expensesCategoryID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'expensesCategoryID' is not null or undefined
       assertParamExists(
@@ -1740,7 +1752,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getExpensesCategorys: async (options: any = {}): Promise<RequestArgs> => {
+    getExpensesCategorys: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/expenses-category`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1780,7 +1794,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     getInventory: async (
       itemCode: string,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'itemCode' is not null or undefined
       assertParamExists('getInventory', 'itemCode', itemCode);
@@ -1826,7 +1840,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     getInventoryCategory: async (
       categoryID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'categoryID' is not null or undefined
       assertParamExists('getInventoryCategory', 'categoryID', categoryID);
@@ -1869,7 +1883,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getInventoryCategorys: async (options: any = {}): Promise<RequestArgs> => {
+    getInventoryCategorys: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/inventory_category`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1906,7 +1922,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getInventorys: async (options: any = {}): Promise<RequestArgs> => {
+    getInventorys: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/inventory`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1944,7 +1962,10 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getMedia: async (id: number, options: any = {}): Promise<RequestArgs> => {
+    getMedia: async (
+      id: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('getMedia', 'id', id);
       const localVarPath = `/media/{id}`.replace(
@@ -1989,7 +2010,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     getProduct: async (
       productID: string,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'productID' is not null or undefined
       assertParamExists('getProduct', 'productID', productID);
@@ -2035,7 +2056,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     getProductCategory: async (
       prodCategoryID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'prodCategoryID' is not null or undefined
       assertParamExists('getProductCategory', 'prodCategoryID', prodCategoryID);
@@ -2078,7 +2099,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getProductCategorys: async (options: any = {}): Promise<RequestArgs> => {
+    getProductCategorys: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/prod-category`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2118,7 +2141,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     getProductSize: async (
       productSizeID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'productSizeID' is not null or undefined
       assertParamExists('getProductSize', 'productSizeID', productSizeID);
@@ -2161,7 +2184,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getProductSizes: async (options: any = {}): Promise<RequestArgs> => {
+    getProductSizes: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/product-size`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2198,7 +2223,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getProducts: async (options: any = {}): Promise<RequestArgs> => {
+    getProducts: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/manage-product`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2235,7 +2262,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getProfile: async (options: any = {}): Promise<RequestArgs> => {
+    getProfile: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/auth/profile`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2279,7 +2308,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     getPurchase: async (
       purchaseID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'purchaseID' is not null or undefined
       assertParamExists('getPurchase', 'purchaseID', purchaseID);
@@ -2322,7 +2351,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPurchases: async (options: any = {}): Promise<RequestArgs> => {
+    getPurchases: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/purchase`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2362,7 +2393,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     getSellRecord: async (
       invoiceID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'invoiceID' is not null or undefined
       assertParamExists('getSellRecord', 'invoiceID', invoiceID);
@@ -2405,7 +2436,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getSellRecords: async (options: any = {}): Promise<RequestArgs> => {
+    getSellRecords: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/sell-record`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2445,7 +2478,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     getSubCategoryProduct: async (
       subProdCategoryID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'subProdCategoryID' is not null or undefined
       assertParamExists(
@@ -2492,7 +2525,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getSubCategoryProducts: async (options: any = {}): Promise<RequestArgs> => {
+    getSubCategoryProducts: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/subprod-category`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2532,7 +2567,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     getSupplier: async (
       supplierID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'supplierID' is not null or undefined
       assertParamExists('getSupplier', 'supplierID', supplierID);
@@ -2575,7 +2610,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getSuppliers: async (options: any = {}): Promise<RequestArgs> => {
+    getSuppliers: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/supplier`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2613,7 +2650,10 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getUser: async (id: number, options: any = {}): Promise<RequestArgs> => {
+    getUser: async (
+      id: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('getUser', 'id', id);
       const localVarPath = `/user/{id}`.replace(
@@ -2659,7 +2699,9 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getUsers: async (options: any = {}): Promise<RequestArgs> => {
+    getUsers: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/user`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2705,7 +2747,7 @@ export const DefaultApiAxiosParamCreator = function (
     login: async (
       username: string,
       password: string,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'username' is not null or undefined
       assertParamExists('login', 'username', username);
@@ -2755,7 +2797,7 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    logout: async (options: any = {}): Promise<RequestArgs> => {
+    logout: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/auth/logout`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2798,7 +2840,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     prodCategoryControllerDelete: async (
       prodCategoryID: number,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'prodCategoryID' is not null or undefined
       assertParamExists(
@@ -2848,7 +2890,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     refreshToken: async (
       refreshDto: RefreshDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'refreshDto' is not null or undefined
       assertParamExists('refreshToken', 'refreshDto', refreshDto);
@@ -2902,7 +2944,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     register: async (
       userDto: UserDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'userDto' is not null or undefined
       assertParamExists('register', 'userDto', userDto);
@@ -2954,7 +2996,7 @@ export const DefaultApiAxiosParamCreator = function (
     updateExpense: async (
       id: number,
       expensesDto: ExpensesDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('updateExpense', 'id', id);
@@ -3011,7 +3053,7 @@ export const DefaultApiAxiosParamCreator = function (
     updateExpensesCategory: async (
       expensesCategoryID: number,
       expensesCategoryDto: ExpensesCategoryDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'expensesCategoryID' is not null or undefined
       assertParamExists(
@@ -3076,7 +3118,7 @@ export const DefaultApiAxiosParamCreator = function (
     updateInventory: async (
       itemCode: string,
       inventoryDto: InventoryDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'itemCode' is not null or undefined
       assertParamExists('updateInventory', 'itemCode', itemCode);
@@ -3133,7 +3175,7 @@ export const DefaultApiAxiosParamCreator = function (
     updateInventoryCategory: async (
       categoryID: number,
       inventoryCategoryDto: InventoryCategoryDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'categoryID' is not null or undefined
       assertParamExists('updateInventoryCategory', 'categoryID', categoryID);
@@ -3194,7 +3236,7 @@ export const DefaultApiAxiosParamCreator = function (
     updateProduct: async (
       productID: string,
       manageProductDto: ManageProductDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'productID' is not null or undefined
       assertParamExists('updateProduct', 'productID', productID);
@@ -3251,7 +3293,7 @@ export const DefaultApiAxiosParamCreator = function (
     updateProductCategory: async (
       prodCategoryID: number,
       prodCategoryDto: ProdCategoryDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'prodCategoryID' is not null or undefined
       assertParamExists(
@@ -3316,7 +3358,7 @@ export const DefaultApiAxiosParamCreator = function (
     updateProductSize: async (
       productSizeID: number,
       productSizeDto: ProductSizeDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'productSizeID' is not null or undefined
       assertParamExists('updateProductSize', 'productSizeID', productSizeID);
@@ -3373,7 +3415,7 @@ export const DefaultApiAxiosParamCreator = function (
     updatePurchase: async (
       purchaseID: number,
       purchaseDto: PurchaseDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'purchaseID' is not null or undefined
       assertParamExists('updatePurchase', 'purchaseID', purchaseID);
@@ -3430,7 +3472,7 @@ export const DefaultApiAxiosParamCreator = function (
     updateSellRecord: async (
       invoiceID: number,
       sellRecordDto: SellRecordDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'invoiceID' is not null or undefined
       assertParamExists('updateSellRecord', 'invoiceID', invoiceID);
@@ -3487,7 +3529,7 @@ export const DefaultApiAxiosParamCreator = function (
     updateSubCategoryProduct: async (
       subProdCategoryID: number,
       subprodCategoryDto: SubprodCategoryDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'subProdCategoryID' is not null or undefined
       assertParamExists(
@@ -3552,7 +3594,7 @@ export const DefaultApiAxiosParamCreator = function (
     updateSupplier: async (
       supplierID: number,
       supplierDto: SupplierDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'supplierID' is not null or undefined
       assertParamExists('updateSupplier', 'supplierID', supplierID);
@@ -3609,7 +3651,7 @@ export const DefaultApiAxiosParamCreator = function (
     updateUser: async (
       id: number,
       userDto: UserDto,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('updateUser', 'id', id);
@@ -3668,7 +3710,7 @@ export const DefaultApiAxiosParamCreator = function (
      */
     uploadMedia: async (
       file?: any,
-      options: any = {}
+      options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/media/uploadFile`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -3729,7 +3771,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async addExpenses(
       expensesDto: ExpensesDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExpensesDto>
     > {
@@ -3753,7 +3795,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async addExpensesCategory(
       expensesCategoryDto: ExpensesCategoryDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -3781,7 +3823,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async addInventory(
       inventoryDto: InventoryDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryDto>
     > {
@@ -3805,7 +3847,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async addInventoryCategory(
       inventoryCategoryDto: InventoryCategoryDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -3833,7 +3875,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async addProduct(
       manageProductDto: ManageProductDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -3860,7 +3902,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async addProductCategory(
       prodCategoryDto: ProdCategoryDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -3888,7 +3930,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async addProductSize(
       productSizeDto: ProductSizeDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductSizeDto>
     > {
@@ -3912,7 +3954,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async addPurchase(
       purchaseDto: PurchaseDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseDto>
     > {
@@ -3936,7 +3978,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async addSellRecord(
       sellRecordDto: SellRecordDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SellRecordDto>
     > {
@@ -3960,7 +4002,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async addSubCategoryProduct(
       subprodCategoryDto: SubprodCategoryDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -3988,7 +4030,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async addSupplier(
       supplierDto: SupplierDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SupplierDto>
     > {
@@ -4012,7 +4054,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async addUser(
       userDto: UserDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>
     > {
@@ -4036,7 +4078,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async deleteExpense(
       id: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExpensesDto>
     > {
@@ -4060,7 +4102,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async deleteExpensesCategory(
       expensesCategoryID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4088,7 +4130,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async deleteInventory(
       itemCode: string,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryDto>
     > {
@@ -4112,7 +4154,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async deleteInventoryCategory(
       categoryID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4140,7 +4182,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async deleteMedia(
       id: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaDto>
     > {
@@ -4164,7 +4206,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async deleteProduct(
       productID: string,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4191,7 +4233,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async deleteProductSize(
       productSizeID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductSizeDto>
     > {
@@ -4216,7 +4258,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async deletePurchase(
       purchaseID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseDto>
     > {
@@ -4240,7 +4282,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async deleteSellRecord(
       invoiceID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SellRecordDto>
     > {
@@ -4262,7 +4304,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async deleteSubCategoryOfProduct(
       subProdCategoryID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4290,7 +4332,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async deleteSupplier(
       supplierID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SupplierDto>
     > {
@@ -4314,7 +4356,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async deleteUser(
       id: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>
     > {
@@ -4338,7 +4380,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getExpense(
       id: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExpensesDto>
     > {
@@ -4360,7 +4402,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getExpenses(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4386,7 +4428,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getExpensesCategory(
       expensesCategoryID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4412,7 +4454,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getExpensesCategorys(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4437,7 +4479,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getInventory(
       itemCode: string,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryDto>
     > {
@@ -4461,7 +4503,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getInventoryCategory(
       categoryID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4487,7 +4529,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getInventoryCategorys(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4510,7 +4552,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getInventorys(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryDto>
     > {
@@ -4533,7 +4575,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getMedia(
       id: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaDto>
     > {
@@ -4557,7 +4599,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getProduct(
       productID: string,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4584,7 +4626,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getProductCategory(
       prodCategoryID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4610,7 +4652,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getProductCategorys(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4635,7 +4677,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getProductSize(
       productSizeID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductSizeDto>
     > {
@@ -4657,7 +4699,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getProductSizes(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductSizeDto>
     > {
@@ -4678,7 +4720,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getProducts(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4702,9 +4744,9 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getProfile(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getProfile(
         options
@@ -4725,7 +4767,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getPurchase(
       purchaseID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseDto>
     > {
@@ -4747,7 +4789,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getPurchases(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseDto>
     > {
@@ -4770,7 +4812,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getSellRecord(
       invoiceID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SellRecordDto>
     > {
@@ -4792,7 +4834,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getSellRecords(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SellRecordDto>
     > {
@@ -4815,7 +4857,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getSubCategoryProduct(
       subProdCategoryID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4841,7 +4883,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getSubCategoryProducts(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -4866,7 +4908,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getSupplier(
       supplierID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SupplierDto>
     > {
@@ -4888,7 +4930,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getSuppliers(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SupplierDto>
     > {
@@ -4911,7 +4953,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getUser(
       id: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>
     > {
@@ -4933,7 +4975,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getUsers(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>
     > {
@@ -4958,7 +5000,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async login(
       username: string,
       password: string,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccessTokenDto>
     > {
@@ -4981,7 +5023,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async logout(
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -5001,7 +5043,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async prodCategoryControllerDelete(
       prodCategoryID: number,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -5029,7 +5071,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async refreshToken(
       refreshDto: RefreshDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccessTokenDto>
     > {
@@ -5053,7 +5095,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async register(
       userDto: UserDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>
     > {
@@ -5079,7 +5121,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updateExpense(
       id: number,
       expensesDto: ExpensesDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExpensesDto>
     > {
@@ -5106,7 +5148,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updateExpensesCategory(
       expensesCategoryID: number,
       expensesCategoryDto: ExpensesCategoryDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -5137,7 +5179,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updateInventory(
       itemCode: string,
       inventoryDto: InventoryDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryDto>
     > {
@@ -5164,7 +5206,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updateInventoryCategory(
       categoryID: number,
       inventoryCategoryDto: InventoryCategoryDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -5195,7 +5237,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updateProduct(
       productID: string,
       manageProductDto: ManageProductDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -5225,7 +5267,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updateProductCategory(
       prodCategoryID: number,
       prodCategoryDto: ProdCategoryDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -5256,7 +5298,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updateProductSize(
       productSizeID: number,
       productSizeDto: ProductSizeDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductSizeDto>
     > {
@@ -5284,7 +5326,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updatePurchase(
       purchaseID: number,
       purchaseDto: PurchaseDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseDto>
     > {
@@ -5311,7 +5353,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updateSellRecord(
       invoiceID: number,
       sellRecordDto: SellRecordDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SellRecordDto>
     > {
@@ -5339,7 +5381,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updateSubCategoryProduct(
       subProdCategoryID: number,
       subprodCategoryDto: SubprodCategoryDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -5370,7 +5412,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updateSupplier(
       supplierID: number,
       supplierDto: SupplierDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<SupplierDto>
     > {
@@ -5397,7 +5439,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updateUser(
       id: number,
       userDto: UserDto,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>
     > {
@@ -5422,7 +5464,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async uploadMedia(
       file?: any,
-      options?: any
+      options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaDto>
     > {
@@ -5993,7 +6035,7 @@ export const DefaultApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getProfile(options?: any): AxiosPromise<UserDto> {
+    getProfile(options?: any): AxiosPromise<void> {
       return localVarFp
         .getProfile(options)
         .then((request) => request(axios, basePath));
@@ -6430,7 +6472,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public addExpenses(expensesDto: ExpensesDto, options?: any) {
+  public addExpenses(expensesDto: ExpensesDto, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .addExpenses(expensesDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6446,7 +6488,7 @@ export class DefaultApi extends BaseAPI {
    */
   public addExpensesCategory(
     expensesCategoryDto: ExpensesCategoryDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .addExpensesCategory(expensesCategoryDto, options)
@@ -6461,7 +6503,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public addInventory(inventoryDto: InventoryDto, options?: any) {
+  public addInventory(
+    inventoryDto: InventoryDto,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .addInventory(inventoryDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6477,7 +6522,7 @@ export class DefaultApi extends BaseAPI {
    */
   public addInventoryCategory(
     inventoryCategoryDto: InventoryCategoryDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .addInventoryCategory(inventoryCategoryDto, options)
@@ -6492,7 +6537,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public addProduct(manageProductDto: ManageProductDto, options?: any) {
+  public addProduct(
+    manageProductDto: ManageProductDto,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .addProduct(manageProductDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6506,7 +6554,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public addProductCategory(prodCategoryDto: ProdCategoryDto, options?: any) {
+  public addProductCategory(
+    prodCategoryDto: ProdCategoryDto,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .addProductCategory(prodCategoryDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6520,7 +6571,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public addProductSize(productSizeDto: ProductSizeDto, options?: any) {
+  public addProductSize(
+    productSizeDto: ProductSizeDto,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .addProductSize(productSizeDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6534,7 +6588,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public addPurchase(purchaseDto: PurchaseDto, options?: any) {
+  public addPurchase(purchaseDto: PurchaseDto, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .addPurchase(purchaseDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6548,7 +6602,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public addSellRecord(sellRecordDto: SellRecordDto, options?: any) {
+  public addSellRecord(
+    sellRecordDto: SellRecordDto,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .addSellRecord(sellRecordDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6564,7 +6621,7 @@ export class DefaultApi extends BaseAPI {
    */
   public addSubCategoryProduct(
     subprodCategoryDto: SubprodCategoryDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .addSubCategoryProduct(subprodCategoryDto, options)
@@ -6579,7 +6636,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public addSupplier(supplierDto: SupplierDto, options?: any) {
+  public addSupplier(supplierDto: SupplierDto, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .addSupplier(supplierDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6593,7 +6650,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public addUser(userDto: UserDto, options?: any) {
+  public addUser(userDto: UserDto, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .addUser(userDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6607,7 +6664,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deleteExpense(id: number, options?: any) {
+  public deleteExpense(id: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .deleteExpense(id, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6621,7 +6678,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deleteExpensesCategory(expensesCategoryID: number, options?: any) {
+  public deleteExpensesCategory(
+    expensesCategoryID: number,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .deleteExpensesCategory(expensesCategoryID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6635,7 +6695,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deleteInventory(itemCode: string, options?: any) {
+  public deleteInventory(itemCode: string, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .deleteInventory(itemCode, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6649,7 +6709,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deleteInventoryCategory(categoryID: number, options?: any) {
+  public deleteInventoryCategory(
+    categoryID: number,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .deleteInventoryCategory(categoryID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6663,7 +6726,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deleteMedia(id: number, options?: any) {
+  public deleteMedia(id: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .deleteMedia(id, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6677,7 +6740,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deleteProduct(productID: string, options?: any) {
+  public deleteProduct(productID: string, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .deleteProduct(productID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6691,7 +6754,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deleteProductSize(productSizeID: number, options?: any) {
+  public deleteProductSize(
+    productSizeID: number,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .deleteProductSize(productSizeID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6705,7 +6771,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deletePurchase(purchaseID: number, options?: any) {
+  public deletePurchase(purchaseID: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .deletePurchase(purchaseID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6719,7 +6785,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deleteSellRecord(invoiceID: number, options?: any) {
+  public deleteSellRecord(invoiceID: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .deleteSellRecord(invoiceID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6733,7 +6799,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deleteSubCategoryOfProduct(subProdCategoryID: number, options?: any) {
+  public deleteSubCategoryOfProduct(
+    subProdCategoryID: number,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .deleteSubCategoryOfProduct(subProdCategoryID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6747,7 +6816,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deleteSupplier(supplierID: number, options?: any) {
+  public deleteSupplier(supplierID: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .deleteSupplier(supplierID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6761,7 +6830,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deleteUser(id: number, options?: any) {
+  public deleteUser(id: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .deleteUser(id, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6775,7 +6844,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getExpense(id: number, options?: any) {
+  public getExpense(id: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getExpense(id, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6788,7 +6857,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getExpenses(options?: any) {
+  public getExpenses(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getExpenses(options)
       .then((request) => request(this.axios, this.basePath));
@@ -6802,7 +6871,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getExpensesCategory(expensesCategoryID: number, options?: any) {
+  public getExpensesCategory(
+    expensesCategoryID: number,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .getExpensesCategory(expensesCategoryID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6815,7 +6887,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getExpensesCategorys(options?: any) {
+  public getExpensesCategorys(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getExpensesCategorys(options)
       .then((request) => request(this.axios, this.basePath));
@@ -6829,7 +6901,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getInventory(itemCode: string, options?: any) {
+  public getInventory(itemCode: string, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getInventory(itemCode, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6843,7 +6915,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getInventoryCategory(categoryID: number, options?: any) {
+  public getInventoryCategory(
+    categoryID: number,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .getInventoryCategory(categoryID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6856,7 +6931,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getInventoryCategorys(options?: any) {
+  public getInventoryCategorys(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getInventoryCategorys(options)
       .then((request) => request(this.axios, this.basePath));
@@ -6869,7 +6944,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getInventorys(options?: any) {
+  public getInventorys(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getInventorys(options)
       .then((request) => request(this.axios, this.basePath));
@@ -6883,7 +6958,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getMedia(id: number, options?: any) {
+  public getMedia(id: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getMedia(id, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6897,7 +6972,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getProduct(productID: string, options?: any) {
+  public getProduct(productID: string, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getProduct(productID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6911,7 +6986,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getProductCategory(prodCategoryID: number, options?: any) {
+  public getProductCategory(
+    prodCategoryID: number,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .getProductCategory(prodCategoryID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6924,7 +7002,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getProductCategorys(options?: any) {
+  public getProductCategorys(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getProductCategorys(options)
       .then((request) => request(this.axios, this.basePath));
@@ -6938,7 +7016,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getProductSize(productSizeID: number, options?: any) {
+  public getProductSize(productSizeID: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getProductSize(productSizeID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -6951,7 +7029,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getProductSizes(options?: any) {
+  public getProductSizes(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getProductSizes(options)
       .then((request) => request(this.axios, this.basePath));
@@ -6964,7 +7042,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getProducts(options?: any) {
+  public getProducts(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getProducts(options)
       .then((request) => request(this.axios, this.basePath));
@@ -6977,7 +7055,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getProfile(options?: any) {
+  public getProfile(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getProfile(options)
       .then((request) => request(this.axios, this.basePath));
@@ -6991,7 +7069,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getPurchase(purchaseID: number, options?: any) {
+  public getPurchase(purchaseID: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getPurchase(purchaseID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -7004,7 +7082,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getPurchases(options?: any) {
+  public getPurchases(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getPurchases(options)
       .then((request) => request(this.axios, this.basePath));
@@ -7018,7 +7096,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getSellRecord(invoiceID: number, options?: any) {
+  public getSellRecord(invoiceID: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getSellRecord(invoiceID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -7031,7 +7109,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getSellRecords(options?: any) {
+  public getSellRecords(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getSellRecords(options)
       .then((request) => request(this.axios, this.basePath));
@@ -7045,7 +7123,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getSubCategoryProduct(subProdCategoryID: number, options?: any) {
+  public getSubCategoryProduct(
+    subProdCategoryID: number,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .getSubCategoryProduct(subProdCategoryID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -7058,7 +7139,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getSubCategoryProducts(options?: any) {
+  public getSubCategoryProducts(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getSubCategoryProducts(options)
       .then((request) => request(this.axios, this.basePath));
@@ -7072,7 +7153,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getSupplier(supplierID: number, options?: any) {
+  public getSupplier(supplierID: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getSupplier(supplierID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -7085,7 +7166,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getSuppliers(options?: any) {
+  public getSuppliers(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getSuppliers(options)
       .then((request) => request(this.axios, this.basePath));
@@ -7099,7 +7180,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getUser(id: number, options?: any) {
+  public getUser(id: number, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getUser(id, options)
       .then((request) => request(this.axios, this.basePath));
@@ -7112,7 +7193,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getUsers(options?: any) {
+  public getUsers(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getUsers(options)
       .then((request) => request(this.axios, this.basePath));
@@ -7127,7 +7208,11 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public login(username: string, password: string, options?: any) {
+  public login(
+    username: string,
+    password: string,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .login(username, password, options)
       .then((request) => request(this.axios, this.basePath));
@@ -7140,7 +7225,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public logout(options?: any) {
+  public logout(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .logout(options)
       .then((request) => request(this.axios, this.basePath));
@@ -7153,7 +7238,10 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public prodCategoryControllerDelete(prodCategoryID: number, options?: any) {
+  public prodCategoryControllerDelete(
+    prodCategoryID: number,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .prodCategoryControllerDelete(prodCategoryID, options)
       .then((request) => request(this.axios, this.basePath));
@@ -7167,7 +7255,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public refreshToken(refreshDto: RefreshDto, options?: any) {
+  public refreshToken(refreshDto: RefreshDto, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .refreshToken(refreshDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -7181,7 +7269,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public register(userDto: UserDto, options?: any) {
+  public register(userDto: UserDto, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .register(userDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -7196,7 +7284,11 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public updateExpense(id: number, expensesDto: ExpensesDto, options?: any) {
+  public updateExpense(
+    id: number,
+    expensesDto: ExpensesDto,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .updateExpense(id, expensesDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -7214,7 +7306,7 @@ export class DefaultApi extends BaseAPI {
   public updateExpensesCategory(
     expensesCategoryID: number,
     expensesCategoryDto: ExpensesCategoryDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .updateExpensesCategory(expensesCategoryID, expensesCategoryDto, options)
@@ -7233,7 +7325,7 @@ export class DefaultApi extends BaseAPI {
   public updateInventory(
     itemCode: string,
     inventoryDto: InventoryDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .updateInventory(itemCode, inventoryDto, options)
@@ -7252,7 +7344,7 @@ export class DefaultApi extends BaseAPI {
   public updateInventoryCategory(
     categoryID: number,
     inventoryCategoryDto: InventoryCategoryDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .updateInventoryCategory(categoryID, inventoryCategoryDto, options)
@@ -7271,7 +7363,7 @@ export class DefaultApi extends BaseAPI {
   public updateProduct(
     productID: string,
     manageProductDto: ManageProductDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .updateProduct(productID, manageProductDto, options)
@@ -7290,7 +7382,7 @@ export class DefaultApi extends BaseAPI {
   public updateProductCategory(
     prodCategoryID: number,
     prodCategoryDto: ProdCategoryDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .updateProductCategory(prodCategoryID, prodCategoryDto, options)
@@ -7309,7 +7401,7 @@ export class DefaultApi extends BaseAPI {
   public updateProductSize(
     productSizeID: number,
     productSizeDto: ProductSizeDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .updateProductSize(productSizeID, productSizeDto, options)
@@ -7328,7 +7420,7 @@ export class DefaultApi extends BaseAPI {
   public updatePurchase(
     purchaseID: number,
     purchaseDto: PurchaseDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .updatePurchase(purchaseID, purchaseDto, options)
@@ -7347,7 +7439,7 @@ export class DefaultApi extends BaseAPI {
   public updateSellRecord(
     invoiceID: number,
     sellRecordDto: SellRecordDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .updateSellRecord(invoiceID, sellRecordDto, options)
@@ -7366,7 +7458,7 @@ export class DefaultApi extends BaseAPI {
   public updateSubCategoryProduct(
     subProdCategoryID: number,
     subprodCategoryDto: SubprodCategoryDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .updateSubCategoryProduct(subProdCategoryID, subprodCategoryDto, options)
@@ -7385,7 +7477,7 @@ export class DefaultApi extends BaseAPI {
   public updateSupplier(
     supplierID: number,
     supplierDto: SupplierDto,
-    options?: any
+    options?: AxiosRequestConfig
   ) {
     return DefaultApiFp(this.configuration)
       .updateSupplier(supplierID, supplierDto, options)
@@ -7401,7 +7493,11 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public updateUser(id: number, userDto: UserDto, options?: any) {
+  public updateUser(
+    id: number,
+    userDto: UserDto,
+    options?: AxiosRequestConfig
+  ) {
     return DefaultApiFp(this.configuration)
       .updateUser(id, userDto, options)
       .then((request) => request(this.axios, this.basePath));
@@ -7415,7 +7511,7 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public uploadMedia(file?: any, options?: any) {
+  public uploadMedia(file?: any, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .uploadMedia(file, options)
       .then((request) => request(this.axios, this.basePath));

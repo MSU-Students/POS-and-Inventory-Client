@@ -73,32 +73,31 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import { AUser } from 'src/store/auth/state';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 @Options({
   methods: {
-    ...mapActions('auth', ['login']),
+    ...mapActions('auth', ['login', 'authUser']),
+  },
+  computed: {
+    ...mapState('auth', ['currentUser']),
   },
 })
 export default class Login extends Vue {
+  login!: (auth: { userName: string; password: string }) => Promise<AUser>;
+  currentUser!: AUser;
+
   username = '';
   password = '';
-  type = '';
   isPwd = true;
 
-  login!: (auth: {
-    userName: string;
-    password: string;
-    type: any;
-  }) => Promise<AUser>;
   async loginUser() {
     try {
-      const res = await this.login({
+      await this.login({
         userName: this.username,
         password: this.password,
-        type: this.type,
       });
-      if (res.type == 'admin') {
+      if (this.currentUser.type == 'admin') {
         await this.$router.replace('/Dashboard');
         this.$q.notify({
           position: 'top',
@@ -112,35 +111,7 @@ export default class Login extends Vue {
         message: 'Wrong Username or Password!',
       });
     }
-    debugger;
   }
-  // async loginUser() {
-  //   if (
-  //     (this.username == 'Admin' && this.password == 'Admin') ||
-  //     (this.username == 'Zukhri' && this.password == 'Zukhri')
-  //   ) {
-  //     await this.$router.replace('/Dashboard');
-  // this.$q.notify({
-  //   position: 'top',
-  //   type: 'positive',
-  //   message: 'You are logged in',
-  // });
-  //   } else if (this.username == 'Cashier' && this.password == 'Cashier') {
-  //     await this.$router.replace('/POS');
-  //     this.$q.notify({
-  //       position: 'top',
-  //       type: 'positive',
-  //       message: 'You are logged in',
-  //     });
-  //   } else {
-  //     this.username = '';
-  //     this.password = '';
-  //     this.$q.notify({
-  //       type: 'negative',
-  //       message: 'Wrong Username and Password!!',
-  //     });
-  //   }
-  // }
 }
 </script>
 
