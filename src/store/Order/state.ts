@@ -1,6 +1,7 @@
 export interface IOrderInfo {
   orderID?: number;
   prodName: string;
+  size: string;
   prodQuant: number;
   price: number;
   subTotal: number;
@@ -15,39 +16,7 @@ export interface OrderStateInterface {
 
 function state(): OrderStateInterface {
   return {
-    allOrder: [
-      {
-        prodName: 'Monster Frappe',
-        prodQuant: 2,
-        price: 150,
-        subTotal: 300,
-        orderDate: '01/31/2022',
-      },
-      {
-        orderID: 2,
-        prodName: 'Red Velvet',
-        prodQuant: 1,
-        price: 80,
-        subTotal: 80,
-        orderDate: '01/31/2022',
-      },
-      {
-        orderID: 3,
-        prodName: 'Lychee',
-        prodQuant: 2,
-        price: 75,
-        subTotal: 150,
-        orderDate: '01/31/2022',
-      },
-      {
-        orderID: 4,
-        prodName: 'Milk Tea',
-        prodQuant: 2,
-        price: 75,
-        subTotal: 150,
-        orderDate: '01/31/2022',
-      },
-    ],
+    allOrder: [],
   };
 }
 

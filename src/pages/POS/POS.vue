@@ -50,16 +50,15 @@
             <q-scroll-area style="height: 600px; max-height: 600px">
               <div class="row q-gutter-lg full-width">
                 <div v-for="data in allProduct" v-bind:key="data.productID">
-                  <q-card class="my-card">
+                  <q-card
+                    class="my-card"
+                    @click="
+                      tempInput.prodName = data.prodName;
+                      tempInput.price = data.price;
+                      tempPrice = data.price;
+                    "
+                  >
                     <div class="row">
-                      <q-popup-proxy context-menu>
-                        <q-banner>
-                          <template v-slot:avatar>
-                            <q-icon name="tag" color="green" />
-                          </template>
-                          <q-input type="number" />
-                        </q-banner>
-                      </q-popup-proxy>
                       <div class="col q-pt-md q-pl-md">
                         <q-img src="../../assets/Frappe.png" />
                       </div>
@@ -92,6 +91,7 @@
 
                           <q-card-section class="q-pt-none">
                             <q-input
+                              autofocus
                               placeholder="Enter quantity"
                               type="number"
                               filled
@@ -139,7 +139,13 @@
                               flat
                               label="OK"
                               v-close-popup
-                              @click="orderedProduct"
+                              @click="
+                                tempInput.prodQuant = quantity;
+                                tempInput.size = radioBTN;
+                                tempInput.subTotal = quantity * tempPrice;
+                                grandTotal += tempInput.subTotal;
+                                onAddOrder();
+                              "
                             />
                           </q-card-actions>
                         </q-card>
@@ -160,7 +166,7 @@
                     :rows="allOrder"
                     :columns="selectedOrder"
                     title="Customer Order"
-                    :rows-per-page-options="[]"
+                    :rows-per-page-options="[0]"
                     row-key="OrderID"
                     wrap-cells
                     hide-bottom
@@ -189,6 +195,9 @@
                             />
                           </q-popup-edit>
                         </q-td>
+                        <q-td key="size" :props="props">
+                          {{ props.row.size }}
+                        </q-td>
                         <q-td key="price" :props="props">
                           {{ props.row.price }}
                         </q-td>
@@ -206,6 +215,7 @@
                               flat
                               round
                               dense
+                              @click="onDeleteSpecificOrder(props.row)"
                             />
                           </div>
                         </q-td>
@@ -230,7 +240,7 @@
                 <q-card-section>
                   <div class="row q-py-sm">
                     <div class="col">Grand Total:</div>
-                    <div class="q-px-sm text-red-5">₱ 100000.000</div>
+                    <div class="q-px-sm text-red-5">₱ {{ grandTotal }}</div>
                   </div>
                   <div class="row q-py-sm">
                     <div class="q-py-sm col">Payment:</div>
@@ -238,16 +248,17 @@
                       dense
                       square
                       outlined
+                      v-model="payment"
                       type="number"
                       style="width: 300px"
                       prefix="₱"
+                      @keyup.enter="change = payment - grandTotal"
                     >
                     </q-input>
                   </div>
-                  <div class="row">
-                    <div class="row">
-                      <div class="q-py-sm col">Change:</div>
-                    </div>
+                  <div class="row q-py-sm">
+                    <div class="col">Change:</div>
+                    <div class="q-px-sm text-red-5">₱ {{ change }}</div>
                   </div>
 
                   <div class="q-pt-lg">
@@ -291,6 +302,9 @@
                                     </q-td>
                                     <q-td key="prodQuant" :props="props">
                                       {{ props.row.prodQuant }}
+                                    </q-td>
+                                    <q-td key="size" :props="props">
+                                      {{ props.row.size }}
                                     </q-td>
                                     <q-td key="price" :props="props">
                                       {{ props.row.price }}
@@ -456,91 +470,15 @@ export default class POS extends Vue {
   done3 = false;
   cancelOrder = true;
   chooseSize = false;
-  radioBTN = '';
-  quantity = '';
-
+  radioBTN = 'regular';
+  quantity = 1;
+  tempPrice = 0;
+  grandTotal = 0;
+  payment = 0;
+  change = 0;
   orderedProduct() {
     this.radioBTN;
   }
-
-  columns = [
-    {
-      name: 'name',
-      required: true,
-      label: 'Dessert (100g serving)',
-      align: 'left',
-      field: (row: IRow) => row.name,
-      format: (val: string) => `${val}`,
-      sortable: true,
-    },
-
-    {
-      name: 'price',
-      align: 'price',
-      label: 'price',
-      field: 'price',
-    },
-    {
-      name: 'img',
-      label: 'img',
-      field: 'img',
-      sortable: true,
-      style: 'width: 10px',
-    },
-  ];
-
-  rows = [
-    {
-      id: 1,
-      name: 'Frozen Yogurt',
-      price: '₱10',
-    },
-    {
-      id: 2,
-      name: 'Ice cream sandwich',
-      price: '₱10',
-    },
-    {
-      id: 3,
-      name: 'Eclair',
-      price: '₱10',
-    },
-    {
-      id: 4,
-      name: 'Cupcake',
-      price: '₱10',
-    },
-    {
-      id: 5,
-      name: 'Gingerbread',
-      price: '₱10',
-    },
-    {
-      id: 6,
-      name: 'Jelly bean',
-      price: '₱10',
-    },
-    {
-      id: 7,
-      name: 'Lollipop',
-      price: '₱10',
-    },
-    {
-      id: 8,
-      name: 'Honeycomb',
-      price: '₱10',
-    },
-    {
-      id: 8,
-      name: 'Donut',
-      price: '₱10',
-    },
-    {
-      id: 9,
-      name: 'KitKat',
-      price: '₱10',
-    },
-  ];
 
   selectedOrder = [
     {
@@ -561,6 +499,12 @@ export default class POS extends Vue {
       sortable: true,
     },
     {
+      name: 'size',
+      align: 'center',
+      label: 'size',
+      field: 'size',
+    },
+    {
       name: 'price',
       align: 'center',
       label: 'Price',
@@ -579,19 +523,15 @@ export default class POS extends Vue {
     },
   ];
 
-  tempInput(
-    orderID: number,
-    prodName: string,
-    prodQuant: number,
-    price: number,
-    subTotal: number
-  ) {
-    this.inputOrder.orderID = orderID;
-    this.inputOrder.prodName = prodName;
-    this.inputOrder.prodQuant = prodQuant;
-    this.inputOrder.price = price;
-    this.inputOrder.subTotal = subTotal;
-  }
+  tempInput: IOrderInfo = {
+    orderID: 0,
+    prodName: '',
+    prodQuant: 0,
+    size: this.radioBTN,
+    price: 0,
+    subTotal: 0,
+    orderDate: '',
+  };
 
   inputCart: ICartInfo = {
     productName: '',
@@ -627,16 +567,45 @@ export default class POS extends Vue {
     orderID: 0,
     prodName: '',
     prodQuant: 0,
+    size: '',
     price: 0,
     subTotal: 0,
     orderDate: '',
   };
+  resetOrder() {
+    this.tempInput = {
+      orderID: 0,
+      prodName: '',
+      prodQuant: 0,
+      size: '',
+      price: 0,
+      subTotal: 0,
+      orderDate: '',
+    };
+  }
+
   async onAddOrder() {
-    await this.addOrder(this.inputOrder);
+    await this.addOrder(this.tempInput);
+    this.resetOrder();
     this.$q.notify({
       type: 'positive',
       message: 'Successfully Added.',
     });
+  }
+  onDeleteSpecificOrder(val: IOrderInfo) {
+    this.$q
+      .dialog({
+        message: 'Confirm to delete?',
+        cancel: true,
+        persistent: true,
+      })
+      .onOk(async () => {
+        await this.deleteOrder(val);
+        this.$q.notify({
+          type: 'warning',
+          message: 'Successfully deleted',
+        });
+      });
   }
 }
 </script>
