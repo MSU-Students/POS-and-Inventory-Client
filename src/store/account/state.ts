@@ -1,18 +1,7 @@
-import { User } from 'src/interfaces/user.interface';
-export interface IAccountInfo {
-  accountID?: string;
-  FName: string;
-  MName: string;
-  LName: string;
-  username: string;
-  password: string;
-  email: string;
-  role: string;
-  dateCreated: string;
-  status: 'Active' | 'Inactive';
-}
+import { UserDto } from 'src/services/rest-api';
 export interface AccountStateInterface {
-  allAccount: User[];
+  allAccount: UserDto[];
+  newUser?: UserDto;
 }
 
 function state(): AccountStateInterface {

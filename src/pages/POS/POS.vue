@@ -2,10 +2,7 @@
   <q-layout view="hHh lpR fFf" class="q-pa-md bg-image">
     <q-header reveal elevated class="bg-green text-white">
       <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar class="image" />
-          Welcome Basam C. Serad
-        </q-toolbar-title>
+        <q-toolbar-title> Welcome to POS </q-toolbar-title>
         <q-btn
           class="q-py-sm"
           to="/Dashboard"
@@ -64,10 +61,7 @@
                         </q-banner>
                       </q-popup-proxy>
                       <div class="col q-pt-md q-pl-md">
-                        <q-img
-                          src="https://cdn.quasar.dev/img/parallax2.jpg"
-                          style="width: 120px; height: 100px"
-                        />
+                        <q-img src="../../assets/Frappe.png" />
                       </div>
                       <div class="col">
                         <div class="q-py-xl text-subtitle7">
@@ -102,6 +96,7 @@
                               type="number"
                               filled
                               style="full-width"
+                              v-model="quantity"
                             />
                           </q-card-section>
 
@@ -112,18 +107,18 @@
                                   v-model="radioBTN"
                                   dense
                                   val="small"
-                                  label="small"
+                                  label="Small"
                                 />
                                 <q-radio
                                   v-model="radioBTN"
                                   dense
-                                  val="Medium"
+                                  val="medium"
                                   label="Medium"
                                 />
                                 <q-radio
                                   v-model="radioBTN"
                                   dense
-                                  val="Large"
+                                  val="large"
                                   label="Large"
                                 />
                                 <q-radio
@@ -133,10 +128,6 @@
                                   label="Regular"
                                 />
                               </div>
-                              <div class="q-px-sm q-pt-sm">
-                                Your selection is:
-                                <strong>{{ radioBTN }}</strong>
-                              </div>
                             </div>
                           </q-card-actions>
 
@@ -144,7 +135,12 @@
                             align="right"
                             class="bg-white text-teal"
                           >
-                            <q-btn flat label="OK" v-close-popup />
+                            <q-btn
+                              flat
+                              label="OK"
+                              v-close-popup
+                              @click="orderedProduct"
+                            />
                           </q-card-actions>
                         </q-card>
                       </q-dialog>
@@ -420,6 +416,7 @@
 import { Vue, Options } from 'vue-class-component';
 import { IOrderInfo } from '../../store/Order/state';
 import { IProductInfo } from '../../store/product/state';
+import { ICartInfo } from '../../store/cart/state';
 import { mapState, mapActions, mapGetters } from 'vuex';
 interface IRow {
   name: string;
@@ -432,6 +429,7 @@ interface IRow {
   methods: {
     ...mapActions('Order', ['addOrder', 'editOrder', 'deleteOrder']),
     ...mapActions('Product', ['addProduct', 'editProduct', 'deleteProduct']),
+    ...mapActions('cart', ['addCart', 'editCart', 'deleteCart']),
   },
 })
 export default class POS extends Vue {
@@ -439,6 +437,12 @@ export default class POS extends Vue {
   editOrder!: (payload: IOrderInfo) => Promise<void>;
   deleteOrder!: (payload: IOrderInfo) => Promise<void>;
   allOrder!: IOrderInfo[];
+
+  allCart!: ICartInfo[];
+  addCart!: (payload: ICartInfo) => Promise<void>;
+  editCart!: (payload: ICartInfo) => Promise<void>;
+  deleteCart!: (payload: ICartInfo) => Promise<void>;
+
   addProduct!: (payload: IOrderInfo) => Promise<void>;
   editProduct!: (payload: IOrderInfo) => Promise<void>;
   deleteProduct!: (payload: IOrderInfo) => Promise<void>;
@@ -453,6 +457,11 @@ export default class POS extends Vue {
   cancelOrder = true;
   chooseSize = false;
   radioBTN = '';
+  quantity = '';
+
+  orderedProduct() {
+    this.radioBTN;
+  }
 
   columns = [
     {
@@ -584,6 +593,36 @@ export default class POS extends Vue {
     this.inputOrder.subTotal = subTotal;
   }
 
+  inputCart: ICartInfo = {
+    productName: '',
+    quantity: 0,
+    size: '',
+  };
+
+  async onAddCart() {
+    await this.addCart(this.inputCart);
+  }
+
+  async onEditCart() {
+    await this.editCart(this.inputCart);
+  }
+
+  onDeleteSpecificCart(val: ICartInfo) {
+    this.$q
+      .dialog({
+        message: 'Confirm to delete?',
+        cancel: true,
+        persistent: true,
+      })
+      .onOk(async () => {
+        await this.deleteCart(val);
+        this.$q.notify({
+          type: 'warning',
+          message: 'Successfully deleted',
+        });
+      });
+  }
+
   inputOrder: IOrderInfo = {
     orderID: 0,
     prodName: '',
@@ -604,10 +643,6 @@ export default class POS extends Vue {
 <style>
 .bg-image {
   background-image: url('../../assets/green.jpg');
-  background-size: cover;
-}
-.image {
-  background-image: url('../../assets/BesTea.jpg');
   background-size: cover;
 }
 .my-card {

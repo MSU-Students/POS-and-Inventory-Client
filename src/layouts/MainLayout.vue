@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
         <q-avatar>
-          <img src="src/assets/BesTea.jpg" />
+          <img src="../assets/BesTea.jpg" />
         </q-avatar>
         <q-toolbar-title>BesTea Restaurant</q-toolbar-title>
         <q-btn-dropdown flat dropdown-icon="account_circle">
@@ -193,3 +193,4 @@ export default class MainLayout extends Vue {
   miniState = true;
 }
 </script>
+<style></style>

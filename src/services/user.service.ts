@@ -3,7 +3,7 @@ import { posApiService } from './pos-inventory-api.service';
 import { DefaultApi } from './rest-api/api';
 
 class UserService extends DefaultApi {
-  async create(payload: any): Promise<UserDto> {
+  async create(payload: UserDto): Promise<UserDto> {
     const response = await posApiService.addUser(payload);
     return response.data;
   }

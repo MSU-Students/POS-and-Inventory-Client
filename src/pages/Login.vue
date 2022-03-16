@@ -100,7 +100,7 @@ export default class Login extends Vue {
       if (this.currentUser.type == 'admin') {
         await this.$router.replace('/Dashboard');
         this.$q.notify({
-          position: 'top',
+          position: 'center',
           type: 'positive',
           message: 'You are logged in',
         });

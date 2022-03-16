@@ -111,7 +111,7 @@
                     <div class="col">
                       <q-select
                         outlined
-                        v-model="inputAccount.role"
+                        v-model="inputAccount.type"
                         :options="options"
                         label="Roles"
                       />
@@ -215,7 +215,7 @@
                       <div class="col">
                         <q-select
                           outlined
-                          v-model="inputAccount.role"
+                          v-model="inputAccount.type"
                           :options="options"
                           label="Roles"
                         />
@@ -254,31 +254,39 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { IAccountInfo } from '../store/account/state';
 import { mapActions, mapState } from 'vuex';
+import { UserDto } from 'src/services/rest-api';
 
 @Options({
   computed: {
     ...mapState('account', ['allAccount']),
   },
   methods: {
-    ...mapActions('account', ['addAccount', 'editAccount', 'deleteAccount']),
+    ...mapActions('account', [
+      'addAccount',
+      'editAccount',
+      'deleteAccount',
+      'getAllUser',
+    ]),
   },
 })
 export default class ManageAccount extends Vue {
-  addAccount!: (payload: IAccountInfo) => Promise<void>;
-  editAccount!: (payload: IAccountInfo) => Promise<void>;
-  deleteAccount!: (payload: IAccountInfo) => Promise<void>;
-  allAccount!: IAccountInfo[];
+  addAccount!: (payload: UserDto) => Promise<void>;
+  editAccount!: (payload: UserDto) => Promise<void>;
+  deleteAccount!: (payload: UserDto) => Promise<void>;
+  getAllUser!: () => Promise<void>;
+  allAccount!: UserDto[];
 
+  async created() {
+    await this.getAllUser();
+  }
   columns = [
     {
       name: 'name',
       required: true,
       label: 'Name',
       align: 'left',
-      field: (row: IAccountInfo) =>
-        row.FName + ' ' + row.MName + '. ' + row.LName,
+      field: (row: UserDto) => row.FName + ' ' + row.MName + '. ' + row.LName,
       format: (val: string) => `${val}`,
     },
     {
@@ -293,7 +301,7 @@ export default class ManageAccount extends Vue {
       label: 'Date Created',
       field: 'dateCreated',
     },
-    { name: 'role', align: 'center', label: 'Role', field: 'role' },
+    { name: 'role', align: 'center', label: 'Role', field: 'type' },
     { name: 'status', align: 'center', label: 'Status', field: 'status' },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
   ];
@@ -302,16 +310,16 @@ export default class ManageAccount extends Vue {
   filter = '';
   options = ['Admin', 'Cashier'];
 
-  inputAccount: IAccountInfo = {
+  inputAccount: UserDto = {
     FName: '',
     MName: '',
     LName: '',
     username: '',
     password: '',
     email: '',
-    role: '',
-    dateCreated: '',
+    type: '',
     status: 'Active',
+    contact: '',
   };
 
   async onaddAccount() {
@@ -334,7 +342,7 @@ export default class ManageAccount extends Vue {
     });
   }
 
-  deleteSpecificAccount(val: IAccountInfo) {
+  deleteSpecificAccount(val: UserDto) {
     this.$q
       .dialog({
         message: 'Confirm to delete?',
@@ -350,7 +358,7 @@ export default class ManageAccount extends Vue {
       });
   }
 
-  openEditDialog(val: IAccountInfo) {
+  openEditDialog(val: UserDto) {
     this.updateAccount = true;
     this.inputAccount = { ...val };
   }
@@ -363,8 +371,7 @@ export default class ManageAccount extends Vue {
       username: '',
       password: '',
       email: '',
-      role: '',
-      dateCreated: '',
+      type: '',
       status: 'Active',
     };
   }
