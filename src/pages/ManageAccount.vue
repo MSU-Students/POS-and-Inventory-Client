@@ -277,7 +277,7 @@ export default class ManageAccount extends Vue {
   getAllUser!: () => Promise<void>;
   allAccount!: UserDto[];
 
-  async created() {
+  async mounted() {
     await this.getAllUser();
   }
   columns = [
@@ -302,13 +302,29 @@ export default class ManageAccount extends Vue {
       field: 'dateCreated',
     },
     { name: 'role', align: 'center', label: 'Role', field: 'type' },
-    { name: 'status', align: 'center', label: 'Status', field: 'status' },
+    {
+      name: 'status',
+      align: 'center',
+      label: 'Status',
+      field: 'status',
+      color: 'green',
+    },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
   ];
   addNewAccount = false;
   updateAccount = false;
   filter = '';
   options = ['Admin', 'Cashier'];
+
+  colorManipulation(status: string) {
+    if (status == 'pending') {
+      return 'orange';
+    } else if (status == 'disapproved') {
+      return 'red';
+    } else {
+      return 'green';
+    }
+  }
 
   inputAccount: UserDto = {
     FName: '',

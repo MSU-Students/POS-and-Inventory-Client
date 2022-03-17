@@ -1,9 +1,9 @@
-import { UserDto } from 'src/services/rest-api';
+import { User } from 'src/interfaces/user.interface';
 import { MutationTree } from 'vuex';
 import { AccountStateInterface } from './state';
 
 const mutation: MutationTree<AccountStateInterface> = {
-  setNewAccount(state, payload: UserDto) {
+  setNewAccount(state, payload: User) {
     state.newUser = payload;
   },
   updateAccount(state, payload: any) {

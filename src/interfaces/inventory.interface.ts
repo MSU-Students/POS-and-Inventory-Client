@@ -4,5 +4,5 @@ export interface Inventory {
   itemQuantProd: number;
   itemUnitProd: string;
   itemExpiryDate: string;
-  itemDateCreated: Date;
+  itemDateCreated?: Date;
 }

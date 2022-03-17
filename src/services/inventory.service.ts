@@ -13,18 +13,18 @@ class InventoryService extends DefaultApi {
     return response.data;
   }
 
-  async getOne(id: string): Promise<InventoryDto> {
-    const response = await posApiService.getInventory(id);
+  async getOne(itemCode: string): Promise<InventoryDto> {
+    const response = await posApiService.getInventory(itemCode);
     return response.data;
   }
 
-  async update(id: string, payload: any) {
-    const response = await posApiService.updateInventory(id, payload);
+  async update(itemCode: string, payload: any) {
+    const response = await posApiService.updateInventory(itemCode, payload);
     return response.data;
   }
 
-  async delete(id: string) {
-    const response = await posApiService.deleteInventory(id);
+  async delete(itemCode: string) {
+    const response = await posApiService.deleteInventory(itemCode);
     return response.data;
   }
 }

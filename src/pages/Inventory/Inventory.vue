@@ -10,7 +10,7 @@
           title="Inventory List"
           :rows="allInventory"
           :columns="columns"
-          row-key="itemCode"
+          row-key="itemName"
           :rows-per-page-options="[0]"
           :filter="filter"
           selection="multiple"
@@ -96,7 +96,7 @@
                           <q-input
                             outlined
                             label="Product Code"
-                            v-model="inputInventory.itemCode"
+                            v-model="inputInventory.itemName"
                           />
                         </div>
                         <div class="col">
@@ -111,7 +111,6 @@
                         <div class="col">
                           <q-select
                             outlined
-                            v-model="inputInventory.itemCategory"
                             :options="catInvOpt"
                             label="Category"
                           />
@@ -166,7 +165,7 @@
                     class="q-pa-md"
                   >
                     <q-card-section class="row">
-                      <div class="text-h6">Add Product</div>
+                      <div class="text-h6">Edit Product</div>
                       <q-space />
                       <q-btn
                         flat
@@ -179,13 +178,13 @@
                     </q-card-section>
 
                     <q-card-section>
-                      <q-form @submit="onEditInventory">
+                      <q-form @submit="onEditInventory()">
                         <div class="q-py-sm q-gutter-md row">
                           <div class="col">
                             <q-input
                               outlined
                               label="Product Code"
-                              v-model="inputInventory.itemCode"
+                              v-model="inputInventory.itemName"
                             />
                           </div>
                           <div class="col">
@@ -200,7 +199,6 @@
                           <div class="col">
                             <q-select
                               outlined
-                              v-model="inputInventory.itemCategory"
                               :options="catInvOpt"
                               label="Category"
                             />
@@ -231,7 +229,7 @@
                           />
                           <q-btn
                             flat
-                            label="Add"
+                            label="Save"
                             color="primary"
                             type="submit"
                           />
@@ -298,8 +296,8 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { iInventoryInfo } from '../../store/inventory/state';
 import { mapState, mapActions } from 'vuex';
+import { InventoryDto } from 'src/services/rest-api';
 
 @Options({
   computed: {
@@ -310,29 +308,28 @@ import { mapState, mapActions } from 'vuex';
       'addInventory',
       'editInventory',
       'deleteInventory',
+      'getAllInventory',
     ]),
   },
 })
 export default class Expenses extends Vue {
-  allInventory!: iInventoryInfo[];
-  addInventory!: (payload: iInventoryInfo) => Promise<void>;
-  editInventory!: (payload: iInventoryInfo) => Promise<void>;
-  deleteInventory!: (payload: iInventoryInfo) => Promise<void>;
+  allInventory!: InventoryDto[];
+  addInventory!: (payload: InventoryDto) => Promise<void>;
+  editInventory!: (payload: InventoryDto) => Promise<void>;
+  deleteInventory!: (payload: InventoryDto) => Promise<void>;
+  getAllInventory!: () => Promise<void>;
 
+  async mounted() {
+    await this.getAllInventory();
+  }
   columns = [
     {
-      name: 'itemCode',
-      required: true,
-      label: 'Item Code',
-      align: 'left',
-      field: (row: iInventoryInfo) => row.itemCode,
-      format: (val: string) => `${val}`,
-    },
-    {
       name: 'itemName',
-      align: 'center',
+      required: true,
       label: 'Item Name',
-      field: 'itemName',
+      align: 'left',
+      field: (row: InventoryDto) => row.itemName,
+      format: (val: string) => `${val}`,
     },
 
     {
@@ -385,14 +382,11 @@ export default class Expenses extends Vue {
   catInvOpt = [''];
   unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
 
-  inputInventory: iInventoryInfo = {
-    itemCode: '',
+  inputInventory: InventoryDto = {
     itemName: '',
-    itemQuantProd: '',
+    itemQuantProd: 0,
     itemUnitProd: '',
-    itemCategory: '',
     itemExpiryDate: '',
-    itemDateCreated: '',
   };
 
   async onAddInventory() {
@@ -415,7 +409,7 @@ export default class Expenses extends Vue {
     });
   }
 
-  deleteSpecificInventory(val: iInventoryInfo) {
+  deleteSpecificInventory(val: InventoryDto) {
     this.$q
       .dialog({
         message: 'Confirm to delete?',
@@ -431,20 +425,17 @@ export default class Expenses extends Vue {
       });
   }
 
-  openEditDialog(val: iInventoryInfo) {
+  openEditDialog(val: InventoryDto) {
     this.editRowInventory = true;
     this.inputInventory = { ...val };
   }
 
   resetModel() {
     this.inputInventory = {
-      itemCode: '',
       itemName: '',
-      itemQuantProd: '',
+      itemQuantProd: 0,
       itemUnitProd: '',
-      itemCategory: '',
       itemExpiryDate: '',
-      itemDateCreated: '',
     };
   }
 }

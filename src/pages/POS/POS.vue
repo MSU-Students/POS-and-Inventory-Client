@@ -86,68 +86,72 @@
                       <q-dialog v-model="chooseSize">
                         <q-card style="width: 400px">
                           <q-card-section>
-                            <div class="text-h6">Choose size and quantity</div>
+                            <div class="text-h6">Choose Size and Quantity</div>
                           </q-card-section>
 
-                          <q-card-section class="q-pt-none">
-                            <q-input
-                              autofocus
-                              placeholder="Enter quantity"
-                              type="number"
-                              filled
-                              style="full-width"
-                              v-model="quantity"
-                            />
-                          </q-card-section>
-
-                          <q-card-actions>
-                            <div class="q-pa-md q-gutter-sm">
-                              <div class="q-gutter-sm">
-                                <q-radio
-                                  v-model="radioBTN"
-                                  dense
-                                  val="small"
-                                  label="Small"
-                                />
-                                <q-radio
-                                  v-model="radioBTN"
-                                  dense
-                                  val="medium"
-                                  label="Medium"
-                                />
-                                <q-radio
-                                  v-model="radioBTN"
-                                  dense
-                                  val="large"
-                                  label="Large"
-                                />
-                                <q-radio
-                                  v-model="radioBTN"
-                                  dense
-                                  val="regular"
-                                  label="Regular"
-                                />
-                              </div>
-                            </div>
-                          </q-card-actions>
-
-                          <q-card-actions
-                            align="right"
-                            class="bg-white text-teal"
-                          >
-                            <q-btn
-                              flat
-                              label="OK"
-                              v-close-popup
-                              @click="
-                                tempInput.prodQuant = quantity;
-                                tempInput.size = radioBTN;
+                          <q-card-section>
+                            <q-form
+                              @submit="
                                 tempInput.subTotal = quantity * tempPrice;
                                 grandTotal += tempInput.subTotal;
                                 onAddOrder();
                               "
-                            />
-                          </q-card-actions>
+                            >
+                              <div>
+                                <q-input
+                                  autofocus
+                                  placeholder="Enter quantity"
+                                  filled
+                                  mask="#"
+                                  fill-mask="0"
+                                  style="full-width"
+                                  v-model="tempInput.prodQuant"
+                                  type
+                                  lazy-rules
+                                  :rules="[
+                                    (val) =>
+                                      (val && val.length > 0) ||
+                                      'Must input greater than or equal to one quantity',
+                                  ]"
+                                />
+                              </div>
+                              <div class="q-pa-md q-gutter-sm">
+                                <div class="q-gutter-sm">
+                                  <q-radio
+                                    v-model="tempInput.size"
+                                    dense
+                                    val="small"
+                                    label="Small"
+                                  />
+                                  <q-radio
+                                    v-model="tempInput.size"
+                                    dense
+                                    val="medium"
+                                    label="Medium"
+                                  />
+                                  <q-radio
+                                    v-model="tempInput.size"
+                                    dense
+                                    val="large"
+                                    label="Large"
+                                  />
+                                  <q-radio
+                                    v-model="tempInput.size"
+                                    dense
+                                    val="regular"
+                                    label="Regular"
+                                  />
+                                </div>
+                              </div>
+                              <div align="right">
+                                <q-btn
+                                  color="green"
+                                  label="Add Order"
+                                  type="submit"
+                                />
+                              </div>
+                            </q-form>
+                          </q-card-section>
                         </q-card>
                       </q-dialog>
                     </div>
@@ -430,7 +434,6 @@
 import { Vue, Options } from 'vue-class-component';
 import { IOrderInfo } from '../../store/Order/state';
 import { IProductInfo } from '../../store/product/state';
-import { ICartInfo } from '../../store/cart/state';
 import { mapState, mapActions, mapGetters } from 'vuex';
 interface IRow {
   name: string;
@@ -443,7 +446,6 @@ interface IRow {
   methods: {
     ...mapActions('Order', ['addOrder', 'editOrder', 'deleteOrder']),
     ...mapActions('Product', ['addProduct', 'editProduct', 'deleteProduct']),
-    ...mapActions('cart', ['addCart', 'editCart', 'deleteCart']),
   },
 })
 export default class POS extends Vue {
@@ -451,11 +453,6 @@ export default class POS extends Vue {
   editOrder!: (payload: IOrderInfo) => Promise<void>;
   deleteOrder!: (payload: IOrderInfo) => Promise<void>;
   allOrder!: IOrderInfo[];
-
-  allCart!: ICartInfo[];
-  addCart!: (payload: ICartInfo) => Promise<void>;
-  editCart!: (payload: ICartInfo) => Promise<void>;
-  deleteCart!: (payload: ICartInfo) => Promise<void>;
 
   addProduct!: (payload: IOrderInfo) => Promise<void>;
   editProduct!: (payload: IOrderInfo) => Promise<void>;
@@ -501,7 +498,7 @@ export default class POS extends Vue {
     {
       name: 'size',
       align: 'center',
-      label: 'size',
+      label: 'Size',
       field: 'size',
     },
     {
@@ -533,36 +530,6 @@ export default class POS extends Vue {
     orderDate: '',
   };
 
-  inputCart: ICartInfo = {
-    productName: '',
-    quantity: 0,
-    size: '',
-  };
-
-  async onAddCart() {
-    await this.addCart(this.inputCart);
-  }
-
-  async onEditCart() {
-    await this.editCart(this.inputCart);
-  }
-
-  onDeleteSpecificCart(val: ICartInfo) {
-    this.$q
-      .dialog({
-        message: 'Confirm to delete?',
-        cancel: true,
-        persistent: true,
-      })
-      .onOk(async () => {
-        await this.deleteCart(val);
-        this.$q.notify({
-          type: 'warning',
-          message: 'Successfully deleted',
-        });
-      });
-  }
-
   inputOrder: IOrderInfo = {
     orderID: 0,
     prodName: '',
@@ -586,11 +553,8 @@ export default class POS extends Vue {
 
   async onAddOrder() {
     await this.addOrder(this.tempInput);
+    this.chooseSize = false;
     this.resetOrder();
-    this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Added.',
-    });
   }
   onDeleteSpecificOrder(val: IOrderInfo) {
     this.$q

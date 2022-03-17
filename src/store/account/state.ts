@@ -1,7 +1,8 @@
+import { User } from 'src/interfaces/user.interface';
 import { UserDto } from 'src/services/rest-api';
 export interface AccountStateInterface {
   allAccount: UserDto[];
-  newUser?: UserDto;
+  newUser?: User;
 }
 
 function state(): AccountStateInterface {

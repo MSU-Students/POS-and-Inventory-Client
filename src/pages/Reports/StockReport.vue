@@ -117,7 +117,7 @@
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { iInventoryInfo } from '../../store/inventory/state';
+import { InventoryDto } from 'src/services/rest-api';
 import { mapState } from 'vuex';
 
 @Options({
@@ -126,23 +126,16 @@ import { mapState } from 'vuex';
   },
 })
 export default class Expenses extends Vue {
-  allInventory!: iInventoryInfo[];
+  allInventory!: InventoryDto[];
   columns = [
     {
-      name: 'itemCode',
+      name: 'itemName',
       required: true,
-      label: 'Item Code',
+      label: 'Item Name',
       align: 'left',
-      field: (row: iInventoryInfo) => row.itemCode,
+      field: (row: InventoryDto) => row.itemName,
       format: (val: string) => `${val}`,
     },
-    {
-      name: 'itemName',
-      align: 'center',
-      label: 'Item Name',
-      field: 'itemName',
-    },
-
     {
       name: 'itemQuantProd',
       align: 'center',

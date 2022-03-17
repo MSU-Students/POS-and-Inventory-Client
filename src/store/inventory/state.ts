@@ -1,40 +1,14 @@
-export interface iInventoryInfo {
-  itemCode: string;
-  itemName: string;
-  itemQuantProd: string;
-  itemUnitProd: string;
-  itemCategory: string;
-  itemExpiryDate: string;
-  itemDateCreated: string;
-}
+import { Inventory } from 'src/interfaces/inventory.interface';
+import { InventoryDto } from 'src/services/rest-api';
 
 export interface InventoryStateInterface {
-  allInventory: iInventoryInfo[];
-  activeInventory?: iInventoryInfo;
+  allInventory: InventoryDto[];
+  newInventory?: Inventory;
 }
 
 function state(): InventoryStateInterface {
   return {
-    allInventory: [
-      {
-        itemCode: '3DDS456FVGHS23',
-        itemName: 'Chocolate Powder',
-        itemQuantProd: '34',
-        itemUnitProd: 'Kilogram (kg)',
-        itemCategory: 'Ingredient',
-        itemExpiryDate: '12/23/2022',
-        itemDateCreated: '12/23/2313',
-      },
-      {
-        itemCode: '3DDS456FVGHS23',
-        itemName: 'Milk Powder',
-        itemQuantProd: '34',
-        itemUnitProd: 'Kilogram (kg)',
-        itemCategory: 'Ingredient',
-        itemExpiryDate: '12/23/2022',
-        itemDateCreated: '12/23/2313',
-      },
-    ],
+    allInventory: [],
   };
 }
 
