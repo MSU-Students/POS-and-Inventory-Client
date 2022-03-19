@@ -435,9 +435,7 @@ import { Vue, Options } from 'vue-class-component';
 import { IOrderInfo } from '../../store/Order/state';
 import { IProductInfo } from '../../store/product/state';
 import { mapState, mapActions, mapGetters } from 'vuex';
-interface IRow {
-  name: string;
-}
+
 @Options({
   computed: {
     ...mapState('Order', ['allOrder']),
@@ -565,6 +563,7 @@ export default class POS extends Vue {
       })
       .onOk(async () => {
         await this.deleteOrder(val);
+        this.grandTotal -= val.price;
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',
