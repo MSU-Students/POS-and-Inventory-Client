@@ -312,7 +312,7 @@
             title="Inventory Category"
             :rows="allInventoryCat"
             :columns="InvCatColumns"
-            row-key="invCategoryName"
+            row-key="categoryName"
             :rows-per-page-options="[0]"
             style="max-height: 300px"
           >
@@ -357,7 +357,7 @@
                       <q-input
                         outlined
                         label="Name"
-                        v-model="inputInventoryCat.invCategoryName"
+                        v-model="inputInventoryCat.categoryName"
                       />
                     </q-card-section>
 
@@ -411,7 +411,7 @@
                         <q-input
                           outlined
                           label="Name"
-                          v-model="inputInventoryCat.invCategoryName"
+                          v-model="inputInventoryCat.categoryName"
                         />
                       </q-card-section>
 
@@ -597,8 +597,8 @@ import { Vue, Options } from 'vue-class-component';
 import { ICategoryInfo } from '../store/category/state';
 import { ISubProdCategoryInfo } from '../store/subCategory/state';
 import { IexpensesCategoryInfo } from '../store/expensesCategory/state';
-import { IInventoryCatInfo } from '../store/inventoryCategory/state';
 import { mapState, mapActions } from 'vuex';
+import { InventoryCategoryDto } from 'src/services/rest-api';
 @Options({
   computed: {
     ...mapState('category', ['allCategory']),
@@ -621,6 +621,7 @@ import { mapState, mapActions } from 'vuex';
       'addInventoryCat',
       'editInventoryCat',
       'deleteInventoryCat',
+      'getAllInventoryCategory',
     ]),
     ...mapActions('expensesCategory', [
       'addExpenseCat',
@@ -818,21 +819,37 @@ export default class Expenses extends Vue {
   }
 
   //---------------------------> Inventory Category <----------------------------------------------
-  allInventoryCat!: IInventoryCatInfo[];
-  addInventoryCat!: (payload: IInventoryCatInfo) => Promise<void>;
-  editInventoryCat!: (payload: IInventoryCatInfo) => Promise<void>;
-  deleteInventoryCat!: (payload: IInventoryCatInfo) => Promise<void>;
+  allInventoryCat!: InventoryCategoryDto[];
+  addInventoryCat!: (payload: InventoryCategoryDto) => Promise<void>;
+  editInventoryCat!: (payload: InventoryCategoryDto) => Promise<void>;
+  deleteInventoryCat!: (payload: InventoryCategoryDto) => Promise<void>;
+  getAllInventoryCategory!: () => Promise<void>;
   addNewInventoryCat = false;
   editRowInventoryCat = false;
 
+  async mounted() {
+    await this.getAllInventoryCategory();
+  }
   InvCatColumns = [
     {
-      name: 'invCategoryName',
+      name: 'categoryName',
       required: true,
       label: 'Name',
       align: 'left',
-      field: (row: IInventoryCatInfo) => row.invCategoryName,
+      field: (row: InventoryCategoryDto) => row.categoryName,
       format: (val: string) => `${val}`,
+    },
+    {
+      name: 'totalProd',
+      align: 'center',
+      label: 'Total Product',
+      field: 'totalProd',
+    },
+    {
+      name: 'stockQuantity',
+      align: 'center',
+      label: 'Total Stock Quantity',
+      field: 'stockQuantity',
     },
     {
       name: 'action',
@@ -842,8 +859,10 @@ export default class Expenses extends Vue {
     },
   ];
 
-  inputInventoryCat: IInventoryCatInfo = {
-    invCategoryName: '',
+  inputInventoryCat: InventoryCategoryDto = {
+    categoryName: '',
+    totalProd: 0,
+    stockQuantity: 0,
   };
 
   async onAddInvCat() {
@@ -866,7 +885,7 @@ export default class Expenses extends Vue {
     });
   }
 
-  deleteSpecificInvCat(val: IInventoryCatInfo) {
+  deleteSpecificInvCat(val: InventoryCategoryDto) {
     this.$q
       .dialog({
         message: 'Confirm to delete?',
@@ -882,13 +901,15 @@ export default class Expenses extends Vue {
       });
   }
 
-  openEditDialogInvCat(val: IInventoryCatInfo) {
+  openEditDialogInvCat(val: InventoryCategoryDto) {
     this.editRowInventoryCat = true;
     this.inputInventoryCat = { ...val };
   }
   resetModelInvCat() {
     this.inputInventoryCat = {
-      invCategoryName: '',
+      categoryName: '',
+      totalProd: 0,
+      stockQuantity: 0,
     };
   }
 

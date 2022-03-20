@@ -11,8 +11,6 @@
       row-key="reference"
       :rows-per-page-options="[0]"
       :filter="filter"
-      selection="multiple"
-      v-model:selected="selected"
     >
       <template v-slot:top-right>
         <div class="q-pa-md q-gutter-sm row">
@@ -70,7 +68,7 @@
                         mask="#.##"
                         fill-mask="0"
                         reverse-fill-mask
-                        v-model="inputExpenses.expensesAmount"
+                        v-model="inputExpenses.amount"
                       />
                     </div>
                   </div>
@@ -81,7 +79,6 @@
                         transition-show="scale"
                         transition-hide="scale"
                         filled
-                        v-model="inputExpenses.category"
                       />
                     </div>
                     <div class="col">
@@ -90,7 +87,6 @@
                         transition-show="scale"
                         transition-hide="scale"
                         filled
-                        v-model="inputExpenses.supplier"
                       />
                     </div>
                   </div>
@@ -99,7 +95,7 @@
                       filled
                       label="Note"
                       type="textarea"
-                      v-model="inputExpenses.expensesNote"
+                      v-model="inputExpenses.description"
                     />
                   </div>
                   <div align="right">
@@ -208,7 +204,7 @@
                           mask="#.##"
                           fill-mask="0"
                           reverse-fill-mask
-                          v-model="inputExpenses.expensesAmount"
+                          v-model="inputExpenses.amount"
                         />
                       </div>
                     </div>
@@ -219,7 +215,6 @@
                           transition-show="scale"
                           transition-hide="scale"
                           filled
-                          v-model="inputExpenses.category"
                         />
                       </div>
                       <div class="col">
@@ -228,7 +223,6 @@
                           transition-show="scale"
                           transition-hide="scale"
                           filled
-                          v-model="inputExpenses.supplier"
                         />
                       </div>
                     </div>
@@ -237,7 +231,7 @@
                         filled
                         label="Note"
                         type="textarea"
-                        v-model="inputExpenses.expensesNote"
+                        v-model="inputExpenses.description"
                       />
                     </div>
                     <div align="right">
@@ -272,9 +266,14 @@
 </template>
 
 <script lang="ts">
+import { ExpensesDto } from 'src/services/rest-api';
 import { Vue, Options } from 'vue-class-component';
-import { IExpensesInfo } from '../store/expenses/state';
 import { mapState, mapActions } from 'vuex';
+import { date } from 'quasar';
+
+const timeStamp = Date.now();
+const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
+
 @Options({
   computed: {
     ...mapState('expenses', ['allExpenses']),
@@ -284,35 +283,35 @@ import { mapState, mapActions } from 'vuex';
       'addExpenses',
       'editExpenses',
       'deleteExpenses',
+      'getAllExpenses',
     ]),
   },
 })
 export default class Expenses extends Vue {
-  allExpenses!: IExpensesInfo;
-  addExpenses!: (payload: IExpensesInfo) => Promise<void>;
-  editExpenses!: (payload: IExpensesInfo) => Promise<void>;
-  deleteExpenses!: (payload: IExpensesInfo) => Promise<void>;
+  allExpenses!: ExpensesDto;
+  addExpenses!: (payload: ExpensesDto) => Promise<void>;
+  editExpenses!: (payload: ExpensesDto) => Promise<void>;
+  deleteExpenses!: (payload: ExpensesDto) => Promise<void>;
+  getAllExpenses!: () => Promise<void>;
+
+  async mounted() {
+    await this.getAllExpenses();
+  }
 
   columns = [
     {
-      name: 'reference',
+      name: 'expensesName',
       required: true,
-      label: 'Reference Number',
+      label: 'Expenses Name',
       align: 'left',
-      field: (row: IExpensesInfo) => row.expensesReference,
+      field: (row: ExpensesDto) => row.expensesName,
       format: (val: string) => `${val}`,
     },
     {
-      name: 'expensesName',
-      align: 'center',
-      label: 'Expenses',
-      field: 'expensesName',
-    },
-    {
-      name: 'expensesDateCreated',
+      name: 'expensesDate',
       align: 'center',
       label: 'Date',
-      field: 'expensesDateCreated',
+      field: 'expensesDate',
     },
     {
       name: 'category',
@@ -321,10 +320,16 @@ export default class Expenses extends Vue {
       field: 'category',
     },
     {
-      name: 'expensesAmount',
+      name: 'amount',
       align: 'center',
       label: 'Amount',
-      field: 'expensesAmount',
+      field: 'amount',
+    },
+    {
+      name: 'supplier',
+      align: 'center',
+      label: 'Supplier',
+      field: 'supplier',
     },
     {
       name: 'expensesNote',
@@ -348,14 +353,11 @@ export default class Expenses extends Vue {
   showExpensesNote = false;
   filter = '';
 
-  inputExpenses: IExpensesInfo = {
-    expensesReference: '',
+  inputExpenses: ExpensesDto = {
     expensesName: '',
-    expensesDateCreated: '',
-    category: '',
-    supplier: '',
-    expensesAmount: 0,
-    expensesNote: '',
+    expensesDate: formattedString,
+    description: '',
+    amount: 0,
   };
 
   async onAddExpenses() {
@@ -378,7 +380,7 @@ export default class Expenses extends Vue {
     });
   }
 
-  deleteSpecificExpenses(val: IExpensesInfo) {
+  deleteSpecificExpenses(val: ExpensesDto) {
     this.$q
       .dialog({
         message: 'Confirm to delete?',
@@ -394,20 +396,17 @@ export default class Expenses extends Vue {
       });
   }
 
-  openEditDialog(val: IExpensesInfo) {
+  openEditDialog(val: ExpensesDto) {
     this.editRowExpenses = true;
     this.inputExpenses = { ...val };
   }
 
   resetModel() {
     this.inputExpenses = {
-      expensesReference: '',
       expensesName: '',
-      expensesDateCreated: '',
-      category: '',
-      supplier: '',
-      expensesAmount: 0,
-      expensesNote: '',
+      expensesDate: '',
+      description: '',
+      amount: 0,
     };
   }
 }

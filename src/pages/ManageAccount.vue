@@ -103,6 +103,15 @@
                     <div class="col">
                       <q-input
                         outlined
+                        v-model="inputAccount.contact"
+                        label="Contact Number"
+                        mask="###########"
+                        hint="Sample: 09631358292"
+                      />
+                    </div>
+                    <div class="col">
+                      <q-input
+                        outlined
                         v-model="inputAccount.email"
                         label="Email"
                         type="email"
@@ -202,6 +211,14 @@
                           label="Password"
                         />
                       </div>
+                      <div class="col">
+                        <q-select
+                          outlined
+                          v-model="inputAccount.status"
+                          label="Status"
+                          :options="statusOptions"
+                        />
+                      </div>
                     </div>
                     <div class="row q-gutter-md q-py-sm">
                       <div class="col">
@@ -256,6 +273,10 @@
 import { Vue, Options } from 'vue-class-component';
 import { mapActions, mapState } from 'vuex';
 import { UserDto } from 'src/services/rest-api';
+import { date } from 'quasar';
+
+const timeStamp = Date.now();
+const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {
@@ -290,16 +311,16 @@ export default class ManageAccount extends Vue {
       format: (val: string) => `${val}`,
     },
     {
+      name: 'contact',
+      align: 'center',
+      label: 'Contact',
+      field: 'contact',
+    },
+    {
       name: 'email',
       align: 'center',
       label: 'Email',
       field: 'email',
-    },
-    {
-      name: 'dateCreated',
-      align: 'center',
-      label: 'Date Created',
-      field: 'dateCreated',
     },
     { name: 'role', align: 'center', label: 'Role', field: 'type' },
     {
@@ -315,16 +336,7 @@ export default class ManageAccount extends Vue {
   updateAccount = false;
   filter = '';
   options = ['Admin', 'Cashier'];
-
-  colorManipulation(status: string) {
-    if (status == 'pending') {
-      return 'orange';
-    } else if (status == 'disapproved') {
-      return 'red';
-    } else {
-      return 'green';
-    }
-  }
+  statusOptions = ['Active', 'Inactive'];
 
   inputAccount: UserDto = {
     FName: '',
@@ -336,6 +348,7 @@ export default class ManageAccount extends Vue {
     type: '',
     status: 'Active',
     contact: '',
+    userDateCreated: formattedString,
   };
 
   async onaddAccount() {
@@ -388,7 +401,8 @@ export default class ManageAccount extends Vue {
       password: '',
       email: '',
       type: '',
-      status: 'Active',
+      status: '',
+      userDateCreated: '',
     };
   }
 }

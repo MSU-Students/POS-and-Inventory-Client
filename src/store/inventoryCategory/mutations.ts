@@ -1,25 +1,24 @@
 import { MutationTree } from 'vuex';
-import { IInventoryCatInfo, InventoryCatStateInterface } from './state';
+import { InventoryCatStateInterface } from './state';
 
 const mutation: MutationTree<InventoryCatStateInterface> = {
-  setInventoryCat(state, payload: IInventoryCatInfo) {
+  setNewInventoryCat(state, payload) {
+    state.newInventoryCat = payload;
+  },
+  updateInventoryCat(state, payload) {
+    state.newInventoryCat = payload;
+  },
+  deleteInventoryCat(state, payload) {
     state.allInventoryCat.push(payload);
   },
-  setNewInventoryCat(state, payload: IInventoryCatInfo) {
-    const index = state.allInventoryCat.findIndex(
-      (s) => s.categoryID === payload.categoryID
-    );
-    if (index >= 0) {
-      state.allInventoryCat.splice(index, 1, payload);
-    }
+
+  getAllInventoryCategory(state, payload) {
+    state.allInventoryCat = [];
+    state.allInventoryCat.push(...payload);
   },
-  deleteInventoryCat(state, payload: IInventoryCatInfo) {
-    const index = state.allInventoryCat.findIndex(
-      (s) => s.categoryID === payload.categoryID
-    );
-    if (index >= 0) {
-      state.allInventoryCat.splice(index, 1);
-    }
+
+  getOneInventoryCategory(state, payload) {
+    state.allInventoryCat = payload;
   },
 };
 

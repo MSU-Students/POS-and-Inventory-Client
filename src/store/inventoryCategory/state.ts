@@ -1,21 +1,18 @@
-export interface IInventoryCatInfo {
+export interface InventoryCategory {
   categoryID?: number;
-  invCategoryName: string;
-  totalProd?: number;
-  stockQuantity?: number;
+  categoryName: string;
+  totalProd: number;
+  stockQuantity: number;
 }
 
 export interface InventoryCatStateInterface {
-  allInventoryCat: IInventoryCatInfo[];
+  allInventoryCat: InventoryCategory[];
+  newInventoryCat?: InventoryCategory;
 }
 
 function state(): InventoryCatStateInterface {
   return {
-    allInventoryCat: [
-      {
-        invCategoryName: 'Utensils',
-      },
-    ],
+    allInventoryCat: [],
   };
 }
 

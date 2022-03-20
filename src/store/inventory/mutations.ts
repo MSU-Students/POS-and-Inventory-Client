@@ -6,8 +6,8 @@ const mutation: MutationTree<InventoryStateInterface> = {
   setNewInventory(state, payload: Inventory) {
     state.newInventory = payload;
   },
-  updateInventory(state, payload: any) {
-    state.allInventory.push(payload);
+  updateInventory(state, payload: Inventory) {
+    state.newInventory = payload;
   },
   deleteInventory(state, payload: any) {
     state.allInventory.push(payload);

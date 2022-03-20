@@ -14,7 +14,7 @@
         title="List of suppliers"
         :rows="allSupplier"
         :columns="columns"
-        row-key="name"
+        row-key="supplierName"
         :rows-per-page-options="[0]"
         :filter="filter"
       >
@@ -276,8 +276,8 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { ISupplierInfo } from '../../store/supplier/state';
 import { mapState, mapActions } from 'vuex';
+import { SupplierDto } from 'src/services/rest-api';
 
 @Options({
   computed: {
@@ -288,23 +288,28 @@ import { mapState, mapActions } from 'vuex';
       'addSupplier',
       'editSupplier',
       'deleteSupplier',
+      'getAllSupplier',
     ]),
   },
 })
-export default class ManageAccount extends Vue {
-  addSupplier!: (payload: ISupplierInfo) => Promise<void>;
-  editSupplier!: (payload: ISupplierInfo) => Promise<void>;
-  deleteSupplier!: (payload: ISupplierInfo) => Promise<void>;
-  allSupplier!: ISupplierInfo[];
+export default class Supplier extends Vue {
+  addSupplier!: (payload: SupplierDto) => Promise<void>;
+  editSupplier!: (payload: SupplierDto) => Promise<void>;
+  deleteSupplier!: (payload: SupplierDto) => Promise<void>;
+  getAllSupplier!: () => Promise<void>;
+  allSupplier!: SupplierDto[];
+
+  async mounted() {
+    await this.getAllSupplier();
+  }
 
   columns = [
     {
-      name: 'name',
+      name: 'supplierName',
       required: true,
-      label: 'Name',
+      label: 'Supplier Name',
       align: 'left',
-      field: (row: ISupplierInfo) => row.supplierName,
-      format: (val: string) => `${val}`,
+      field: 'supplierName',
     },
     {
       name: 'company',
@@ -319,12 +324,17 @@ export default class ManageAccount extends Vue {
       field: 'email',
     },
     {
-      name: 'Contact',
+      name: 'contact',
       align: 'center',
       label: 'Contact',
       field: 'contact',
     },
-    { name: 'address', align: 'center', label: 'Address', field: 'address' },
+    {
+      name: 'address',
+      align: 'center',
+      label: 'Address',
+      field: 'address',
+    },
     { name: 'Actions', align: 'center', label: 'Actions', field: 'Actions' },
   ];
   addNewSupplier = false;
@@ -333,15 +343,13 @@ export default class ManageAccount extends Vue {
   files = '';
   filter = '';
 
-  inputSupplier: ISupplierInfo = {
+  inputSupplier: SupplierDto = {
     supplierName: '',
     company: '',
     email: '',
     contact: '',
     address: '',
   };
-
-  options = ['Admin', 'Cashier'];
 
   async onAddSupplier() {
     await this.addSupplier(this.inputSupplier);
@@ -363,7 +371,7 @@ export default class ManageAccount extends Vue {
     });
   }
 
-  deleteSpecificSupplier(val: ISupplierInfo) {
+  deleteSpecificSupplier(val: SupplierDto) {
     this.$q
       .dialog({
         message: 'Confirm to delete?',
@@ -379,7 +387,7 @@ export default class ManageAccount extends Vue {
       });
   }
 
-  openEditDialog(val: ISupplierInfo) {
+  openEditDialog(val: SupplierDto) {
     this.editRowSupplier = true;
     this.inputSupplier = { ...val };
   }

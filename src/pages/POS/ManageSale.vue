@@ -273,6 +273,10 @@
 import { Vue, Options } from 'vue-class-component';
 import { IManageSaleInfo } from '../../store/manageSale/state';
 import { mapState, mapActions } from 'vuex';
+import { date } from 'quasar';
+
+const timeStamp = Date.now();
+const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {

@@ -1,25 +1,24 @@
 import { MutationTree } from 'vuex';
-import { IPurchaseInfo, PurchaseStateInterface } from './state';
+import { PurchaseStateInterface } from './state';
 
 const mutation: MutationTree<PurchaseStateInterface> = {
-  setPurchase(state, payload: IPurchaseInfo) {
+  setNewPurchase(state, payload) {
+    state.newPurchase = payload;
+  },
+  updatePurchase(state, payload) {
+    state.newPurchase = payload;
+  },
+  deletePurchase(state, payload) {
     state.allPurchase.push(payload);
   },
-  setNewPurchase(state, payload: IPurchaseInfo) {
-    const index = state.allPurchase.findIndex(
-      (s) => s.purchaseReference === payload.purchaseReference
-    );
-    if (index >= 0) {
-      state.allPurchase.splice(index, 1, payload);
-    }
+
+  getAllPurchase(state, payload) {
+    state.allPurchase = [];
+    state.allPurchase.push(...payload);
   },
-  deletePurchase(state, payload: IPurchaseInfo) {
-    const index = state.allPurchase.findIndex(
-      (s) => s.purchaseReference === payload.purchaseReference
-    );
-    if (index >= 0) {
-      state.allPurchase.splice(index, 1);
-    }
+
+  getOnePurchase(state, payload) {
+    state.allPurchase = payload;
   },
 };
 

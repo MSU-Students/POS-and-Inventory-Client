@@ -9,11 +9,13 @@ const actions: ActionTree<InventoryStateInterface, StateInterface> = {
   async addInventory(context, payload: InventoryDto): Promise<void> {
     const result = await inventoryService.create(payload);
     context.commit('setNewInventory', result);
+    await context.dispatch('getAllInventory');
   },
 
   async editInventory(context, payload: any): Promise<any> {
-    await inventoryService.update(payload.itemCode, payload);
-    await context.dispatch('updateInventory');
+    const result = await inventoryService.update(payload.itemCode, payload);
+    context.commit('updateInventory', result);
+    await context.dispatch('getAllInventory');
   },
 
   async deleteInventory(context, itemCode: string): Promise<any> {

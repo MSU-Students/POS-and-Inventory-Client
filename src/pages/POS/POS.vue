@@ -120,19 +120,19 @@
                                   <q-radio
                                     v-model="tempInput.size"
                                     dense
-                                    val="small"
+                                    val="Small"
                                     label="Small"
                                   />
                                   <q-radio
                                     v-model="tempInput.size"
                                     dense
-                                    val="medium"
+                                    val="Medium"
                                     label="Medium"
                                   />
                                   <q-radio
                                     v-model="tempInput.size"
                                     dense
-                                    val="large"
+                                    val="Large"
                                     label="Large"
                                   />
                                   <q-radio

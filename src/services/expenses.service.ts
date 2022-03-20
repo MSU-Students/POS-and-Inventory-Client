@@ -13,18 +13,18 @@ class ExpensesService extends DefaultApi {
     return response.data;
   }
 
-  async getOne(id: number): Promise<ExpensesDto> {
-    const response = await posApiService.getExpense(id);
+  async getOne(expensesID: number): Promise<ExpensesDto> {
+    const response = await posApiService.getExpense(expensesID);
     return response.data;
   }
 
-  async update(id: number, payload: any) {
-    const response = await posApiService.updateExpense(id, payload);
+  async update(expensesID: number, payload: any) {
+    const response = await posApiService.updateExpense(expensesID, payload);
     return response.data;
   }
 
-  async delete(id: number) {
-    const response = await posApiService.deleteExpense(id);
+  async delete(expensesID: number) {
+    const response = await posApiService.deleteExpense(expensesID);
     return response.data;
   }
 }

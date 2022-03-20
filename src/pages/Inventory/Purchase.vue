@@ -46,72 +46,84 @@
               <q-card-section class="row q-pa-md">
                 <div class="text-h5">Add Purchase</div>
                 <q-space />
-                <q-btn flat round dense icon="close" v-close-popup />
-              </q-card-section>
-
-              <q-card-section>
-                <div class="row q-gutter-md">
-                  <div class="col">
-                    <div class="text-h6">Select Product</div>
-                    <q-input
-                      v-model="inputPurchase.purchaseProduct"
-                      outlined
-                      placeholder="Pleas select the product"
-                      dense
-                    />
-                  </div>
-                  <div class="col">
-                    <div class="text-h6">Select Supplier</div>
-                    <q-input
-                      v-model="inputPurchase.supplier"
-                      outlined
-                      placeholder="Pleas select supplier"
-                      dense
-                    />
-                  </div>
-                </div>
-              </q-card-section>
-              <q-card-section class="q-gutter-md row">
-                <div class="col">
-                  <div class="text-h6">Quantity</div>
-                  <q-input
-                    outlined
-                    dense
-                    v-model="inputPurchase.purchaseQuant"
-                  />
-                </div>
-                <div class="col">
-                  <div class="text-h6">Unit</div>
-                  <q-select
-                    outlined
-                    dense
-                    v-model="inputPurchase.purchaseUnit"
-                  />
-                </div>
-                <div class="col">
-                  <div class="text-h6">Unit Price</div>
-                  <q-input
-                    outlined
-                    dense
-                    v-model="inputPurchase.purchaseUnitPrice"
-                  />
-                </div>
-              </q-card-section>
-              <q-card-actions align="right">
                 <q-btn
-                  label="Cancel"
-                  color="red"
+                  flat
+                  round
+                  dense
+                  icon="close"
                   v-close-popup
                   @click="resetModel()"
                 />
-                <q-btn
-                  label="Submit"
-                  color="deep-purple"
-                  v-close-popup
-                  type="submit"
-                  @click="onAddPurchase()"
-                />
-              </q-card-actions>
+              </q-card-section>
+
+              <q-card-section>
+                <q-form @submit="onAddPurchase()">
+                  <div class="row q-gutter-md">
+                    <div class="col">
+                      <div class="text-h6">Select Product</div>
+                      <q-input
+                        v-model="inputPurchase.purchaseProduct"
+                        outlined
+                        placeholder="Pleas select the product"
+                        dense
+                      />
+                    </div>
+                    <div class="col">
+                      <div class="text-h6">Select Supplier</div>
+                      <q-input
+                        outlined
+                        placeholder="Pleas select supplier"
+                        dense
+                      />
+                    </div>
+                  </div>
+                  <div class="q-gutter-md row q-py-md">
+                    <div class="col">
+                      <div class="text-h6">Quantity</div>
+                      <q-input
+                        outlined
+                        dense
+                        v-model="inputPurchase.productQuantity"
+                      />
+                    </div>
+                    <div class="col">
+                      <div class="text-h6">Unit</div>
+                      <q-select
+                        outlined
+                        dense
+                        :options="unitProduct"
+                        v-model="inputPurchase.productUnit"
+                      />
+                    </div>
+                    <div class="col">
+                      <div class="text-h6">Amount</div>
+                      <q-input
+                        outlined
+                        dense
+                        mask="#.##"
+                        fill-mask="0"
+                        reverse-fill-mask
+                        input-class="text-right"
+                        v-model="inputPurchase.purchaseAmount"
+                      />
+                    </div>
+                  </div>
+                  <div class="q-gutter-md q-pt-md" align="right">
+                    <q-btn
+                      label="Cancel"
+                      color="red"
+                      v-close-popup
+                      @click="resetModel()"
+                    />
+                    <q-btn
+                      label="Submit"
+                      color="green"
+                      v-close-popup
+                      type="submit"
+                    />
+                  </div>
+                </q-form>
+              </q-card-section>
             </q-card>
           </q-dialog>
         </div>
@@ -132,75 +144,86 @@
             <q-dialog v-model="editRowPurchase" persistent>
               <q-card style="width: 800px; max-width: 100vw" class="q-pa-md">
                 <q-card-section class="row q-pa-md">
-                  <div class="text-h5">Add Purchase</div>
+                  <div class="text-h5">Edit Purchase</div>
                   <q-space />
-                  <q-btn flat round dense icon="close" v-close-popup />
-                </q-card-section>
-
-                <q-card-section>
-                  <div class="row q-gutter-md">
-                    <div class="col">
-                      <div class="text-h6">Select Product</div>
-                      <q-input
-                        v-model="inputPurchase.purchaseProduct"
-                        outlined
-                        placeholder="Pleas select the product"
-                        dense
-                      />
-                    </div>
-                    <div class="col">
-                      <div class="text-h6">Select Supplier</div>
-                      <q-input
-                        v-model="inputPurchase.supplier"
-                        outlined
-                        placeholder="Pleas select supplier"
-                        dense
-                      />
-                    </div>
-                  </div>
-                </q-card-section>
-                <q-card-section class="q-gutter-md row">
-                  <div class="col">
-                    <div class="text-h6">Quantity</div>
-                    <q-input
-                      outlined
-                      dense
-                      v-model="inputPurchase.purchaseQuant"
-                    />
-                  </div>
-                  <div class="col">
-                    <div class="text-h6">Unit</div>
-                    <q-select
-                      outlined
-                      dense
-                      v-model="inputPurchase.purchaseUnit"
-                    />
-                  </div>
-                  <div class="col">
-                    <div class="text-h6">Unit Price</div>
-                    <q-input
-                      outlined
-                      dense
-                      v-model="inputPurchase.purchaseUnitPrice"
-                    />
-                  </div>
-                </q-card-section>
-
-                <q-card-actions align="right">
                   <q-btn
-                    label="Cancel"
-                    color="red"
+                    flat
+                    round
+                    dense
+                    icon="close"
                     v-close-popup
                     @click="resetModel()"
                   />
-                  <q-btn
-                    label="Submit"
-                    color="deep-purple"
-                    v-close-popup
-                    type="submit"
-                    @click="onEditPurchase()"
-                  />
-                </q-card-actions>
+                </q-card-section>
+
+                <q-card-section>
+                  <q-form @submit="onEditPurchase()">
+                    <div class="row q-gutter-md">
+                      <div class="col">
+                        <div class="text-h6">Select Product</div>
+                        <q-input
+                          v-model="inputPurchase.purchaseProduct"
+                          outlined
+                          placeholder="Pleas select the product"
+                          dense
+                        />
+                      </div>
+                      <div class="col">
+                        <div class="text-h6">Select Supplier</div>
+                        <q-input
+                          outlined
+                          placeholder="Pleas select supplier"
+                          dense
+                        />
+                      </div>
+                    </div>
+                    <div class="q-gutter-md row q-py-md">
+                      <div class="col">
+                        <div class="text-h6">Quantity</div>
+                        <q-input
+                          outlined
+                          dense
+                          v-model="inputPurchase.productQuantity"
+                        />
+                      </div>
+                      <div class="col">
+                        <div class="text-h6">Unit</div>
+                        <q-select
+                          outlined
+                          dense
+                          :options="unitProduct"
+                          v-model="inputPurchase.productUnit"
+                        />
+                      </div>
+                      <div class="col">
+                        <div class="text-h6">Amount</div>
+                        <q-input
+                          outlined
+                          dense
+                          mask="#.##"
+                          fill-mask="0"
+                          reverse-fill-mask
+                          input-class="text-right"
+                          v-model="inputPurchase.purchaseAmount"
+                        />
+                      </div>
+                    </div>
+                    <div class="q-gutter-md q-pt-md" align="right">
+                      <q-btn
+                        label="Cancel"
+                        color="red"
+                        v-close-popup
+                        @click="resetModel()"
+                      />
+                      <q-btn
+                        label="Submit"
+                        color="green"
+                        v-close-popup
+                        type="submit"
+                      />
+                    </div>
+                  </q-form>
+                </q-card-section>
               </q-card>
             </q-dialog>
             <q-btn
@@ -220,9 +243,13 @@
   </q-page>
 </template>
 <script lang="ts">
+import { PurchaseDto } from 'src/services/rest-api';
 import { Vue, Options } from 'vue-class-component';
-import { IPurchaseInfo } from '../../store/purchase/state';
 import { mapActions, mapState } from 'vuex';
+import { date } from 'quasar';
+
+const timeStamp = Date.now();
+const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {
@@ -233,28 +260,33 @@ import { mapActions, mapState } from 'vuex';
       'addPurchase',
       'editPurchase',
       'deletePurchase',
+      'getAllPurchase',
     ]),
   },
 })
-export default class ManageAccount extends Vue {
-  allPurchase!: IPurchaseInfo[];
-  addPurchase!: (payload: IPurchaseInfo) => Promise<void>;
-  editPurchase!: (payload: IPurchaseInfo) => Promise<void>;
-  deletePurchase!: (payload: IPurchaseInfo) => Promise<void>;
+export default class Pruchase extends Vue {
+  allPurchase!: PurchaseDto[];
+  addPurchase!: (payload: PurchaseDto) => Promise<void>;
+  editPurchase!: (payload: PurchaseDto) => Promise<void>;
+  deletePurchase!: (payload: PurchaseDto) => Promise<void>;
+  getAllPurchase!: () => Promise<void>;
 
+  async mounted() {
+    await this.getAllPurchase();
+  }
   columns = [
     {
       name: 'purchaseProduct',
       required: true,
       label: 'Product Name',
       align: 'left',
-      field: (row: IPurchaseInfo) => row.purchaseProduct,
+      field: (row: PurchaseDto) => row.purchaseProduct,
       format: (val: string) => `${val}`,
     },
     {
       name: 'purchaseDate',
       align: 'center',
-      label: 'Date',
+      label: 'Date Purchase',
       field: 'purchaseDate',
     },
     {
@@ -263,35 +295,30 @@ export default class ManageAccount extends Vue {
       label: 'Supplier',
       field: 'supplier',
     },
+
+    {
+      name: 'productQuantity',
+      align: 'center',
+      label: 'Quantity',
+      field: 'productQuantity',
+    },
+    {
+      name: 'productUnit',
+      align: 'center',
+      label: 'Unit Measurement',
+      field: 'productUnit',
+    },
+    {
+      name: 'purchaseAmount',
+      align: 'center',
+      label: 'Amount',
+      field: 'purchaseAmount',
+    },
     {
       name: 'purchaseStatus',
       align: 'center',
       label: 'Purchase Status',
       field: 'purchaseStatus',
-    },
-    {
-      name: 'purchaseQuant',
-      align: 'center',
-      label: 'Quantity',
-      field: 'purchaseQuant',
-    },
-    {
-      name: 'purchaseUnit',
-      align: 'center',
-      label: 'Unit Measurement',
-      field: 'purchaseUnit',
-    },
-    {
-      name: 'purchaseUnitPrice',
-      align: 'center',
-      label: 'Unit Price',
-      field: 'purchaseUnitPrice',
-    },
-    {
-      name: 'purchaseAmount',
-      align: 'center',
-      label: 'Total Amount',
-      field: 'purchaseAmount',
     },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
   ];
@@ -302,16 +329,13 @@ export default class ManageAccount extends Vue {
   editRowPurchase = false;
   filter = '';
 
-  options = ['Admin', 'Cashier'];
-
-  inputPurchase: IPurchaseInfo = {
+  unitProduct = ['Kilogram (kg)', 'Miligram (mg)', 'Packs'];
+  inputPurchase: PurchaseDto = {
     purchaseProduct: '',
-    purchaseDate: '',
-    supplier: '',
-    purchaseStatus: '',
-    purchaseQuant: 0,
-    purchaseUnit: '',
-    purchaseUnitPrice: 0,
+    purchaseDate: formattedString,
+    productQuantity: 0,
+    productUnit: '',
+    purchaseStatus: 'Pending',
     purchaseAmount: 0,
   };
 
@@ -335,7 +359,7 @@ export default class ManageAccount extends Vue {
     });
   }
 
-  deleteSpecificPurchase(val: IPurchaseInfo) {
+  deleteSpecificPurchase(val: PurchaseDto) {
     this.$q
       .dialog({
         message: 'Confirm to delete?',
@@ -351,7 +375,7 @@ export default class ManageAccount extends Vue {
       });
   }
 
-  openEditDialog(val: IPurchaseInfo) {
+  openEditDialog(val: PurchaseDto) {
     this.editRowPurchase = true;
     this.inputPurchase = { ...val };
   }
@@ -359,11 +383,7 @@ export default class ManageAccount extends Vue {
     this.inputPurchase = {
       purchaseProduct: '',
       purchaseDate: '',
-      supplier: '',
       purchaseStatus: '',
-      purchaseQuant: 0,
-      purchaseUnit: '',
-      purchaseUnitPrice: 0,
       purchaseAmount: 0,
     };
   }

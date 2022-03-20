@@ -1,4 +1,4 @@
-export interface User {
+export interface Users {
   id?: number;
   FName: string;
   MName?: string;
@@ -9,4 +9,5 @@ export interface User {
   contact?: string;
   email?: string;
   status: 'active' | 'inactive';
+  userDateCreated: Date;
 }

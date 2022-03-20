@@ -13,18 +13,18 @@ class SupplierService extends DefaultApi {
     return response.data;
   }
 
-  async getOne(id: number): Promise<SupplierDto> {
-    const response = await posApiService.getSupplier(id);
+  async getOne(supplierID: number): Promise<SupplierDto> {
+    const response = await posApiService.getSupplier(supplierID);
     return response.data;
   }
 
-  async update(id: number, payload: any) {
-    const response = await posApiService.updateSupplier(id, payload);
+  async update(supplierID: number, payload: any) {
+    const response = await posApiService.updateSupplier(supplierID, payload);
     return response.data;
   }
 
-  async delete(id: number) {
-    const response = await posApiService.deleteSupplier(id);
+  async delete(supplierID: number) {
+    const response = await posApiService.deleteSupplier(supplierID);
     return response.data;
   }
 }

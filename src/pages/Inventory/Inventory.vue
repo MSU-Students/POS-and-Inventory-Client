@@ -13,8 +13,6 @@
           row-key="itemName"
           :rows-per-page-options="[0]"
           :filter="filter"
-          selection="multiple"
-          v-model:selected="selected"
         >
           <template v-slot:top-right>
             <div>
@@ -95,19 +93,10 @@
                         <div class="col">
                           <q-input
                             outlined
-                            label="Product Code"
+                            label="Item Name"
                             v-model="inputInventory.itemName"
                           />
                         </div>
-                        <div class="col">
-                          <q-input
-                            outlined
-                            label="Name"
-                            v-model="inputInventory.itemName"
-                          />
-                        </div>
-                      </div>
-                      <div class="q-py-sm q-gutter-md row">
                         <div class="col">
                           <q-select
                             outlined
@@ -115,6 +104,8 @@
                             label="Category"
                           />
                         </div>
+                      </div>
+                      <div class="q-py-sm q-gutter-md row">
                         <div class="col">
                           <q-select
                             outlined
@@ -128,6 +119,14 @@
                             outlined
                             label="Quantity"
                             v-model="inputInventory.itemQuantProd"
+                          />
+                        </div>
+                        <div class="col">
+                          <q-input
+                            v-model="inputInventory.itemExpiryDate"
+                            filled
+                            type="date"
+                            hint="Expirt Date"
                           />
                         </div>
                       </div>
@@ -298,7 +297,10 @@
 import { Vue, Options } from 'vue-class-component';
 import { mapState, mapActions } from 'vuex';
 import { InventoryDto } from 'src/services/rest-api';
+import { date } from 'quasar';
 
+const timeStamp = Date.now();
+const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 @Options({
   computed: {
     ...mapState('inventory', ['allInventory']),
@@ -331,7 +333,12 @@ export default class Expenses extends Vue {
       field: (row: InventoryDto) => row.itemName,
       format: (val: string) => `${val}`,
     },
-
+    {
+      name: 'itemCategory',
+      align: 'center',
+      label: 'Category',
+      field: 'itemCategory',
+    },
     {
       name: 'itemQuantProd',
       align: 'center',
@@ -344,12 +351,7 @@ export default class Expenses extends Vue {
       label: 'Unit',
       field: 'itemUnitProd',
     },
-    {
-      name: 'itemCategory',
-      align: 'center',
-      label: 'Category',
-      field: 'itemCategory',
-    },
+
     {
       name: 'itemExpiryDate',
       align: 'center',
@@ -373,7 +375,6 @@ export default class Expenses extends Vue {
   ];
 
   prodIssue = false;
-  selected = [];
   addNewInventory = false;
   editRowInventory = false;
   filter = '';
@@ -387,6 +388,7 @@ export default class Expenses extends Vue {
     itemQuantProd: 0,
     itemUnitProd: '',
     itemExpiryDate: '',
+    itemDateCreated: formattedString,
   };
 
   async onAddInventory() {
@@ -436,6 +438,7 @@ export default class Expenses extends Vue {
       itemQuantProd: 0,
       itemUnitProd: '',
       itemExpiryDate: '',
+      itemDateCreated: '',
     };
   }
 }

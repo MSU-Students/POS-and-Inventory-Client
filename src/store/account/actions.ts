@@ -2,17 +2,18 @@ import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
 import { AccountStateInterface } from './state';
 import userService from 'src/services/user.service';
-import { UserDto } from 'src/services/rest-api';
 
 const actions: ActionTree<AccountStateInterface, StateInterface> = {
-  async addAccount(context, payload: UserDto): Promise<void> {
+  async addAccount(context, payload: any): Promise<any> {
     const result = await userService.create(payload);
     context.commit('setNewAccount', result);
+    await context.dispatch('getAllUser');
   },
 
   async editAccount(context, payload: any): Promise<any> {
-    await userService.update(payload.id, payload);
-    await context.dispatch('updateAccount');
+    const result = await userService.update(payload.id, payload);
+    context.commit('updateAccount', result);
+    await context.dispatch('getAllUser');
   },
 
   async deleteAccount(context, id: number): Promise<any> {

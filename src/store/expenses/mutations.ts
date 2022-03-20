@@ -1,25 +1,24 @@
 import { MutationTree } from 'vuex';
-import { IExpensesInfo, ExpensesStateInterface } from './state';
+import { ExpensesStateInterface } from './state';
 
 const mutation: MutationTree<ExpensesStateInterface> = {
-  setExpenses(state, payload: IExpensesInfo) {
+  setNewExpenses(state, payload) {
+    state.newExpenses = payload;
+  },
+  updateExpenses(state, payload) {
+    state.newExpenses = payload;
+  },
+  deleteExpenses(state, payload) {
     state.allExpenses.push(payload);
   },
-  setNewExpenses(state, payload: IExpensesInfo) {
-    const index = state.allExpenses.findIndex(
-      (s) => s.expensesReference === payload.expensesReference
-    );
-    if (index >= 0) {
-      state.allExpenses.splice(index, 1, payload);
-    }
+
+  getAllExpenses(state, payload) {
+    state.allExpenses = [];
+    state.allExpenses.push(...payload);
   },
-  deleteExpenses(state, payload: IExpensesInfo) {
-    const index = state.allExpenses.findIndex(
-      (s) => s.expensesReference === payload.expensesReference
-    );
-    if (index >= 0) {
-      state.allExpenses.splice(index, 1);
-    }
+
+  getOneExpenses(state, payload) {
+    state.allExpenses = payload;
   },
 };
 

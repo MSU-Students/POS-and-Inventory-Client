@@ -108,7 +108,7 @@
 import { Vue, Options } from 'vue-class-component';
 import ExpensesChart from 'components/Charts/ExpensesReportChart.vue';
 import { mapState } from 'vuex';
-import { IExpensesInfo } from 'src/store/expenses/state';
+import { ExpensesDto } from 'src/services/rest-api';
 
 @Options({
   components: { ExpensesChart },
@@ -118,28 +118,21 @@ import { IExpensesInfo } from 'src/store/expenses/state';
 })
 export default class ExpensesReport extends Vue {
   filter = '';
-  allExpenses!: IExpensesInfo;
+  allExpenses!: ExpensesDto;
   columns = [
     {
-      name: 'reference',
+      name: 'expensesName',
       required: true,
-      label: 'Reference Number',
+      label: 'Expenses',
       align: 'left',
-      field: (row: IExpensesInfo) => row.expensesReference,
+      field: (row: ExpensesDto) => row.expensesName,
       format: (val: string) => `${val}`,
     },
     {
-      name: 'expensesName',
-      align: 'center',
-      label: 'Expenses',
-      field: 'expensesName',
-    },
-    {
-      name: 'expensesDateCreated',
+      name: 'expensesDate',
       align: 'center',
       label: 'Date',
-      field: 'expensesDateCreated',
-      sortable: true,
+      field: 'expensesDate',
     },
     {
       name: 'category',
@@ -148,10 +141,16 @@ export default class ExpensesReport extends Vue {
       field: 'category',
     },
     {
-      name: 'expensesAmount',
+      name: 'amount',
       align: 'center',
       label: 'Amount',
-      field: 'expensesAmount',
+      field: 'amount',
+    },
+    {
+      name: 'supplier',
+      align: 'center',
+      label: 'Supplier',
+      field: 'supplier',
     },
   ];
 }

@@ -1,26 +1,25 @@
+import { Supplier } from 'src/interfaces/supplier.interface';
 import { MutationTree } from 'vuex';
-import { ISupplierInfo, SupplierStateInterface } from './state';
+import { SupplierStateInterface } from './state';
 
 const mutation: MutationTree<SupplierStateInterface> = {
-  setSupplier(state, payload: ISupplierInfo) {
+  setNewSupplier(state, payload: Supplier) {
+    state.newSupplier = payload;
+  },
+  updateSupplier(state, payload: any) {
+    state.newSupplier = payload;
+  },
+  deleteSupplier(state, payload: any) {
     state.allSupplier.push(payload);
   },
-  setNewSupplier(state, payload: ISupplierInfo) {
-    const index = state.allSupplier.findIndex(
-      (s) => s.supplierID === payload.supplierID
-    );
-    if (index >= 0) {
-      state.allSupplier.splice(index, 1, payload);
-    }
+
+  getAllSupplier(state, payload) {
+    state.allSupplier = [];
+    state.allSupplier.push(...payload);
   },
-  deleteSupplier(state, payload: ISupplierInfo) {
-    const index = state.allSupplier.findIndex(
-      (s) => s.supplierID === payload.supplierID
-    );
-    if (index >= 0) {
-      state.allSupplier.splice(index, 1);
-    }
+
+  getOneSupplier(state, payload) {
+    state.allSupplier = payload;
   },
 };
-
 export default mutation;

@@ -13,18 +13,18 @@ class PurchaseService extends DefaultApi {
     return response.data;
   }
 
-  async getOne(id: number): Promise<PurchaseDto> {
-    const response = await posApiService.getPurchase(id);
+  async getOne(purchaseID: number): Promise<PurchaseDto> {
+    const response = await posApiService.getPurchase(purchaseID);
     return response.data;
   }
 
-  async update(id: number, payload: any) {
-    const response = await posApiService.updatePurchase(id, payload);
+  async update(purchaseID: number, payload: any) {
+    const response = await posApiService.updatePurchase(purchaseID, payload);
     return response.data;
   }
 
-  async delete(id: number) {
-    const response = await posApiService.deletePurchase(id);
+  async delete(purchaseID: number) {
+    const response = await posApiService.deletePurchase(purchaseID);
     return response.data;
   }
 }
