@@ -92,7 +92,8 @@
                           <q-card-section>
                             <q-form
                               @submit="
-                                tempInput.subTotal = quantity * tempPrice;
+                                tempInput.subTotal =
+                                  tempInput.prodQuant * tempPrice;
                                 grandTotal += tempInput.subTotal;
                                 onAddOrder();
                               "
@@ -466,7 +467,7 @@ export default class POS extends Vue {
   cancelOrder = true;
   chooseSize = false;
   radioBTN = 'regular';
-  quantity = 1;
+  quantity = 0;
   tempPrice = 0;
   grandTotal = 0;
   payment = 0;
