@@ -97,7 +97,10 @@ export default class Login extends Vue {
         userName: this.username,
         password: this.password,
       });
-      if (this.currentUser.type == 'admin') {
+      if (
+        this.currentUser.type == 'admin' ||
+        this.currentUser.type == 'Admin'
+      ) {
         await this.$router.replace('/Dashboard');
         this.$q.notify({
           position: 'center',

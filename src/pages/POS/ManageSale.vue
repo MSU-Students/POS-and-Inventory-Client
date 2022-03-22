@@ -6,7 +6,7 @@
     </div>
     <q-table
       title="Menu products"
-      :rows="allManageSale"
+      :rows="allProduct"
       :columns="columns"
       row-key="name"
       :rows-per-page-options="[0]"
@@ -84,7 +84,6 @@
                         class="q-py-md"
                         outlined
                         :options="productCategoryType"
-                        v-model="inputManageSale.productCategory"
                         label="Category"
                       >
                         <template v-slot:prepend>
@@ -166,7 +165,7 @@
                   />
                 </q-card-section>
                 <q-card-section>
-                  <q-form @submit="onEditManageSale">
+                  <q-form @submit="oneditManageProduct">
                     <div class="row q-gutter-md">
                       <div class="col">
                         <q-input
@@ -205,7 +204,6 @@
                           class="q-py-md"
                           outlined
                           :options="productCategoryType"
-                          v-model="inputManageSale.productCategory"
                           label="Category"
                         >
                           <template v-slot:prepend>
@@ -277,45 +275,44 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { IManageSaleInfo } from '../../store/manageSale/state';
 import { mapState, mapActions } from 'vuex';
 import { date } from 'quasar';
+import { ManageProductDto } from 'src/services/rest-api';
 
 const timeStamp = Date.now();
 const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {
-    ...mapState('manageSale', ['allManageSale']),
+    ...mapState('manageSale', ['allProduct']),
   },
   methods: {
     ...mapActions('manageSale', [
-      'addManageSale',
-      'editManageSale',
-      'deleteManageSale',
+      'addManageProduct',
+      'editManageProduct',
+      'deleteManageProduct',
+      'getAllManageProduct',
     ]),
   },
 })
-export default class ManageAccount extends Vue {
-  allManageSale!: IManageSaleInfo[];
-  addManageSale!: (payload: IManageSaleInfo) => Promise<void>;
-  editManageSale!: (payload: IManageSaleInfo) => Promise<void>;
-  deleteManageSale!: (payload: IManageSaleInfo) => Promise<void>;
+export default class ManageProduct extends Vue {
+  allProduct!: ManageProductDto[];
+  addManageProduct!: (payload: ManageProductDto) => Promise<void>;
+  editManageProduct!: (payload: ManageProductDto) => Promise<void>;
+  deleteManageProduct!: (payload: ManageProductDto) => Promise<void>;
+  getAllManageProduct!: () => Promise<void>;
 
+  async mounted() {
+    await this.getAllManageProduct();
+  }
   columns = [
     {
-      name: 'product_ID',
+      name: 'Product Name',
       required: true,
       label: 'Product Number',
       align: 'left',
-      field: (row: IManageSaleInfo) => row.product_ID,
+      field: (row: ManageProductDto) => row.productName,
       format: (val: string) => `${val}`,
-    },
-    {
-      name: 'productName',
-      align: 'center',
-      label: 'Product Name',
-      field: 'productName',
     },
     {
       name: 'productPrice',
@@ -347,16 +344,15 @@ export default class ManageAccount extends Vue {
   filter = '';
   editRowManageSale = false;
 
-  inputManageSale: IManageSaleInfo = {
-    product_ID: '',
+  inputManageSale: ManageProductDto = {
     productName: '',
     productPrice: 0,
-    productCategory: '',
-    productAvailability: '',
+    productAvailability: 'Yes',
+    productDateCreated: '',
   };
 
   async onAddManageSale() {
-    await this.addManageSale(this.inputManageSale);
+    await this.addManageProduct(this.inputManageSale);
     this.addNewManageSale = false;
     this.resetModel();
     this.$q.notify({
@@ -365,8 +361,8 @@ export default class ManageAccount extends Vue {
     });
   }
 
-  async onEditManageSale() {
-    await this.editManageSale(this.inputManageSale);
+  async oneditManageProduct() {
+    await this.editManageProduct(this.inputManageSale);
     this.editRowManageSale = false;
     this.resetModel();
     this.$q.notify({
@@ -375,7 +371,7 @@ export default class ManageAccount extends Vue {
     });
   }
 
-  deleteSpecificManageSale(val: IManageSaleInfo) {
+  deleteSpecificManageSale(val: ManageProductDto) {
     this.$q
       .dialog({
         message: 'Confirm to delete?',
@@ -383,7 +379,7 @@ export default class ManageAccount extends Vue {
         persistent: true,
       })
       .onOk(async () => {
-        await this.deleteManageSale(val);
+        await this.deleteManageProduct(val);
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',
@@ -391,18 +387,17 @@ export default class ManageAccount extends Vue {
       });
   }
 
-  openEditDialog(val: IManageSaleInfo) {
+  openEditDialog(val: ManageProductDto) {
     this.editRowManageSale = true;
     this.inputManageSale = { ...val };
   }
 
   resetModel() {
     this.inputManageSale = {
-      product_ID: '',
       productName: '',
       productPrice: 0,
-      productCategory: '',
       productAvailability: '',
+      productDateCreated: '',
     };
   }
 }

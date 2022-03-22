@@ -18,8 +18,8 @@ import { CategoryStateInterface } from './category/state';
 import expenses from './expenses';
 import { ExpensesStateInterface } from './expenses/state';
 
-import manageSale from './manageSale';
-import { ManageSaleStateInterface } from './manageSale/state';
+import manageProduct from './manageProduct';
+import { ManageProductStateInterface } from './manageProduct/state';
 
 import purchase from './purchase';
 import { PurchaseStateInterface } from './purchase/state';
@@ -61,7 +61,7 @@ export interface StateInterface {
   inventory: InventoryStateInterface;
   category: CategoryStateInterface;
   expenses: ExpensesStateInterface;
-  manageSale: ManageSaleStateInterface;
+  manageProduct: ManageProductStateInterface;
   purchase: PurchaseStateInterface;
   supply: SupplierStateInterface;
   Order: OrderStateInterface;
@@ -91,7 +91,7 @@ export default store(function (/* { ssrContext } */) {
       inventory,
       category,
       expenses,
-      manageSale,
+      manageProduct,
       purchase,
       supplier,
       Order,
