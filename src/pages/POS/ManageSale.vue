@@ -174,6 +174,12 @@
                           outlined
                           v-model="inputManageSale.productName"
                           label="Product Name"
+                          lazy-rules
+                          :rules="[
+                            (val) =>
+                              (val && val.length > 0) ||
+                              'Input must not be empty',
+                          ]"
                         >
                           <template v-slot:prepend>
                             <q-icon name="drive_file_rename_outline" />

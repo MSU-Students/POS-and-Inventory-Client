@@ -25,11 +25,11 @@
               color="grey-4"
               text-color="black"
               :options="[
-                { icon: 'dinner_dining', label: 'Foods', value: 'one' },
-                { icon: 'local_drink', label: 'Drinks', value: 'two' },
-                { icon: 'lunch_dining', label: 'Snacks', value: 'three' },
-                { icon: 'icecream', label: 'Desserts', value: 'four' },
-                { icon: 'fastfood', label: 'Packages', value: 'five' },
+                { icon: 'dinner_dining', label: 'Foods', value: 'Food' },
+                { icon: 'local_drink', label: 'Drinks', value: 'Drinks' },
+                { icon: 'lunch_dining', label: 'Snacks', value: 'Snacks' },
+                { icon: 'icecream', label: 'Desserts', value: 'Deserts' },
+                { icon: 'fastfood', label: 'Packages', value: 'Packages' },
               ]"
             />
             <div class="q-pa-md">
@@ -48,115 +48,124 @@
             </div>
 
             <q-scroll-area style="height: 600px; max-height: 600px">
-              <div class="row q-gutter-lg full-width">
+              <div class="row">
                 <div v-for="data in allProduct" v-bind:key="data.productID">
-                  <q-card
-                    class="my-card"
-                    @click="
-                      tempInput.prodName = data.prodName;
-                      tempInput.price = data.price;
-                      tempPrice = data.price;
-                    "
-                  >
-                    <div class="row">
-                      <div class="col q-pt-md q-pl-md">
-                        <q-img src="../../assets/Frappe.png" />
-                      </div>
-                      <div class="col">
-                        <div class="q-py-xl text-subtitle7">
-                          <q-item-label>
-                            {{ data.prodName }}
-                          </q-item-label>
-                          <q-item-label class="text-weight-bolder text-red-10">
-                            Price:
-                            {{ data.price }}
-                          </q-item-label>
+                  <div class="q-pa-sm" v-if="data.type === model">
+                    <q-card
+                      class="my-card"
+                      @click="
+                        tempInput.prodName = data.prodName;
+                        tempInput.price = data.price;
+                        tempPrice = data.price;
+                      "
+                    >
+                      <div class="row">
+                        <div class="col q-pt-md q-pl-md">
+                          <q-img src="../../assets/Frappe.png" />
+                        </div>
+                        <div class="col">
+                          <div class="q-py-xl text-subtitle7">
+                            <q-item-label>
+                              {{ data.prodName }}
+                            </q-item-label>
+                            <q-item-label
+                              class="text-weight-bolder text-red-10"
+                            >
+                              Price:
+                              {{ data.price }}
+                            </q-item-label>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="q-pa-sm">
-                      <q-btn
-                        unelevated
-                        square
-                        color="green"
-                        label="Add Product"
-                        class="full-width"
-                        @click="chooseSize = true"
-                      />
-                      <q-dialog v-model="chooseSize">
-                        <q-card style="width: 400px">
-                          <q-card-section>
-                            <div class="text-h6">Choose Size and Quantity</div>
-                          </q-card-section>
-
-                          <q-card-section>
-                            <q-form
-                              @submit="
-                                tempInput.subTotal =
-                                  tempInput.prodQuant * tempPrice;
-                                grandTotal += tempInput.subTotal;
-                                onAddOrder();
-                              "
-                            >
-                              <div>
-                                <q-input
-                                  autofocus
-                                  placeholder="Enter quantity"
-                                  filled
-                                  mask="#"
-                                  fill-mask="0"
-                                  style="full-width"
-                                  v-model="tempInput.prodQuant"
-                                  type
-                                  lazy-rules
-                                  :rules="[
-                                    (val) =>
-                                      (val && val.length > 0) ||
-                                      'Must input greater than or equal to one quantity',
-                                  ]"
-                                />
+                      <div class="q-pa-sm">
+                        <q-btn
+                          unelevated
+                          square
+                          color="green"
+                          label="Add Product"
+                          class="full-width"
+                          @click="chooseSize = true"
+                        />
+                        <q-dialog v-model="chooseSize">
+                          <q-card style="width: 400px">
+                            <q-card-section>
+                              <div class="text-h6 text-center">
+                                {{ tempInput.prodName }}
                               </div>
-                              <div class="q-pa-md q-gutter-sm">
-                                <div class="q-gutter-sm">
-                                  <q-radio
-                                    v-model="tempInput.size"
-                                    dense
-                                    val="Small"
-                                    label="Small"
-                                  />
-                                  <q-radio
-                                    v-model="tempInput.size"
-                                    dense
-                                    val="Medium"
-                                    label="Medium"
-                                  />
-                                  <q-radio
-                                    v-model="tempInput.size"
-                                    dense
-                                    val="Large"
-                                    label="Large"
-                                  />
-                                  <q-radio
-                                    v-model="tempInput.size"
-                                    dense
-                                    val="regular"
-                                    label="Regular"
+                              <div class="text-h6">
+                                Choose Size and Quantity
+                              </div>
+                            </q-card-section>
+
+                            <q-card-section>
+                              <q-form
+                                @submit="
+                                  tempInput.subTotal =
+                                    tempInput.prodQuant * tempPrice;
+                                  grandTotal += tempInput.subTotal;
+                                  onAddOrder();
+                                "
+                              >
+                                <div>
+                                  <q-input
+                                    autofocus
+                                    placeholder="Enter quantity"
+                                    filled
+                                    mask="#"
+                                    fill-mask="0"
+                                    style="full-width"
+                                    v-model="tempInput.prodQuant"
+                                    type
+                                    lazy-rules
+                                    :rules="[
+                                      (val) =>
+                                        (val && val.length > 0) ||
+                                        'Must input greater than or equal to one quantity',
+                                    ]"
                                   />
                                 </div>
-                              </div>
-                              <div align="right">
-                                <q-btn
-                                  color="green"
-                                  label="Add Order"
-                                  type="submit"
-                                />
-                              </div>
-                            </q-form>
-                          </q-card-section>
-                        </q-card>
-                      </q-dialog>
-                    </div>
-                  </q-card>
+                                <div class="q-pa-md q-gutter-sm">
+                                  <div class="q-gutter-sm">
+                                    <q-radio
+                                      v-model="tempInput.size"
+                                      dense
+                                      val="Small"
+                                      label="Small"
+                                    />
+                                    <q-radio
+                                      v-model="tempInput.size"
+                                      dense
+                                      val="Medium"
+                                      label="Medium"
+                                    />
+                                    <q-radio
+                                      v-model="tempInput.size"
+                                      dense
+                                      val="Large"
+                                      label="Large"
+                                    />
+                                    <q-radio
+                                      v-model="tempInput.size"
+                                      dense
+                                      val="regular"
+                                      label="Regular"
+                                    />
+                                  </div>
+                                </div>
+                                <div align="right">
+                                  <q-btn
+                                    color="green"
+                                    label="Add Order"
+                                    type="submit"
+                                  />
+                                </div>
+                              </q-form>
+                            </q-card-section>
+                          </q-card>
+                        </q-dialog>
+                      </div>
+                    </q-card>
+                  </div>
                 </div>
               </div>
             </q-scroll-area>
@@ -457,7 +466,7 @@ export default class POS extends Vue {
   editProduct!: (payload: IOrderInfo) => Promise<void>;
   deleteProduct!: (payload: IOrderInfo) => Promise<void>;
   allProduct!: IProductInfo[];
-  model = 'one';
+  model = 'Food';
   filter = '';
   ConfirmOrder = false;
   StepConfirm = 1;
@@ -578,9 +587,14 @@ export default class POS extends Vue {
   background-image: url('../../assets/green.jpg');
   background-size: cover;
 }
+
 .my-card {
   position: relative;
+
+  left: 20px;
   height: 23vh;
+  max-height: 23vh;
   width: 17vw;
+  max-width: 17vw;
 }
 </style>

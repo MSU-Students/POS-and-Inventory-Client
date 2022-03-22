@@ -19,21 +19,21 @@ function state(): ProductStateInterface {
         productID: 100001,
         prodName: 'Monster Frappe',
         price: 150,
-        type: 'Frappe',
+        type: 'Drinks',
         date: '01/31/2022',
       },
       {
         productID: 100002,
         prodName: 'Red Velvet',
         price: 80,
-        type: 'Milk Tea',
+        type: 'Drinks',
         date: '01/31/2022',
       },
       {
         productID: 100003,
         prodName: 'Lychee',
         price: 75,
-        type: 'Milk Tea',
+        type: 'Drinks',
         date: '01/31/2022',
       },
       {
@@ -41,6 +41,37 @@ function state(): ProductStateInterface {
         prodName: 'Spaghetti',
         price: 50,
         type: 'Food',
+        date: '01/31/2022',
+      },
+
+      {
+        productID: 200002,
+        prodName: 'Grilled Cheese sandwich',
+        price: 75,
+        type: 'Food',
+        date: '01/31/2022',
+      },
+
+      {
+        productID: 200001,
+        prodName: 'Tuna sandwich',
+        price: 75,
+        type: 'Food',
+        date: '01/31/2022',
+      },
+
+      {
+        productID: 200001,
+        prodName: 'Beef burger',
+        price: 50,
+        type: 'Food',
+        date: '01/31/2022',
+      },
+      {
+        productID: 200001,
+        prodName: 'Banana Milk tea',
+        price: 70,
+        type: 'Drinks',
         date: '01/31/2022',
       },
     ],

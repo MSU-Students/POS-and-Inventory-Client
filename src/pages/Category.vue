@@ -13,7 +13,7 @@
             :columns="columns"
             row-key="code"
             :rows-per-page-options="[0]"
-            style="max-height: 300px"
+            style="height: 560px; max-height: 560px"
           >
             <template v-slot:top-right>
               <div class="q-pa-md q-gutter-sm row">
@@ -152,7 +152,7 @@
             :columns="subColumns"
             row-key="subProdCat"
             :rows-per-page-options="[0]"
-            style="max-height: 300px"
+            style="height: 560px; max-height: 560px"
           >
             <template v-slot:top-right>
               <div class="q-pa-md q-gutter-sm row">
@@ -314,7 +314,7 @@
             :columns="InvCatColumns"
             row-key="categoryName"
             :rows-per-page-options="[0]"
-            style="max-height: 300px"
+            style="height: 560px; max-height: 560px"
           >
             <template v-slot:top-right>
               <div class="q-pa-md q-gutter-sm row">
@@ -454,7 +454,7 @@
             :columns="expensesCatColumns"
             row-key="expensesCategoryName"
             :rows-per-page-options="[0]"
-            style="max-height: 300px"
+            style="height: 560px; max-height: 560px"
           >
             <template v-slot:top-right>
               <div class="q-pa-md q-gutter-sm row">
