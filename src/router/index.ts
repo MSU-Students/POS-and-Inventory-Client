@@ -17,10 +17,12 @@ import routes from './routes';
  * with the Router instance.
  */
 
-export default route<StateInterface>(function (/* { store, ssrContext } */) {
+export default route<StateInterface>(function ({ store }) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
-    : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory);
+    : process.env.VUE_ROUTER_MODE === 'history'
+    ? createWebHistory
+    : createWebHashHistory;
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
@@ -33,6 +35,16 @@ export default route<StateInterface>(function (/* { store, ssrContext } */) {
       process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
     ),
   });
+  // Router.beforeEach(async (to, from, next) => {
+  //   await store.dispatch('auth/authUser');
+  //   if (store.state.auth.currentUser && to.meta.dapatWalangUser) {
+  //     next('/Dashboard');
+  //   } else if (to.meta.dapatMayUser && !store.state.auth.currentUser) {
+  //     next('/');
+  //   } else {
+  //     next();
+  //   }
+  // });
 
   return Router;
 });

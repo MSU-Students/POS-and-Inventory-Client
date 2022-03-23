@@ -84,6 +84,7 @@
                         outlined
                         dense
                         v-model="inputPurchase.productQuantity"
+                        type="number"
                       />
                     </div>
                     <div class="col">
@@ -184,6 +185,7 @@
                           outlined
                           dense
                           v-model="inputPurchase.productQuantity"
+                          type="number"
                         />
                       </div>
                       <div class="col">

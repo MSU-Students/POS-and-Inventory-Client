@@ -22,6 +22,7 @@
           <div class="q-pa-md q-gutter-sm row">
             <q-input
               outlined
+              color="green"
               rounded
               dense
               debounce="300"
@@ -62,7 +63,7 @@
                       <div class="col col-md-8">
                         <q-input
                           autofocus
-                          class="q-py-md"
+                          color="green"
                           outlined
                           v-model="inputSupplier.supplierName"
                           label="Name"
@@ -74,54 +75,31 @@
                           ]"
                         />
                         <q-input
-                          class="q-py-md"
+                          color="green"
                           outlined
                           v-model="inputSupplier.company"
                           label="Company Name"
-                          lazy-rules
-                          :rules="[
-                            (val) =>
-                              (val && val.length > 0) ||
-                              'Does not accept empty input',
-                          ]"
                         />
                         <q-input
-                          class="q-py-md"
                           outlined
                           v-model="inputSupplier.email"
                           label="Email"
-                          lazy-rules
-                          :rules="[
-                            (val) =>
-                              (val && val.length > 0) ||
-                              'Does not accept empty input',
-                          ]"
+                          color="green"
                         />
                       </div>
                       <div class="col-md-4 q-pl-md">
                         <q-input
-                          class="q-py-md"
                           outlined
                           v-model="inputSupplier.contact"
                           label="Contact Number"
                           lazy-rules
-                          :rules="[
-                            (val) =>
-                              (val && val.length > 0) ||
-                              'Does not accept empty input',
-                          ]"
                         />
                         <q-input
-                          class="q-py-md"
                           outlined
                           v-model="inputSupplier.address"
                           label="Address"
                           lazy-rules
-                          :rules="[
-                            (val) =>
-                              (val && val.length > 0) ||
-                              'Does not accept empty input',
-                          ]"
+                          color="green"
                         />
                       </div>
                     </div>

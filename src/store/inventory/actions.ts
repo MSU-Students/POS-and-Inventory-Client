@@ -26,6 +26,7 @@ const actions: ActionTree<InventoryStateInterface, StateInterface> = {
   async getAllInventory(context): Promise<any> {
     const res = await inventoryService.getAll();
     context.commit('getAllInventory', res);
+    await this.dispatch('inventoryCategory/getAllInventoryCategory');
   },
 
   async getOneInventory(context, id: string): Promise<any> {

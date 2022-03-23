@@ -311,6 +311,12 @@ export default class ManageAccount extends Vue {
       format: (val: string) => `${val}`,
     },
     {
+      name: 'userDateCreated',
+      align: 'center',
+      label: 'Date Created',
+      field: 'userDateCreated',
+    },
+    {
       name: 'contact',
       align: 'center',
       label: 'Contact',

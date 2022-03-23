@@ -56,6 +56,7 @@
                 outlined
                 rounded
                 dense
+                color="green"
                 debounce="300"
                 v-model="filter"
                 placeholder="Search"
@@ -94,14 +95,27 @@
                           <q-input
                             outlined
                             label="Item Name"
+                            color="green"
                             v-model="inputInventory.itemName"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                (val && val.length > 0) ||
+                                'You must put the product name',
+                            ]"
                           />
                         </div>
                         <div class="col">
                           <q-select
                             outlined
-                            :options="catInvOpt"
+                            :options="allInventoryCat"
+                            color="green"
+                            option-label="categoryName"
+                            option-value="categoryID"
+                            emit-value
+                            map-options
                             label="Category"
+                            v-model="inputInventory.inventoryCatCategoryID"
                           />
                         </div>
                       </div>
@@ -109,22 +123,32 @@
                         <div class="col">
                           <q-select
                             outlined
+                            color="green"
                             v-model="inputInventory.itemUnitProd"
                             :options="unitInvOpt"
                             label="Unit"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                (val && val.length > 0) ||
+                                'You must put the product unit',
+                            ]"
                           />
                         </div>
                         <div class="col">
                           <q-input
                             outlined
+                            color="green"
                             label="Quantity"
                             v-model="inputInventory.itemQuantProd"
+                            type="number"
                           />
                         </div>
                         <div class="col">
                           <q-input
+                            color="green"
                             v-model="inputInventory.itemExpiryDate"
-                            filled
+                            outlined
                             type="date"
                             hint="Expirt Date"
                           />
@@ -138,7 +162,7 @@
                           v-close-popup
                           @click="resetModel()"
                         />
-                        <q-btn flat label="Add" color="primary" type="submit" />
+                        <q-btn flat label="Add" color="green" type="submit" />
                       </div>
                     </q-form>
                   </q-card-section>
@@ -182,15 +206,27 @@
                           <div class="col">
                             <q-input
                               outlined
-                              label="Product Code"
+                              label="Item Name"
+                              color="green"
                               v-model="inputInventory.itemName"
+                              lazy-rules
+                              :rules="[
+                                (val) =>
+                                  (val && val.length > 0) ||
+                                  'You must put the product name',
+                              ]"
                             />
                           </div>
                           <div class="col">
-                            <q-input
+                            <q-select
                               outlined
-                              label="Name"
-                              v-model="inputInventory.itemName"
+                              :options="allInventoryCat"
+                              color="green"
+                              option-label="categoryName"
+                              option-value="categoryID"
+                              map-options
+                              label="Category"
+                              v-model="inputInventory.inventoryCatCategoryID"
                             />
                           </div>
                         </div>
@@ -198,23 +234,34 @@
                           <div class="col">
                             <q-select
                               outlined
-                              :options="catInvOpt"
-                              label="Category"
-                            />
-                          </div>
-                          <div class="col">
-                            <q-select
-                              outlined
+                              color="green"
                               v-model="inputInventory.itemUnitProd"
                               :options="unitInvOpt"
                               label="Unit"
+                              lazy-rules
+                              :rules="[
+                                (val) =>
+                                  (val && val.length > 0) ||
+                                  'You must put the product unit',
+                              ]"
                             />
                           </div>
                           <div class="col">
                             <q-input
                               outlined
+                              color="green"
                               label="Quantity"
                               v-model="inputInventory.itemQuantProd"
+                              type="number"
+                            />
+                          </div>
+                          <div class="col">
+                            <q-input
+                              color="green"
+                              v-model="inputInventory.itemExpiryDate"
+                              outlined
+                              type="date"
+                              hint="Expirt Date"
                             />
                           </div>
                         </div>
@@ -226,12 +273,7 @@
                             v-close-popup
                             @click="resetModel()"
                           />
-                          <q-btn
-                            flat
-                            label="Save"
-                            color="primary"
-                            type="submit"
-                          />
+                          <q-btn flat label="Add" color="green" type="submit" />
                         </div>
                       </q-form>
                     </q-card-section>
@@ -298,12 +340,14 @@ import { Vue, Options } from 'vue-class-component';
 import { mapState, mapActions } from 'vuex';
 import { InventoryDto } from 'src/services/rest-api';
 import { date } from 'quasar';
+import { InventoryCategory } from 'src/store/inventoryCategory/state';
 
 const timeStamp = Date.now();
-const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
+const todayDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 @Options({
   computed: {
     ...mapState('inventory', ['allInventory']),
+    ...mapState('inventoryCategory', ['allInventoryCat']),
   },
   methods: {
     ...mapActions('inventory', [
@@ -316,6 +360,7 @@ const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 })
 export default class Expenses extends Vue {
   allInventory!: InventoryDto[];
+  allInventoryCat!: InventoryCategory[];
   addInventory!: (payload: InventoryDto) => Promise<void>;
   editInventory!: (payload: InventoryDto) => Promise<void>;
   deleteInventory!: (payload: InventoryDto) => Promise<void>;
@@ -323,6 +368,7 @@ export default class Expenses extends Vue {
 
   async mounted() {
     await this.getAllInventory();
+    console.log(this.allInventory);
   }
   columns = [
     {
@@ -337,7 +383,7 @@ export default class Expenses extends Vue {
       name: 'itemCategory',
       align: 'center',
       label: 'Category',
-      field: 'itemCategory',
+      field: (row: InventoryDto) => row.inventoryCatCategoryID,
     },
     {
       name: 'itemQuantProd',
@@ -378,9 +424,6 @@ export default class Expenses extends Vue {
   addNewInventory = false;
   editRowInventory = false;
   filter = '';
-  catInv = '';
-  unitInv = '';
-  catInvOpt = [''];
   unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
 
   inputInventory: InventoryDto = {
@@ -388,7 +431,8 @@ export default class Expenses extends Vue {
     itemQuantProd: 0,
     itemUnitProd: '',
     itemExpiryDate: '',
-    itemDateCreated: formattedString,
+    itemDateCreated: todayDate,
+    inventoryCatCategoryID: 0,
   };
 
   async onAddInventory() {
@@ -438,7 +482,8 @@ export default class Expenses extends Vue {
       itemQuantProd: 0,
       itemUnitProd: '',
       itemExpiryDate: '',
-      itemDateCreated: '',
+      itemDateCreated: todayDate,
+      inventoryCatCategoryID: 0,
     };
   }
 }

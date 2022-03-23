@@ -11,26 +11,17 @@ import Chart from 'chart.js/auto';
 export default class monthlyProductSales extends Vue {
   chart?: Chart;
   mounted() {
-    const labels = [
-     'Milk Tea',
-      'Beef Burger',
-      'Mango Shake',
-      'Black Tea',
-    ];
+    const labels = ['Milk Tea', 'Beef Burger', 'Mango Shake', 'Black Tea'];
     const data = {
-      
       labels: labels,
       datasets: [
-       {
+        {
           label: 'products',
-          data:[3400, 1030, 512, 2230],
+          data: [3400, 1030, 512, 2230],
           backgroundColor: 'green',
         },
-        
       ],
     };
-    
-       
 
     const wrapper = this.$el as HTMLElement;
     const canvas = wrapper.querySelector('canvas') as HTMLCanvasElement;
@@ -38,17 +29,14 @@ export default class monthlyProductSales extends Vue {
       type: 'bar',
       data: data,
       options: {
-        responsive:true,
+        responsive: true,
         plugins: {
-          legend:{
-           display: true,
-           position: 'top',
-
-          }
-
-        }
+          legend: {
+            display: true,
+            position: 'top',
+          },
+        },
       },
-      
     });
   }
 }

@@ -5,17 +5,23 @@ const routes: RouteRecordRaw[] = [
     path: '/',
 
     component: () => import('pages/Login.vue'),
+    // meta: {
+    //   dapatWalangUser: true,
+    // },
   },
   {
     path: '/POS',
-
     component: () => import('../pages/POS/POS.vue'),
   },
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: 'Dashboard', component: () => import('../pages/Dashboard.vue') },
+      {
+        path: 'Dashboard',
+        component: () => import('../pages/Dashboard.vue'),
+        // meta: { dapatMayUser: true },
+      },
       {
         path: 'account',
         component: () => import('../pages/ManageAccount.vue'),

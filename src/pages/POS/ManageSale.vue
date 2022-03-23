@@ -59,6 +59,12 @@
                         outlined
                         v-model="inputManageSale.productName"
                         label="Product Name"
+                        lazy-rules
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You must enter an input',
+                        ]"
                       >
                         <template v-slot:prepend>
                           <q-icon name="drive_file_rename_outline" />
@@ -100,6 +106,12 @@
                         fill-mask="0"
                         reverse-fill-mask
                         v-model="inputManageSale.productPrice"
+                        lazy-rules
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You must enter an input',
+                        ]"
                       >
                         <template v-slot:prepend> ₱ </template>
                       </q-input>
@@ -284,10 +296,10 @@ const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {
-    ...mapState('manageSale', ['allProduct']),
+    ...mapState('manageProduct', ['allProduct']),
   },
   methods: {
-    ...mapActions('manageSale', [
+    ...mapActions('manageProduct', [
       'addManageProduct',
       'editManageProduct',
       'deleteManageProduct',

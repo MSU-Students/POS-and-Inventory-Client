@@ -18,6 +18,11 @@ class InventoryService extends DefaultApi {
     return response.data;
   }
 
+  async filter(keyword: string): Promise<InventoryDto> {
+    const response = await posApiService.filterInventoryItem(keyword);
+    return response.data;
+  }
+
   async update(itemCode: string, payload: any) {
     const response = await posApiService.updateInventory(itemCode, payload);
     return response.data;
