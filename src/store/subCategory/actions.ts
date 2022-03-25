@@ -1,18 +1,38 @@
+import subProductCatService from 'src/services/subProductCat.service';
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
-import { SubCategoryStateInterface, ISubProdCategoryInfo } from './state';
+import { SubCategoryStateInterface } from './state';
 
 const actions: ActionTree<SubCategoryStateInterface, StateInterface> = {
-  addSubCategory(context, payload: ISubProdCategoryInfo) {
-    context.commit('setSubCategory', payload);
+  async addSubProductCat(context, payload: any): Promise<any> {
+    const result = await subProductCatService.create(payload);
+    context.commit('setNewSubProductCat', result);
+    await context.dispatch('getAllSubProductCat');
   },
 
-  editSubCategory(context, payload: ISubProdCategoryInfo) {
-    context.commit('setNewSubCategory', payload);
+  async editSubProductCat(context, payload: any): Promise<any> {
+    const result = await subProductCatService.update(
+      payload.SubProductCatID,
+      payload
+    );
+    context.commit('updateSubProductCat', result);
+    await context.dispatch('getAllSubProductCat');
   },
 
-  deleteSubCategory(context, payload: ISubProdCategoryInfo) {
-    context.commit('deleteSubCategory', payload);
+  async deleteSubProductCat(context, SubProductCatID: number): Promise<any> {
+    const result = await subProductCatService.delete(SubProductCatID);
+    context.commit('deleteSubProductCat', result);
+  },
+
+  async getAllSubProductCat(context): Promise<any> {
+    const res = await subProductCatService.getAll();
+    context.commit('getAllSubProductCat', res);
+    await this.dispatch('productCategory/getAllProductCategory');
+  },
+
+  async getOneSubProductCat(context, SubProductCatID: number): Promise<any> {
+    const res = await subProductCatService.getOne(SubProductCatID);
+    context.commit('getOneSubProductCat', res);
   },
 };
 

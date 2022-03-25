@@ -19,7 +19,7 @@ class ProductCategoryService extends DefaultApi {
   }
 
   async update(productID: number, payload: any) {
-    const response = await posApiService.deleteInventoryCategory(
+    const response = await posApiService.updateProductCategory(
       productID,
       payload
     );
@@ -27,12 +27,7 @@ class ProductCategoryService extends DefaultApi {
   }
 
   async delete(productID: number) {
-    const response = await posApiService.deleteInventoryCategory(productID);
-    return response.data;
-  }
-
-  async getProductCategoryProfile() {
-    const response = await posApiService.getProfile();
+    const response = await posApiService.deleteProductCategory(productID);
     return response.data;
   }
 }

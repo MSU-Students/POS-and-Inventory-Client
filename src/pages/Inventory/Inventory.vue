@@ -108,14 +108,10 @@
                         <div class="col">
                           <q-select
                             outlined
-                            :options="allInventoryCat"
+                            :options="categoryOpt"
                             color="green"
-                            option-label="categoryName"
-                            option-value="categoryID"
-                            emit-value
-                            map-options
                             label="Category"
-                            v-model="inputInventory.inventoryCatCategoryID"
+                            v-model="inputInventory.itemCategory"
                           />
                         </div>
                       </div>
@@ -220,13 +216,10 @@
                           <div class="col">
                             <q-select
                               outlined
-                              :options="allInventoryCat"
+                              :options="categoryOpt"
                               color="green"
-                              option-label="categoryName"
-                              option-value="categoryID"
-                              map-options
                               label="Category"
-                              v-model="inputInventory.inventoryCatCategoryID"
+                              v-model="inputInventory.itemCategory"
                             />
                           </div>
                         </div>
@@ -294,7 +287,7 @@
           </template>
         </q-table>
       </div>
-      <div class="col">
+      <div class="col q-pl-md">
         <q-card flat bordered class="my-card">
           <q-card-section>
             <div class="text-h5">Overview</div>
@@ -340,14 +333,12 @@ import { Vue, Options } from 'vue-class-component';
 import { mapState, mapActions } from 'vuex';
 import { InventoryDto } from 'src/services/rest-api';
 import { date } from 'quasar';
-import { InventoryCategory } from 'src/store/inventoryCategory/state';
 
 const timeStamp = Date.now();
-const todayDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
+const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH');
 @Options({
   computed: {
     ...mapState('inventory', ['allInventory']),
-    ...mapState('inventoryCategory', ['allInventoryCat']),
   },
   methods: {
     ...mapActions('inventory', [
@@ -358,9 +349,8 @@ const todayDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
     ]),
   },
 })
-export default class Expenses extends Vue {
+export default class Inventory extends Vue {
   allInventory!: InventoryDto[];
-  allInventoryCat!: InventoryCategory[];
   addInventory!: (payload: InventoryDto) => Promise<void>;
   editInventory!: (payload: InventoryDto) => Promise<void>;
   deleteInventory!: (payload: InventoryDto) => Promise<void>;
@@ -383,7 +373,7 @@ export default class Expenses extends Vue {
       name: 'itemCategory',
       align: 'center',
       label: 'Category',
-      field: (row: InventoryDto) => row.inventoryCatCategoryID,
+      field: 'itemCategory',
     },
     {
       name: 'itemQuantProd',
@@ -425,14 +415,15 @@ export default class Expenses extends Vue {
   editRowInventory = false;
   filter = '';
   unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
+  categoryOpt = ['Utensil', 'Ingredient', 'Equipments', 'Miscellaneous/Other'];
 
   inputInventory: InventoryDto = {
     itemName: '',
     itemQuantProd: 0,
     itemUnitProd: '',
     itemExpiryDate: '',
-    itemDateCreated: todayDate,
-    inventoryCatCategoryID: 0,
+    itemDateCreated: formattedString,
+    itemCategory: '',
   };
 
   async onAddInventory() {
@@ -482,8 +473,8 @@ export default class Expenses extends Vue {
       itemQuantProd: 0,
       itemUnitProd: '',
       itemExpiryDate: '',
-      itemDateCreated: todayDate,
-      inventoryCatCategoryID: 0,
+      itemDateCreated: formattedString,
+      itemCategory: '',
     };
   }
 }

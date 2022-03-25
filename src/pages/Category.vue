@@ -9,7 +9,7 @@
         <div class="col">
           <q-table
             title="Product Category"
-            :rows="allProductCat"
+            :rows="allProdCategory"
             :columns="columns"
             row-key="code"
             :rows-per-page-options="[0]"
@@ -164,7 +164,7 @@
                 <q-dialog v-model="addNewSubProdCat" persistent>
                   <q-card style="width: 300px" class="q-pa-md">
                     <q-card-section class="row">
-                      <div class="text-h6">Add Category</div>
+                      <div class="text-h6">Add Sub-Product Category</div>
                       <q-space />
                       <q-btn
                         flat
@@ -177,11 +177,14 @@
                     </q-card-section>
 
                     <q-card-section class="q-gutter-md">
-                      <div class="col">
+                      <div>
+                        <q-select outlined label="Product Category" />
+                      </div>
+                      <div>
                         <q-input
                           outlined
-                          label="Name"
-                          v-model="inputSubCategory.subProdCat"
+                          label="Sub-Product Category"
+                          v-model="inputSubCategory.subProdName"
                         />
                       </div>
                     </q-card-section>
@@ -220,7 +223,7 @@
                   <q-dialog v-model="editRowSubProdCat" persistent>
                     <q-card style="width: 700px" class="q-pa-md">
                       <q-card-section class="row">
-                        <div class="text-h6">Add Category</div>
+                        <div class="text-h6">Add Sub-Product Category</div>
                         <q-space />
                         <q-btn
                           flat
@@ -237,7 +240,7 @@
                           <q-input
                             outlined
                             label="Name"
-                            v-model="inputSubCategory.subProdCat"
+                            v-model="inputSubCategory.subProdName"
                           />
                         </div>
                       </q-card-section>
@@ -275,342 +278,31 @@
           </q-table>
         </div>
       </div>
-      <div class="q-px-md q-pt-lg q-gutter-xl row">
-        <div class="col">
-          <q-table
-            title="Inventory Category"
-            :rows="allInventoryCat"
-            :columns="InvCatColumns"
-            row-key="categoryName"
-            :rows-per-page-options="[0]"
-            style="height: 560px; max-height: 560px"
-          >
-            <template v-slot:top-right>
-              <div class="q-pa-md q-gutter-sm row">
-                <q-input
-                  outlined
-                  rounded
-                  dense
-                  debounce="300"
-                  v-model="invFilter"
-                  placeholder="Search"
-                >
-                  <template v-slot:append>
-                    <q-icon name="search" />
-                  </template>
-                </q-input>
-                <q-btn
-                  label="Add Category"
-                  color="primary"
-                  dense
-                  flat
-                  icon="add"
-                  @click="addNewInventoryCat = true"
-                />
-                <q-dialog v-model="addNewInventoryCat" persistent>
-                  <q-card style="width: 300px" class="q-pa-md">
-                    <q-card-section class="row">
-                      <div class="text-h6">Add Category</div>
-                      <q-space />
-                      <q-btn
-                        flat
-                        round
-                        dense
-                        icon="close"
-                        v-close-popup
-                        @click="resetModelInvCat()"
-                      />
-                    </q-card-section>
-
-                    <q-card-section class="q-gutter-md">
-                      <q-input
-                        outlined
-                        label="Name"
-                        v-model="inputInventoryCat.categoryName"
-                      />
-                    </q-card-section>
-
-                    <q-card-actions align="right">
-                      <q-btn
-                        flat
-                        label="Cancel"
-                        color="red-10"
-                        v-close-popup
-                        @click="resetModelInvCat()"
-                      />
-                      <q-btn
-                        flat
-                        label="Add"
-                        color="primary"
-                        @click="onAddInvCat()"
-                      />
-                    </q-card-actions>
-                  </q-card>
-                </q-dialog>
-              </div>
-            </template>
-            <template v-slot:body-cell-action="props">
-              <q-td :props="props">
-                <div class="q-gutter-sm">
-                  <q-btn
-                    round
-                    color="blue"
-                    icon="edit"
-                    size="sm"
-                    flat
-                    dense
-                    @click="openEditDialogInvCat(props.row)"
-                  />
-                  <q-dialog v-model="editRowInventoryCat" persistent>
-                    <q-card style="width: 700px" class="q-pa-md">
-                      <q-card-section class="row">
-                        <div class="text-h6">Add Category</div>
-                        <q-space />
-                        <q-btn
-                          flat
-                          round
-                          dense
-                          icon="close"
-                          v-close-popup
-                          @click="resetModelInvCat()"
-                        />
-                      </q-card-section>
-
-                      <q-card-section class="q-gutter-md">
-                        <q-input
-                          outlined
-                          label="Name"
-                          v-model="inputInventoryCat.categoryName"
-                        />
-                      </q-card-section>
-
-                      <q-card-actions align="right">
-                        <q-btn
-                          flat
-                          label="Cancel"
-                          color="red-10"
-                          v-close-popup
-                          @click="resetModelInvCat()"
-                        />
-                        <q-btn
-                          flat
-                          label="Save"
-                          color="primary"
-                          @click="onEditInvCat()"
-                        />
-                      </q-card-actions>
-                    </q-card>
-                  </q-dialog>
-                  <q-btn
-                    color="red-10"
-                    icon="delete"
-                    size="sm"
-                    class="q-ml-sm"
-                    flat
-                    round
-                    dense
-                    @click="deleteSpecificInvCat(props.row)"
-                  />
-                </div>
-              </q-td>
-            </template>
-          </q-table>
-        </div>
-        <div class="col">
-          <q-table
-            title="Expenses Category"
-            :rows="allExpensesCategory"
-            :columns="expensesCatColumns"
-            row-key="expensesCategoryName"
-            :rows-per-page-options="[0]"
-            style="height: 560px; max-height: 560px"
-          >
-            <template v-slot:top-right>
-              <div class="q-pa-md q-gutter-sm row">
-                <q-input
-                  outlined
-                  rounded
-                  dense
-                  debounce="300"
-                  v-model="expFilter"
-                  placeholder="Search"
-                >
-                  <template v-slot:append>
-                    <q-icon name="search" />
-                  </template>
-                </q-input>
-                <q-btn
-                  label="Add Category"
-                  color="primary"
-                  dense
-                  flat
-                  icon="add"
-                  @click="addNewExpenseCat = true"
-                />
-                <q-dialog v-model="addNewExpenseCat" persistent>
-                  <q-card style="width: 300px" class="q-pa-md">
-                    <q-card-section class="row">
-                      <div class="text-h6">Add Category</div>
-                      <q-space />
-                      <q-btn
-                        flat
-                        round
-                        dense
-                        icon="close"
-                        v-close-popup
-                        @click="resetModelExpenseCat()"
-                      />
-                    </q-card-section>
-
-                    <q-card-section>
-                      <q-form @submit="onAddExpenseCat()">
-                        <div class="q-gutter-md">
-                          <q-input
-                            outlined
-                            label="Name"
-                            v-model="inputExpenseCat.expensesCategoryName"
-                          />
-                        </div>
-                        <div align="right">
-                          <q-btn
-                            flat
-                            label="Cancel"
-                            color="red-10"
-                            v-close-popup
-                            @click="resetModelExpenseCat()"
-                          />
-                          <q-btn
-                            flat
-                            label="Save"
-                            color="primary"
-                            type="submit"
-                          />
-                        </div>
-                      </q-form>
-                    </q-card-section>
-                  </q-card>
-                </q-dialog>
-              </div>
-            </template>
-            <template v-slot:body-cell-action="props">
-              <q-td :props="props">
-                <div class="q-gutter-sm">
-                  <q-btn
-                    round
-                    color="blue"
-                    icon="edit"
-                    size="sm"
-                    flat
-                    dense
-                    @click="openEditDialogExpenseCat(props.row)"
-                  />
-                  <q-dialog v-model="editRowExpenseCat" persistent>
-                    <q-card style="width: 700px" class="q-pa-md">
-                      <q-card-section class="row">
-                        <div class="text-h6">Add Category</div>
-                        <q-space />
-                        <q-btn
-                          flat
-                          round
-                          dense
-                          icon="close"
-                          v-close-popup
-                          @click="resetModelExpenseCat()"
-                        />
-                      </q-card-section>
-
-                      <q-card-section>
-                        <q-form @submit="onEditExpenseCat()">
-                          <div class="q-gutter-md">
-                            <q-input
-                              outlined
-                              label="Name"
-                              v-model="inputExpenseCat.expensesCategoryName"
-                            />
-                          </div>
-                          <div align="right">
-                            <q-btn
-                              flat
-                              label="Cancel"
-                              color="red-10"
-                              v-close-popup
-                              @click="resetModelExpenseCat()"
-                            />
-                            <q-btn
-                              flat
-                              label="Save"
-                              color="primary"
-                              type="submit"
-                            />
-                          </div>
-                        </q-form>
-                      </q-card-section>
-                    </q-card>
-                  </q-dialog>
-                  <q-btn
-                    color="red-10"
-                    icon="delete"
-                    size="sm"
-                    class="q-ml-sm"
-                    flat
-                    round
-                    dense
-                    @click="deleteSpecificExpenseCat(props.row)"
-                  />
-                </div>
-              </q-td>
-            </template>
-          </q-table>
-        </div>
-      </div>
     </div>
   </q-page>
 </template>
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { Category } from '../store/category/state';
-import { ISubProdCategoryInfo } from '../store/subCategory/state';
-import { ExpensesCategoryDto } from 'src/services/rest-api';
-import { mapState, mapActions, mapGetters } from 'vuex';
-import { InventoryCategoryDto } from 'src/services/rest-api';
-import { ProdCategoryDto } from 'src/services/rest-api';
-import { ProductCategory } from 'src/store/productCategory/state';
+import { mapState, mapActions } from 'vuex';
+import { ProdCategoryDto, SubprodCategoryDto } from 'src/services/rest-api';
 @Options({
   computed: {
-    ...mapState('category', ['allCategory']),
+    ...mapState('productCategory', ['allProdCategory']),
     ...mapState('subCategory', ['allSubProdCat']),
-    ...mapState('expensesCategory', ['allExpensesCategory']),
-    ...mapState('inventoryCategory', ['allInventoryCat']),
   },
   methods: {
-    ...mapActions('category', [
-      'addCategory',
-      'editCategory',
-      'deleteCategory',
-    ]),
-    ...mapActions('subCategory', [
-      'addSubCategory',
-      'editSubCategory',
-      'deleteSubCategory',
-    ]),
-    ...mapActions('inventoryCategory', [
-      'addInventoryCat',
-      'editInventoryCat',
-      'deleteInventoryCat',
-      'getAllInventoryCategory',
-    ]),
-    ...mapActions('expensesCategory', [
-      'addExpensesCat',
-      'editExpensesCat',
-      'deleteExpensesCat',
-      'getallExpensesCategory',
-    ]),
     ...mapActions('productCategory', [
       'addProductCat',
       'editProductCat',
       'deleteProductCat',
       'getAllProductCategory',
+    ]),
+    ...mapActions('subCategory', [
+      'addSubProductCat',
+      'editSubProductCat',
+      'deleteSubProductCat',
+      'getAllSubProductCat',
     ]),
   },
 })
@@ -627,7 +319,7 @@ export default class Expenses extends Vue {
   expFilter = '';
 
   //---------------------------> Product Category <----------------------------------------------
-  allProductCat!: ProdCategoryDto[];
+  allProdCategory!: ProdCategoryDto[];
   addProductCat!: (payload: ProdCategoryDto) => Promise<void>;
   editProductCat!: (payload: ProdCategoryDto) => Promise<void>;
   deleteProductCat!: (payload: ProdCategoryDto) => Promise<void>;
@@ -707,10 +399,15 @@ export default class Expenses extends Vue {
   }
   //---------------------------> Sub-Product Category <----------------------------------------------
 
-  addSubCategory!: (payload: ISubProdCategoryInfo) => Promise<void>;
-  editSubCategory!: (payload: ISubProdCategoryInfo) => Promise<void>;
-  deleteSubCategory!: (payload: ISubProdCategoryInfo) => Promise<void>;
-  allSubProdCat!: ISubProdCategoryInfo[];
+  allSubProdCat!: SubprodCategoryDto[];
+  addSubProductCat!: (payload: SubprodCategoryDto) => Promise<void>;
+  editSubProductCat!: (payload: SubprodCategoryDto) => Promise<void>;
+  deleteSubProductCat!: (payload: SubprodCategoryDto) => Promise<void>;
+  getAllSubProductCat!: () => Promise<void>;
+
+  async mount() {
+    await this.getAllSubProductCat();
+  }
 
   subColumns = [
     {
@@ -718,7 +415,7 @@ export default class Expenses extends Vue {
       required: true,
       label: 'Name',
       align: 'left',
-      field: (row: ISubProdCategoryInfo) => row.subProdCat,
+      field: (row: SubprodCategoryDto) => row.subProdName,
       format: (val: string) => `${val}`,
     },
     {
@@ -735,13 +432,13 @@ export default class Expenses extends Vue {
     },
   ];
 
-  inputSubCategory: ISubProdCategoryInfo = {
-    productCategory: '',
-    subProdCat: '',
+  inputSubCategory: SubprodCategoryDto = {
+    subProdName: '',
+    productId: 0,
   };
 
   async onAddSubProdCat() {
-    await this.addSubCategory(this.inputSubCategory);
+    await this.addSubProductCat(this.inputSubCategory);
     this.addNewSubProdCat = false;
     this.resetModelProd();
     this.$q.notify({
@@ -751,7 +448,7 @@ export default class Expenses extends Vue {
   }
 
   async onEditSubProdCat() {
-    await this.editSubCategory(this.inputSubCategory);
+    await this.editSubProductCat(this.inputSubCategory);
     this.editRowSubProdCat = false;
     this.resetModelProd();
     this.$q.notify({
@@ -760,7 +457,7 @@ export default class Expenses extends Vue {
     });
   }
 
-  deleteSpecificSubProdCat(val: ISubProdCategoryInfo) {
+  deleteSpecificSubProdCat(val: SubprodCategoryDto) {
     this.$q
       .dialog({
         message: 'Confirm to delete?',
@@ -768,7 +465,7 @@ export default class Expenses extends Vue {
         persistent: true,
       })
       .onOk(async () => {
-        await this.deleteSubCategory(val);
+        await this.deleteSubProductCat(val);
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',
@@ -776,182 +473,14 @@ export default class Expenses extends Vue {
       });
   }
 
-  openEditDialogSubProd(val: ISubProdCategoryInfo) {
+  openEditDialogSubProd(val: SubprodCategoryDto) {
     this.editRowSubProdCat = true;
     this.inputSubCategory = { ...val };
   }
   resetModelSubProd() {
     this.inputSubCategory = {
-      productCategory: '',
-      subProdCat: '',
-    };
-  }
-
-  //---------------------------> Inventory Category <----------------------------------------------
-  allInventoryCat!: InventoryCategoryDto[];
-  addInventoryCat!: (payload: InventoryCategoryDto) => Promise<void>;
-  editInventoryCat!: (payload: InventoryCategoryDto) => Promise<void>;
-  deleteInventoryCat!: (payload: InventoryCategoryDto) => Promise<void>;
-  getAllInventoryCategory!: () => Promise<void>;
-  addNewInventoryCat = false;
-  editRowInventoryCat = false;
-
-  // async mounted() {
-  //   await this.getAllInventoryCategory();
-  // }
-  InvCatColumns = [
-    {
-      name: 'categoryName',
-      required: true,
-      label: 'Name',
-      align: 'left',
-      field: (row: InventoryCategoryDto) => row.categoryName,
-      format: (val: string) => `${val}`,
-    },
-    {
-      name: 'totalProd',
-      align: 'center',
-      label: 'Total Product',
-      field: 'totalProd',
-    },
-    {
-      name: 'stockQuantity',
-      align: 'center',
-      label: 'Total Stock Quantity',
-      field: 'stockQuantity',
-    },
-    {
-      name: 'action',
-      align: 'center',
-      label: 'Action',
-      field: 'action',
-    },
-  ];
-
-  inputInventoryCat: InventoryCategoryDto = {
-    categoryName: '',
-    totalProd: 0,
-    stockQuantity: 0,
-  };
-
-  async onAddInvCat() {
-    await this.addInventoryCat(this.inputInventoryCat);
-    this.addNewInventoryCat = false;
-    this.resetModelProd();
-    this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Added.',
-    });
-  }
-
-  async onEditInvCat() {
-    await this.editInventoryCat(this.inputInventoryCat);
-    this.editRowInventoryCat = false;
-    this.resetModelProd();
-    this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Edit.',
-    });
-  }
-
-  deleteSpecificInvCat(val: InventoryCategoryDto) {
-    this.$q
-      .dialog({
-        message: 'Confirm to delete?',
-        cancel: true,
-        persistent: true,
-      })
-      .onOk(async () => {
-        await this.deleteInventoryCat(val);
-        this.$q.notify({
-          type: 'warning',
-          message: 'Successfully deleted',
-        });
-      });
-  }
-
-  openEditDialogInvCat(val: InventoryCategoryDto) {
-    this.editRowInventoryCat = true;
-    this.inputInventoryCat = { ...val };
-  }
-  resetModelInvCat() {
-    this.inputInventoryCat = {
-      categoryName: '',
-      totalProd: 0,
-      stockQuantity: 0,
-    };
-  }
-
-  //---------------------------> Expenses Category <----------------------------------------------
-  allExpensesCategory!: ExpensesCategoryDto;
-  addExpensesCat!: (payload: ExpensesCategoryDto) => Promise<void>;
-  editExpensesCat!: (payload: ExpensesCategoryDto) => Promise<void>;
-  deleteExpensesCat!: (payload: ExpensesCategoryDto) => Promise<void>;
-  addNewExpenseCat = false;
-  editRowExpenseCat = false;
-
-  expensesCatColumns = [
-    {
-      name: 'expensesCategoryName',
-      required: true,
-      label: 'Name',
-      align: 'left',
-      field: (row: ExpensesCategoryDto) => row.expensesCategoryName,
-      format: (val: string) => `${val}`,
-    },
-    {
-      name: 'action',
-      align: 'center',
-      label: 'Action',
-      field: 'action',
-    },
-  ];
-  inputExpenseCat: ExpensesCategoryDto = {
-    expensesCategoryName: '',
-  };
-  async onAddExpenseCat() {
-    await this.addExpensesCat(this.inputExpenseCat);
-    this.addNewExpenseCat = false;
-    this.resetModelExpenseCat();
-    this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Added.',
-    });
-  }
-
-  async onEditExpenseCat() {
-    await this.editExpensesCat(this.inputExpenseCat);
-    this.editRowExpenseCat = false;
-    this.resetModelExpenseCat();
-    this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Edit.',
-    });
-  }
-
-  deleteSpecificExpenseCat(val: ExpensesCategoryDto) {
-    this.$q
-      .dialog({
-        message: 'Confirm to delete?',
-        cancel: true,
-        persistent: true,
-      })
-      .onOk(async () => {
-        await this.deleteExpensesCat(val);
-        this.$q.notify({
-          type: 'warning',
-          message: 'Successfully deleted',
-        });
-      });
-  }
-
-  openEditDialogExpenseCat(val: ExpensesCategoryDto) {
-    this.editRowExpenseCat = true;
-    this.inputExpenseCat = { ...val };
-  }
-  resetModelExpenseCat() {
-    this.inputExpenseCat = {
-      expensesCategoryName: '',
+      subProdName: '',
+      productId: 0,
     };
   }
 }

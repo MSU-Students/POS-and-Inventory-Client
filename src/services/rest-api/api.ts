@@ -43,19 +43,6 @@ export interface AccessTokenDto {
 /**
  * 
  * @export
- * @interface ExpensesCategoryDto
- */
-export interface ExpensesCategoryDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof ExpensesCategoryDto
-     */
-    'expensesCategoryName': string;
-}
-/**
- * 
- * @export
  * @interface ExpensesDto
  */
 export interface ExpensesDto {
@@ -83,31 +70,12 @@ export interface ExpensesDto {
      * @memberof ExpensesDto
      */
     'amount': number;
-}
-/**
- * 
- * @export
- * @interface InventoryCategoryDto
- */
-export interface InventoryCategoryDto {
     /**
      * 
      * @type {string}
-     * @memberof InventoryCategoryDto
+     * @memberof ExpensesDto
      */
-    'categoryName': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof InventoryCategoryDto
-     */
-    'totalProd': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof InventoryCategoryDto
-     */
-    'stockQuantity': number;
+    'expensesCategory'?: string;
 }
 /**
  * 
@@ -144,13 +112,13 @@ export interface InventoryDto {
      * @type {string}
      * @memberof InventoryDto
      */
-    'itemDateCreated': string;
+    'itemCategory'?: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof InventoryDto
      */
-    'inventoryCatCategoryID': number;
+    'itemDateCreated': string;
 }
 /**
  * 
@@ -254,6 +222,12 @@ export interface PurchaseDto {
     'purchaseDate'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof PurchaseDto
+     */
+    'purchaseCategory': string;
+    /**
+     * 
      * @type {number}
      * @memberof PurchaseDto
      */
@@ -339,6 +313,12 @@ export interface SubprodCategoryDto {
      * @memberof SubprodCategoryDto
      */
     'subProdName': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SubprodCategoryDto
+     */
+    'productId'?: number;
 }
 /**
  * 
@@ -495,42 +475,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Add new Expenses Category
-         * @param {ExpensesCategoryDto} expensesCategoryDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        addExpensesCategory: async (expensesCategoryDto: ExpensesCategoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'expensesCategoryDto' is not null or undefined
-            assertParamExists('addExpensesCategory', 'expensesCategoryDto', expensesCategoryDto)
-            const localVarPath = `/expenses-category`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(expensesCategoryDto, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Add new Inventory
          * @param {InventoryDto} inventoryDto 
          * @param {*} [options] Override http request option.
@@ -559,42 +503,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(inventoryDto, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Add new Inventory Category
-         * @param {InventoryCategoryDto} inventoryCategoryDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        addInventoryCategory: async (inventoryCategoryDto: InventoryCategoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'inventoryCategoryDto' is not null or undefined
-            assertParamExists('addInventoryCategory', 'inventoryCategoryDto', inventoryCategoryDto)
-            const localVarPath = `/inventory_category`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(inventoryCategoryDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -925,40 +833,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Delete Expenses Category by id
-         * @param {number} expensesCategoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteExpensesCategory: async (expensesCategoryID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'expensesCategoryID' is not null or undefined
-            assertParamExists('deleteExpensesCategory', 'expensesCategoryID', expensesCategoryID)
-            const localVarPath = `/expenses-category/{expensesCategoryID}`
-                .replace(`{${"expensesCategoryID"}}`, encodeURIComponent(String(expensesCategoryID)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Delete Inventory by id
          * @param {string} itemCode 
          * @param {*} [options] Override http request option.
@@ -969,40 +843,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('deleteInventory', 'itemCode', itemCode)
             const localVarPath = `/inventory/{itemCode}`
                 .replace(`{${"itemCode"}}`, encodeURIComponent(String(itemCode)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Delete Inventory Category by id
-         * @param {number} categoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteInventoryCategory: async (categoryID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'categoryID' is not null or undefined
-            assertParamExists('deleteInventoryCategory', 'categoryID', categoryID)
-            const localVarPath = `/inventory_category/{categoryID}`
-                .replace(`{${"categoryID"}}`, encodeURIComponent(String(categoryID)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1071,6 +911,40 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('deleteProduct', 'productID', productID)
             const localVarPath = `/manage-product/{product_ID}`
                 .replace(`{${"product_ID"}}`, encodeURIComponent(String(productID)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete Product Category by id
+         * @param {number} prodCategoryID 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProductCategory: async (prodCategoryID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'prodCategoryID' is not null or undefined
+            assertParamExists('deleteProductCategory', 'prodCategoryID', prodCategoryID)
+            const localVarPath = `/prod-category/{prodCategoryID}`
+                .replace(`{${"prodCategoryID"}}`, encodeURIComponent(String(prodCategoryID)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1202,9 +1076,9 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteSubCategoryOfProduct: async (subProdCategoryID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteSubCategory: async (subProdCategoryID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'subProdCategoryID' is not null or undefined
-            assertParamExists('deleteSubCategoryOfProduct', 'subProdCategoryID', subProdCategoryID)
+            assertParamExists('deleteSubCategory', 'subProdCategoryID', subProdCategoryID)
             const localVarPath = `/subprod-category/{subProdCategoryID}`
                 .replace(`{${"subProdCategoryID"}}`, encodeURIComponent(String(subProdCategoryID)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1401,70 +1275,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Get Expenses Category by id
-         * @param {number} expensesCategoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getExpensesCategory: async (expensesCategoryID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'expensesCategoryID' is not null or undefined
-            assertParamExists('getExpensesCategory', 'expensesCategoryID', expensesCategoryID)
-            const localVarPath = `/expenses-category/{expensesCategoryID}`
-                .replace(`{${"expensesCategoryID"}}`, encodeURIComponent(String(expensesCategoryID)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get all Expenses Category
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getExpensesCategorys: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/expenses-category`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Get Inventory by id
          * @param {string} itemCode 
          * @param {*} [options] Override http request option.
@@ -1475,70 +1285,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('getInventory', 'itemCode', itemCode)
             const localVarPath = `/inventory/{itemCode}`
                 .replace(`{${"itemCode"}}`, encodeURIComponent(String(itemCode)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get Inventory Category by id
-         * @param {number} categoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getInventoryCategory: async (categoryID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'categoryID' is not null or undefined
-            assertParamExists('getInventoryCategory', 'categoryID', categoryID)
-            const localVarPath = `/inventory_category/{categoryID}`
-                .replace(`{${"categoryID"}}`, encodeURIComponent(String(categoryID)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get all Inventory Category
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getInventoryCategorys: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/inventory_category`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2259,39 +2005,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {number} prodCategoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        prodCategoryControllerDelete: async (prodCategoryID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'prodCategoryID' is not null or undefined
-            assertParamExists('prodCategoryControllerDelete', 'prodCategoryID', prodCategoryID)
-            const localVarPath = `/prod-category/{prodCategoryID}`
-                .replace(`{${"prodCategoryID"}}`, encodeURIComponent(String(prodCategoryID)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Refresh Token
          * @param {RefreshDto} refreshDto 
          * @param {*} [options] Override http request option.
@@ -2408,46 +2121,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Update Expenses Category by id
-         * @param {number} expensesCategoryID 
-         * @param {ExpensesCategoryDto} expensesCategoryDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateExpensesCategory: async (expensesCategoryID: number, expensesCategoryDto: ExpensesCategoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'expensesCategoryID' is not null or undefined
-            assertParamExists('updateExpensesCategory', 'expensesCategoryID', expensesCategoryID)
-            // verify required parameter 'expensesCategoryDto' is not null or undefined
-            assertParamExists('updateExpensesCategory', 'expensesCategoryDto', expensesCategoryDto)
-            const localVarPath = `/expenses-category/{expensesCategoryID}`
-                .replace(`{${"expensesCategoryID"}}`, encodeURIComponent(String(expensesCategoryID)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(expensesCategoryDto, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Update Inventory by id
          * @param {string} itemCode 
          * @param {InventoryDto} inventoryDto 
@@ -2480,46 +2153,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(inventoryDto, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Update Inventory Category by id
-         * @param {number} categoryID 
-         * @param {InventoryCategoryDto} inventoryCategoryDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateInventoryCategory: async (categoryID: number, inventoryCategoryDto: InventoryCategoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'categoryID' is not null or undefined
-            assertParamExists('updateInventoryCategory', 'categoryID', categoryID)
-            // verify required parameter 'inventoryCategoryDto' is not null or undefined
-            assertParamExists('updateInventoryCategory', 'inventoryCategoryDto', inventoryCategoryDto)
-            const localVarPath = `/inventory_category/{categoryID}`
-                .replace(`{${"categoryID"}}`, encodeURIComponent(String(categoryID)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(inventoryCategoryDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2912,17 +2545,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Add new Expenses Category
-         * @param {ExpensesCategoryDto} expensesCategoryDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async addExpensesCategory(expensesCategoryDto: ExpensesCategoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExpensesCategoryDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.addExpensesCategory(expensesCategoryDto, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @summary Add new Inventory
          * @param {InventoryDto} inventoryDto 
          * @param {*} [options] Override http request option.
@@ -2930,17 +2552,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async addInventory(inventoryDto: InventoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.addInventory(inventoryDto, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @summary Add new Inventory Category
-         * @param {InventoryCategoryDto} inventoryCategoryDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async addInventoryCategory(inventoryCategoryDto: InventoryCategoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryCategoryDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.addInventoryCategory(inventoryCategoryDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3044,17 +2655,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Delete Expenses Category by id
-         * @param {number} expensesCategoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteExpensesCategory(expensesCategoryID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExpensesCategoryDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteExpensesCategory(expensesCategoryID, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @summary Delete Inventory by id
          * @param {string} itemCode 
          * @param {*} [options] Override http request option.
@@ -3062,17 +2662,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async deleteInventory(itemCode: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteInventory(itemCode, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @summary Delete Inventory Category by id
-         * @param {number} categoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteInventoryCategory(categoryID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryCategoryDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteInventoryCategory(categoryID, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3095,6 +2684,17 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async deleteProduct(productID: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManageProductDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProduct(productID, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Delete Product Category by id
+         * @param {number} prodCategoryID 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteProductCategory(prodCategoryID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProdCategoryDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProductCategory(prodCategoryID, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3137,8 +2737,8 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteSubCategoryOfProduct(subProdCategoryID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SubprodCategoryDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSubCategoryOfProduct(subProdCategoryID, options);
+        async deleteSubCategory(subProdCategoryID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SubprodCategoryDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSubCategory(subProdCategoryID, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3197,27 +2797,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get Expenses Category by id
-         * @param {number} expensesCategoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getExpensesCategory(expensesCategoryID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExpensesCategoryDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getExpensesCategory(expensesCategoryID, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @summary Get all Expenses Category
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getExpensesCategorys(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExpensesCategoryDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getExpensesCategorys(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @summary Get Inventory by id
          * @param {string} itemCode 
          * @param {*} [options] Override http request option.
@@ -3225,27 +2804,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async getInventory(itemCode: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getInventory(itemCode, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @summary Get Inventory Category by id
-         * @param {number} categoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getInventoryCategory(categoryID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryCategoryDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getInventoryCategory(categoryID, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @summary Get all Inventory Category
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getInventoryCategorys(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryCategoryDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getInventoryCategorys(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3471,16 +3029,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {number} prodCategoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async prodCategoryControllerDelete(prodCategoryID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProdCategoryDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.prodCategoryControllerDelete(prodCategoryID, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @summary Refresh Token
          * @param {RefreshDto} refreshDto 
          * @param {*} [options] Override http request option.
@@ -3515,18 +3063,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Update Expenses Category by id
-         * @param {number} expensesCategoryID 
-         * @param {ExpensesCategoryDto} expensesCategoryDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateExpensesCategory(expensesCategoryID: number, expensesCategoryDto: ExpensesCategoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExpensesCategoryDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateExpensesCategory(expensesCategoryID, expensesCategoryDto, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @summary Update Inventory by id
          * @param {string} itemCode 
          * @param {InventoryDto} inventoryDto 
@@ -3535,18 +3071,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async updateInventory(itemCode: string, inventoryDto: InventoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateInventory(itemCode, inventoryDto, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @summary Update Inventory Category by id
-         * @param {number} categoryID 
-         * @param {InventoryCategoryDto} inventoryCategoryDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateInventoryCategory(categoryID: number, inventoryCategoryDto: InventoryCategoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InventoryCategoryDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateInventoryCategory(categoryID, inventoryCategoryDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3678,16 +3202,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Add new Expenses Category
-         * @param {ExpensesCategoryDto} expensesCategoryDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        addExpensesCategory(expensesCategoryDto: ExpensesCategoryDto, options?: any): AxiosPromise<ExpensesCategoryDto> {
-            return localVarFp.addExpensesCategory(expensesCategoryDto, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Add new Inventory
          * @param {InventoryDto} inventoryDto 
          * @param {*} [options] Override http request option.
@@ -3695,16 +3209,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         addInventory(inventoryDto: InventoryDto, options?: any): AxiosPromise<InventoryDto> {
             return localVarFp.addInventory(inventoryDto, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Add new Inventory Category
-         * @param {InventoryCategoryDto} inventoryCategoryDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        addInventoryCategory(inventoryCategoryDto: InventoryCategoryDto, options?: any): AxiosPromise<InventoryCategoryDto> {
-            return localVarFp.addInventoryCategory(inventoryCategoryDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3798,16 +3302,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Delete Expenses Category by id
-         * @param {number} expensesCategoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteExpensesCategory(expensesCategoryID: number, options?: any): AxiosPromise<ExpensesCategoryDto> {
-            return localVarFp.deleteExpensesCategory(expensesCategoryID, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Delete Inventory by id
          * @param {string} itemCode 
          * @param {*} [options] Override http request option.
@@ -3815,16 +3309,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         deleteInventory(itemCode: string, options?: any): AxiosPromise<InventoryDto> {
             return localVarFp.deleteInventory(itemCode, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Delete Inventory Category by id
-         * @param {number} categoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteInventoryCategory(categoryID: number, options?: any): AxiosPromise<InventoryCategoryDto> {
-            return localVarFp.deleteInventoryCategory(categoryID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3845,6 +3329,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         deleteProduct(productID: string, options?: any): AxiosPromise<ManageProductDto> {
             return localVarFp.deleteProduct(productID, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete Product Category by id
+         * @param {number} prodCategoryID 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProductCategory(prodCategoryID: number, options?: any): AxiosPromise<ProdCategoryDto> {
+            return localVarFp.deleteProductCategory(prodCategoryID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3883,8 +3377,8 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteSubCategoryOfProduct(subProdCategoryID: number, options?: any): AxiosPromise<SubprodCategoryDto> {
-            return localVarFp.deleteSubCategoryOfProduct(subProdCategoryID, options).then((request) => request(axios, basePath));
+        deleteSubCategory(subProdCategoryID: number, options?: any): AxiosPromise<SubprodCategoryDto> {
+            return localVarFp.deleteSubCategory(subProdCategoryID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3937,25 +3431,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Get Expenses Category by id
-         * @param {number} expensesCategoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getExpensesCategory(expensesCategoryID: number, options?: any): AxiosPromise<ExpensesCategoryDto> {
-            return localVarFp.getExpensesCategory(expensesCategoryID, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get all Expenses Category
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getExpensesCategorys(options?: any): AxiosPromise<ExpensesCategoryDto> {
-            return localVarFp.getExpensesCategorys(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Get Inventory by id
          * @param {string} itemCode 
          * @param {*} [options] Override http request option.
@@ -3963,25 +3438,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         getInventory(itemCode: string, options?: any): AxiosPromise<InventoryDto> {
             return localVarFp.getInventory(itemCode, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get Inventory Category by id
-         * @param {number} categoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getInventoryCategory(categoryID: number, options?: any): AxiosPromise<InventoryCategoryDto> {
-            return localVarFp.getInventoryCategory(categoryID, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get all Inventory Category
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getInventoryCategorys(options?: any): AxiosPromise<InventoryCategoryDto> {
-            return localVarFp.getInventoryCategorys(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4185,15 +3641,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @param {number} prodCategoryID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        prodCategoryControllerDelete(prodCategoryID: number, options?: any): AxiosPromise<ProdCategoryDto> {
-            return localVarFp.prodCategoryControllerDelete(prodCategoryID, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Refresh Token
          * @param {RefreshDto} refreshDto 
          * @param {*} [options] Override http request option.
@@ -4225,17 +3672,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Update Expenses Category by id
-         * @param {number} expensesCategoryID 
-         * @param {ExpensesCategoryDto} expensesCategoryDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateExpensesCategory(expensesCategoryID: number, expensesCategoryDto: ExpensesCategoryDto, options?: any): AxiosPromise<ExpensesCategoryDto> {
-            return localVarFp.updateExpensesCategory(expensesCategoryID, expensesCategoryDto, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Update Inventory by id
          * @param {string} itemCode 
          * @param {InventoryDto} inventoryDto 
@@ -4244,17 +3680,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         updateInventory(itemCode: string, inventoryDto: InventoryDto, options?: any): AxiosPromise<InventoryDto> {
             return localVarFp.updateInventory(itemCode, inventoryDto, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Update Inventory Category by id
-         * @param {number} categoryID 
-         * @param {InventoryCategoryDto} inventoryCategoryDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateInventoryCategory(categoryID: number, inventoryCategoryDto: InventoryCategoryDto, options?: any): AxiosPromise<InventoryCategoryDto> {
-            return localVarFp.updateInventoryCategory(categoryID, inventoryCategoryDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4378,18 +3803,6 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @summary Add new Expenses Category
-     * @param {ExpensesCategoryDto} expensesCategoryDto 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public addExpensesCategory(expensesCategoryDto: ExpensesCategoryDto, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).addExpensesCategory(expensesCategoryDto, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @summary Add new Inventory
      * @param {InventoryDto} inventoryDto 
      * @param {*} [options] Override http request option.
@@ -4398,18 +3811,6 @@ export class DefaultApi extends BaseAPI {
      */
     public addInventory(inventoryDto: InventoryDto, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).addInventory(inventoryDto, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Add new Inventory Category
-     * @param {InventoryCategoryDto} inventoryCategoryDto 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public addInventoryCategory(inventoryCategoryDto: InventoryCategoryDto, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).addInventoryCategory(inventoryCategoryDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4522,18 +3923,6 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @summary Delete Expenses Category by id
-     * @param {number} expensesCategoryID 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public deleteExpensesCategory(expensesCategoryID: number, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).deleteExpensesCategory(expensesCategoryID, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @summary Delete Inventory by id
      * @param {string} itemCode 
      * @param {*} [options] Override http request option.
@@ -4542,18 +3931,6 @@ export class DefaultApi extends BaseAPI {
      */
     public deleteInventory(itemCode: string, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).deleteInventory(itemCode, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Delete Inventory Category by id
-     * @param {number} categoryID 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public deleteInventoryCategory(categoryID: number, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).deleteInventoryCategory(categoryID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4578,6 +3955,18 @@ export class DefaultApi extends BaseAPI {
      */
     public deleteProduct(productID: string, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).deleteProduct(productID, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete Product Category by id
+     * @param {number} prodCategoryID 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public deleteProductCategory(prodCategoryID: number, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).deleteProductCategory(prodCategoryID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4624,8 +4013,8 @@ export class DefaultApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public deleteSubCategoryOfProduct(subProdCategoryID: number, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).deleteSubCategoryOfProduct(subProdCategoryID, options).then((request) => request(this.axios, this.basePath));
+    public deleteSubCategory(subProdCategoryID: number, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).deleteSubCategory(subProdCategoryID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4689,29 +4078,6 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get Expenses Category by id
-     * @param {number} expensesCategoryID 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public getExpensesCategory(expensesCategoryID: number, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getExpensesCategory(expensesCategoryID, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get all Expenses Category
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public getExpensesCategorys(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getExpensesCategorys(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @summary Get Inventory by id
      * @param {string} itemCode 
      * @param {*} [options] Override http request option.
@@ -4720,29 +4086,6 @@ export class DefaultApi extends BaseAPI {
      */
     public getInventory(itemCode: string, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).getInventory(itemCode, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get Inventory Category by id
-     * @param {number} categoryID 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public getInventoryCategory(categoryID: number, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getInventoryCategory(categoryID, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get all Inventory Category
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public getInventoryCategorys(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getInventoryCategorys(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4989,17 +4332,6 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @param {number} prodCategoryID 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public prodCategoryControllerDelete(prodCategoryID: number, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).prodCategoryControllerDelete(prodCategoryID, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @summary Refresh Token
      * @param {RefreshDto} refreshDto 
      * @param {*} [options] Override http request option.
@@ -5037,19 +4369,6 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @summary Update Expenses Category by id
-     * @param {number} expensesCategoryID 
-     * @param {ExpensesCategoryDto} expensesCategoryDto 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public updateExpensesCategory(expensesCategoryID: number, expensesCategoryDto: ExpensesCategoryDto, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).updateExpensesCategory(expensesCategoryID, expensesCategoryDto, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @summary Update Inventory by id
      * @param {string} itemCode 
      * @param {InventoryDto} inventoryDto 
@@ -5059,19 +4378,6 @@ export class DefaultApi extends BaseAPI {
      */
     public updateInventory(itemCode: string, inventoryDto: InventoryDto, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).updateInventory(itemCode, inventoryDto, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Update Inventory Category by id
-     * @param {number} categoryID 
-     * @param {InventoryCategoryDto} inventoryCategoryDto 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public updateInventoryCategory(categoryID: number, inventoryCategoryDto: InventoryCategoryDto, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).updateInventoryCategory(categoryID, inventoryCategoryDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

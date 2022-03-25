@@ -12,9 +12,6 @@ import { AccountStateInterface } from './account/state';
 import inventory from './inventory';
 import { InventoryStateInterface } from './inventory/state';
 
-import category from './category';
-import { CategoryStateInterface } from './category/state';
-
 import expenses from './expenses';
 import { ExpensesStateInterface } from './expenses/state';
 
@@ -32,12 +29,6 @@ import { OrderStateInterface } from './Order/state';
 
 import subCategory from './subCategory';
 import { SubCategoryStateInterface } from './subCategory/state';
-
-import expensesCategory from './expensesCategory';
-import { expensesCategoryStateInterface } from './expensesCategory/state';
-
-import inventoryCategory from './inventoryCategory';
-import { InventoryCatStateInterface } from './inventoryCategory/state';
 
 import product from './product';
 import { ProductStateInterface } from './product/state';
@@ -63,15 +54,12 @@ export interface StateInterface {
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
   account: AccountStateInterface;
   inventory: InventoryStateInterface;
-  category: CategoryStateInterface;
   expenses: ExpensesStateInterface;
   manageProduct: ManageProductStateInterface;
   purchase: PurchaseStateInterface;
   supply: SupplierStateInterface;
   Order: OrderStateInterface;
   subCategory: SubCategoryStateInterface;
-  expensesCategory: expensesCategoryStateInterface;
-  inventoryCategory: InventoryCatStateInterface;
   product: ProductStateInterface;
   auth: IAuthState;
   ProductCategory: ProductCategoryStateInterface;
@@ -94,15 +82,12 @@ export default store(function (/* { ssrContext } */) {
       // example
       account,
       inventory,
-      category,
       expenses,
       manageProduct,
       purchase,
       supplier,
       Order,
       subCategory,
-      expensesCategory,
-      inventoryCategory,
       product,
       auth,
       productCategory,

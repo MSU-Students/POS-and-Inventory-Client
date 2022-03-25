@@ -52,49 +52,56 @@
 
               <q-card-section>
                 <q-form @submit="onAddExpenses">
-                  <div class="q-gutter-md q-py-sm row">
+                  <div class="q-gutter-md row">
                     <div class="col">
                       <q-input
-                        filled
+                        outlined
                         label="Expenses Name"
                         v-model="inputExpenses.expensesName"
+                        color="secondary"
                       />
                     </div>
                     <div class="col">
                       <q-input
-                        filled
+                        outlined
                         label="Amount"
                         prefix="₱"
                         mask="#.##"
                         fill-mask="0"
                         reverse-fill-mask
                         v-model="inputExpenses.amount"
+                        color="secondary"
                       />
                     </div>
                   </div>
-                  <div class="q-gutter-md q-py-sm row">
+                  <div class="q-gutter-md q-py-md row">
                     <div class="col">
                       <q-select
+                        color="secondary"
                         label="Category"
-                        transition-show="scale"
-                        transition-hide="scale"
-                        filled
+                        :options="categoryOpt"
+                        transition-show="flip-up"
+                        transition-hide="flip-down"
+                        outlined
+                        v-model="inputExpenses.expensesCategory"
                       />
                     </div>
                     <div class="col">
                       <q-select
                         label="Supplier"
-                        transition-show="scale"
-                        transition-hide="scale"
-                        filled
+                        transition-show="flip-up"
+                        transition-hide="flip-down"
+                        outlined
+                        color="secondary"
                       />
                     </div>
                   </div>
-                  <div>
+                  <div class="q-pb-md">
                     <q-input
-                      filled
+                      outlined
                       label="Note"
                       type="textarea"
+                      color="secondary"
                       v-model="inputExpenses.description"
                     />
                   </div>
@@ -188,49 +195,56 @@
 
                 <q-card-section>
                   <q-form @submit="onEditExpenses">
-                    <div class="q-gutter-md q-py-sm row">
+                    <div class="q-gutter-md row">
                       <div class="col">
                         <q-input
-                          filled
+                          outlined
                           label="Expenses Name"
                           v-model="inputExpenses.expensesName"
+                          color="secondary"
                         />
                       </div>
                       <div class="col">
                         <q-input
-                          filled
+                          outlined
                           label="Amount"
                           prefix="₱"
                           mask="#.##"
                           fill-mask="0"
                           reverse-fill-mask
                           v-model="inputExpenses.amount"
+                          color="secondary"
                         />
                       </div>
                     </div>
-                    <div class="q-gutter-md q-py-sm row">
+                    <div class="q-gutter-md q-py-md row">
                       <div class="col">
                         <q-select
+                          color="secondary"
                           label="Category"
-                          transition-show="scale"
-                          transition-hide="scale"
-                          filled
+                          :options="categoryOpt"
+                          transition-show="flip-up"
+                          transition-hide="flip-down"
+                          outlined
+                          v-model="inputExpenses.expensesCategory"
                         />
                       </div>
                       <div class="col">
                         <q-select
                           label="Supplier"
-                          transition-show="scale"
-                          transition-hide="scale"
-                          filled
+                          transition-show="flip-up"
+                          transition-hide="flip-down"
+                          outlined
+                          color="secondary"
                         />
                       </div>
                     </div>
-                    <div>
+                    <div class="q-pb-md">
                       <q-input
-                        filled
+                        outlined
                         label="Note"
                         type="textarea"
+                        color="secondary"
                         v-model="inputExpenses.description"
                       />
                     </div>
@@ -317,7 +331,7 @@ export default class Expenses extends Vue {
       name: 'category',
       align: 'center',
       label: 'Category',
-      field: 'category',
+      field: 'expensesCategory',
     },
     {
       name: 'amount',
@@ -345,7 +359,13 @@ export default class Expenses extends Vue {
     },
   ];
 
-  selected = [];
+  categoryOpt = [
+    'Bills',
+    'Purchase Order',
+    'Rent',
+    'Transportation',
+    'Miscellaneous/Other',
+  ];
   expensesNote =
     'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!';
   addNewExpenses = false;
@@ -358,6 +378,7 @@ export default class Expenses extends Vue {
     expensesDate: formattedString,
     description: '',
     amount: 0,
+    expensesCategory: '',
   };
 
   async onAddExpenses() {
@@ -407,6 +428,7 @@ export default class Expenses extends Vue {
       expensesDate: '',
       description: '',
       amount: 0,
+      expensesCategory: '',
     };
   }
 }

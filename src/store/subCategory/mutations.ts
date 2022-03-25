@@ -1,25 +1,25 @@
+import { SubprodCategory } from 'src/interfaces/sub-productCategory';
 import { MutationTree } from 'vuex';
-import { ISubProdCategoryInfo, SubCategoryStateInterface } from './state';
+import { SubCategoryStateInterface } from './state';
 
 const mutation: MutationTree<SubCategoryStateInterface> = {
-  setSubCategory(state, payload: ISubProdCategoryInfo) {
+  setNewSubProductCat(state, payload: SubprodCategory) {
+    state.newSubCategory = payload;
+  },
+  updateSubProductCat(state, payload: SubprodCategory) {
+    state.newSubCategory = payload;
+  },
+  deleteSubProductCat(state, payload: any) {
     state.allSubProdCat.push(payload);
   },
-  setNewSubCategory(state, payload: ISubProdCategoryInfo) {
-    const index = state.allSubProdCat.findIndex(
-      (s) => s.subProdCatId === payload.subProdCatId
-    );
-    if (index >= 0) {
-      state.allSubProdCat.splice(index, 1, payload);
-    }
+
+  getAllSubProductCat(state, payload) {
+    state.allSubProdCat = [];
+    state.allSubProdCat.push(...payload);
   },
-  deleteSubCategory(state, payload: ISubProdCategoryInfo) {
-    const index = state.allSubProdCat.findIndex(
-      (s) => s.subProdCatId === payload.subProdCatId
-    );
-    if (index >= 0) {
-      state.allSubProdCat.splice(index, 1);
-    }
+
+  getOneSubProductCat(state, payload) {
+    state.allSubProdCat = payload;
   },
 };
 

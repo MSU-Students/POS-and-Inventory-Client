@@ -60,47 +60,61 @@
                 <q-form @submit="onAddPurchase()">
                   <div class="row q-gutter-md">
                     <div class="col">
-                      <div class="text-h6">Select Product</div>
                       <q-input
                         v-model="inputPurchase.purchaseProduct"
                         outlined
-                        placeholder="Pleas select the product"
-                        dense
+                        label="Enter Purchase Item"
+                        color="secondary"
                       />
                     </div>
                     <div class="col">
-                      <div class="text-h6">Select Supplier</div>
-                      <q-input
+                      <q-select
                         outlined
-                        placeholder="Pleas select supplier"
-                        dense
+                        label="Select Supplier"
+                        transition-show="flip-up"
+                        transition-hide="flip-down"
+                        color="secondary"
                       />
                     </div>
                   </div>
                   <div class="q-gutter-md row q-py-md">
                     <div class="col">
-                      <div class="text-h6">Quantity</div>
                       <q-input
                         outlined
-                        dense
+                        color="secondary"
                         v-model="inputPurchase.productQuantity"
                         type="number"
+                        label="Quantity"
                       />
                     </div>
                     <div class="col">
-                      <div class="text-h6">Unit</div>
                       <q-select
                         outlined
-                        dense
+                        color="secondary"
                         :options="unitProduct"
                         v-model="inputPurchase.productUnit"
+                        transition-show="flip-up"
+                        transition-hide="flip-down"
+                        label="Unit"
+                      />
+                    </div>
+                  </div>
+                  <div class="row q-gutter-md">
+                    <div class="col">
+                      <q-select
+                        outlined
+                        transition-show="flip-up"
+                        transition-hide="flip-down"
+                        label="Category"
+                        :options="categoryOpt"
+                        v-model="inputPurchase.purchaseCategory"
                       />
                     </div>
                     <div class="col">
-                      <div class="text-h6">Amount</div>
                       <q-input
+                        label="Amount"
+                        prefix="₱"
                         outlined
-                        dense
                         mask="#.##"
                         fill-mask="0"
                         reverse-fill-mask
@@ -116,12 +130,7 @@
                       v-close-popup
                       @click="resetModel()"
                     />
-                    <q-btn
-                      label="Submit"
-                      color="green"
-                      v-close-popup
-                      type="submit"
-                    />
+                    <q-btn label="Submit" color="green" type="submit" />
                   </div>
                 </q-form>
               </q-card-section>
@@ -161,52 +170,66 @@
                   <q-form @submit="onEditPurchase()">
                     <div class="row q-gutter-md">
                       <div class="col">
-                        <div class="text-h6">Select Product</div>
                         <q-input
                           v-model="inputPurchase.purchaseProduct"
                           outlined
-                          placeholder="Pleas select the product"
-                          dense
+                          label="Enter Purchase Item"
+                          color="secondary"
                         />
                       </div>
                       <div class="col">
-                        <div class="text-h6">Select Supplier</div>
-                        <q-input
+                        <q-select
                           outlined
-                          placeholder="Pleas select supplier"
-                          dense
+                          label="Select Supplier"
+                          transition-show="flip-up"
+                          transition-hide="flip-down"
+                          color="secondary"
                         />
                       </div>
                     </div>
-                    <div class="q-gutter-md row q-py-md">
+                    <div class="row q-gutter-md">
                       <div class="col">
-                        <div class="text-h6">Quantity</div>
-                        <q-input
-                          outlined
-                          dense
-                          v-model="inputPurchase.productQuantity"
-                          type="number"
-                        />
-                      </div>
-                      <div class="col">
-                        <div class="text-h6">Unit</div>
                         <q-select
                           outlined
-                          dense
-                          :options="unitProduct"
-                          v-model="inputPurchase.productUnit"
+                          transition-show="flip-up"
+                          transition-hide="flip-down"
+                          label="Category"
+                          :options="categoryOpt"
+                          v-model="inputPurchase.purchaseCategory"
                         />
                       </div>
                       <div class="col">
-                        <div class="text-h6">Amount</div>
                         <q-input
+                          label="Amount"
+                          prefix="₱"
                           outlined
-                          dense
                           mask="#.##"
                           fill-mask="0"
                           reverse-fill-mask
                           input-class="text-right"
                           v-model="inputPurchase.purchaseAmount"
+                        />
+                      </div>
+                    </div>
+                    <div class="q-gutter-md row q-py-md">
+                      <div class="col">
+                        <q-input
+                          outlined
+                          color="secondary"
+                          v-model="inputPurchase.productQuantity"
+                          type="number"
+                          label="Quantity"
+                        />
+                      </div>
+                      <div class="col">
+                        <q-select
+                          outlined
+                          color="secondary"
+                          :options="unitProduct"
+                          v-model="inputPurchase.productUnit"
+                          transition-show="flip-up"
+                          transition-hide="flip-down"
+                          label="Unit"
                         />
                       </div>
                     </div>
@@ -217,12 +240,7 @@
                         v-close-popup
                         @click="resetModel()"
                       />
-                      <q-btn
-                        label="Submit"
-                        color="green"
-                        v-close-popup
-                        type="submit"
-                      />
+                      <q-btn label="Submit" color="green" type="submit" />
                     </div>
                   </q-form>
                 </q-card-section>
@@ -299,6 +317,13 @@ export default class Pruchase extends Vue {
     },
 
     {
+      name: 'purchaseCategory',
+      align: 'center',
+      label: 'Category',
+      field: 'purchaseCategory',
+    },
+
+    {
       name: 'productQuantity',
       align: 'center',
       label: 'Quantity',
@@ -330,8 +355,9 @@ export default class Pruchase extends Vue {
   addNewPurchase = false;
   editRowPurchase = false;
   filter = '';
-
+  categoryOpt = ['Utensil', 'Ingredient', 'Equipments', 'Miscellaneous/Other'];
   unitProduct = ['Kilogram (kg)', 'Miligram (mg)', 'Packs'];
+
   inputPurchase: PurchaseDto = {
     purchaseProduct: '',
     purchaseDate: formattedString,
@@ -339,6 +365,7 @@ export default class Pruchase extends Vue {
     productUnit: '',
     purchaseStatus: 'Pending',
     purchaseAmount: 0,
+    purchaseCategory: '',
   };
 
   async onAddPurchase() {
@@ -387,6 +414,7 @@ export default class Pruchase extends Vue {
       purchaseDate: '',
       purchaseStatus: '',
       purchaseAmount: 0,
+      purchaseCategory: '',
     };
   }
 

@@ -43,7 +43,7 @@
               @click="addNewSupplier = true"
             />
             <q-dialog v-model="addNewSupplier" persistent>
-              <q-card style="width: 800px; max-width: 80vw">
+              <q-card style="width: 600px; max-width: 80vw">
                 <q-card-section class="row">
                   <div class="text-h6">Add Supplier</div>
                   <q-space />
@@ -58,15 +58,15 @@
                 </q-card-section>
 
                 <q-card-section>
-                  <q-form @submit="onAddSupplier" class="q-gutter-md">
-                    <div class="row">
-                      <div class="col col-md-8">
+                  <q-form @submit="onAddSupplier">
+                    <div class="row q-gutter-md">
+                      <div class="col">
                         <q-input
                           autofocus
                           color="green"
                           outlined
                           v-model="inputSupplier.supplierName"
-                          label="Name"
+                          label="Supplier Name"
                           lazy-rules
                           :rules="[
                             (val) =>
@@ -74,35 +74,45 @@
                               'Does not accept empty input',
                           ]"
                         />
+                      </div>
+                      <div class="col">
                         <q-input
                           color="green"
                           outlined
                           v-model="inputSupplier.company"
                           label="Company Name"
                         />
+                      </div>
+                    </div>
+                    <div class="row q-gutter-md">
+                      <div class="col">
                         <q-input
                           outlined
                           v-model="inputSupplier.email"
                           label="Email"
                           color="green"
+                          type="email"
                         />
                       </div>
-                      <div class="col-md-4 q-pl-md">
+                      <div class="col">
                         <q-input
                           outlined
                           v-model="inputSupplier.contact"
                           label="Contact Number"
-                          lazy-rules
-                        />
-                        <q-input
-                          outlined
-                          v-model="inputSupplier.address"
-                          label="Address"
-                          lazy-rules
-                          color="green"
+                          mask="(####) ### - ####"
+                          hint="Format: (0963) 135 - 8292"
                         />
                       </div>
                     </div>
+                    <div class="q-py-md">
+                      <q-input
+                        outlined
+                        v-model="inputSupplier.address"
+                        label="Address"
+                        color="green"
+                      />
+                    </div>
+
                     <div align="right">
                       <q-btn
                         flat
@@ -111,7 +121,7 @@
                         v-close-popup
                         @click="resetModel()"
                       />
-                      <q-btn flat label="Add" color="primary" type="submit" />
+                      <q-btn flat label="Add" color="secondary" type="submit" />
                     </div>
                   </q-form>
                 </q-card-section>
@@ -132,7 +142,7 @@
                 @click="openEditDialog(props.row)"
               />
               <q-dialog v-model="editRowSupplier" persistent>
-                <q-card style="width: 800px; max-width: 80vw">
+                <q-card style="width: 600px; max-width: 80vw">
                   <q-card-section class="row">
                     <div class="text-h6">Edit User</div>
                     <q-space />
@@ -148,14 +158,14 @@
 
                   <q-card-section class="q-gutter-md">
                     <q-form @submit="onEditSupplier">
-                      <div class="row">
-                        <div class="col col-md-8">
+                      <div class="row q-gutter-md">
+                        <div class="col">
                           <q-input
                             autofocus
-                            class="q-py-md"
+                            color="green"
                             outlined
                             v-model="inputSupplier.supplierName"
-                            label="Name"
+                            label="Supplier Name"
                             lazy-rules
                             :rules="[
                               (val) =>
@@ -163,58 +173,45 @@
                                 'Does not accept empty input',
                             ]"
                           />
+                        </div>
+                        <div class="col">
                           <q-input
-                            class="q-py-md"
+                            color="green"
                             outlined
                             v-model="inputSupplier.company"
                             label="Company Name"
-                            lazy-rules
-                            :rules="[
-                              (val) =>
-                                (val && val.length > 0) ||
-                                'Does not accept empty input',
-                            ]"
-                          />
-                          <q-input
-                            class="q-py-md"
-                            outlined
-                            v-model="inputSupplier.email"
-                            label="Email"
-                            lazy-rules
-                            :rules="[
-                              (val) =>
-                                (val && val.length > 0) ||
-                                'Does not accept empty input',
-                            ]"
-                          />
-                        </div>
-                        <div class="col-md-4 q-pl-md">
-                          <q-input
-                            class="q-py-md"
-                            outlined
-                            v-model="inputSupplier.contact"
-                            label="Contact Number"
-                            lazy-rules
-                            :rules="[
-                              (val) =>
-                                (val && val.length > 0) ||
-                                'Does not accept empty input',
-                            ]"
-                          />
-                          <q-input
-                            class="q-py-md"
-                            outlined
-                            v-model="inputSupplier.address"
-                            label="Address"
-                            lazy-rules
-                            :rules="[
-                              (val) =>
-                                (val && val.length > 0) ||
-                                'Does not accept empty input',
-                            ]"
                           />
                         </div>
                       </div>
+                      <div class="row q-gutter-md">
+                        <div class="col">
+                          <q-input
+                            outlined
+                            v-model="inputSupplier.email"
+                            label="Email"
+                            color="green"
+                            type="email"
+                          />
+                        </div>
+                        <div class="col">
+                          <q-input
+                            outlined
+                            v-model="inputSupplier.contact"
+                            label="Contact Number"
+                            mask="(####) ### - ####"
+                            hint="Format: (0963) 135 - 8292"
+                          />
+                        </div>
+                      </div>
+                      <div class="q-py-md">
+                        <q-input
+                          outlined
+                          v-model="inputSupplier.address"
+                          label="Address"
+                          color="green"
+                        />
+                      </div>
+
                       <div align="right">
                         <q-btn
                           flat
@@ -225,8 +222,8 @@
                         />
                         <q-btn
                           flat
-                          label="Save"
-                          color="primary"
+                          label="Add"
+                          color="secondary"
                           type="submit"
                         />
                       </div>

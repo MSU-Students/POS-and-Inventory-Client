@@ -1,22 +1,13 @@
-export interface ISubProdCategoryInfo {
-  subProdCatId?: number;
-  productCategory: string;
-  subProdCat: string;
-}
+import { SubprodCategory } from 'src/interfaces/sub-productCategory';
 
 export interface SubCategoryStateInterface {
-  allSubProdCat: ISubProdCategoryInfo[];
-  activeSubCategory?: ISubProdCategoryInfo;
+  allSubProdCat: SubprodCategory[];
+  newSubCategory?: SubprodCategory;
 }
 
 function state(): SubCategoryStateInterface {
   return {
-    allSubProdCat: [
-      {
-        productCategory: 'Drinks',
-        subProdCat: 'Frappe',
-      },
-    ],
+    allSubProdCat: [],
   };
 }
 
