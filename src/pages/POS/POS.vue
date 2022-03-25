@@ -33,26 +33,32 @@
               ]"
             />
             <div class="q-pa-md">
-              <q-input
-                color="green"
-                dense
-                square
-                outlined
-                debounce="300"
-                v-model="filter"
-              >
-                <template v-slot:append>
-                  <q-icon name="search" color="green" />
-                </template>
-              </q-input>
+              <q-form>
+                <q-input
+                  color="green"
+                  dense
+                  square
+                  outlined
+                  debounce="300"
+                  v-model="filter"
+                >
+                  <template v-slot:append>
+                    <q-icon name="search" color="green" />
+                  </template>
+                </q-input>
+              </q-form>
             </div>
 
             <q-scroll-area style="height: 600px; max-height: 600px">
               <div class="row">
                 <div v-for="data in allProduct" v-bind:key="data.productID">
-                  <div class="q-pa-sm" v-if="data.type === model">
+                  <div
+                    class="q-pa-sm"
+                    v-if="data.type === model || data.prodName === filter"
+                  >
                     <q-card
                       class="my-card"
+                      :class="class_val"
                       @click="
                         tempInput.prodName = data.prodName;
                         tempInput.price = data.price;
@@ -83,7 +89,7 @@
                           square
                           color="green"
                           label="Add Product"
-                          class="full-width"
+                          class="full-width absolute-bottom"
                           @click="chooseSize = true"
                         />
                         <q-dialog v-model="chooseSize">
@@ -481,6 +487,7 @@ export default class POS extends Vue {
   grandTotal = 0;
   payment = 0;
   change = 0;
+  class_val = 'shadow-1 my-card';
   orderedProduct() {
     this.radioBTN;
   }
@@ -592,8 +599,8 @@ export default class POS extends Vue {
   position: relative;
 
   left: 20px;
-  height: 23vh;
-  max-height: 23vh;
+  height: 25vh;
+
   width: 17vw;
   max-width: 17vw;
 }

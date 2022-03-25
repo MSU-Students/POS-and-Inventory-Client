@@ -1,19 +1,16 @@
-export interface IexpensesCategoryInfo {
+export interface ExpensesCategory {
   expensesCategoryID?: string;
   expensesCategoryName: string;
 }
 
 export interface expensesCategoryStateInterface {
-  allexpensesCategory: IexpensesCategoryInfo[];
+  allExpensesCategory: ExpensesCategory[];
+  newExpensesCategory?: ExpensesCategory;
 }
 
 function state(): expensesCategoryStateInterface {
   return {
-    allexpensesCategory: [
-      {
-        expensesCategoryName: 'Rent',
-      },
-    ],
+    allExpensesCategory: [],
   };
 }
 

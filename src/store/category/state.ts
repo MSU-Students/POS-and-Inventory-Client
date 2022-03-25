@@ -1,4 +1,4 @@
-export interface ICategoryInfo {
+export interface Category {
   categoryID: string;
   categoryName: string;
   numProd?: string;
@@ -6,20 +6,13 @@ export interface ICategoryInfo {
 }
 
 export interface CategoryStateInterface {
-  allCategory: ICategoryInfo[];
-  activeCategory?: ICategoryInfo;
+  allCategory: Category[];
+  activeCategory?: Category;
 }
 
 function state(): CategoryStateInterface {
   return {
-    allCategory: [
-      {
-        categoryID: '01',
-        categoryName: 'Rent',
-        numProd: '20',
-        stockQuantity: '30',
-      },
-    ],
+    allCategory: [],
   };
 }
 

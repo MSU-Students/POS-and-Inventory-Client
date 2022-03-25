@@ -1,11 +1,11 @@
 import { MutationTree } from 'vuex';
-import { ICategoryInfo, CategoryStateInterface } from './state';
+import { Category, CategoryStateInterface } from './state';
 
 const mutation: MutationTree<CategoryStateInterface> = {
-  setCategory(state, payload: ICategoryInfo) {
+  setCategory(state, payload: Category) {
     state.allCategory.push(payload);
   },
-  setNewCategory(state, payload: ICategoryInfo) {
+  setNewCategory(state, payload: Category) {
     const index = state.allCategory.findIndex(
       (s) => s.categoryID === payload.categoryID
     );
@@ -13,7 +13,7 @@ const mutation: MutationTree<CategoryStateInterface> = {
       state.allCategory.splice(index, 1, payload);
     }
   },
-  deleteCategory(state, payload: ICategoryInfo) {
+  deleteCategory(state, payload: Category) {
     const index = state.allCategory.findIndex(
       (s) => s.categoryID === payload.categoryID
     );

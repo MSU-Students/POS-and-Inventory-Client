@@ -1,18 +1,34 @@
+import expenseCategoryService from 'src/services/expensesCategory.service';
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
-import { expensesCategoryStateInterface, IexpensesCategoryInfo } from './state';
+import { expensesCategoryStateInterface } from './state';
 
 const actions: ActionTree<expensesCategoryStateInterface, StateInterface> = {
-  addExpenseCat(context, payload: IexpensesCategoryInfo) {
-    context.commit('setExpenseCat', payload);
+  async addExpensesCat(context, payload: any): Promise<any> {
+    const result = await expenseCategoryService.create(payload);
+    context.commit('setNewExpenses', result);
+    await context.dispatch('getAllExpensesCategory');
   },
 
-  editExpenseCat(context, payload: IexpensesCategoryInfo) {
-    context.commit('setNewExpenseCat', payload);
+  async editExpensesCat(context, payload: any): Promise<any> {
+    const result = await expenseCategoryService.create(payload);
+    context.commit('updateExpenses', result);
+    await context.dispatch('getAllExpensesCategory');
   },
 
-  deleteExpenseCat(context, payload: IexpensesCategoryInfo) {
-    context.commit('deleteExpenseCat', payload);
+  async deleteExpensesCat(context, expensesID: number): Promise<any> {
+    const result = await expenseCategoryService.delete(expensesID);
+    context.commit('deleteExpenses', result);
+  },
+
+  async getAllExpensesCategory(context): Promise<any> {
+    const res = await expenseCategoryService.getAll();
+    context.commit('getAllExpenses', res);
+  },
+
+  async getOneExpensesCategory(context, expensesID: number): Promise<any> {
+    const res = await expenseCategoryService.getOne(expensesID);
+    context.commit('getOneUser', res);
   },
 };
 

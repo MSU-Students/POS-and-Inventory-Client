@@ -9,7 +9,7 @@
         <div class="col">
           <q-table
             title="Product Category"
-            :rows="allCategory"
+            :rows="allProductCat"
             :columns="columns"
             row-key="code"
             :rows-per-page-options="[0]"
@@ -49,15 +49,8 @@
                       <div class="col">
                         <q-input
                           outlined
-                          label="Category ID"
-                          v-model="inputCategory.categoryID"
-                        />
-                      </div>
-                      <div class="col">
-                        <q-input
-                          outlined
                           label="Name"
-                          v-model="inputCategory.categoryName"
+                          v-model="inputCategory.prodCategoryName"
                         />
                       </div>
                     </q-card-section>
@@ -99,16 +92,8 @@
                         <div class="col">
                           <q-input
                             outlined
-                            label="Category ID"
-                            v-model="inputCategory.categoryID"
-                            disable
-                          />
-                        </div>
-                        <div class="col">
-                          <q-input
-                            outlined
                             label="Name"
-                            v-model="inputCategory.categoryName"
+                            v-model="inputCategory.prodCategoryName"
                           />
                         </div>
                       </q-card-section>
@@ -195,16 +180,8 @@
                       <div class="col">
                         <q-input
                           outlined
-                          label="Category ID"
-                          v-model="inputCategory.categoryID"
-                          disable
-                        />
-                      </div>
-                      <div class="col">
-                        <q-input
-                          outlined
                           label="Name"
-                          v-model="inputCategory.categoryName"
+                          v-model="inputSubCategory.subProdCat"
                         />
                       </div>
                     </q-card-section>
@@ -259,16 +236,8 @@
                         <div class="col">
                           <q-input
                             outlined
-                            label="Category ID"
-                            v-model="inputCategory.categoryID"
-                            disable
-                          />
-                        </div>
-                        <div class="col">
-                          <q-input
-                            outlined
                             label="Name"
-                            v-model="inputCategory.categoryName"
+                            v-model="inputSubCategory.subProdCat"
                           />
                         </div>
                       </q-card-section>
@@ -450,7 +419,7 @@
         <div class="col">
           <q-table
             title="Expenses Category"
-            :rows="allexpensesCategory"
+            :rows="allExpensesCategory"
             :columns="expensesCatColumns"
             row-key="expensesCategoryName"
             :rows-per-page-options="[0]"
@@ -493,29 +462,32 @@
                       />
                     </q-card-section>
 
-                    <q-card-section class="q-gutter-md">
-                      <q-input
-                        outlined
-                        label="Name"
-                        v-model="inputExpenseCat.expensesCategoryName"
-                      />
+                    <q-card-section>
+                      <q-form @submit="onAddExpenseCat()">
+                        <div class="q-gutter-md">
+                          <q-input
+                            outlined
+                            label="Name"
+                            v-model="inputExpenseCat.expensesCategoryName"
+                          />
+                        </div>
+                        <div align="right">
+                          <q-btn
+                            flat
+                            label="Cancel"
+                            color="red-10"
+                            v-close-popup
+                            @click="resetModelExpenseCat()"
+                          />
+                          <q-btn
+                            flat
+                            label="Save"
+                            color="primary"
+                            type="submit"
+                          />
+                        </div>
+                      </q-form>
                     </q-card-section>
-
-                    <q-card-actions align="right">
-                      <q-btn
-                        flat
-                        label="Cancel"
-                        color="red-10"
-                        v-close-popup
-                        @click="resetModelExpenseCat()"
-                      />
-                      <q-btn
-                        flat
-                        label="Add"
-                        color="primary"
-                        @click="onAddExpenseCat()"
-                      />
-                    </q-card-actions>
                   </q-card>
                 </q-dialog>
               </div>
@@ -547,29 +519,32 @@
                         />
                       </q-card-section>
 
-                      <q-card-section class="q-gutter-md">
-                        <q-input
-                          outlined
-                          label="Name"
-                          v-model="inputExpenseCat.expensesCategoryName"
-                        />
+                      <q-card-section>
+                        <q-form @submit="onEditExpenseCat()">
+                          <div class="q-gutter-md">
+                            <q-input
+                              outlined
+                              label="Name"
+                              v-model="inputExpenseCat.expensesCategoryName"
+                            />
+                          </div>
+                          <div align="right">
+                            <q-btn
+                              flat
+                              label="Cancel"
+                              color="red-10"
+                              v-close-popup
+                              @click="resetModelExpenseCat()"
+                            />
+                            <q-btn
+                              flat
+                              label="Save"
+                              color="primary"
+                              type="submit"
+                            />
+                          </div>
+                        </q-form>
                       </q-card-section>
-
-                      <q-card-actions align="right">
-                        <q-btn
-                          flat
-                          label="Cancel"
-                          color="red-10"
-                          v-close-popup
-                          @click="resetModelExpenseCat()"
-                        />
-                        <q-btn
-                          flat
-                          label="Save"
-                          color="primary"
-                          @click="onEditExpenseCat()"
-                        />
-                      </q-card-actions>
                     </q-card>
                   </q-dialog>
                   <q-btn
@@ -594,16 +569,18 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { ICategoryInfo } from '../store/category/state';
+import { Category } from '../store/category/state';
 import { ISubProdCategoryInfo } from '../store/subCategory/state';
-import { IexpensesCategoryInfo } from '../store/expensesCategory/state';
-import { mapState, mapActions } from 'vuex';
+import { ExpensesCategoryDto } from 'src/services/rest-api';
+import { mapState, mapActions, mapGetters } from 'vuex';
 import { InventoryCategoryDto } from 'src/services/rest-api';
+import { ProdCategoryDto } from 'src/services/rest-api';
+import { ProductCategory } from 'src/store/productCategory/state';
 @Options({
   computed: {
     ...mapState('category', ['allCategory']),
     ...mapState('subCategory', ['allSubProdCat']),
-    ...mapState('expensesCategory', ['allexpensesCategory']),
+    ...mapState('expensesCategory', ['allExpensesCategory']),
     ...mapState('inventoryCategory', ['allInventoryCat']),
   },
   methods: {
@@ -624,9 +601,16 @@ import { InventoryCategoryDto } from 'src/services/rest-api';
       'getAllInventoryCategory',
     ]),
     ...mapActions('expensesCategory', [
-      'addExpenseCat',
-      'editexpenseCat',
-      'deleteExpenseCat',
+      'addExpensesCat',
+      'editExpensesCat',
+      'deleteExpensesCat',
+      'getallExpensesCategory',
+    ]),
+    ...mapActions('productCategory', [
+      'addProductCat',
+      'editProductCat',
+      'deleteProductCat',
+      'getAllProductCategory',
     ]),
   },
 })
@@ -643,38 +627,27 @@ export default class Expenses extends Vue {
   expFilter = '';
 
   //---------------------------> Product Category <----------------------------------------------
-  addCategory!: (payload: ICategoryInfo) => Promise<void>;
-  editCategory!: (payload: ICategoryInfo) => Promise<void>;
-  deleteCategory!: (payload: ICategoryInfo) => Promise<void>;
-  allCategory!: ICategoryInfo[];
+  allProductCat!: ProdCategoryDto[];
+  addProductCat!: (payload: ProdCategoryDto) => Promise<void>;
+  editProductCat!: (payload: ProdCategoryDto) => Promise<void>;
+  deleteProductCat!: (payload: ProdCategoryDto) => Promise<void>;
+  getAllProductCategory!: () => Promise<void>;
+  addNewProductCat = false;
+  editNewProductCat = false;
+
+  async mounted() {
+    await this.getAllProductCategory();
+  }
 
   columns = [
     {
-      name: 'categoryID',
-      required: true,
-      label: 'Category ID',
-      align: 'left',
-      field: (row: ICategoryInfo) => row.categoryID,
-      format: (val: string) => `${val}`,
-    },
-    {
-      name: 'categoryName',
+      name: 'prodCategoryName',
       align: 'center',
       label: 'Name',
-      field: 'categoryName',
+      field: (row: ProdCategoryDto) => row.prodCategoryName,
+      format: (val: string) => `${val}`,
     },
-    {
-      name: 'numProd',
-      align: 'center',
-      label: 'Number of products',
-      field: 'numProd',
-    },
-    {
-      name: 'stockQuantity',
-      align: 'center',
-      label: 'Stock quantity',
-      field: 'stockQuantity',
-    },
+
     {
       name: 'action',
       align: 'center',
@@ -683,13 +656,12 @@ export default class Expenses extends Vue {
     },
   ];
 
-  inputCategory: ICategoryInfo = {
-    categoryID: '',
-    categoryName: '',
+  inputCategory: ProdCategoryDto = {
+    prodCategoryName: '',
   };
 
   async onAddCategory() {
-    await this.addCategory(this.inputCategory);
+    await this.addProductCat(this.inputCategory);
     this.addNewCategory = false;
     this.resetModelProd();
     this.$q.notify({
@@ -699,7 +671,7 @@ export default class Expenses extends Vue {
   }
 
   async onEditCategory() {
-    await this.editCategory(this.inputCategory);
+    await this.editProductCat(this.inputCategory);
     this.editRowCategory = false;
     this.resetModelProd();
     this.$q.notify({
@@ -708,7 +680,7 @@ export default class Expenses extends Vue {
     });
   }
 
-  deleteSpecificCategory(val: ICategoryInfo) {
+  deleteSpecificCategory(val: ProdCategoryDto) {
     this.$q
       .dialog({
         message: 'Confirm to delete?',
@@ -716,7 +688,7 @@ export default class Expenses extends Vue {
         persistent: true,
       })
       .onOk(async () => {
-        await this.deleteCategory(val);
+        await this.deleteProductCat(val);
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',
@@ -724,16 +696,13 @@ export default class Expenses extends Vue {
       });
   }
 
-  openEditDialogProd(val: ICategoryInfo) {
+  openEditDialogProd(val: ProdCategoryDto) {
     this.editRowCategory = true;
     this.inputCategory = { ...val };
   }
   resetModelProd() {
     this.inputCategory = {
-      categoryID: '',
-      categoryName: '',
-      numProd: '',
-      stockQuantity: '',
+      prodCategoryName: '',
     };
   }
   //---------------------------> Sub-Product Category <----------------------------------------------
@@ -827,9 +796,9 @@ export default class Expenses extends Vue {
   addNewInventoryCat = false;
   editRowInventoryCat = false;
 
-  async mounted() {
-    await this.getAllInventoryCategory();
-  }
+  // async mounted() {
+  //   await this.getAllInventoryCategory();
+  // }
   InvCatColumns = [
     {
       name: 'categoryName',
@@ -914,10 +883,10 @@ export default class Expenses extends Vue {
   }
 
   //---------------------------> Expenses Category <----------------------------------------------
-  allexpensesCategory!: IexpensesCategoryInfo;
-  addExpenseCat!: (payload: IexpensesCategoryInfo) => Promise<void>;
-  editExpenseCat!: (payload: IexpensesCategoryInfo) => Promise<void>;
-  deleteExpenseCat!: (payload: IexpensesCategoryInfo) => Promise<void>;
+  allExpensesCategory!: ExpensesCategoryDto;
+  addExpensesCat!: (payload: ExpensesCategoryDto) => Promise<void>;
+  editExpensesCat!: (payload: ExpensesCategoryDto) => Promise<void>;
+  deleteExpensesCat!: (payload: ExpensesCategoryDto) => Promise<void>;
   addNewExpenseCat = false;
   editRowExpenseCat = false;
 
@@ -927,7 +896,7 @@ export default class Expenses extends Vue {
       required: true,
       label: 'Name',
       align: 'left',
-      field: (row: IexpensesCategoryInfo) => row.expensesCategoryName,
+      field: (row: ExpensesCategoryDto) => row.expensesCategoryName,
       format: (val: string) => `${val}`,
     },
     {
@@ -937,13 +906,13 @@ export default class Expenses extends Vue {
       field: 'action',
     },
   ];
-  inputExpenseCat: IexpensesCategoryInfo = {
+  inputExpenseCat: ExpensesCategoryDto = {
     expensesCategoryName: '',
   };
   async onAddExpenseCat() {
-    await this.addExpenseCat(this.inputExpenseCat);
+    await this.addExpensesCat(this.inputExpenseCat);
     this.addNewExpenseCat = false;
-    this.resetModelProd();
+    this.resetModelExpenseCat();
     this.$q.notify({
       type: 'positive',
       message: 'Successfully Added.',
@@ -951,16 +920,16 @@ export default class Expenses extends Vue {
   }
 
   async onEditExpenseCat() {
-    await this.editExpenseCat(this.inputExpenseCat);
+    await this.editExpensesCat(this.inputExpenseCat);
     this.editRowExpenseCat = false;
-    this.resetModelProd();
+    this.resetModelExpenseCat();
     this.$q.notify({
       type: 'positive',
       message: 'Successfully Edit.',
     });
   }
 
-  deleteSpecificExpenseCat(val: IexpensesCategoryInfo) {
+  deleteSpecificExpenseCat(val: ExpensesCategoryDto) {
     this.$q
       .dialog({
         message: 'Confirm to delete?',
@@ -968,7 +937,7 @@ export default class Expenses extends Vue {
         persistent: true,
       })
       .onOk(async () => {
-        await this.deleteExpenseCat(val);
+        await this.deleteExpensesCat(val);
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',
@@ -976,7 +945,7 @@ export default class Expenses extends Vue {
       });
   }
 
-  openEditDialogExpenseCat(val: IexpensesCategoryInfo) {
+  openEditDialogExpenseCat(val: ExpensesCategoryDto) {
     this.editRowExpenseCat = true;
     this.inputExpenseCat = { ...val };
   }

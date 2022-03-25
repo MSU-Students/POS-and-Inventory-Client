@@ -1,25 +1,24 @@
 import { MutationTree } from 'vuex';
-import { IexpensesCategoryInfo, expensesCategoryStateInterface } from './state';
+import { expensesCategoryStateInterface } from './state';
 
 const mutation: MutationTree<expensesCategoryStateInterface> = {
-  setExpenseCat(state, payload: IexpensesCategoryInfo) {
-    state.allexpensesCategory.push(payload);
+  setNewExpenses(state, payload) {
+    state.newExpensesCategory = payload;
   },
-  setNewExpenseCat(state, payload: IexpensesCategoryInfo) {
-    const index = state.allexpensesCategory.findIndex(
-      (s) => s.expensesCategoryID === payload.expensesCategoryID
-    );
-    if (index >= 0) {
-      state.allexpensesCategory.splice(index, 1, payload);
-    }
+  updateExpenses(state, payload) {
+    state.newExpensesCategory = payload;
   },
-  deleteExpenseCat(state, payload: IexpensesCategoryInfo) {
-    const index = state.allexpensesCategory.findIndex(
-      (s) => s.expensesCategoryID === payload.expensesCategoryID
-    );
-    if (index >= 0) {
-      state.allexpensesCategory.splice(index, 1);
-    }
+  deleteExpenses(state, payload) {
+    state.allExpensesCategory.push(payload);
+  },
+
+  getAllExpenses(state, payload) {
+    state.allExpensesCategory = [];
+    state.allExpensesCategory.push(...payload);
+  },
+
+  getOneUser(state, payload) {
+    state.allExpensesCategory = payload;
   },
 };
 

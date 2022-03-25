@@ -1,9 +1,9 @@
-import productCategoryService from 'src/services/inventoryCategory.service';
+import productCategoryService from 'src/services/productCategory.service';
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
-import { CategoryStateInterface } from './state';
+import { ProductCategoryStateInterface } from '../productCategory/state';
 
-const actions: ActionTree<CategoryStateInterface, StateInterface> = {
+const actions: ActionTree<ProductCategoryStateInterface, StateInterface> = {
   async addProductCat(context, payload: any): Promise<any> {
     const result = await productCategoryService.create(payload);
     context.commit('setNewProductCategory', result);
@@ -26,8 +26,8 @@ const actions: ActionTree<CategoryStateInterface, StateInterface> = {
     context.commit('getAllProductCategory', res);
   },
 
-  async getOneProductCategory(context, categoryID: number): Promise<any> {
-    const res = await productCategoryService.getOne(categoryID);
+  async getOneProductCategory(context, productID: number): Promise<any> {
+    const res = await productCategoryService.getOne(productID);
     context.commit('getOneUser', res);
   },
 };
