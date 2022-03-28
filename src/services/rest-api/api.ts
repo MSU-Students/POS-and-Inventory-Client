@@ -76,6 +76,12 @@ export interface ExpensesDto {
      * @memberof ExpensesDto
      */
     'expensesCategory'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExpensesDto
+     */
+    'supplierId'?: number;
 }
 /**
  * 
@@ -95,6 +101,18 @@ export interface InventoryDto {
      * @memberof InventoryDto
      */
     'itemQuantProd': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof InventoryDto
+     */
+    'itemQuantStatus': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof InventoryDto
+     */
+    'itemStatus'?: string;
     /**
      * 
      * @type {string}
@@ -138,6 +156,18 @@ export interface ManageProductDto {
      * @memberof ManageProductDto
      */
     'productPrice': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ManageProductDto
+     */
+    'productCategory': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ManageProductDto
+     */
+    'productSubCategory': string;
     /**
      * 
      * @type {string}
@@ -250,6 +280,12 @@ export interface PurchaseDto {
      * @memberof PurchaseDto
      */
     'purchaseAmount': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PurchaseDto
+     */
+    'purchaseSupplierId'?: number;
 }
 /**
  * 
@@ -313,12 +349,6 @@ export interface SubprodCategoryDto {
      * @memberof SubprodCategoryDto
      */
     'subProdName': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof SubprodCategoryDto
-     */
-    'productId'?: number;
 }
 /**
  * 

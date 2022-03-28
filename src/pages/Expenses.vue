@@ -93,6 +93,12 @@
                         transition-hide="flip-down"
                         outlined
                         color="secondary"
+                        :options="allSupplier"
+                        option-label="company"
+                        option-value="supplierID"
+                        map-options
+                        emit-value
+                        v-model="inputExpenses.supplierId"
                       />
                     </div>
                   </div>
@@ -131,13 +137,13 @@
               size="sm"
               flat
               dense
-              @click="showExpensesNote = true"
+              @click="openExpensesNote(props.row)"
             />
             <q-dialog v-model="showExpensesNote">
-              <q-card flat bordered>
+              <q-card style="width: 400px" flat bordered>
                 <q-card-section>
                   <div class="text-h6">
-                    Expenses expensesNote
+                    Expenses Note
                     <q-btn
                       round
                       flat
@@ -148,17 +154,25 @@
                       v-close-popup
                     ></q-btn>
                   </div>
-                  <div>Reference Number:</div>
-                  <div>Category:</div>
-                  <div>Date:</div>
+                  <q-space />
+                  <div>
+                    Expenses Name:
+                    <strong>{{ inputExpenses.expensesName }}</strong>
+                  </div>
+                  <div>
+                    Category:
+                    <strong>{{ inputExpenses.expensesCategory }}</strong>
+                  </div>
+                  <div>
+                    Date and Time:
+                    <strong>{{ inputExpenses.expensesDate }}</strong>
+                  </div>
                 </q-card-section>
 
                 <q-separator />
 
                 <q-card-section>
-                  Assessing clients needs and present suitable promoted
-                  products. Liaising with and persuading targeted doctors to
-                  prescribe our products utilizing effective sales skills.
+                  {{ inputExpenses.description }}
                 </q-card-section>
                 <q-separator />
               </q-card>
@@ -236,6 +250,12 @@
                           transition-hide="flip-down"
                           outlined
                           color="secondary"
+                          :options="allSupplier"
+                          option-label="company"
+                          option-value="supplierId"
+                          emit-value
+                          map-options
+                          v-model="inputExpenses.supplierId"
                         />
                       </div>
                     </div>
@@ -280,7 +300,7 @@
 </template>
 
 <script lang="ts">
-import { ExpensesDto } from 'src/services/rest-api';
+import { ExpensesDto, SupplierDto } from 'src/services/rest-api';
 import { Vue, Options } from 'vue-class-component';
 import { mapState, mapActions } from 'vuex';
 import { date } from 'quasar';
@@ -291,6 +311,7 @@ const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 @Options({
   computed: {
     ...mapState('expenses', ['allExpenses']),
+    ...mapState('supplier', ['allSupplier']),
   },
   methods: {
     ...mapActions('expenses', [
@@ -302,7 +323,8 @@ const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
   },
 })
 export default class Expenses extends Vue {
-  allExpenses!: ExpensesDto;
+  allExpenses!: ExpensesDto[];
+  allSupplier!: SupplierDto[];
   addExpenses!: (payload: ExpensesDto) => Promise<void>;
   editExpenses!: (payload: ExpensesDto) => Promise<void>;
   deleteExpenses!: (payload: ExpensesDto) => Promise<void>;
@@ -310,6 +332,7 @@ export default class Expenses extends Vue {
 
   async mounted() {
     await this.getAllExpenses();
+    console.log(this.allExpenses);
   }
 
   columns = [
@@ -343,7 +366,6 @@ export default class Expenses extends Vue {
       name: 'supplier',
       align: 'center',
       label: 'Supplier',
-      field: 'supplier',
     },
     {
       name: 'expensesNote',
@@ -366,11 +388,11 @@ export default class Expenses extends Vue {
     'Transportation',
     'Miscellaneous/Other',
   ];
-  expensesNote =
-    'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!';
+
   addNewExpenses = false;
   editRowExpenses = false;
   showExpensesNote = false;
+  statusExpenses = false;
   filter = '';
 
   inputExpenses: ExpensesDto = {
@@ -422,10 +444,15 @@ export default class Expenses extends Vue {
     this.inputExpenses = { ...val };
   }
 
+  openExpensesNote(val: ExpensesDto) {
+    this.showExpensesNote = true;
+    this.inputExpenses = { ...val };
+  }
+
   resetModel() {
     this.inputExpenses = {
       expensesName: '',
-      expensesDate: '',
+      expensesDate: formattedString,
       description: '',
       amount: 0,
       expensesCategory: '',

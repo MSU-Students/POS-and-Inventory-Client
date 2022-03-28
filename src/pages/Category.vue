@@ -434,7 +434,6 @@ export default class Expenses extends Vue {
 
   inputSubCategory: SubprodCategoryDto = {
     subProdName: '',
-    productId: 0,
   };
 
   async onAddSubProdCat() {
@@ -480,7 +479,6 @@ export default class Expenses extends Vue {
   resetModelSubProd() {
     this.inputSubCategory = {
       subProdName: '',
-      productId: 0,
     };
   }
 }

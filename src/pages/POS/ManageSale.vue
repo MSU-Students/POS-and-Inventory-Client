@@ -91,12 +91,36 @@
                         outlined
                         :options="productCategoryType"
                         label="Category"
+                        v-model="inputManageSale.productCategory"
                       >
                         <template v-slot:prepend>
                           <q-icon name="category" />
                         </template>
                       </q-select>
                     </div>
+                    <div class="col">
+                      <q-select
+                        class="q-py-md"
+                        :v-model="
+                          inputManageSale.productCategory ==
+                            'Beverage/Drinks' ||
+                          'Food' ||
+                          'Sinker/Add-Ons'
+                            ? selectSubCategory()
+                            : selectSubCategory
+                        "
+                        outlined
+                        :options="SubCategory"
+                        label="Sub-Category"
+                        v-model="inputManageSale.productSubCategory"
+                      >
+                        <template v-slot:prepend>
+                          <q-icon name="category" />
+                        </template>
+                      </q-select>
+                    </div>
+                  </div>
+                  <div class="row q-gutter-md">
                     <div class="col">
                       <q-input
                         class="q-py-md"
@@ -116,24 +140,25 @@
                         <template v-slot:prepend> ₱ </template>
                       </q-input>
                     </div>
+                    <q-item class="col">
+                      <q-item-section>
+                        <q-item-label class="text-subtitle1">
+                          Availability
+                        </q-item-label>
+                      </q-item-section>
+                      <q-item-section avatar>
+                        <q-toggle
+                          outlined
+                          size="lg"
+                          color="green"
+                          false-value="No"
+                          true-value="Yes"
+                          v-model="inputManageSale.productAvailability"
+                        />
+                      </q-item-section>
+                    </q-item>
                   </div>
-                  <q-item>
-                    <q-item-section>
-                      <q-item-label class="text-subtitle1">
-                        Availability
-                      </q-item-label>
-                    </q-item-section>
-                    <q-item-section avatar>
-                      <q-toggle
-                        outlined
-                        size="lg"
-                        color="green"
-                        false-value="No"
-                        true-value="Yes"
-                        v-model="inputManageSale.productAvailability"
-                      />
-                    </q-item-section>
-                  </q-item>
+
                   <div class="q-py-md" align="right">
                     <q-btn
                       flat
@@ -142,7 +167,7 @@
                       v-close-popup
                       @click="resetModel()"
                     />
-                    <q-btn flat label="Save" color="primary" type="submit" />
+                    <q-btn flat label="Add" color="primary" type="submit" />
                   </div>
                 </q-form>
               </q-card-section>
@@ -189,7 +214,7 @@
                           :rules="[
                             (val) =>
                               (val && val.length > 0) ||
-                              'Input must not be empty',
+                              'You must enter an input',
                           ]"
                         >
                           <template v-slot:prepend>
@@ -217,12 +242,36 @@
                           outlined
                           :options="productCategoryType"
                           label="Category"
+                          v-model="inputManageSale.productCategory"
                         >
                           <template v-slot:prepend>
                             <q-icon name="category" />
                           </template>
                         </q-select>
                       </div>
+                      <div class="col">
+                        <q-select
+                          class="q-py-md"
+                          :v-model="
+                            inputManageSale.productCategory ==
+                              'Beverage/Drinks' ||
+                            'Food' ||
+                            'Sinker/Add-Ons'
+                              ? selectSubCategory()
+                              : selectSubCategory
+                          "
+                          outlined
+                          :options="SubCategory"
+                          label="Sub-Category"
+                          v-model="inputManageSale.productSubCategory"
+                        >
+                          <template v-slot:prepend>
+                            <q-icon name="category" />
+                          </template>
+                        </q-select>
+                      </div>
+                    </div>
+                    <div class="row q-gutter-md">
                       <div class="col">
                         <q-input
                           class="q-py-md"
@@ -236,24 +285,25 @@
                           <template v-slot:prepend> ₱ </template>
                         </q-input>
                       </div>
+                      <q-item class="col">
+                        <q-item-section>
+                          <q-item-label class="text-subtitle1">
+                            Availability
+                          </q-item-label>
+                        </q-item-section>
+                        <q-item-section avatar>
+                          <q-toggle
+                            outlined
+                            size="lg"
+                            color="green"
+                            false-value="No"
+                            true-value="Yes"
+                            v-model="inputManageSale.productAvailability"
+                          />
+                        </q-item-section>
+                      </q-item>
                     </div>
-                    <q-item>
-                      <q-item-section>
-                        <q-item-label class="text-subtitle1">
-                          Availability
-                        </q-item-label>
-                      </q-item-section>
-                      <q-item-section avatar>
-                        <q-toggle
-                          outlined
-                          size="lg"
-                          color="green"
-                          false-value="No"
-                          true-value="Yes"
-                          v-model="inputManageSale.productAvailability"
-                        />
-                      </q-item-section>
-                    </q-item>
+
                     <div class="q-py-md" align="right">
                       <q-btn
                         flat
@@ -288,8 +338,8 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import { mapState, mapActions } from 'vuex';
-import { date } from 'quasar';
 import { ManageProductDto } from 'src/services/rest-api';
+import { date } from 'quasar';
 
 const timeStamp = Date.now();
 const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
@@ -339,10 +389,23 @@ export default class ManageProduct extends Vue {
       field: 'productCategory',
     },
     {
+      name: 'SubCategory',
+      align: 'center',
+      label: 'Sub-Category',
+      field: 'productSubCategory',
+    },
+    {
       name: 'productAvailability',
       align: 'center',
       label: 'Product Availability ',
       field: 'productAvailability',
+    },
+
+    {
+      name: 'ProductDate',
+      align: 'center',
+      label: 'Date Created',
+      field: 'productDateCreated',
     },
     {
       name: 'Actions',
@@ -351,7 +414,8 @@ export default class ManageProduct extends Vue {
       field: 'Actions',
     },
   ];
-  productCategoryType = ['Beverage/Drinks', 'Food', 'Add-ons', 'Appetizer'];
+  productCategoryType = ['Beverage/Drinks', 'Food', 'Sinker/Add-Ons'];
+  SubCategory: any[] = [];
   addNewManageSale = false;
   filter = '';
   editRowManageSale = false;
@@ -360,8 +424,45 @@ export default class ManageProduct extends Vue {
     productName: '',
     productPrice: 0,
     productAvailability: 'Yes',
-    productDateCreated: '',
+    productDateCreated: formattedString,
+    productCategory: '',
+    productSubCategory: '',
   };
+
+  selectSubCategory() {
+    if (this.inputManageSale.productCategory == 'Beverage/Drinks') {
+      return (this.SubCategory = [
+        'Milk Teas',
+        'Fruit Teas',
+        'Yogurt Teas',
+        'Ice Blended Drinks',
+        'Salted Cream Series',
+        'Iced Coffees',
+        'Creamcheese Series',
+        'Ice Blended Coffees',
+        'Other Drinks',
+      ]);
+    } else if (this.inputManageSale.productCategory == 'Food') {
+      return (this.SubCategory = [
+        'Meals',
+        'Platters',
+        ' Rice Toppings',
+        'Chicken Wings',
+        'Sandwiches and Burgers',
+        'All-Time Favorites',
+        'Pasta and Noodles',
+        'Something Sweet',
+        'Pizza',
+        'French Fries and Nachos',
+        'Party Trays',
+        'Healthy Option',
+        'Smoothie Bowls',
+        'Frozen Spoon Ice Cream',
+      ]);
+    } else if (this.inputManageSale.productCategory == 'Sinker/Add-Ons') {
+      return (this.SubCategory = ['None']);
+    }
+  }
 
   async onAddManageSale() {
     await this.addManageProduct(this.inputManageSale);
@@ -409,7 +510,9 @@ export default class ManageProduct extends Vue {
       productName: '',
       productPrice: 0,
       productAvailability: '',
-      productDateCreated: '',
+      productDateCreated: formattedString,
+      productCategory: '',
+      productSubCategory: '',
     };
   }
 }

@@ -4,7 +4,7 @@
       <q-icon name="inventory" color="indigo" style="font-size: 4rem" />
       Inventory
     </div>
-    <div class="row">
+    <div class="row q-gutter-md">
       <div class="q-pr-md col-10">
         <q-table
           title="Inventory List"
@@ -246,6 +246,7 @@
                               label="Quantity"
                               v-model="inputInventory.itemQuantProd"
                               type="number"
+                              hint="Note: You can only change the quantity if you put wrong input"
                             />
                           </div>
                           <div class="col">
@@ -266,7 +267,12 @@
                             v-close-popup
                             @click="resetModel()"
                           />
-                          <q-btn flat label="Add" color="green" type="submit" />
+                          <q-btn
+                            flat
+                            label="Save"
+                            color="green"
+                            type="submit"
+                          />
                         </div>
                       </q-form>
                     </q-card-section>
@@ -282,12 +288,84 @@
                   dense
                   @click="deleteSpecificInventory(props.row)"
                 />
+                <q-btn
+                  round
+                  color="secondary"
+                  icon="done_all"
+                  size="sm"
+                  flat
+                  dense
+                  @click="openStatusDialog(props.row)"
+                />
+                <q-dialog v-model="statusInventory">
+                  <q-card
+                    style="width: 400px; max-width: 100vw"
+                    class="q-ma-md"
+                  >
+                    <q-card-section class="row">
+                      <div class="text-h6">Edit Product Status</div>
+                      <q-space />
+                      <q-btn
+                        flat
+                        round
+                        dense
+                        icon="close"
+                        v-close-popup
+                        @click="resetModel()"
+                      />
+                    </q-card-section>
+                    <q-card-section>
+                      <q-form @submit="onEditStatusInventory()">
+                        <div class="q-pb-md">
+                          <q-input
+                            outlined
+                            color="green"
+                            label="Quantity"
+                            v-model="inputInventory.itemQuantStatus"
+                            type="number"
+                          />
+                          <q-list>
+                            <q-item tag="label" v-ripple>
+                              <q-item-section>
+                                <q-item-label
+                                  >Product Availability</q-item-label
+                                >
+                              </q-item-section>
+                              <q-item-section avatar>
+                                <q-toggle
+                                  color="blue"
+                                  v-model="inputInventory.itemStatus"
+                                  false-value="Used"
+                                  true-value="Available"
+                                />
+                              </q-item-section> </q-item
+                          ></q-list>
+                        </div>
+                        <div align="right">
+                          <q-btn
+                            flat
+                            label="Cancel"
+                            color="red-10"
+                            v-close-popup
+                            @click="resetModel()"
+                          />
+                          <q-btn
+                            flat
+                            label="Save"
+                            color="green"
+                            type="submit"
+                          />
+                        </div>
+                      </q-form>
+                    </q-card-section>
+                  </q-card>
+                </q-dialog>
               </div>
             </q-td>
           </template>
         </q-table>
       </div>
-      <div class="col q-pl-md">
+      <div class="col">
         <q-card flat bordered class="my-card">
           <q-card-section>
             <div class="text-h5">Overview</div>
@@ -335,7 +413,8 @@ import { InventoryDto } from 'src/services/rest-api';
 import { date } from 'quasar';
 
 const timeStamp = Date.now();
-const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH');
+const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
+
 @Options({
   computed: {
     ...mapState('inventory', ['allInventory']),
@@ -376,16 +455,23 @@ export default class Inventory extends Vue {
       field: 'itemCategory',
     },
     {
-      name: 'itemQuantProd',
+      name: 'itemQuantStatus',
       align: 'center',
       label: 'Quantity',
-      field: 'itemQuantProd',
+      field: 'itemQuantStatus',
     },
     {
       name: 'itemUnitProd',
       align: 'center',
       label: 'Unit',
       field: 'itemUnitProd',
+    },
+
+    {
+      name: 'itemStatus',
+      align: 'center',
+      label: 'Status',
+      field: 'itemStatus',
     },
 
     {
@@ -413,6 +499,7 @@ export default class Inventory extends Vue {
   prodIssue = false;
   addNewInventory = false;
   editRowInventory = false;
+  statusInventory = false;
   filter = '';
   unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
   categoryOpt = ['Utensil', 'Ingredient', 'Equipments', 'Miscellaneous/Other'];
@@ -424,11 +511,18 @@ export default class Inventory extends Vue {
     itemExpiryDate: '',
     itemDateCreated: formattedString,
     itemCategory: '',
+    itemStatus: 'Available',
+    itemQuantStatus: 0,
   };
 
   async onAddInventory() {
-    await this.addInventory(this.inputInventory);
+    const newInputInventory = {
+      ...this.inputInventory,
+      itemQuantStatus: this.inputInventory.itemQuantProd,
+    };
+    await this.addInventory(newInputInventory);
     this.addNewInventory = false;
+    this.statusInventory = false;
     this.resetModel();
     this.$q.notify({
       type: 'positive',
@@ -437,8 +531,24 @@ export default class Inventory extends Vue {
   }
 
   async onEditInventory() {
+    const newInputInventory = {
+      ...this.inputInventory,
+      itemQuantStatus: this.inputInventory.itemQuantProd,
+    };
+    await this.editInventory(newInputInventory);
+    this.editRowInventory = false;
+    this.statusInventory = false;
+    this.resetModel();
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Edit.',
+    });
+  }
+
+  async onEditStatusInventory() {
     await this.editInventory(this.inputInventory);
     this.editRowInventory = false;
+    this.statusInventory = false;
     this.resetModel();
     this.$q.notify({
       type: 'positive',
@@ -467,6 +577,11 @@ export default class Inventory extends Vue {
     this.inputInventory = { ...val };
   }
 
+  openStatusDialog(val: InventoryDto) {
+    this.statusInventory = true;
+    this.inputInventory = { ...val };
+  }
+
   resetModel() {
     this.inputInventory = {
       itemName: '',
@@ -475,6 +590,8 @@ export default class Inventory extends Vue {
       itemExpiryDate: '',
       itemDateCreated: formattedString,
       itemCategory: '',
+      itemStatus: '',
+      itemQuantStatus: 0,
     };
   }
 }

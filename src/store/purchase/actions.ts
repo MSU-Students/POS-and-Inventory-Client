@@ -24,6 +24,7 @@ const actions: ActionTree<PurchaseStateInterface, StateInterface> = {
   async getAllPurchase(context): Promise<any> {
     const res = await purchaseService.getAll();
     context.commit('getAllPurchase', res);
+    await this.dispatch('supplier/getAllSupplier');
   },
 
   async getOnePurchase(context, purchaseID: number): Promise<any> {

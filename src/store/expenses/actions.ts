@@ -24,6 +24,7 @@ const actions: ActionTree<ExpensesStateInterface, StateInterface> = {
   async getAllExpenses(context): Promise<any> {
     const res = await expensesService.getAll();
     context.commit('getAllExpenses', res);
+    await this.dispatch('supplier/getAllSupplier');
   },
 
   async getOneExpenses(context, expensesID: number): Promise<any> {
