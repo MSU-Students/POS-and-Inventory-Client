@@ -8,8 +8,38 @@
         :columns="column"
         row-key="subCategoryID"
         :rows-per-page-options="[0]"
-      />
+        :filter="saleFilter"
+      >
+        <template v-slot:top-right>
+          <div class="q-pa-md" style="max-width: 300px">
+            <q-input filled v-model="saleFilter" mask="date" :rules="['date']">
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    cover
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="saleFilter">
+                      <div class="row items-center justify-end">
+                        <q-btn
+                          v-close-popup
+                          label="Close"
+                          color="primary"
+                          flat
+                        />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+        </template>
+      </q-table>
     </div>
+
     <q-card class="q-my-lg">
       <q-card-section class="text-h6 q-pb-none">
         <q-item>
@@ -148,6 +178,10 @@ import { IOrderInfo } from '../../store/Order/state';
 })
 export default class ChartComponent extends Vue {
   allOrder!: IOrderInfo[];
+
+  saleFilter = '';
+
+  async filterByMonth() {}
 
   column = [
     {

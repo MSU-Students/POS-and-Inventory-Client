@@ -17,7 +17,7 @@
       <div class="row q-gutter-md">
         <div class="col-7">
           <q-card style="max-height: 700px">
-            <q-btn-toggle
+            <!-- <q-btn-toggle
               v-model="model"
               spread
               no-caps
@@ -31,9 +31,200 @@
                 { icon: 'icecream', label: 'Desserts', value: 'Deserts' },
                 { icon: 'fastfood', label: 'Packages', value: 'Packages' },
               ]"
-            />
+            /> -->
+            <div class="bg-green text-white shadow-transition">
+              <div
+                class="row text-center flex flex-center"
+                :style="$q.platform.is.desktop ? 'height: 38px' : ''"
+              >
+                <div
+                  class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+                  @mouseover="foodCat = true"
+                >
+                  <q-icon class="q-pa-sm" size="25px" name="dinner_dining" />
+                  Foods
+                  <q-menu
+                    fit
+                    @mouseleave="foodCat = false"
+                    v-model="foodCat"
+                    transition-show="flip-right"
+                    transition-hide="flip-left"
+                  >
+                    <q-list dense class="text-grey-9 text-caption">
+                      <div
+                        v-for="foodCat in foodCategory"
+                        v-bind:key="foodCat.name"
+                      >
+                        <q-item @click="model = foodCat.name" clickable>
+                          <q-item-section>{{ foodCat.name }}</q-item-section>
+                        </q-item>
+                      </div>
+                    </q-list>
+                  </q-menu>
+                  <q-icon
+                    size="sm"
+                    class="q-ml-xs text-grey-5"
+                    name="keyboard_arrow_down"
+                  ></q-icon>
+                </div>
+                <!-- ------------------ -->
+                <div
+                  class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+                  @mouseover="drinksCat = true"
+                >
+                  <q-icon class="q-pa-sm" size="25px" name="local_drink" />
+                  Drinks
+                  <q-menu
+                    fit
+                    @mouseleave="drinksCat = false"
+                    v-model="drinksCat"
+                    transition-show="flip-right"
+                    transition-hide="flip-left"
+                  >
+                    <q-list dense class="text-grey-9 text-caption">
+                      <div
+                        v-for="drinksCat in drinkCategory"
+                        v-bind:key="drinksCat.name"
+                      >
+                        <q-item @click="model = drinksCat.name" clickable>
+                          <q-item-section>{{ drinksCat.name }}</q-item-section>
+                        </q-item>
+                      </div>
+                    </q-list>
+                  </q-menu>
+                  <q-icon
+                    size="sm"
+                    class="q-ml-xs text-grey-5"
+                    name="keyboard_arrow_down"
+                  ></q-icon>
+                </div>
+
+                <!-- ------------------ -->
+
+                <div
+                  class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+                  @mouseover="snacksCat = true"
+                >
+                  <q-icon class="q-pa-sm" size="25px" name="lunch_dining" />
+                  Snacks
+                  <q-menu
+                    fit
+                    @mouseleave="snacksCat = false"
+                    v-model="snacksCat"
+                    transition-show="flip-right"
+                    transition-hide="flip-left"
+                  >
+                    <q-list dense class="text-grey-9 text-caption">
+                      <q-item clickable>
+                        <q-item-section>Mobiles</q-item-section>
+                      </q-item>
+                      <q-item clickable>
+                        <q-item-section>Laptops</q-item-section>
+                      </q-item>
+                      <q-item clickable>
+                        <q-item-section>Health Care Appliances</q-item-section>
+                      </q-item>
+                      <!--<q-separator/>-->
+                      <q-item clickable>
+                        <q-item-section>Speakers</q-item-section>
+                      </q-item>
+                      <q-item clickable>
+                        <q-item-section>Smart Home Automation</q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                  <q-icon
+                    size="sm"
+                    class="q-ml-xs text-grey-5"
+                    name="keyboard_arrow_down"
+                  ></q-icon>
+                </div>
+
+                <!-- ------------------ -->
+
+                <div
+                  class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+                  @mouseover="desertsCat = true"
+                >
+                  <q-icon class="q-pa-sm" size="25px" name="icecream" />
+                  Deserts
+                  <q-menu
+                    fit
+                    @mouseleave="desertsCat = false"
+                    v-model="desertsCat"
+                    transition-show="flip-right"
+                    transition-hide="flip-left"
+                  >
+                    <q-list dense class="text-grey-9 text-caption">
+                      <q-item clickable>
+                        <q-item-section>Mobiles</q-item-section>
+                      </q-item>
+                      <q-item clickable>
+                        <q-item-section>Laptops</q-item-section>
+                      </q-item>
+                      <q-item clickable>
+                        <q-item-section>Health Care Appliances</q-item-section>
+                      </q-item>
+                      <!--<q-separator/>-->
+                      <q-item clickable>
+                        <q-item-section>Speakers</q-item-section>
+                      </q-item>
+                      <q-item clickable>
+                        <q-item-section>Smart Home Automation</q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                  <q-icon
+                    size="sm"
+                    class="q-ml-xs text-grey-5"
+                    name="keyboard_arrow_down"
+                  ></q-icon>
+                </div>
+
+                <!-- --------------------- -->
+
+                <div
+                  class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+                  @mouseover="packagesCat = true"
+                >
+                  <q-icon class="q-pa-sm" size="25px" name="fastfood" />
+                  Packages
+                  <q-menu
+                    fit
+                    @mouseleave="packagesCat = false"
+                    v-model="packagesCat"
+                    transition-show="flip-right"
+                    transition-hide="flip-left"
+                  >
+                    <q-list dense class="text-grey-9 text-caption">
+                      <q-item clickable>
+                        <q-item-section>Mobiles</q-item-section>
+                      </q-item>
+                      <q-item clickable>
+                        <q-item-section>Laptops</q-item-section>
+                      </q-item>
+                      <q-item clickable>
+                        <q-item-section>Health Care Appliances</q-item-section>
+                      </q-item>
+                      <!--<q-separator/>-->
+                      <q-item clickable>
+                        <q-item-section>Speakers</q-item-section>
+                      </q-item>
+                      <q-item clickable>
+                        <q-item-section>Smart Home Automation</q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                  <q-icon
+                    size="sm"
+                    class="q-ml-xs text-grey-5"
+                    name="keyboard_arrow_down"
+                  ></q-icon>
+                </div>
+              </div>
+            </div>
             <div class="q-pa-md">
-              <q-form>
+              <q-form @submit="model = filter">
                 <q-input
                   color="green"
                   dense
@@ -43,7 +234,9 @@
                   v-model="filter"
                 >
                   <template v-slot:append>
-                    <q-icon name="search" color="green" />
+                    <q-btn flat @click="model = filter">
+                      <q-icon name="search" color="green" />
+                    </q-btn>
                   </template>
                 </q-input>
               </q-form>
@@ -54,7 +247,7 @@
                 <div v-for="data in allProduct" v-bind:key="data.productID">
                   <div
                     class="q-pa-sm"
-                    v-if="data.type === model || data.prodName === filter"
+                    v-if="data.type === model || data.prodName === model"
                   >
                     <q-card
                       class="my-card"
@@ -487,11 +680,58 @@ export default class POS extends Vue {
   grandTotal = 0;
   payment = 0;
   change = 0;
+
+  foodCat = false;
+  drinksCat = false;
+  snacksCat = false;
+  desertsCat = false;
+  packagesCat = false;
+
   class_val = 'shadow-1 my-card';
   orderedProduct() {
     this.radioBTN;
   }
 
+  foodCategory = [
+    {
+      name: 'meals',
+    },
+    {
+      name: 'platters',
+    },
+  ];
+  drinkCategory = [
+    {
+      name: 'Milk tea',
+    },
+    {
+      name: 'Iced coffee',
+    },
+  ];
+  snackCategory = [
+    {
+      name: 'finger foods',
+    },
+    {
+      name: 'barkada snacks',
+    },
+  ];
+  dessertsCategory = [
+    {
+      name: 'ice creams',
+    },
+    {
+      name: 'Halo-Halo',
+    },
+  ];
+  PackagesCategory = [
+    {
+      name: 'Food with Drinks',
+    },
+    {
+      name: 'Drink with snacks',
+    },
+  ];
   selectedOrder = [
     {
       name: 'productName',

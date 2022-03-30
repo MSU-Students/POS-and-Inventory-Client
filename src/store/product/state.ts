@@ -19,14 +19,14 @@ function state(): ProductStateInterface {
         productID: 100001,
         prodName: 'Monster Frappe',
         price: 150,
-        type: 'Drinks',
+        type: 'Milk tea',
         date: '01/31/2022',
       },
       {
         productID: 100002,
-        prodName: 'Red Velvet',
+        prodName: 'Nescafe Iced Coffee',
         price: 80,
-        type: 'Drinks',
+        type: 'Iced coffee',
         date: '01/31/2022',
       },
       {
