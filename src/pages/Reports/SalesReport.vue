@@ -181,8 +181,6 @@ export default class ChartComponent extends Vue {
 
   saleFilter = '';
 
-  async filterByMonth() {}
-
   column = [
     {
       name: 'prodName',

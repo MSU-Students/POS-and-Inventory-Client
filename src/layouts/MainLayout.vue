@@ -21,7 +21,7 @@
                 />
               </div>
 
-              <q-btn color="green" label="Logout" push to="/" v-close-popup />
+              <q-btn color="green" label="Logout" push @click="logout()" />
             </div>
 
             <q-separator vertical inset class="q-mx-lg" />
