@@ -6,8 +6,8 @@
     </div>
     <div>
       <q-table
-        title="Purchase List"
-        :rows="rows"
+        title="Purchase History"
+        :rows="allPurchase"
         :columns="columns"
         row-key="itemCode"
         :rows-per-page-options="[0]"
@@ -195,108 +195,68 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import CostChart from 'components/Charts/CostChart.vue';
+import { mapState } from 'vuex';
+import { PurchaseDto } from 'src/services/rest-api';
 
-interface IRow {
-  itemCode: string;
-}
 @Options({
   components: { CostChart },
+  computed: {
+    ...mapState('purchase', ['allPurchase']),
+  },
 })
 export default class Expenses extends Vue {
+  allPurchase!: PurchaseDto[];
   columns = [
     {
       name: 'itemCode',
       required: true,
-      label: 'Item Code',
+      label: 'Purchase Reference',
       align: 'left',
-      field: (row: IRow) => row.itemCode,
-      format: (val: string) => `${val}`,
+      field: 'purchaseID',
     },
     {
       name: 'itemName',
       align: 'center',
       label: 'Item Name',
-      field: 'itemName',
+      field: (row: PurchaseDto) => row.purchaseProduct,
+      format: (val: string) => `${val}`,
     },
     {
       name: 'quantPurchase',
       align: 'center',
       label: 'Purchase Quantity',
-      field: 'quantPurchase',
+      field: 'productQuantity',
     },
     {
       name: 'unitProd',
       align: 'center',
       label: 'Unit',
-      field: 'unitProd',
-    },
-    {
-      name: 'InStock',
-      align: 'center',
-      label: 'In Stock',
-      field: 'InStock',
+      field: 'productUnit',
     },
     {
       name: 'catProd',
       align: 'center',
       label: 'Category',
-      field: 'catProd',
+      field: 'purchaseCategory',
+    },
+    {
+      name: 'InStock',
+      align: 'center',
+      label: 'Supplier',
+      field: 'InStock',
     },
     {
       name: 'Amount',
       align: 'center',
       label: 'Purchase Amount',
-      field: 'Amount',
+      field: 'purchaseAmount',
     },
 
     {
       name: 'dateProd',
       align: 'center',
       label: 'Purchase Date',
-      field: 'dateProd',
-    },
-  ];
-
-  rows = [
-    {
-      itemCode: 'hj4j324jbb34bj4',
-      itemName: 'Spoon',
-      quantPurchase: '50',
-      unitProd: 'Packs',
-      InStock: '5',
-      catProd: 'Utensil',
-      Amount: '1000',
-      dateProd: '12/11/2021',
-    },
-    {
-      itemCode: 'hh123h12g3hj13',
-      itemName: 'Sugar',
-      quantPurchase: '70',
-      unitProd: 'Packs',
-      InStock: '5',
-      catProd: 'Ingredient',
-      Amount: '2500',
-      dateProd: '12/11/2021',
-    },
-    {
-      itemCode: 'hs11121512u5',
-      itemName: 'Black pearls',
-      quantPurchase: '50',
-      unitProd: 'Packs',
-      InStock: '5',
-      catProd: 'Ingredient',
-      Amount: '1500',
-      dateProd: '12/11/2021',
-    },
-    {
-      itemCode: 'h434787512u5',
-      itemName: 'Blender',
-      quantPurchase: '50',
-      unitProd: 'Box',
-      InStock: '1',
-      catProd: 'Equipment',
-      Amount: '11500',
-      dateProd: '12/11/2021',
+      field: 'purchaseDate',
     },
   ];
   filter = '';

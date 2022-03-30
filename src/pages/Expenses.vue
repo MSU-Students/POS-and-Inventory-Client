@@ -98,7 +98,7 @@
                         option-value="supplierID"
                         map-options
                         emit-value
-                        v-model="inputExpenses.supplierId"
+                        v-model="inputExpenses.supplierSupplierID"
                       />
                     </div>
                   </div>
@@ -255,7 +255,7 @@
                           option-value="supplierId"
                           emit-value
                           map-options
-                          v-model="inputExpenses.supplierId"
+                          v-model="inputExpenses.supplierSupplierID"
                         />
                       </div>
                     </div>

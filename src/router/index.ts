@@ -35,16 +35,34 @@ export default route<StateInterface>(function ({ store }) {
       process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
     ),
   });
-  // Router.beforeEach(async (to, from, next) => {
-  //   await store.dispatch('auth/authUser');
-  //   if (store.state.auth.currentUser && to.meta.dapatWalangUser) {
-  //     next('/Dashboard');
-  //   } else if (to.meta.dapatMayUser && !store.state.auth.currentUser) {
-  //     next('/');
-  //   } else {
-  //     next();
-  //   }
-  // });
+  Router.beforeEach(async (to, from, next) => {
+    const session = localStorage.getItem('access-token');
+    if (to.matched.some((record) => record.meta.requiresGuest)) {
+      if (session != null) {
+        next({
+          path: '/Dashboard',
+          query: {
+            redirect: to.fullPath,
+          },
+        });
+      } else {
+        next();
+      }
+    } else if (to.matched.some((record) => record.meta.requiresAdmin)) {
+      if (session == null) {
+        next({
+          path: '/',
+          query: {
+            redirect: to.fullPath,
+          },
+        });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  });
 
   return Router;
 });

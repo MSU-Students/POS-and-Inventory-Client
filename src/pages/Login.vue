@@ -65,8 +65,8 @@
             </q-form>
           </q-card-section>
         </q-card>
-      </q-page>
-    </q-page-container>
+      </q-page> </q-page-container
+    >s
   </q-layout>
 </template>
 
@@ -102,6 +102,17 @@ export default class Login extends Vue {
         this.currentUser.type == 'Admin'
       ) {
         await this.$router.replace('/Dashboard');
+        this.$q.notify({
+          position: 'center',
+          type: 'positive',
+          message: 'You are logged in',
+        });
+      }
+      if (
+        this.currentUser.type == 'cashier' ||
+        this.currentUser.type == 'Cashier'
+      ) {
+        await this.$router.replace('/cashierpos');
         this.$q.notify({
           position: 'center',
           type: 'positive',
