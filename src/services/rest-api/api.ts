@@ -81,7 +81,7 @@ export interface ExpensesDto {
      * @type {number}
      * @memberof ExpensesDto
      */
-    'supplierId'?: number;
+    'supplierSupplierID'?: number;
 }
 /**
  * 
@@ -285,7 +285,7 @@ export interface PurchaseDto {
      * @type {number}
      * @memberof PurchaseDto
      */
-    'purchaseSupplierId'?: number;
+    'supplierPurchaseSupplierID'?: number;
 }
 /**
  * 
@@ -1217,6 +1217,40 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('filterInventoryItem', 'keyword', keyword)
             const localVarPath = `/inventory/filter/{keyword}`
                 .replace(`{${"keyword"}}`, encodeURIComponent(String(keyword)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Filter
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        filterPurchase: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('filterPurchase', 'id', id)
+            const localVarPath = `/purchase/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2806,6 +2840,17 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Filter
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async filterPurchase(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PurchaseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.filterPurchase(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Get Expenses by id
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -3439,6 +3484,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         filterInventoryItem(keyword: string, options?: any): AxiosPromise<InventoryDto> {
             return localVarFp.filterInventoryItem(keyword, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Filter
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        filterPurchase(id: string, options?: any): AxiosPromise<PurchaseDto> {
+            return localVarFp.filterPurchase(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4081,6 +4136,18 @@ export class DefaultApi extends BaseAPI {
      */
     public filterInventoryItem(keyword: string, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).filterInventoryItem(keyword, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Filter
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public filterPurchase(id: string, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).filterPurchase(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

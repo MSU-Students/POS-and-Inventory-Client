@@ -34,32 +34,6 @@
               <div class="text-subtitle1 q-mt-md q-mb-xs">Basam C. Serad</div>
             </div>
           </div>
-          <!-- <div class="row no-wrap q-pa-md">
-            <div class="column items-center">
-              <q-avatar size="90px" icon="person"> </q-avatar>
-
-              <div class="text-subtitle1 q-mt-md q-mb-xs">Basam Serad</div>
-
-              <q-btn
-                class="q-ma-xs"
-                color="primary"
-                label="Manage"
-                push
-                size="md"
-                to="/Account"
-                v-close-popup
-              />
-
-              <q-btn
-                color="primary"
-                label="Logout"
-                push
-                size="md"
-                to="/"
-                v-close-popup
-              />
-            </div>
-          </div> -->
         </q-btn-dropdown>
       </q-toolbar>
     </q-header>
@@ -134,14 +108,6 @@
             <q-item-section> Expenses </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/category">
-            <q-item-section avatar>
-              <q-icon name="category" color="green-2" />
-            </q-item-section>
-
-            <q-item-section> Category </q-item-section>
-          </q-item>
-
           <q-expansion-item>
             <template v-slot:header>
               <q-item-section avatar>
@@ -169,7 +135,7 @@
 
           <q-separator />
 
-          <q-item clickable v-ripple to="/">
+          <q-item clickable v-ripple @click="logout()">
             <q-item-section avatar>
               <q-icon name="logout" color="red" />
             </q-item-section>
@@ -186,11 +152,18 @@
   </q-layout>
 </template>
 <script lang="ts">
-import { Vue, Options } from 'vue-class-component';
-@Options({})
+import { posApiService } from 'src/services/pos-inventory-api.service';
+import { Vue } from 'vue-class-component';
 export default class MainLayout extends Vue {
   drawer = false;
   miniState = true;
+
+  async logout() {
+    const res = await posApiService.logoutUser();
+    if (res.status == 201) {
+      await this.$router.replace('/');
+    }
+  }
 }
 </script>
 <style></style>

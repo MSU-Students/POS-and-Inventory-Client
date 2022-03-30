@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-
+    meta: { requiresGuest: true },
     component: () => import('pages/Login.vue'),
     // meta: {
     //   dapatWalangUser: true,
@@ -11,16 +11,18 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/POS',
+    meta: { requiresAdmin: true },
     component: () => import('../pages/POS/POS.vue'),
   },
   {
     path: '/',
+    name: 'admin',
+    meta: { requiresAdmin: true },
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
         path: 'Dashboard',
         component: () => import('../pages/Dashboard.vue'),
-        // meta: { dapatMayUser: true },
       },
       {
         path: 'account',
@@ -65,6 +67,17 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'ExpenseReport',
         component: () => import('../pages/Reports/ExpensesReport.vue'),
+      },
+    ],
+  },
+  {
+    path: '/cashier',
+    name: 'cashier',
+    component: () => import('layouts/CashierLayout.vue'),
+    children: [
+      {
+        path: '/cashierpos',
+        component: () => import('../pages/Cashier/POS.vue'),
       },
     ],
   },
