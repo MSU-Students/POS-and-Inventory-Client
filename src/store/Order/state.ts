@@ -16,35 +16,7 @@ export interface OrderStateInterface {
 
 function state(): OrderStateInterface {
   return {
-    allOrder: [
-      {
-        orderID: 1,
-        prodName: 'Milk tea',
-        size: 'medium',
-        prodQuant: 1,
-        price: 200,
-        subTotal: 300,
-        orderDate: '2022/01/30',
-      },
-      {
-        orderID: 1,
-        prodName: 'Milk tea',
-        size: 'medium',
-        prodQuant: 1,
-        price: 200,
-        subTotal: 300,
-        orderDate: '2022/02/30',
-      },
-      {
-        orderID: 1,
-        prodName: 'Milk tea',
-        size: 'medium',
-        prodQuant: 1,
-        price: 200,
-        subTotal: 300,
-        orderDate: '2022/03/30',
-      },
-    ],
+    allOrder: [],
   };
 }
 

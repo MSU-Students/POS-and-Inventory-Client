@@ -39,7 +39,49 @@
         </template>
       </q-table>
     </div>
+    <q-card class="q-py-md">
+      <q-card-section>
+        <q-item-section>
+          <div class="text-center text-h6">Best Seller</div>
+        </q-item-section>
+      </q-card-section>
+      <q-tabs
+        v-model="tab"
+        dense
+        class="text-grey"
+        active-color="primary"
+        indicator-color="primary"
+        align="justify"
+        narrow-indicator
+      >
+        <q-tab icon="dinner_dining" name="Food" label="Food" />
+        <q-tab
+          icon="local_drink"
+          name="Drink/Beverages"
+          label="Drink/Beverages"
+        />
+        <q-tab icon="add_box" name="Add-ons" label="Add-ons" />
+      </q-tabs>
+      <q-separator />
 
+      <q-tab-panels v-model="tab" animated>
+        <q-tab-panel name="Food">
+          <div class="text-h6">Best Seller in food</div>
+          <BestSellerFood />
+        </q-tab-panel>
+
+        <q-tab-panel name="Drink/Beverages">
+          <div class="text-h6">Best Seller in Drinks/Beverages</div>
+          <BestSellerChartDrinks />
+        </q-tab-panel>
+
+        <q-tab-panel name="Add-ons">
+          <div class="text-h6">Best Seller in Add-ons</div>
+          <BestSellerChartAddons />
+        </q-tab-panel>
+      </q-tab-panels>
+      <div class="q-pa-lg"></div>
+    </q-card>
     <q-card class="q-my-lg">
       <q-card-section class="text-h6 q-pb-none">
         <q-item>
@@ -142,16 +184,6 @@
         <YearlySaleReport />
       </div>
     </q-card>
-    <q-card class="q-py-md">
-      <q-card-section>
-        <q-item-section>
-          <div class="text-h6">Best Seller</div>
-        </q-item-section>
-      </q-card-section>
-      <div class="q-pa-lg">
-        <BestSeller />
-      </div>
-    </q-card>
   </q-page>
 </template>
 <script lang="ts">
@@ -161,7 +193,9 @@ import monthlyProductSales from 'components/Charts/monthlyProductSales.vue';
 import CashFlowChart from 'components/Charts/DashSalePurchase.vue';
 import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
 import YearlySaleReport from 'components/Charts/YearlySaleReport.vue';
-import BestSeller from 'components/Charts/BestSellerChart.vue';
+import BestSellerFood from 'src/components/Charts/BestSellerChartFood.vue';
+import BestSellerChartDrinks from 'src/components/Charts/BestSellerChartDrinks.vue';
+import BestSellerChartAddons from 'src/components/Charts/BestSellerChartAddons.vue';
 import { mapState } from 'vuex';
 import { IOrderInfo } from '../../store/Order/state';
 @Options({
@@ -170,7 +204,9 @@ import { IOrderInfo } from '../../store/Order/state';
     CashFlowChart,
     MonthCashFlowChart,
     YearlySaleReport,
-    BestSeller,
+    BestSellerFood,
+    BestSellerChartDrinks,
+    BestSellerChartAddons,
   },
   computed: {
     ...mapState('Order', ['allOrder']),
@@ -178,7 +214,7 @@ import { IOrderInfo } from '../../store/Order/state';
 })
 export default class ChartComponent extends Vue {
   allOrder!: IOrderInfo[];
-
+  tab = 'Food';
   saleFilter = '';
 
   column = [

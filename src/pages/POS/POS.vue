@@ -17,26 +17,12 @@
       <div class="row q-gutter-md">
         <div class="col-7">
           <q-card style="max-height: 700px">
-            <!-- <q-btn-toggle
-              v-model="model"
-              spread
-              no-caps
-              toggle-color="green"
-              color="grey-4"
-              text-color="black"
-              :options="[
-                { icon: 'dinner_dining', label: 'Foods', value: 'Food' },
-                { icon: 'local_drink', label: 'Drinks', value: 'Drinks' },
-                { icon: 'lunch_dining', label: 'Snacks', value: 'Snacks' },
-                { icon: 'icecream', label: 'Desserts', value: 'Deserts' },
-                { icon: 'fastfood', label: 'Packages', value: 'Packages' },
-              ]"
-            /> -->
             <div class="bg-green text-white shadow-transition">
               <div
                 class="row text-center flex flex-center"
                 :style="$q.platform.is.desktop ? 'height: 38px' : ''"
               >
+                <q-space />
                 <div
                   class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
                   @mouseover="foodCat = true"
@@ -67,6 +53,7 @@
                     name="keyboard_arrow_down"
                   ></q-icon>
                 </div>
+                <q-space />
                 <!-- ------------------ -->
                 <div
                   class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
@@ -98,39 +85,31 @@
                     name="keyboard_arrow_down"
                   ></q-icon>
                 </div>
-
+                <q-space />
                 <!-- ------------------ -->
 
                 <div
                   class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
-                  @mouseover="snacksCat = true"
+                  @mouseover="addOnsCat = true"
                 >
-                  <q-icon class="q-pa-sm" size="25px" name="lunch_dining" />
-                  Snacks
+                  <q-icon class="q-pa-sm" size="25px" name="add_box" />
+                  Add-ons
                   <q-menu
                     fit
-                    @mouseleave="snacksCat = false"
-                    v-model="snacksCat"
+                    @mouseleave="addOnsCat = false"
+                    v-model="addOnsCat"
                     transition-show="flip-right"
                     transition-hide="flip-left"
                   >
                     <q-list dense class="text-grey-9 text-caption">
-                      <q-item clickable>
-                        <q-item-section>Mobiles</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Laptops</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Health Care Appliances</q-item-section>
-                      </q-item>
-                      <!--<q-separator/>-->
-                      <q-item clickable>
-                        <q-item-section>Speakers</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Smart Home Automation</q-item-section>
-                      </q-item>
+                      <div
+                        v-for="addOnsCat in addOnsCategory"
+                        v-bind:key="addOnsCat.name"
+                      >
+                        <q-item @click="model = addOnsCat.name" clickable>
+                          <q-item-section>{{ addOnsCat.name }}</q-item-section>
+                        </q-item>
+                      </div>
                     </q-list>
                   </q-menu>
                   <q-icon
@@ -139,88 +118,7 @@
                     name="keyboard_arrow_down"
                   ></q-icon>
                 </div>
-
-                <!-- ------------------ -->
-
-                <div
-                  class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
-                  @mouseover="desertsCat = true"
-                >
-                  <q-icon class="q-pa-sm" size="25px" name="icecream" />
-                  Deserts
-                  <q-menu
-                    fit
-                    @mouseleave="desertsCat = false"
-                    v-model="desertsCat"
-                    transition-show="flip-right"
-                    transition-hide="flip-left"
-                  >
-                    <q-list dense class="text-grey-9 text-caption">
-                      <q-item clickable>
-                        <q-item-section>Mobiles</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Laptops</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Health Care Appliances</q-item-section>
-                      </q-item>
-                      <!--<q-separator/>-->
-                      <q-item clickable>
-                        <q-item-section>Speakers</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Smart Home Automation</q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                  <q-icon
-                    size="sm"
-                    class="q-ml-xs text-grey-5"
-                    name="keyboard_arrow_down"
-                  ></q-icon>
-                </div>
-
-                <!-- --------------------- -->
-
-                <div
-                  class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
-                  @mouseover="packagesCat = true"
-                >
-                  <q-icon class="q-pa-sm" size="25px" name="fastfood" />
-                  Packages
-                  <q-menu
-                    fit
-                    @mouseleave="packagesCat = false"
-                    v-model="packagesCat"
-                    transition-show="flip-right"
-                    transition-hide="flip-left"
-                  >
-                    <q-list dense class="text-grey-9 text-caption">
-                      <q-item clickable>
-                        <q-item-section>Mobiles</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Laptops</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Health Care Appliances</q-item-section>
-                      </q-item>
-                      <!--<q-separator/>-->
-                      <q-item clickable>
-                        <q-item-section>Speakers</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Smart Home Automation</q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                  <q-icon
-                    size="sm"
-                    class="q-ml-xs text-grey-5"
-                    name="keyboard_arrow_down"
-                  ></q-icon>
-                </div>
+                <q-space />
               </div>
             </div>
             <div class="q-pa-md">
@@ -645,11 +543,14 @@ import { IOrderInfo } from '../../store/Order/state';
 import { IProductInfo } from '../../store/product/state';
 import { mapState, mapActions, mapGetters } from 'vuex';
 
+type TimeZone = { name: string; offset: number; timezone: any };
+
 @Options({
   computed: {
     ...mapState('Order', ['allOrder']),
     ...mapGetters('product', ['allProduct']),
   },
+
   methods: {
     ...mapActions('Order', ['addOrder', 'editOrder', 'deleteOrder']),
     ...mapActions('Product', ['addProduct', 'editProduct', 'deleteProduct']),
@@ -665,6 +566,7 @@ export default class POS extends Vue {
   editProduct!: (payload: IOrderInfo) => Promise<void>;
   deleteProduct!: (payload: IOrderInfo) => Promise<void>;
   allProduct!: IProductInfo[];
+
   model = 'Food';
   filter = '';
   ConfirmOrder = false;
@@ -683,7 +585,7 @@ export default class POS extends Vue {
 
   foodCat = false;
   drinksCat = false;
-  snacksCat = false;
+  addOnsCat = false;
   desertsCat = false;
   packagesCat = false;
 
@@ -697,39 +599,26 @@ export default class POS extends Vue {
       name: 'meals',
     },
     {
-      name: 'platters',
+      name: 'pasta',
+    },
+    {
+      name: 'sandwich',
     },
   ];
   drinkCategory = [
     {
-      name: 'Milk tea',
+      name: 'milk tea',
     },
     {
-      name: 'Iced coffee',
-    },
-  ];
-  snackCategory = [
-    {
-      name: 'finger foods',
+      name: 'iced coffee',
     },
     {
-      name: 'barkada snacks',
+      name: 'yogurt teas',
     },
   ];
-  dessertsCategory = [
+  addOnsCategory = [
     {
-      name: 'ice creams',
-    },
-    {
-      name: 'Halo-Halo',
-    },
-  ];
-  PackagesCategory = [
-    {
-      name: 'Food with Drinks',
-    },
-    {
-      name: 'Drink with snacks',
+      name: 'addons',
     },
   ];
   selectedOrder = [

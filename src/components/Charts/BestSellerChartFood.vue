@@ -11,13 +11,13 @@ import Chart from 'chart.js/auto';
 export default class monthlyProductSales extends Vue {
   chart?: Chart;
   mounted() {
-    const labels = ['Milk Tea', 'Beef Burger', 'Mango Shake', 'Black Tea'];
+    const labels = ['Tuna sandwich', 'Beef Burger', 'Grilled cheese sandwich'];
     const data = {
       labels: labels,
       datasets: [
         {
           label: 'products',
-          data: [3400, 1030, 512, 2230],
+          data: [50, 40, 90],
           backgroundColor: 'green',
         },
       ],

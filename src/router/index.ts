@@ -40,7 +40,7 @@ export default route<StateInterface>(function ({ store }) {
     if (to.matched.some((record) => record.meta.requiresGuest)) {
       if (session != null) {
         next({
-          path: '/',
+          path: '/dashboard',
           query: {
             redirect: to.fullPath,
           },
