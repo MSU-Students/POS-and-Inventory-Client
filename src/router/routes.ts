@@ -5,9 +5,6 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     meta: { requiresGuest: true },
     component: () => import('pages/Login.vue'),
-    // meta: {
-    //   dapatWalangUser: true,
-    // },
   },
   {
     path: '/POS',

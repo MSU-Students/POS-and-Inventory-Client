@@ -10,7 +10,7 @@
           <q-card>
             <q-table
               title="Stock List"
-              :rows="allInventory"
+              :rows="usedInventory"
               :columns="columns"
               row-key="itemCode"
               :rows-per-page-options="[0]"
@@ -118,15 +118,23 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import { InventoryDto } from 'src/services/rest-api';
-import { mapState } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 @Options({
   computed: {
-    ...mapState('inventory', ['allInventory']),
+    ...mapGetters('inventory', ['usedInventory']),
+  },
+  methods: {
+    ...mapActions('inventory', ['getAllInventory']),
   },
 })
 export default class Expenses extends Vue {
-  allInventory!: InventoryDto[];
+  usedInventory!: InventoryDto[];
+  getAllInventory!: () => Promise<void>;
+
+  async mounted() {
+    await this.getAllInventory();
+  }
   columns = [
     {
       name: 'itemName',
@@ -137,7 +145,13 @@ export default class Expenses extends Vue {
       format: (val: string) => `${val}`,
     },
     {
-      name: 'itemQuantProd',
+      name: 'itemCategory',
+      align: 'center',
+      label: 'Category',
+      field: 'itemCategory',
+    },
+    {
+      name: 'itemQuantStatus',
       align: 'center',
       label: 'Quantity',
       field: 'itemQuantProd',
@@ -148,12 +162,14 @@ export default class Expenses extends Vue {
       label: 'Unit',
       field: 'itemUnitProd',
     },
+
     {
-      name: 'itemCategory',
+      name: 'itemStatus',
       align: 'center',
-      label: 'Category',
-      field: 'itemCategory',
+      label: 'Status',
+      field: 'itemStatus',
     },
+
     {
       name: 'itemExpiryDate',
       align: 'center',

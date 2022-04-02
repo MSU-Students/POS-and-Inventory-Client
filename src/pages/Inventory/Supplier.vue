@@ -81,6 +81,12 @@
                           outlined
                           v-model="inputSupplier.company"
                           label="Company Name"
+                          lazy-rules
+                          :rules="[
+                            (val) =>
+                              (val && val.length > 0) ||
+                              'You must put the product unit',
+                          ]"
                         />
                       </div>
                     </div>
@@ -166,12 +172,6 @@
                             outlined
                             v-model="inputSupplier.supplierName"
                             label="Supplier Name"
-                            lazy-rules
-                            :rules="[
-                              (val) =>
-                                (val && val.length > 0) ||
-                                'Does not accept empty input',
-                            ]"
                           />
                         </div>
                         <div class="col">

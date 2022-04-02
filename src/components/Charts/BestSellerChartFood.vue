@@ -18,7 +18,16 @@ export default class monthlyProductSales extends Vue {
         {
           label: 'products',
           data: [50, 40, 90],
-          backgroundColor: 'green',
+          backgroundColor: [
+            'rgba(201, 203, 207, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+          ],
+          borderColor: [
+            'rgb(201, 203, 207)',
+            'rgb(255, 159, 64)',
+            'rgb(153, 102, 255)',
+          ],
         },
       ],
     };

@@ -59,6 +59,12 @@
                         label="Expenses Name"
                         v-model="inputExpenses.expensesName"
                         color="secondary"
+                        lazy-rules
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You must put the product unit',
+                        ]"
                       />
                     </div>
                     <div class="col">
@@ -71,6 +77,12 @@
                         reverse-fill-mask
                         v-model="inputExpenses.amount"
                         color="secondary"
+                        lazy-rules
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You must put the product unit',
+                        ]"
                       />
                     </div>
                   </div>
@@ -84,6 +96,12 @@
                         transition-hide="flip-down"
                         outlined
                         v-model="inputExpenses.expensesCategory"
+                        lazy-rules
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You must put the product unit',
+                        ]"
                       />
                     </div>
                     <div class="col">
@@ -332,23 +350,21 @@ export default class Expenses extends Vue {
 
   async mounted() {
     await this.getAllExpenses();
-    console.log(this.allExpenses);
   }
 
   columns = [
     {
+      name: 'expensesID',
+      align: 'left',
+      label: 'Expenses Reference',
+      field: 'expensesID',
+    },
+    {
       name: 'expensesName',
       required: true,
       label: 'Expenses Name',
-      align: 'left',
-      field: (row: ExpensesDto) => row.expensesName,
-      format: (val: string) => `${val}`,
-    },
-    {
-      name: 'expensesDate',
       align: 'center',
-      label: 'Date',
-      field: 'expensesDate',
+      file: 'expensesName',
     },
     {
       name: 'category',
@@ -357,15 +373,23 @@ export default class Expenses extends Vue {
       field: 'expensesCategory',
     },
     {
+      name: 'supplier',
+      align: 'center',
+      label: 'Supplier',
+      field: (row: any) => row.supplier?.company || 'None',
+    },
+    {
+      name: 'expensesDate',
+      align: 'center',
+      label: 'Date',
+      field: 'expensesDate',
+    },
+
+    {
       name: 'amount',
       align: 'center',
       label: 'Amount',
       field: 'amount',
-    },
-    {
-      name: 'supplier',
-      align: 'center',
-      label: 'Supplier',
     },
     {
       name: 'expensesNote',
@@ -399,7 +423,6 @@ export default class Expenses extends Vue {
     expensesName: '',
     expensesDate: formattedString,
     description: '',
-    amount: 0,
     expensesCategory: '',
   };
 
@@ -454,7 +477,6 @@ export default class Expenses extends Vue {
       expensesName: '',
       expensesDate: formattedString,
       description: '',
-      amount: 0,
       expensesCategory: '',
     };
   }

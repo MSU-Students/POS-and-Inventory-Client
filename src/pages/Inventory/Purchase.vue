@@ -12,7 +12,7 @@
     </div>
     <q-table
       title="Purchase List"
-      :rows="allPurchase"
+      :rows="pendingPurchase"
       :columns="columns"
       row-key="name"
       :rows-per-page-options="[0]"
@@ -65,6 +65,12 @@
                         outlined
                         label="Enter Purchase Item"
                         color="secondary"
+                        lazy-rules
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You must put the product unit',
+                        ]"
                       />
                     </div>
                     <div class="col">
@@ -91,6 +97,13 @@
                         v-model="inputPurchase.productQuantity"
                         type="number"
                         label="Quantity"
+                        min="0"
+                        lazy-rules
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You must put the product unit',
+                        ]"
                       />
                     </div>
                     <div class="col">
@@ -102,6 +115,12 @@
                         transition-show="flip-up"
                         transition-hide="flip-down"
                         label="Unit"
+                        lazy-rules
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You must put the product unit',
+                        ]"
                       />
                     </div>
                   </div>
@@ -114,6 +133,12 @@
                         label="Category"
                         :options="categoryOpt"
                         v-model="inputPurchase.purchaseCategory"
+                        lazy-rules
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You must put the product unit',
+                        ]"
                       />
                     </div>
                     <div class="col">
@@ -126,6 +151,12 @@
                         reverse-fill-mask
                         input-class="text-right"
                         v-model="inputPurchase.purchaseAmount"
+                        lazy-rules
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You must put the product unit',
+                        ]"
                       />
                     </div>
                   </div>
@@ -207,6 +238,7 @@
                           v-model="inputPurchase.productQuantity"
                           type="number"
                           label="Quantity"
+                          min="0"
                         />
                       </div>
                       <div class="col">
@@ -347,7 +379,7 @@
 <script lang="ts">
 import { PurchaseDto, SupplierDto } from 'src/services/rest-api';
 import { Vue, Options } from 'vue-class-component';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import { date } from 'quasar';
 
 const timeStamp = Date.now();
@@ -355,7 +387,7 @@ const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {
-    ...mapState('purchase', ['allPurchase']),
+    ...mapGetters('purchase', ['pendingPurchase']),
     ...mapState('supplier', ['allSupplier']),
   },
   methods: {
@@ -368,7 +400,7 @@ const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
   },
 })
 export default class Pruchase extends Vue {
-  allPurchase!: PurchaseDto[];
+  pendingPurchase!: PurchaseDto[];
   allSupplier!: SupplierDto[];
   addPurchase!: (payload: PurchaseDto) => Promise<void>;
   editPurchase!: (payload: PurchaseDto) => Promise<void>;
@@ -377,16 +409,21 @@ export default class Pruchase extends Vue {
 
   async mounted() {
     await this.getAllPurchase();
-    console.log(this.allPurchase);
   }
   columns = [
+    {
+      name: 'itemCode',
+      required: true,
+      label: 'Purchase Reference',
+      align: 'left',
+      field: 'purchaseID',
+    },
     {
       name: 'purchaseProduct',
       required: true,
       label: 'Product Name',
-      align: 'left',
-      field: (row: PurchaseDto) => row.purchaseProduct,
-      format: (val: string) => `${val}`,
+      align: 'center',
+      field: 'purchaseProduct',
     },
     {
       name: 'purchaseDate',
@@ -398,7 +435,7 @@ export default class Pruchase extends Vue {
       name: 'supplier',
       align: 'center',
       label: 'Supplier',
-      field: (row: any) => row.supplierPurchase.company,
+      field: (row: any) => row.supplierPurchase?.company || 'None',
     },
 
     {
@@ -442,17 +479,22 @@ export default class Pruchase extends Vue {
   statusPurchase = false;
   filter = '';
   categoryOpt = ['Utensil', 'Ingredient', 'Equipments', 'Miscellaneous/Other'];
-  unitProduct = ['Kilogram (kg)', 'Miligram (mg)', 'Packs'];
-  statusOpt = ['Pending', 'Complete', 'Cancel'];
+  unitProduct = [
+    'Piece (pcs)',
+    'Pack (pks)',
+    'Sack',
+    'Kilogram (kg)',
+    'Miligram (ml)',
+    'Other',
+  ];
+  statusOpt = ['Pending', 'Completed', 'Canceled'];
 
   inputPurchase: PurchaseDto = {
     purchaseProduct: '',
     purchaseDate: formattedString,
     purchaseCategory: '',
-    productQuantity: 0,
     productUnit: '',
     purchaseStatus: 'Pending',
-    purchaseAmount: 0,
   };
 
   async onAddPurchase() {
@@ -506,10 +548,8 @@ export default class Pruchase extends Vue {
       purchaseProduct: '',
       purchaseDate: formattedString,
       purchaseCategory: '',
-      productQuantity: 0,
       productUnit: '',
       purchaseStatus: '',
-      purchaseAmount: 0,
     };
   }
 

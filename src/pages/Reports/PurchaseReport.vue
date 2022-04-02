@@ -7,7 +7,7 @@
     <div>
       <q-table
         title="Purchase History"
-        :rows="allPurchase"
+        :rows="completePurchase"
         :columns="columns"
         row-key="itemCode"
         :rows-per-page-options="[0]"
@@ -73,67 +73,45 @@
           <q-list bordered class="rounded-borders">
             <q-item-label header>Pending Purchase</q-item-label>
 
-            <q-item>
+            <q-item
+              v-for="pending in pendingPurchase"
+              v-bind:key="pending.purchaseProduct"
+            >
               <q-item-section avatar top>
                 <q-icon name="pending_actions" color="green" size="34px" />
               </q-item-section>
 
               <q-item-section top class="col-2 gt-sm">
-                <q-item-label class="q-mt-sm">Milk</q-item-label>
+                <q-item-label class="q-mt-sm">{{
+                  pending.purchaseProduct
+                }}</q-item-label>
               </q-item-section>
 
               <q-item-section top>
                 <q-item-label lines="1">
                   <span class="text-weight-medium">Supplier:</span>
-                  <span class="text-grey-8"> Nestle Company</span>
+                  <span class="text-grey-8">
+                    {{ pending.supplierPurchaseSupplierID }}</span
+                  >
                 </q-item-label>
                 <q-item-label caption lines="1">
-                  Purchase Quantity: 300 Packs
+                  Purchase Quantity: {{ pending.productQuantity }}
                 </q-item-label>
               </q-item-section>
 
               <q-item-section top side>
                 <q-item-label lines="1">
                   <span class="text-weight-medium">Price:</span>
-                  <span class="text-grey-8"> ₱4500.00</span>
+                  <span class="text-grey-8">
+                    ₱{{ pending.purchaseAmount }}</span
+                  >
                 </q-item-label>
                 <q-item-label caption lines="1">
-                  Date: 04/03/2021
+                  Date: {{ pending.purchaseDate }}
                 </q-item-label>
               </q-item-section>
             </q-item>
-
             <q-separator spaced />
-
-            <q-item>
-              <q-item-section avatar top>
-                <q-icon name="pending_actions" color="green" size="34px" />
-              </q-item-section>
-
-              <q-item-section top class="col-2 gt-sm">
-                <q-item-label class="q-mt-sm">Beef Patty</q-item-label>
-              </q-item-section>
-
-              <q-item-section top>
-                <q-item-label lines="1">
-                  <span class="text-weight-medium">Supplier:</span>
-                  <span class="text-grey-8"> CDO corps.</span>
-                </q-item-label>
-                <q-item-label caption lines="1">
-                  Purchase Quantity: 50 Boxes
-                </q-item-label>
-              </q-item-section>
-
-              <q-item-section top side>
-                <q-item-label lines="1">
-                  <span class="text-weight-medium">Price:</span>
-                  <span class="text-grey-8"> ₱8000.00</span>
-                </q-item-label>
-                <q-item-label caption lines="1">
-                  Date: 05/11/2021
-                </q-item-label>
-              </q-item-section>
-            </q-item>
           </q-list>
         </q-card>
       </div>
@@ -142,32 +120,39 @@
           <q-list bordered class="rounded-borders">
             <q-item-label header>Canceled List</q-item-label>
 
-            <q-item>
+            <q-item
+              v-for="data in cancelPurchase"
+              v-bind:key="data.purchaseProduct"
+            >
               <q-item-section avatar top>
                 <q-icon name="assignment_return" color="red" size="34px" />
               </q-item-section>
 
               <q-item-section top class="col-2 gt-sm">
-                <q-item-label class="q-mt-sm">Pepper</q-item-label>
+                <q-item-label class="q-mt-sm">
+                  {{ data.purchaseProduct }}
+                </q-item-label>
               </q-item-section>
 
               <q-item-section top>
                 <q-item-label lines="1">
-                  <span class="text-weight-medium">Supplier:</span>
-                  <span class="text-grey-8"> None</span>
+                  <span class="text-weight-medium">Supplier: </span>
+                  <span class="text-grey-8">
+                    {{ data.supplierPurchaseSupplierID }}</span
+                  >
                 </q-item-label>
                 <q-item-label caption lines="1">
-                  Purchase Quantity: 10 Packs
+                  Purchase Quantity: {{ data.productQuantity }}
                 </q-item-label>
               </q-item-section>
 
               <q-item-section top side>
                 <q-item-label lines="1">
-                  <span class="text-weight-medium">Price:</span>
-                  <span class="text-grey-8"> ₱250.00</span>
+                  <span class="text-weight-medium">Price: </span>
+                  <span class="text-grey-8"> ₱{{ data.purchaseAmount }}</span>
                 </q-item-label>
                 <q-item-label caption lines="1">
-                  Date: 04/03/2021
+                  Date: {{ data.purchaseDate }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -195,17 +180,31 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import CostChart from 'components/Charts/CostChart.vue';
-import { mapState } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { PurchaseDto } from 'src/services/rest-api';
 
 @Options({
   components: { CostChart },
   computed: {
-    ...mapState('purchase', ['allPurchase']),
+    ...mapGetters('purchase', [
+      'completePurchase',
+      'cancelPurchase',
+      'pendingPurchase',
+    ]),
+  },
+  methods: {
+    ...mapActions('purchase', ['getAllPurchase']),
   },
 })
 export default class Expenses extends Vue {
-  allPurchase!: PurchaseDto[];
+  completePurchase!: PurchaseDto[];
+  cancelPurchase!: PurchaseDto[];
+  pendingPurchase!: PurchaseDto[];
+  getAllPurchase!: () => Promise<void>;
+
+  async mounted() {
+    await this.getAllPurchase();
+  }
   columns = [
     {
       name: 'itemCode',
@@ -215,48 +214,55 @@ export default class Expenses extends Vue {
       field: 'purchaseID',
     },
     {
-      name: 'itemName',
-      align: 'center',
-      label: 'Item Name',
-      field: (row: PurchaseDto) => row.purchaseProduct,
-      format: (val: string) => `${val}`,
+      name: 'purchaseProduct',
+      required: true,
+      label: 'Product Name',
+      align: 'left',
+      field: 'purchaseProduct',
     },
     {
-      name: 'quantPurchase',
+      name: 'purchaseDate',
       align: 'center',
-      label: 'Purchase Quantity',
-      field: 'productQuantity',
+      label: 'Date Purchase',
+      field: 'purchaseDate',
     },
     {
-      name: 'unitProd',
+      name: 'supplier',
       align: 'center',
-      label: 'Unit',
-      field: 'productUnit',
+      label: 'Supplier',
+      field: (row: any) => row.supplierPurchase?.company || 'None',
     },
+
     {
-      name: 'catProd',
+      name: 'purchaseCategory',
       align: 'center',
       label: 'Category',
       field: 'purchaseCategory',
     },
-    {
-      name: 'InStock',
-      align: 'center',
-      label: 'Supplier',
-      field: 'InStock',
-    },
-    {
-      name: 'Amount',
-      align: 'center',
-      label: 'Purchase Amount',
-      field: 'purchaseAmount',
-    },
 
     {
-      name: 'dateProd',
+      name: 'productQuantity',
       align: 'center',
-      label: 'Purchase Date',
-      field: 'purchaseDate',
+      label: 'Quantity',
+      field: 'productQuantity',
+    },
+    {
+      name: 'productUnit',
+      align: 'center',
+      label: 'Unit Measurement',
+      field: 'productUnit',
+    },
+    {
+      name: 'purchaseAmount',
+      align: 'center',
+      label: 'Amount',
+      field: 'purchaseAmount',
+    },
+    {
+      name: 'purchaseStatus',
+      align: 'center',
+      label: 'Purchase Status',
+      field: 'purchaseStatus',
     },
   ];
   filter = '';

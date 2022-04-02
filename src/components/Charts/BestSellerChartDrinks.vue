@@ -18,7 +18,16 @@ export default class BestSellerChartDrinks extends Vue {
         {
           label: 'products',
           data: [80, 110, 55],
-          backgroundColor: 'green',
+          backgroundColor: [
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(201, 203, 207, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+          ],
+          borderColor: [
+            'rgb(54, 162, 235)',
+            'rgb(201, 203, 207)',
+            'rgb(255, 205, 86)',
+          ],
         },
       ],
     };

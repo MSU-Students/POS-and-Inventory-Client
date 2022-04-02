@@ -8,7 +8,7 @@
       <div class="q-pr-md col-10">
         <q-table
           title="Inventory List"
-          :rows="allInventory"
+          :rows="availableInventory"
           :columns="columns"
           row-key="itemName"
           :rows-per-page-options="[0]"
@@ -112,6 +112,14 @@
                             color="green"
                             label="Category"
                             v-model="inputInventory.itemCategory"
+                            transition-show="flip-up"
+                            transition-hide="flip-down"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                (val && val.length > 0) ||
+                                'You must put the product unit',
+                            ]"
                           />
                         </div>
                       </div>
@@ -123,6 +131,8 @@
                             v-model="inputInventory.itemUnitProd"
                             :options="unitInvOpt"
                             label="Unit"
+                            transition-show="flip-up"
+                            transition-hide="flip-down"
                             lazy-rules
                             :rules="[
                               (val) =>
@@ -138,6 +148,13 @@
                             label="Quantity"
                             v-model="inputInventory.itemQuantProd"
                             type="number"
+                            min="1"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                (val && val.length > 0) ||
+                                'You must put the product unit',
+                            ]"
                           />
                         </div>
                         <div class="col">
@@ -205,12 +222,6 @@
                               label="Item Name"
                               color="green"
                               v-model="inputInventory.itemName"
-                              lazy-rules
-                              :rules="[
-                                (val) =>
-                                  (val && val.length > 0) ||
-                                  'You must put the product name',
-                              ]"
                             />
                           </div>
                           <div class="col">
@@ -220,6 +231,8 @@
                               color="green"
                               label="Category"
                               v-model="inputInventory.itemCategory"
+                              transition-show="flip-up"
+                              transition-hide="flip-down"
                             />
                           </div>
                         </div>
@@ -231,12 +244,8 @@
                               v-model="inputInventory.itemUnitProd"
                               :options="unitInvOpt"
                               label="Unit"
-                              lazy-rules
-                              :rules="[
-                                (val) =>
-                                  (val && val.length > 0) ||
-                                  'You must put the product unit',
-                              ]"
+                              transition-show="flip-up"
+                              transition-hide="flip-down"
                             />
                           </div>
                           <div class="col">
@@ -246,6 +255,7 @@
                               label="Quantity"
                               v-model="inputInventory.itemQuantProd"
                               type="number"
+                              min="0"
                               hint="Note: You can only change the quantity if you put wrong input"
                             />
                           </div>
@@ -323,6 +333,7 @@
                             label="Quantity"
                             v-model="inputInventory.itemQuantStatus"
                             type="number"
+                            min="0"
                           />
                           <q-list>
                             <q-item tag="label" v-ripple>
@@ -408,7 +419,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { mapState, mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { InventoryDto } from 'src/services/rest-api';
 import { date } from 'quasar';
 
@@ -417,7 +428,7 @@ const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {
-    ...mapState('inventory', ['allInventory']),
+    ...mapGetters('inventory', ['availableInventory']),
   },
   methods: {
     ...mapActions('inventory', [
@@ -429,7 +440,7 @@ const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
   },
 })
 export default class Inventory extends Vue {
-  allInventory!: InventoryDto[];
+  availableInventory!: InventoryDto[];
   addInventory!: (payload: InventoryDto) => Promise<void>;
   editInventory!: (payload: InventoryDto) => Promise<void>;
   deleteInventory!: (payload: InventoryDto) => Promise<void>;
@@ -437,7 +448,6 @@ export default class Inventory extends Vue {
 
   async mounted() {
     await this.getAllInventory();
-    console.log(this.allInventory);
   }
   columns = [
     {
@@ -501,18 +511,23 @@ export default class Inventory extends Vue {
   editRowInventory = false;
   statusInventory = false;
   filter = '';
-  unitInvOpt = ['Piece (pcs)', 'Pack (pks)', 'Kilogram (kg)'];
+  unitInvOpt = [
+    'Piece (pcs)',
+    'Pack (pks)',
+    'Sack',
+    'Kilogram (kg)',
+    'Miligram (ml)',
+    'Other',
+  ];
   categoryOpt = ['Utensil', 'Ingredient', 'Equipments', 'Miscellaneous/Other'];
 
   inputInventory: InventoryDto = {
     itemName: '',
-    itemQuantProd: 0,
     itemUnitProd: '',
     itemExpiryDate: '',
     itemDateCreated: formattedString,
     itemCategory: '',
     itemStatus: 'Available',
-    itemQuantStatus: 0,
   };
 
   async onAddInventory() {
@@ -585,13 +600,11 @@ export default class Inventory extends Vue {
   resetModel() {
     this.inputInventory = {
       itemName: '',
-      itemQuantProd: 0,
       itemUnitProd: '',
       itemExpiryDate: '',
       itemDateCreated: formattedString,
       itemCategory: '',
-      itemStatus: '',
-      itemQuantStatus: 0,
+      itemStatus: 'Available',
     };
   }
 }

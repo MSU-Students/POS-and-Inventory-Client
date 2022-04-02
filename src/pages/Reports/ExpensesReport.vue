@@ -121,12 +121,29 @@ export default class ExpensesReport extends Vue {
   allExpenses!: ExpensesDto;
   columns = [
     {
+      name: 'expensesID',
+      align: 'left',
+      label: 'Expenses Reference',
+      field: 'expensesID',
+    },
+    {
       name: 'expensesName',
       required: true,
-      label: 'Expenses',
-      align: 'left',
-      field: (row: ExpensesDto) => row.expensesName,
-      format: (val: string) => `${val}`,
+      label: 'Expenses Name',
+      align: 'center',
+      file: 'expensesName',
+    },
+    {
+      name: 'category',
+      align: 'center',
+      label: 'Category',
+      field: 'expensesCategory',
+    },
+    {
+      name: 'supplier',
+      align: 'center',
+      label: 'Supplier',
+      field: (row: any) => row.supplier?.company || 'None',
     },
     {
       name: 'expensesDate',
@@ -134,23 +151,12 @@ export default class ExpensesReport extends Vue {
       label: 'Date',
       field: 'expensesDate',
     },
-    {
-      name: 'category',
-      align: 'center',
-      label: 'Category',
-      field: 'category',
-    },
+
     {
       name: 'amount',
       align: 'center',
       label: 'Amount',
       field: 'amount',
-    },
-    {
-      name: 'supplier',
-      align: 'center',
-      label: 'Supplier',
-      field: 'supplier',
     },
   ];
 }

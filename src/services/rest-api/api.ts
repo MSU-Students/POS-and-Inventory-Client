@@ -69,7 +69,7 @@ export interface ExpensesDto {
      * @type {number}
      * @memberof ExpensesDto
      */
-    'amount': number;
+    'amount'?: number;
     /**
      * 
      * @type {string}
@@ -100,13 +100,13 @@ export interface InventoryDto {
      * @type {number}
      * @memberof InventoryDto
      */
-    'itemQuantProd': number;
+    'itemQuantProd'?: number;
     /**
      * 
      * @type {number}
      * @memberof InventoryDto
      */
-    'itemQuantStatus': number;
+    'itemQuantStatus'?: number;
     /**
      * 
      * @type {string}
@@ -279,7 +279,7 @@ export interface PurchaseDto {
      * @type {number}
      * @memberof PurchaseDto
      */
-    'purchaseAmount': number;
+    'purchaseAmount'?: number;
     /**
      * 
      * @type {number}

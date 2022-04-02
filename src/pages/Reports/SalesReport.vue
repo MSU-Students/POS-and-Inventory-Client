@@ -12,7 +12,12 @@
       >
         <template v-slot:top-right>
           <div class="q-pa-md" style="max-width: 300px">
-            <q-input filled v-model="saleFilter" mask="date" :rules="['date']">
+            <q-input
+              outlined
+              v-model="saleFilter"
+              mask="date"
+              :rules="['date']"
+            >
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy
@@ -48,7 +53,7 @@
       <q-tabs
         v-model="tab"
         dense
-        class="text-grey"
+        class="text-teal"
         active-color="primary"
         indicator-color="primary"
         align="justify"

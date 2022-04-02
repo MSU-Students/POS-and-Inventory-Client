@@ -3,8 +3,15 @@ import { StateInterface } from '../index';
 import { InventoryStateInterface } from './state';
 
 const getters: GetterTree<InventoryStateInterface, StateInterface> = {
-  someAction(/* context */) {
-    // your code
+  availableInventory(state) {
+    return state.allInventory.filter((i) =>
+      /^available$/i.test(i.itemStatus || '')
+    );
+  },
+  usedInventory(state) {
+    return state.allInventory.filter(
+      (i) => !/^available$/i.test(i.itemStatus || '')
+    );
   },
 };
 
