@@ -385,7 +385,7 @@ export default class ManageAccount extends Vue {
         persistent: true,
       })
       .onOk(async () => {
-        await this.deleteAccount(val);
+        await this.deleteAccount(val.id as any);
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',

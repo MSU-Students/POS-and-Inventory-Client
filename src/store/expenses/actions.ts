@@ -19,6 +19,7 @@ const actions: ActionTree<ExpensesStateInterface, StateInterface> = {
   async deleteExpenses(context, expensesID: number): Promise<any> {
     const result = await expensesService.delete(expensesID);
     context.commit('deleteExpenses', result);
+    await context.dispatch('getAllExpenses');
   },
 
   async getAllExpenses(context): Promise<any> {

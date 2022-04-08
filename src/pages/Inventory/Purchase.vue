@@ -526,7 +526,7 @@ export default class Pruchase extends Vue {
         persistent: true,
       })
       .onOk(async () => {
-        await this.deletePurchase(val);
+        await this.deletePurchase(val.purchaseID as any);
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',
@@ -549,7 +549,7 @@ export default class Pruchase extends Vue {
       purchaseDate: formattedString,
       purchaseCategory: '',
       productUnit: '',
-      purchaseStatus: '',
+      purchaseStatus: 'Pending',
     };
   }
 

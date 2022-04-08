@@ -21,6 +21,7 @@ const actions: ActionTree<InventoryStateInterface, StateInterface> = {
   async deleteInventory(context, itemCode: string): Promise<any> {
     const result = await inventoryService.delete(itemCode);
     context.commit('deleteInventory', result);
+    await context.dispatch('getAllInventory');
   },
 
   async getAllInventory(context): Promise<any> {

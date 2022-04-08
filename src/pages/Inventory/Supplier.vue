@@ -354,7 +354,7 @@ export default class Supplier extends Vue {
         persistent: true,
       })
       .onOk(async () => {
-        await this.deleteSupplier(val);
+        await this.deleteSupplier(val.supplierID as any);
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',

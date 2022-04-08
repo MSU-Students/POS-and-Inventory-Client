@@ -48,6 +48,12 @@ export interface AccessTokenDto {
 export interface ExpensesDto {
     /**
      * 
+     * @type {number}
+     * @memberof ExpensesDto
+     */
+    'expensesID'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof ExpensesDto
      */
@@ -89,6 +95,12 @@ export interface ExpensesDto {
  * @interface InventoryDto
  */
 export interface InventoryDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof InventoryDto
+     */
+    'itemCode'?: number;
     /**
      * 
      * @type {string}
@@ -149,7 +161,19 @@ export interface ManageProductDto {
      * @type {string}
      * @memberof ManageProductDto
      */
+    'product_ID'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ManageProductDto
+     */
     'productName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ManageProductDto
+     */
+    'productSize': string;
     /**
      * 
      * @type {number}
@@ -224,6 +248,12 @@ export interface ProductSizeDto {
      * @type {number}
      * @memberof ProductSizeDto
      */
+    'productSizeID'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProductSizeDto
+     */
     'price': number;
     /**
      * 
@@ -238,6 +268,12 @@ export interface ProductSizeDto {
  * @interface PurchaseDto
  */
 export interface PurchaseDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof PurchaseDto
+     */
+    'purchaseID'?: number;
     /**
      * 
      * @type {string}
@@ -308,6 +344,12 @@ export interface RefreshDto {
 export interface SellRecordDto {
     /**
      * 
+     * @type {number}
+     * @memberof SellRecordDto
+     */
+    'invoiceID'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof SellRecordDto
      */
@@ -358,6 +400,12 @@ export interface SubprodCategoryDto {
 export interface SupplierDto {
     /**
      * 
+     * @type {number}
+     * @memberof SupplierDto
+     */
+    'supplierID'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof SupplierDto
      */
@@ -393,6 +441,12 @@ export interface SupplierDto {
  * @interface UserDto
  */
 export interface UserDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserDto
+     */
+    'id'?: number;
     /**
      * 
      * @type {string}

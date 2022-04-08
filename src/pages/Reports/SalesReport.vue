@@ -13,13 +13,14 @@
         <template v-slot:top-right>
           <div class="q-pa-md" style="max-width: 300px">
             <q-input
-              outlined
+              dense
+              borderless
               v-model="saleFilter"
               mask="date"
               :rules="['date']"
             >
               <template v-slot:append>
-                <q-icon name="event" class="cursor-pointer">
+                <q-icon name="event" color="secondary" class="cursor-pointer">
                   <q-popup-proxy
                     ref="qDateProxy"
                     cover

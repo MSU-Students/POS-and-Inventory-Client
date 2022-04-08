@@ -454,7 +454,7 @@ export default class Expenses extends Vue {
         persistent: true,
       })
       .onOk(async () => {
-        await this.deleteExpenses(val);
+        await this.deleteExpenses(val.expensesID as any);
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',

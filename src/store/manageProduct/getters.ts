@@ -3,8 +3,10 @@ import { StateInterface } from '../index';
 import { ManageProductStateInterface } from './state';
 
 const getters: GetterTree<ManageProductStateInterface, StateInterface> = {
-  someAction(/* context */) {
-    // your code
+  availableProduct(state) {
+    return state.allProduct.filter((i) =>
+      /^yes$/i.test(i.productAvailability || '')
+    );
   },
 };
 

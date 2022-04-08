@@ -579,7 +579,7 @@ export default class Inventory extends Vue {
         persistent: true,
       })
       .onOk(async () => {
-        await this.deleteInventory(val);
+        await this.deleteInventory(val.itemCode as any);
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',

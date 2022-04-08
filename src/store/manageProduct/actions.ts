@@ -22,6 +22,7 @@ const actions: ActionTree<ManageProductStateInterface, StateInterface> = {
   async deleteManageProduct(context, product_ID: string): Promise<any> {
     const result = await manageProductService.delete(product_ID);
     context.commit('deleteManageProduct', result);
+    await context.dispatch('getAllManageProduct');
   },
 
   async getAllManageProduct(context): Promise<any> {

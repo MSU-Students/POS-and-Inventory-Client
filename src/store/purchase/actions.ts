@@ -19,6 +19,7 @@ const actions: ActionTree<PurchaseStateInterface, StateInterface> = {
   async deletePurchase(context, purchaseID: number): Promise<any> {
     const result = await purchaseService.delete(purchaseID);
     context.commit('deletePurchase', result);
+    await context.dispatch('getAllPurchase');
   },
 
   async getAllPurchase(context): Promise<any> {

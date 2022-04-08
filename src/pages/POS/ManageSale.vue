@@ -55,7 +55,6 @@
                   <div class="row q-gutter-md">
                     <div class="col">
                       <q-input
-                        class="q-py-md"
                         outlined
                         v-model="inputManageSale.productName"
                         label="Product Name"
@@ -73,7 +72,6 @@
                     </div>
                     <div class="col">
                       <q-file
-                        class="q-py-md"
                         outlined
                         label="Product Image"
                         accept=".jpg, image/*"
@@ -87,7 +85,6 @@
                   <div class="row q-gutter-md">
                     <div class="col">
                       <q-select
-                        class="q-py-md"
                         outlined
                         :options="productCategoryType"
                         label="Category"
@@ -100,7 +97,6 @@
                     </div>
                     <div class="col">
                       <q-select
-                        class="q-py-md"
                         :v-model="
                           inputManageSale.productCategory ==
                             'Beverage/Drinks' ||
@@ -113,6 +109,8 @@
                         :options="SubCategory"
                         label="Sub-Category"
                         v-model="inputManageSale.productSubCategory"
+                        transition-show="flip-up"
+                        transition-hide="flip-down"
                       >
                         <template v-slot:prepend>
                           <q-icon name="category" />
@@ -120,10 +118,23 @@
                       </q-select>
                     </div>
                   </div>
-                  <div class="row q-gutter-md">
+                  <div class="row q-pt-md q-gutter-md">
+                    <div class="col">
+                      <q-select
+                        label="Product Size"
+                        outlined
+                        :options="sizeOpt"
+                        transition-show="flip-up"
+                        transition-hide="flip-down"
+                        v-model="inputManageSale.productSize"
+                      >
+                        <template v-slot:prepend>
+                          <q-icon name="menu_open" />
+                        </template>
+                      </q-select>
+                    </div>
                     <div class="col">
                       <q-input
-                        class="q-py-md"
                         outlined
                         label="Price"
                         mask="#.##"
@@ -140,24 +151,25 @@
                         <template v-slot:prepend> ₱ </template>
                       </q-input>
                     </div>
-                    <q-item class="col">
-                      <q-item-section>
-                        <q-item-label class="text-subtitle1">
-                          Availability
-                        </q-item-label>
-                      </q-item-section>
-                      <q-item-section avatar>
-                        <q-toggle
-                          outlined
-                          size="lg"
-                          color="green"
-                          false-value="No"
-                          true-value="Yes"
-                          v-model="inputManageSale.productAvailability"
-                        />
-                      </q-item-section>
-                    </q-item>
                   </div>
+
+                  <q-item>
+                    <q-item-section>
+                      <q-item-label class="text-subtitle1">
+                        Availability
+                      </q-item-label>
+                    </q-item-section>
+                    <q-item-section avatar>
+                      <q-toggle
+                        outlined
+                        size="lg"
+                        color="green"
+                        false-value="No"
+                        true-value="Yes"
+                        v-model="inputManageSale.productAvailability"
+                      />
+                    </q-item-section>
+                  </q-item>
 
                   <div class="q-py-md" align="right">
                     <q-btn
@@ -224,7 +236,6 @@
                       </div>
                       <div class="col">
                         <q-file
-                          class="q-py-md"
                           outlined
                           label="Product Image"
                           accept=".jpg, image/*"
@@ -238,7 +249,6 @@
                     <div class="row q-gutter-md">
                       <div class="col">
                         <q-select
-                          class="q-py-md"
                           outlined
                           :options="productCategoryType"
                           label="Category"
@@ -251,7 +261,6 @@
                       </div>
                       <div class="col">
                         <q-select
-                          class="q-py-md"
                           :v-model="
                             inputManageSale.productCategory ==
                               'Beverage/Drinks' ||
@@ -264,6 +273,8 @@
                           :options="SubCategory"
                           label="Sub-Category"
                           v-model="inputManageSale.productSubCategory"
+                          transition-show="flip-up"
+                          transition-hide="flip-down"
                         >
                           <template v-slot:prepend>
                             <q-icon name="category" />
@@ -273,36 +284,56 @@
                     </div>
                     <div class="row q-gutter-md">
                       <div class="col">
+                        <q-select
+                          label="Product Size"
+                          outlined
+                          :options="sizeOpt"
+                          transition-show="flip-up"
+                          transition-hide="flip-down"
+                          v-model="inputManageSale.productSize"
+                        >
+                          <template v-slot:prepend>
+                            <q-icon name="menu_open" />
+                          </template>
+                        </q-select>
+                      </div>
+                      <div class="col">
                         <q-input
-                          class="q-py-md"
                           outlined
                           label="Price"
                           mask="#.##"
                           fill-mask="0"
                           reverse-fill-mask
                           v-model="inputManageSale.productPrice"
+                          lazy-rules
+                          :rules="[
+                            (val) =>
+                              (val && val.length > 0) ||
+                              'You must enter an input',
+                          ]"
                         >
                           <template v-slot:prepend> ₱ </template>
                         </q-input>
                       </div>
-                      <q-item class="col">
-                        <q-item-section>
-                          <q-item-label class="text-subtitle1">
-                            Availability
-                          </q-item-label>
-                        </q-item-section>
-                        <q-item-section avatar>
-                          <q-toggle
-                            outlined
-                            size="lg"
-                            color="green"
-                            false-value="No"
-                            true-value="Yes"
-                            v-model="inputManageSale.productAvailability"
-                          />
-                        </q-item-section>
-                      </q-item>
                     </div>
+
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label class="text-subtitle1">
+                          Availability
+                        </q-item-label>
+                      </q-item-section>
+                      <q-item-section avatar>
+                        <q-toggle
+                          outlined
+                          size="lg"
+                          color="green"
+                          false-value="No"
+                          true-value="Yes"
+                          v-model="inputManageSale.productAvailability"
+                        />
+                      </q-item-section>
+                    </q-item>
 
                     <div class="q-py-md" align="right">
                       <q-btn
@@ -312,7 +343,7 @@
                         v-close-popup
                         @click="resetModel()"
                       />
-                      <q-btn flat label="Save" color="primary" type="submit" />
+                      <q-btn flat label="Add" color="primary" type="submit" />
                     </div>
                   </q-form>
                 </q-card-section>
@@ -340,6 +371,7 @@ import { Vue, Options } from 'vue-class-component';
 import { mapState, mapActions } from 'vuex';
 import { ManageProductDto } from 'src/services/rest-api';
 import { date } from 'quasar';
+import mediaService from 'src/services/media.service';
 
 const timeStamp = Date.now();
 const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
@@ -363,9 +395,12 @@ export default class ManageProduct extends Vue {
   editManageProduct!: (payload: ManageProductDto) => Promise<void>;
   deleteManageProduct!: (payload: ManageProductDto) => Promise<void>;
   getAllManageProduct!: () => Promise<void>;
-
+  file: File[] = [];
   async mounted() {
     await this.getAllManageProduct();
+  }
+  fileChoose(val: any) {
+    this.file = val;
   }
   columns = [
     {
@@ -375,12 +410,6 @@ export default class ManageProduct extends Vue {
       align: 'left',
       field: (row: ManageProductDto) => row.productName,
       format: (val: string) => `${val}`,
-    },
-    {
-      name: 'productPrice',
-      align: 'center',
-      label: 'Price',
-      field: 'productPrice',
     },
     {
       name: 'productCategory',
@@ -393,6 +422,18 @@ export default class ManageProduct extends Vue {
       align: 'center',
       label: 'Sub-Category',
       field: 'productSubCategory',
+    },
+    {
+      name: 'productSize',
+      align: 'center',
+      label: 'Product Size',
+      field: 'productSize',
+    },
+    {
+      name: 'productPrice',
+      align: 'center',
+      label: 'Price',
+      field: 'productPrice',
     },
     {
       name: 'productAvailability',
@@ -415,6 +456,7 @@ export default class ManageProduct extends Vue {
     },
   ];
   productCategoryType = ['Beverage/Drinks', 'Food', 'Sinker/Add-Ons'];
+  sizeOpt = ['Regular', 'Small', 'Medium', 'Large'];
   SubCategory: any[] = [];
   addNewManageSale = false;
   filter = '';
@@ -427,6 +469,7 @@ export default class ManageProduct extends Vue {
     productDateCreated: formattedString,
     productCategory: '',
     productSubCategory: '',
+    productSize: '',
   };
 
   selectSubCategory() {
@@ -446,7 +489,7 @@ export default class ManageProduct extends Vue {
       return (this.SubCategory = [
         'Meals',
         'Platters',
-        ' Rice Toppings',
+        'Rice Toppings',
         'Chicken Wings',
         'Sandwiches and Burgers',
         'All-Time Favorites',
@@ -465,6 +508,7 @@ export default class ManageProduct extends Vue {
   }
 
   async onAddManageSale() {
+    const media = await mediaService.uploadPicture(this.file);
     await this.addManageProduct(this.inputManageSale);
     this.addNewManageSale = false;
     this.resetModel();
@@ -492,7 +536,7 @@ export default class ManageProduct extends Vue {
         persistent: true,
       })
       .onOk(async () => {
-        await this.deleteManageProduct(val);
+        await this.deleteManageProduct(val.product_ID as any);
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',
@@ -513,6 +557,7 @@ export default class ManageProduct extends Vue {
       productDateCreated: formattedString,
       productCategory: '',
       productSubCategory: '',
+      productSize: '',
     };
   }
 }

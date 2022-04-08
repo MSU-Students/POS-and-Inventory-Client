@@ -13,6 +13,7 @@ const actions: ActionTree<OrderStateInterface, StateInterface> = {
 
   deleteOrder(context, payload: IOrderInfo) {
     context.commit('deleteOrder', payload);
+    
   },
 };
 

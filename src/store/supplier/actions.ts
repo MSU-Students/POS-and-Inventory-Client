@@ -20,6 +20,7 @@ const actions: ActionTree<SupplierStateInterface, StateInterface> = {
   async deleteSupplier(context, supplierID: number): Promise<any> {
     const result = await supplierService.delete(supplierID);
     context.commit('deleteSupplier', result);
+    await context.dispatch('getAllSupplier');
   },
 
   async getAllSupplier(context): Promise<any> {

@@ -674,15 +674,6 @@ export default class POS extends Vue {
     orderDate: '',
   };
 
-  inputOrder: IOrderInfo = {
-    orderID: 0,
-    prodName: '',
-    prodQuant: 0,
-    size: '',
-    price: 0,
-    subTotal: 0,
-    orderDate: '',
-  };
   resetOrder() {
     this.tempInput = {
       orderID: 0,
