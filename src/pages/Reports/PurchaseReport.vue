@@ -69,96 +69,100 @@
     </div>
     <div class="q-py-lg row q-gutter-xl">
       <div class="col">
-        <q-card>
-          <q-list bordered class="rounded-borders">
-            <q-item-label header>Pending Purchase</q-item-label>
+        <q-card style="height: 300px">
+          <q-layout container style="height: 300px">
+            <q-list style="max-height: 300px" class="rounded-borders">
+              <q-item-label header>Pending Purchase</q-item-label>
 
-            <q-item
-              v-for="pending in pendingPurchase"
-              v-bind:key="pending.purchaseProduct"
-            >
-              <q-item-section avatar top>
-                <q-icon name="pending_actions" color="green" size="34px" />
-              </q-item-section>
+              <q-item
+                v-for="pending in pendingPurchase"
+                v-bind:key="pending.purchaseProduct"
+              >
+                <q-item-section avatar top>
+                  <q-icon name="pending_actions" color="green" size="34px" />
+                </q-item-section>
 
-              <q-item-section top class="col-2 gt-sm">
-                <q-item-label class="q-mt-sm">{{
-                  pending.purchaseProduct
-                }}</q-item-label>
-              </q-item-section>
+                <q-item-section top class="col-2 gt-sm">
+                  <q-item-label class="q-mt-sm">{{
+                    pending.purchaseProduct
+                  }}</q-item-label>
+                </q-item-section>
 
-              <q-item-section top>
-                <q-item-label lines="1">
-                  <span class="text-weight-medium">Supplier:</span>
-                  <span class="text-grey-8">
-                    {{ pending.supplierPurchaseSupplierID }}</span
-                  >
-                </q-item-label>
-                <q-item-label caption lines="1">
-                  Purchase Quantity: {{ pending.productQuantity }}
-                </q-item-label>
-              </q-item-section>
+                <q-item-section top>
+                  <q-item-label lines="1">
+                    <span class="text-weight-medium">Supplier:</span>
+                    <span class="text-grey-8">
+                      {{ pending.supplierPurchaseSupplierID }}</span
+                    >
+                  </q-item-label>
+                  <q-item-label caption lines="1">
+                    Purchase Quantity: {{ pending.productQuantity }}
+                  </q-item-label>
+                </q-item-section>
 
-              <q-item-section top side>
-                <q-item-label lines="1">
-                  <span class="text-weight-medium">Price:</span>
-                  <span class="text-grey-8">
-                    ₱{{ pending.purchaseAmount }}</span
-                  >
-                </q-item-label>
-                <q-item-label caption lines="1">
-                  Date: {{ pending.purchaseDate }}
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-separator spaced />
-          </q-list>
+                <q-item-section top side>
+                  <q-item-label lines="1">
+                    <span class="text-weight-medium">Price:</span>
+                    <span class="text-grey-8">
+                      ₱{{ pending.purchaseAmount }}</span
+                    >
+                  </q-item-label>
+                  <q-item-label caption lines="1">
+                    Date: {{ pending.purchaseDate }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-separator spaced />
+            </q-list>
+          </q-layout>
         </q-card>
       </div>
       <div class="col-5">
-        <q-card>
-          <q-list bordered class="rounded-borders">
-            <q-item-label header>Canceled List</q-item-label>
+        <q-card style="height: 300px">
+          <q-layout container style="height: 300px">
+            <q-list bordered class="rounded-borders">
+              <q-item-label header>Canceled List</q-item-label>
 
-            <q-item
-              v-for="data in cancelPurchase"
-              v-bind:key="data.purchaseProduct"
-            >
-              <q-item-section avatar top>
-                <q-icon name="assignment_return" color="red" size="34px" />
-              </q-item-section>
+              <q-item
+                v-for="data in cancelPurchase"
+                v-bind:key="data.purchaseProduct"
+              >
+                <q-item-section avatar top>
+                  <q-icon name="assignment_return" color="red" size="34px" />
+                </q-item-section>
 
-              <q-item-section top class="col-2 gt-sm">
-                <q-item-label class="q-mt-sm">
-                  {{ data.purchaseProduct }}
-                </q-item-label>
-              </q-item-section>
+                <q-item-section top class="col-2 gt-sm">
+                  <q-item-label class="q-mt-sm">
+                    {{ data.purchaseProduct }}
+                  </q-item-label>
+                </q-item-section>
 
-              <q-item-section top>
-                <q-item-label lines="1">
-                  <span class="text-weight-medium">Supplier: </span>
-                  <span class="text-grey-8">
-                    {{ data.supplierPurchaseSupplierID }}</span
-                  >
-                </q-item-label>
-                <q-item-label caption lines="1">
-                  Purchase Quantity: {{ data.productQuantity }}
-                </q-item-label>
-              </q-item-section>
+                <q-item-section top>
+                  <q-item-label lines="1">
+                    <span class="text-weight-medium">Supplier: </span>
+                    <span class="text-grey-8">
+                      {{ data.supplierPurchaseSupplierID }}</span
+                    >
+                  </q-item-label>
+                  <q-item-label caption lines="1">
+                    Purchase Quantity: {{ data.productQuantity }}
+                  </q-item-label>
+                </q-item-section>
 
-              <q-item-section top side>
-                <q-item-label lines="1">
-                  <span class="text-weight-medium">Price: </span>
-                  <span class="text-grey-8"> ₱{{ data.purchaseAmount }}</span>
-                </q-item-label>
-                <q-item-label caption lines="1">
-                  Date: {{ data.purchaseDate }}
-                </q-item-label>
-              </q-item-section>
-            </q-item>
+                <q-item-section top side>
+                  <q-item-label lines="1">
+                    <span class="text-weight-medium">Price: </span>
+                    <span class="text-grey-8"> ₱{{ data.purchaseAmount }}</span>
+                  </q-item-label>
+                  <q-item-label caption lines="1">
+                    Date: {{ data.purchaseDate }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
 
-            <q-separator spaced />
-          </q-list>
+              <q-separator spaced />
+            </q-list>
+          </q-layout>
         </q-card>
       </div>
     </div>

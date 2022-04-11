@@ -142,18 +142,24 @@
 
             <q-scroll-area style="height: 600px; max-height: 600px">
               <div class="row">
-                <div v-for="data in allProduct" v-bind:key="data.productID">
+                <div
+                  v-for="data in availableProduct"
+                  v-bind:key="data.product_ID"
+                >
                   <div
                     class="q-pa-sm"
-                    v-if="data.type === model || data.prodName === model"
+                    v-if="
+                      data.productSubCategory === model ||
+                      data.productName === model
+                    "
                   >
                     <q-card
                       class="my-card"
                       :class="class_val"
                       @click="
-                        tempInput.prodName = data.prodName;
-                        tempInput.price = data.price;
-                        tempPrice = data.price;
+                        tempInput.prodName = data.productName;
+                        tempInput.price = data.productPrice;
+                        tempPrice = data.productPrice;
                       "
                     >
                       <div class="row">
@@ -163,13 +169,13 @@
                         <div class="col">
                           <div class="q-py-xl text-subtitle7">
                             <q-item-label>
-                              {{ data.prodName }}
+                              {{ data.productName }}
                             </q-item-label>
                             <q-item-label
                               class="text-weight-bolder text-red-10"
                             >
                               Price:
-                              {{ data.price }}
+                              {{ data.productPrice }}
                             </q-item-label>
                           </div>
                         </div>
@@ -436,9 +442,20 @@
 
                             <q-card-section>
                               <div class="row">
+                                <div class="col">Change:</div>
+                                <div class="col text-right q-px-sm">
+                                  {{ change }}
+                                </div>
+                              </div>
+                            </q-card-section>
+
+                            <q-separator inset />
+
+                            <q-card-section>
+                              <div class="row">
                                 <div class="col">Grand Total:</div>
                                 <div class="col text-right q-px-sm">
-                                  ₱100000.000
+                                  {{ grandTotal }}
                                 </div>
                               </div>
                             </q-card-section>
@@ -449,6 +466,7 @@
                                 () => {
                                   done1 = true;
                                   StepConfirm = 2;
+                                  print();
                                 }
                               "
                               color="green"
@@ -462,41 +480,13 @@
                             />
                           </q-stepper-navigation>
                         </q-step>
+
                         <q-step
                           :name="2"
-                          title="Printing Invoice"
-                          caption="Optional"
-                          icon="create_new_folder"
-                          :done="StepConfirm > 2"
-                        >
-                          An ad group contains one or more ads which target a
-                          shared set of keywords.
-                          <q-stepper-navigation>
-                            <q-btn
-                              @click="
-                                () => {
-                                  done2 = true;
-                                  StepConfirm = 3;
-                                }
-                              "
-                              color="green"
-                              label="Continue"
-                            />
-                            <q-btn
-                              flat
-                              @click="StepConfirm = 1"
-                              color="green"
-                              label="Back"
-                              class="q-ml-sm"
-                            />
-                          </q-stepper-navigation>
-                        </q-step>
-                        <q-step
-                          :name="3"
                           title="Transanction Complete"
                           caption="Optional"
                           icon="Transanction Finish"
-                          :done="StepConfirm > 3"
+                          :done="StepConfirm > 2"
                         >
                           <div class="text-h6 flex flex-center">
                             <q-avatar
@@ -510,7 +500,7 @@
                           <q-stepper-navigation>
                             <q-btn
                               color="green"
-                              @click="done3 = true"
+                              @click="done2 = true"
                               label="Finish"
                               v-close-popup
                             />
@@ -542,6 +532,8 @@ import { Vue, Options } from 'vue-class-component';
 import { IOrderInfo } from '../../store/Order/state';
 import { IProductInfo } from '../../store/product/state';
 import { mapState, mapActions, mapGetters } from 'vuex';
+import { ManageProductDto } from 'src/services/rest-api';
+import ManageProduct from './ManageSale.vue';
 
 type TimeZone = { name: string; offset: number; timezone: any };
 
@@ -549,14 +541,17 @@ type TimeZone = { name: string; offset: number; timezone: any };
   computed: {
     ...mapState('Order', ['allOrder']),
     ...mapGetters('product', ['allProduct']),
+    ...mapGetters('manageProduct', ['availableProduct']),
   },
 
   methods: {
     ...mapActions('Order', ['addOrder', 'editOrder', 'deleteOrder']),
     ...mapActions('Product', ['addProduct', 'editProduct', 'deleteProduct']),
+    ...mapActions('manageProduct', ['getAllManageProduct']),
   },
 })
 export default class POS extends Vue {
+  availableProduct!: ManageProductDto[];
   addOrder!: (payload: IOrderInfo) => Promise<void>;
   editOrder!: (payload: IOrderInfo) => Promise<void>;
   deleteOrder!: (payload: IOrderInfo) => Promise<void>;
@@ -566,6 +561,12 @@ export default class POS extends Vue {
   editProduct!: (payload: IOrderInfo) => Promise<void>;
   deleteProduct!: (payload: IOrderInfo) => Promise<void>;
   allProduct!: IProductInfo[];
+
+  getAllManageProduct!: () => Promise<void>;
+
+  async mounted() {
+    await this.getAllManageProduct();
+  }
 
   model = 'Food';
   filter = '';
@@ -614,6 +615,9 @@ export default class POS extends Vue {
     },
     {
       name: 'yogurt teas',
+    },
+    {
+      name: 'Frappe',
     },
   ];
   addOnsCategory = [
@@ -673,7 +677,9 @@ export default class POS extends Vue {
     subTotal: 0,
     orderDate: '',
   };
-
+  print() {
+    window.print();
+  }
   resetOrder() {
     this.tempInput = {
       orderID: 0,
