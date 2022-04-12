@@ -597,32 +597,80 @@ export default class POS extends Vue {
 
   foodCategory = [
     {
-      name: 'meals',
+      name: 'Meals',
     },
     {
-      name: 'pasta',
+      name: 'Platters',
     },
     {
-      name: 'sandwich',
+      name: 'Rice Toppings',
+    },
+    {
+      name: 'Chicken Wings',
+    },
+    {
+      name: 'Sandwiches and Burgers',
+    },
+    {
+      name: 'All-Time Favorites',
+    },
+    {
+      name: 'Pasta and Noodles',
+    },
+    {
+      name: 'Something Sweet',
+    },
+    {
+      name: 'Pizza',
+    },
+    {
+      name: 'French Fries and Nachos',
+    },
+    {
+      name: 'Party Trays',
+    },
+    {
+      name: 'Healthy Option',
+    },
+    {
+      name: 'Smoothie Bowls',
+    },
+    {
+      name: 'Frozen Spoon Ice Cream',
     },
   ];
   drinkCategory = [
     {
-      name: 'milk tea',
+      name: 'Milk Teas',
     },
     {
-      name: 'iced coffee',
+      name: 'Fruit Teas',
     },
     {
-      name: 'yogurt teas',
+      name: 'Yogurt Teas',
     },
     {
-      name: 'Frappe',
+      name: 'Ice Blended Drinks',
+    },
+    {
+      name: 'Salted Cream Series',
+    },
+    {
+      name: 'Iced Coffees',
+    },
+    {
+      name: 'Creamcheese Series',
+    },
+    {
+      name: 'Ice Blended Coffees',
+    },
+    {
+      name: 'Other Drinks',
     },
   ];
   addOnsCategory = [
     {
-      name: 'addons',
+      name: 'None',
     },
   ];
   selectedOrder = [

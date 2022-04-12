@@ -85,7 +85,7 @@
                         option-value="supplierID"
                         map-options
                         emit-value
-                        v-model="inputPurchase.supplierPurchaseSupplierID"
+                        v-model="inputPurchase.supplierPurchase"
                       />
                     </div>
                   </div>
@@ -226,7 +226,7 @@
                           option-value="supplierID"
                           map-options
                           emit-value
-                          v-model="inputPurchase.supplierPurchaseSupplierID"
+                          v-model="inputPurchase.supplierPurchase"
                         />
                       </div>
                     </div>
@@ -409,6 +409,7 @@ export default class Pruchase extends Vue {
 
   async mounted() {
     await this.getAllPurchase();
+    console.log(this.pendingPurchase);
   }
   columns = [
     {

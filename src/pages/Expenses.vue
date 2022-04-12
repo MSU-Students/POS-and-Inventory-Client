@@ -116,7 +116,7 @@
                         option-value="supplierID"
                         map-options
                         emit-value
-                        v-model="inputExpenses.supplierSupplierID"
+                        v-model="inputExpenses.supplier"
                       />
                     </div>
                   </div>
@@ -273,7 +273,7 @@
                           option-value="supplierId"
                           emit-value
                           map-options
-                          v-model="inputExpenses.supplierSupplierID"
+                          v-model="inputExpenses.supplier"
                         />
                       </div>
                     </div>
@@ -364,7 +364,7 @@ export default class Expenses extends Vue {
       required: true,
       label: 'Expenses Name',
       align: 'center',
-      file: 'expensesName',
+      field: 'expensesName',
     },
     {
       name: 'category',

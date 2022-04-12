@@ -371,7 +371,6 @@ import { Vue, Options } from 'vue-class-component';
 import { mapState, mapActions } from 'vuex';
 import { ManageProductDto } from 'src/services/rest-api';
 import { date } from 'quasar';
-import mediaService from 'src/services/media.service';
 
 const timeStamp = Date.now();
 const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
@@ -395,12 +394,8 @@ export default class ManageProduct extends Vue {
   editManageProduct!: (payload: ManageProductDto) => Promise<void>;
   deleteManageProduct!: (payload: ManageProductDto) => Promise<void>;
   getAllManageProduct!: () => Promise<void>;
-  file: File[] = [];
   async mounted() {
     await this.getAllManageProduct();
-  }
-  fileChoose(val: any) {
-    this.file = val;
   }
   columns = [
     {
@@ -508,7 +503,6 @@ export default class ManageProduct extends Vue {
   }
 
   async onAddManageSale() {
-    const media = await mediaService.uploadPicture(this.file);
     await this.addManageProduct(this.inputManageSale);
     this.addNewManageSale = false;
     this.resetModel();

@@ -84,10 +84,10 @@ export interface ExpensesDto {
     'expensesCategory'?: string;
     /**
      * 
-     * @type {number}
+     * @type {SupplierDto}
      * @memberof ExpensesDto
      */
-    'supplierSupplierID'?: number;
+    'supplier'?: SupplierDto;
 }
 /**
  * 
@@ -318,10 +318,10 @@ export interface PurchaseDto {
     'purchaseAmount'?: number;
     /**
      * 
-     * @type {number}
+     * @type {SupplierDto}
      * @memberof PurchaseDto
      */
-    'supplierPurchaseSupplierID'?: number;
+    'supplierPurchase'?: SupplierDto;
 }
 /**
  * 
