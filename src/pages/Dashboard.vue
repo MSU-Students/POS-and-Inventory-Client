@@ -58,18 +58,22 @@
             <q-item>
               <q-item-section>Total Stock Item</q-item-section>
               <q-item-section class="text-h6 text-bold" side>
-                245
+                {{ allInventory.length }}
               </q-item-section>
             </q-item>
             <q-separator inset />
             <q-item>
-              <q-item-section>Low Stock Item</q-item-section>
-              <q-item-section class="text-h6 text-bold" side>10</q-item-section>
+              <q-item-section>Total Available Stock</q-item-section>
+              <q-item-section class="text-h6 text-bold" side>
+                {{ availableInventory.length }}
+              </q-item-section>
             </q-item>
             <q-separator inset />
             <q-item>
-              <q-item-section>Stock category</q-item-section>
-              <q-item-section class="text-h6 text-bold" side>10</q-item-section>
+              <q-item-section>Total Used Stock</q-item-section>
+              <q-item-section class="text-h6 text-bold" side>
+                {{ usedInventory.length }}
+              </q-item-section>
             </q-item>
           </q-list>
         </q-card>
@@ -91,21 +95,21 @@
                   <q-item>
                     <q-item-section>No. of Purchase</q-item-section>
                     <q-item-section class="text-h6 text-bold" side>
-                      245
+                      {{ allPurchase.length }}
                     </q-item-section>
                   </q-item>
                   <q-separator inset />
                   <q-item>
-                    <q-item-section>Cost</q-item-section>
+                    <q-item-section>Total Cost</q-item-section>
                     <q-item-section class="text-h6 text-bold" side>
                       10
                     </q-item-section>
                   </q-item>
                   <q-separator inset />
                   <q-item>
-                    <q-item-section>Recieved</q-item-section>
+                    <q-item-section>Completed/Recieved</q-item-section>
                     <q-item-section class="text-h6 text-bold" side>
-                      10
+                      {{ completePurchase.length }}
                     </q-item-section>
                   </q-item>
                 </div>
@@ -113,23 +117,17 @@
                   <q-item>
                     <q-item-section>Pending</q-item-section>
                     <q-item-section class="text-h6 text-bold" side>
-                      2
+                      {{ pendingPurchase.length }}
                     </q-item-section>
                   </q-item>
                   <q-separator inset />
                   <q-item>
                     <q-item-section>Cancel</q-item-section>
                     <q-item-section class="text-h6 text-bold" side>
-                      10
+                      {{ cancelPurchase.length }}
                     </q-item-section>
                   </q-item>
                   <q-separator inset />
-                  <q-item>
-                    <q-item-section>Return</q-item-section>
-                    <q-item-section class="text-h6 text-bold" side>
-                      10
-                    </q-item-section>
-                  </q-item>
                 </div>
               </div>
             </q-list>
@@ -167,10 +165,29 @@ import { Vue, Options } from 'vue-class-component';
 import YearlyChart from 'components/Charts/DashYearly.vue';
 import CashFlowChart from 'components/Charts/DashSalePurchase.vue';
 import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
+import { mapGetters, mapState } from 'vuex';
+import { InventoryDto, PurchaseDto } from 'src/services/rest-api';
 
 @Options({
   components: { YearlyChart, CashFlowChart, MonthCashFlowChart },
+  computed: {
+    ...mapGetters('inventory', ['usedInventory', 'availableInventory']),
+    ...mapState('inventory', ['allInventory']),
+    ...mapGetters('purchase', [
+      'completePurchase',
+      'cancelPurchase',
+      'pendingPurchase',
+    ]),
+    ...mapState('purchase', ['allPurchase']),
+  },
 })
-export default class Dashboard extends Vue {}
+export default class Dashboard extends Vue {
+  usedInventory!: InventoryDto[];
+  allInventory!: InventoryDto[];
+  availableInventory!: InventoryDto[];
+  allPurchase!: PurchaseDto[];
+  completePurchase!: PurchaseDto[];
+  cancelPurchase!: PurchaseDto[];
+  pendingPurchase!: PurchaseDto[];
+}
 </script>
->
