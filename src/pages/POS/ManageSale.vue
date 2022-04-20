@@ -218,16 +218,9 @@
                     <div class="row q-gutter-md">
                       <div class="col">
                         <q-input
-                          class="q-py-md"
                           outlined
                           v-model="inputManageSale.productName"
                           label="Product Name"
-                          lazy-rules
-                          :rules="[
-                            (val) =>
-                              (val && val.length > 0) ||
-                              'You must enter an input',
-                          ]"
                         >
                           <template v-slot:prepend>
                             <q-icon name="drive_file_rename_outline" />
@@ -246,7 +239,7 @@
                         </q-file>
                       </div>
                     </div>
-                    <div class="row q-gutter-md">
+                    <div class="row q-pt-md q-gutter-md">
                       <div class="col">
                         <q-select
                           outlined
@@ -282,7 +275,7 @@
                         </q-select>
                       </div>
                     </div>
-                    <div class="row q-gutter-md">
+                    <div class="row q-pt-md q-gutter-md">
                       <div class="col">
                         <q-select
                           label="Product Size"
@@ -305,12 +298,6 @@
                           fill-mask="0"
                           reverse-fill-mask
                           v-model="inputManageSale.productPrice"
-                          lazy-rules
-                          :rules="[
-                            (val) =>
-                              (val && val.length > 0) ||
-                              'You must enter an input',
-                          ]"
                         >
                           <template v-slot:prepend> ₱ </template>
                         </q-input>
@@ -343,7 +330,7 @@
                         v-close-popup
                         @click="resetModel()"
                       />
-                      <q-btn flat label="Add" color="primary" type="submit" />
+                      <q-btn flat label="Save" color="primary" type="submit" />
                     </div>
                   </q-form>
                 </q-card-section>
@@ -464,7 +451,7 @@ export default class ManageProduct extends Vue {
     productDateCreated: formattedString,
     productCategory: '',
     productSubCategory: '',
-    productSize: '',
+    productSize: 'Regular',
   };
 
   selectSubCategory() {
@@ -547,11 +534,11 @@ export default class ManageProduct extends Vue {
     this.inputManageSale = {
       productName: '',
       productPrice: 0,
-      productAvailability: '',
+      productAvailability: 'Yes',
       productDateCreated: formattedString,
       productCategory: '',
       productSubCategory: '',
-      productSize: '',
+      productSize: 'Regular',
     };
   }
 }

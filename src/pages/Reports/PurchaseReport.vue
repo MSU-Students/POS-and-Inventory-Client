@@ -90,9 +90,9 @@
 
                 <q-item-section top>
                   <q-item-label lines="1">
-                    <span class="text-weight-medium">Supplier:</span>
+                    <span class="text-weight-medium">Supplier: </span>
                     <span class="text-grey-8">
-                      {{ pending.supplierPurchaseSupplierID }}</span
+                      {{ pending.supplierPurchase?.company }}</span
                     >
                   </q-item-label>
                   <q-item-label caption lines="1">
@@ -141,7 +141,7 @@
                   <q-item-label lines="1">
                     <span class="text-weight-medium">Supplier: </span>
                     <span class="text-grey-8">
-                      {{ data.supplierPurchaseSupplierID }}</span
+                      {{ data.supplierPurchase?.company || 'None' }}</span
                     >
                   </q-item-label>
                   <q-item-label caption lines="1">
@@ -159,8 +159,6 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
-
-              <q-separator spaced />
             </q-list>
           </q-layout>
         </q-card>

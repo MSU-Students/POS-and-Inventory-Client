@@ -77,37 +77,31 @@
           <q-list>
             <q-item>
               <q-item-section>
-                <q-item-label class="text-h6"> Low stock Items </q-item-label>
+                <q-item-label class="text-h6"> Dashboard </q-item-label>
               </q-item-section>
             </q-item>
             <q-separator />
             <q-item>
-              <q-item-section>Black Pearls</q-item-section>
-              <q-item-section class="text-h6 text-bold text-red-10" side>
-                20 packs
+              <q-item-section>Total Stock-in</q-item-section>
+              <q-item-section class="text-h6 text-bold text-primary" side>
+                {{ allInventory.length }}
               </q-item-section>
             </q-item>
             <q-separator inset />
             <q-item>
-              <q-item-section>Sugar</q-item-section>
-              <q-item-section class="text-h6 text-bold text-red-10" side>
-                5 packs
+              <q-item-section>Total Available</q-item-section>
+              <q-item-section class="text-h6 text-bold text-green" side>
+                {{ availableInventory.length }}
               </q-item-section>
             </q-item>
             <q-separator inset />
             <q-item>
-              <q-item-section>Plastic Cup</q-item-section>
+              <q-item-section>Total Used</q-item-section>
               <q-item-section class="text-h6 text-bold text-red-10" side>
-                3 Boxs
+                {{ usedInventory.length }}
               </q-item-section>
             </q-item>
             <q-separator inset />
-            <q-item>
-              <q-item-section>Plastic Straw</q-item-section>
-              <q-item-section class="text-h6 text-bold text-red-10" side>
-                15 Boxs
-              </q-item-section>
-            </q-item>
             <q-separator inset />
           </q-list>
         </q-card>
@@ -118,11 +112,13 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import { InventoryDto } from 'src/services/rest-api';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 @Options({
   computed: {
     ...mapGetters('inventory', ['usedInventory']),
+    ...mapState('inventory', ['allInventory']),
+    ...mapGetters('inventory', ['availableInventory']),
   },
   methods: {
     ...mapActions('inventory', ['getAllInventory']),
@@ -130,6 +126,8 @@ import { mapActions, mapGetters } from 'vuex';
 })
 export default class Expenses extends Vue {
   usedInventory!: InventoryDto[];
+  allInventory!: InventoryDto[];
+  availableInventory!: InventoryDto[];
   getAllInventory!: () => Promise<void>;
 
   async mounted() {
@@ -175,6 +173,13 @@ export default class Expenses extends Vue {
       align: 'center',
       label: 'Expiry Date',
       field: 'itemExpiryDate',
+    },
+
+    {
+      name: 'itemConsumeAt',
+      align: 'center',
+      label: 'Consume At',
+      field: 'itemConsumeAt',
     },
 
     {
