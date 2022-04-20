@@ -25,6 +25,16 @@
                 <q-space />
                 <div
                   class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+                  @click="model = 'allProducts'"
+                  clickable
+                >
+                  <q-icon class="q-pa-sm" size="25px" name="add_box" />
+                  All products
+                </div>
+
+                <q-space />
+                <div
+                  class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
                   @mouseover="foodCat = true"
                 >
                   <q-icon class="q-pa-sm" size="25px" name="dinner_dining" />
@@ -118,26 +128,36 @@
                     name="keyboard_arrow_down"
                   ></q-icon>
                 </div>
+
+                <!-- ----------------- -->
                 <q-space />
               </div>
             </div>
-            <div class="q-pa-md">
-              <q-form @submit="model = filter">
-                <q-input
-                  color="green"
-                  dense
-                  square
-                  outlined
-                  debounce="300"
-                  v-model="filter"
-                >
-                  <template v-slot:append>
-                    <q-btn flat @click="model = filter">
-                      <q-icon name="search" color="green" />
-                    </q-btn>
-                  </template>
-                </q-input>
-              </q-form>
+            <div class="row">
+              <div class="q-pa-md col-5">
+                <q-radio v-model="radioSizes" val="Regular" label="Regular" />
+                <q-radio v-model="radioSizes" val="Small" label="Small" />
+                <q-radio v-model="radioSizes" val="Medium" label="Medium" />
+                <q-radio v-model="radioSizes" val="Large" label="Large" />
+              </div>
+              <div class="q-pa-md col-7">
+                <q-form @submit="model = filter">
+                  <q-input
+                    color="green"
+                    dense
+                    square
+                    outlined
+                    debounce="300"
+                    v-model="filter"
+                  >
+                    <template v-slot:append>
+                      <q-btn flat @click="model = filter">
+                        <q-icon name="search" color="green" />
+                      </q-btn>
+                    </template>
+                  </q-input>
+                </q-form>
+              </div>
             </div>
 
             <q-scroll-area style="height: 600px; max-height: 600px">
@@ -149,8 +169,12 @@
                   <div
                     class="q-pa-sm"
                     v-if="
-                      data.productSubCategory === model ||
-                      data.productName === model
+                      (data.productSubCategory === model &&
+                        data.productSize === radioSizes) ||
+                      (data.productName === model &&
+                        data.productSize === radioSizes) ||
+                      (model === 'allProducts' &&
+                        data.productSize === radioSizes)
                     "
                   >
                     <q-card
@@ -350,6 +374,7 @@
                     push
                     color="red"
                     label="Clear Order"
+                    @click="clearOrder"
                   />
                 </div>
                 <q-separator inset />
@@ -460,6 +485,7 @@
                               </div>
                             </q-card-section>
                           </q-card>
+
                           <q-stepper-navigation class="q-gutter-md">
                             <q-btn
                               @click="
@@ -500,7 +526,10 @@
                           <q-stepper-navigation>
                             <q-btn
                               color="green"
-                              @click="done2 = true"
+                              @click="
+                                done2 = true;
+                                clearOrder();
+                              "
                               label="Finish"
                               v-close-popup
                             />
@@ -568,7 +597,8 @@ export default class POS extends Vue {
     await this.getAllManageProduct();
   }
 
-  model = 'Food';
+  radioSizes = 'Regular';
+  model = 'allProducts';
   filter = '';
   ConfirmOrder = false;
   StepConfirm = 1;
@@ -728,6 +758,9 @@ export default class POS extends Vue {
   print() {
     window.print();
   }
+  clearOrder() {
+    window.location.reload();
+  }
   resetOrder() {
     this.tempInput = {
       orderID: 0,
@@ -777,5 +810,16 @@ export default class POS extends Vue {
 
   width: 17vw;
   max-width: 17vw;
+}
+.printme {
+  display: none;
+}
+@media print {
+  .no-printme {
+    display: none;
+  }
+  .printme {
+    display: block;
+  }
 }
 </style>
