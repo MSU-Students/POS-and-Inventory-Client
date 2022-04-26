@@ -40,7 +40,7 @@ export default route<StateInterface>(function ({ store }) {
     if (to.matched.some((record) => record.meta.requiresGuest)) {
       if (session != null) {
         next({
-          path: '/',
+          path: '/Dashboard',
           query: {
             redirect: to.fullPath,
           },
@@ -51,7 +51,7 @@ export default route<StateInterface>(function ({ store }) {
     } else if (to.matched.some((record) => record.meta.requiresAdmin)) {
       if (session == null) {
         next({
-          path: '/Login',
+          path: '/',
           query: {
             redirect: to.fullPath,
           },

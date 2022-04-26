@@ -1,4 +1,5 @@
 import manageProductService from 'src/services/manage-product.service';
+import supplierService from 'src/services/media.service';
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
 import { ManageProductStateInterface } from './state';

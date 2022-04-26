@@ -3,52 +3,172 @@
     <div class="row q-gutter-md">
       <div class="col-7">
         <q-card style="max-height: 700px">
-          <q-btn-toggle
-            v-model="model"
-            spread
-            no-caps
-            toggle-color="green"
-            color="grey-4"
-            text-color="black"
-            :options="[
-              { icon: 'dinner_dining', label: 'Foods', value: 'Food' },
-              { icon: 'local_drink', label: 'Drinks', value: 'Drinks' },
-              { icon: 'lunch_dining', label: 'Snacks', value: 'Snacks' },
-              { icon: 'icecream', label: 'Desserts', value: 'Deserts' },
-              { icon: 'fastfood', label: 'Packages', value: 'Packages' },
-            ]"
-          />
-          <div class="q-pa-md">
-            <q-form>
-              <q-input
-                color="green"
-                dense
-                square
-                outlined
-                debounce="300"
-                v-model="filter"
+          <div class="bg-green text-white shadow-transition">
+            <div
+              class="row text-center flex flex-center"
+              :style="$q.platform.is.desktop ? 'height: 38px' : ''"
+            >
+              <q-space />
+              <div
+                class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+                @click="model = 'allProducts'"
+                clickable
               >
-                <template v-slot:append>
-                  <q-icon name="search" color="green" />
-                </template>
-              </q-input>
-            </q-form>
+                <q-icon class="q-pa-sm" size="25px" name="add_box" />
+                All products
+              </div>
+
+              <q-space />
+              <div
+                class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+                @mouseover="foodCat = true"
+              >
+                <q-icon class="q-pa-sm" size="25px" name="dinner_dining" />
+                Foods
+                <q-menu
+                  fit
+                  @mouseleave="foodCat = false"
+                  v-model="foodCat"
+                  transition-show="flip-right"
+                  transition-hide="flip-left"
+                >
+                  <q-list dense class="text-grey-9 text-caption">
+                    <div
+                      v-for="foodCat in foodCategory"
+                      v-bind:key="foodCat.name"
+                    >
+                      <q-item @click="model = foodCat.name" clickable>
+                        <q-item-section>{{ foodCat.name }}</q-item-section>
+                      </q-item>
+                    </div>
+                  </q-list>
+                </q-menu>
+                <q-icon
+                  size="sm"
+                  class="q-ml-xs text-grey-5"
+                  name="keyboard_arrow_down"
+                ></q-icon>
+              </div>
+              <q-space />
+              <!-- ------------------ -->
+              <div
+                class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+                @mouseover="drinksCat = true"
+              >
+                <q-icon class="q-pa-sm" size="25px" name="local_drink" />
+                Drinks
+                <q-menu
+                  fit
+                  @mouseleave="drinksCat = false"
+                  v-model="drinksCat"
+                  transition-show="flip-right"
+                  transition-hide="flip-left"
+                >
+                  <q-list dense class="text-grey-9 text-caption">
+                    <div
+                      v-for="drinksCat in drinkCategory"
+                      v-bind:key="drinksCat.name"
+                    >
+                      <q-item @click="model = drinksCat.name" clickable>
+                        <q-item-section>{{ drinksCat.name }}</q-item-section>
+                      </q-item>
+                    </div>
+                  </q-list>
+                </q-menu>
+                <q-icon
+                  size="sm"
+                  class="q-ml-xs text-grey-5"
+                  name="keyboard_arrow_down"
+                ></q-icon>
+              </div>
+              <q-space />
+              <!-- ------------------ -->
+
+              <div
+                class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+                @mouseover="addOnsCat = true"
+              >
+                <q-icon class="q-pa-sm" size="25px" name="add_box" />
+                Add-ons
+                <q-menu
+                  fit
+                  @mouseleave="addOnsCat = false"
+                  v-model="addOnsCat"
+                  transition-show="flip-right"
+                  transition-hide="flip-left"
+                >
+                  <q-list dense class="text-grey-9 text-caption">
+                    <div
+                      v-for="addOnsCat in addOnsCategory"
+                      v-bind:key="addOnsCat.name"
+                    >
+                      <q-item @click="model = addOnsCat.name" clickable>
+                        <q-item-section>{{ addOnsCat.name }}</q-item-section>
+                      </q-item>
+                    </div>
+                  </q-list>
+                </q-menu>
+                <q-icon
+                  size="sm"
+                  class="q-ml-xs text-grey-5"
+                  name="keyboard_arrow_down"
+                ></q-icon>
+              </div>
+
+              <!-- ----------------- -->
+              <q-space />
+            </div>
+          </div>
+          <div class="row">
+            <div class="q-pa-md col-5">
+              <q-radio v-model="radioSizes" val="Regular" label="Regular" />
+              <q-radio v-model="radioSizes" val="Small" label="Small" />
+              <q-radio v-model="radioSizes" val="Medium" label="Medium" />
+              <q-radio v-model="radioSizes" val="Large" label="Large" />
+            </div>
+            <div class="q-pa-md col-7">
+              <q-form @submit="model = filter">
+                <q-input
+                  color="green"
+                  dense
+                  square
+                  outlined
+                  debounce="300"
+                  v-model="filter"
+                >
+                  <template v-slot:append>
+                    <q-btn flat @click="model = filter">
+                      <q-icon name="search" color="green" />
+                    </q-btn>
+                  </template>
+                </q-input>
+              </q-form>
+            </div>
           </div>
 
           <q-scroll-area style="height: 600px; max-height: 600px">
             <div class="row">
-              <div v-for="data in allProduct" v-bind:key="data.productID">
+              <div
+                v-for="data in availableProduct"
+                v-bind:key="data.product_ID"
+              >
                 <div
                   class="q-pa-sm"
-                  v-if="data.type === model || data.prodName === filter"
+                  v-if="
+                    (data.productSubCategory === model &&
+                      data.productSize === radioSizes) ||
+                    (data.productName === model &&
+                      data.productSize === radioSizes) ||
+                    (model === 'allProducts' && data.productSize === radioSizes)
+                  "
                 >
                   <q-card
                     class="my-card"
                     :class="class_val"
                     @click="
-                      tempInput.prodName = data.prodName;
-                      tempInput.price = data.price;
-                      tempPrice = data.price;
+                      tempInput.prodName = data.productName;
+                      tempInput.price = data.productPrice;
+                      tempPrice = data.productPrice;
                     "
                   >
                     <div class="row">
@@ -58,11 +178,11 @@
                       <div class="col">
                         <div class="q-py-xl text-subtitle7">
                           <q-item-label>
-                            {{ data.prodName }}
+                            {{ data.productName }}
                           </q-item-label>
                           <q-item-label class="text-weight-bolder text-red-10">
                             Price:
-                            {{ data.price }}
+                            {{ data.productPrice }}
                           </q-item-label>
                         </div>
                       </div>
@@ -91,7 +211,7 @@
                                 tempInput.subTotal =
                                   tempInput.prodQuant * tempPrice;
                                 grandTotal += tempInput.subTotal;
-                                onAddOrder();
+                                onaddCart();
                               "
                             >
                               <div>
@@ -165,7 +285,7 @@
             <q-card style="height: 700px">
               <q-card-section>
                 <q-table
-                  :rows="allOrder"
+                  :rows="allCart"
                   :columns="selectedOrder"
                   title="Customer Order"
                   :rows-per-page-options="[0]"
@@ -217,7 +337,7 @@
                             flat
                             round
                             dense
-                            @click="onDeleteSpecificOrder(props.row)"
+                            @click="onDeleteSpecificCart(props.row)"
                           />
                         </div>
                       </q-td>
@@ -235,6 +355,7 @@
                   push
                   color="red"
                   label="Clear Order"
+                  @click="clearOrder"
                 />
               </div>
               <q-separator inset />
@@ -289,7 +410,7 @@
                         <q-card flat bordered>
                           <q-card-section>
                             <q-table
-                              :rows="allOrder"
+                              :rows="allCart"
                               :columns="selectedOrder"
                               title="Selected Order"
                               :rows-per-page-options="[]"
@@ -327,19 +448,32 @@
 
                           <q-card-section>
                             <div class="row">
+                              <div class="col">Change:</div>
+                              <div class="col text-right q-px-sm">
+                                {{ change }}
+                              </div>
+                            </div>
+                          </q-card-section>
+
+                          <q-separator inset />
+
+                          <q-card-section>
+                            <div class="row">
                               <div class="col">Grand Total:</div>
                               <div class="col text-right q-px-sm">
-                                ₱100000.000
+                                {{ grandTotal }}
                               </div>
                             </div>
                           </q-card-section>
                         </q-card>
+
                         <q-stepper-navigation class="q-gutter-md">
                           <q-btn
                             @click="
                               () => {
                                 done1 = true;
                                 StepConfirm = 2;
+                                print();
                               }
                             "
                             color="green"
@@ -355,23 +489,29 @@
                       </q-step>
                       <q-step
                         :name="2"
-                        title="Printing Invoice"
+                        title="Customer Name"
                         caption="Optional"
-                        icon="create_new_folder"
+                        icon="Transanction Finish"
                         :done="StepConfirm > 2"
                       >
-                        An ad group contains one or more ads which target a
-                        shared set of keywords.
-                        <q-stepper-navigation>
+                        <q-card>
+                          <q-card-section>
+                            <q-input
+                              label="Name"
+                              outlined
+                              v-model="inputCustomer.customerName"
+                            />
+                          </q-card-section>
+                        </q-card>
+                        <q-stepper-navigation align="center">
                           <q-btn
-                            @click="
-                              () => {
-                                done2 = true;
-                                StepConfirm = 3;
-                              }
-                            "
                             color="green"
-                            label="Continue"
+                            @click="
+                              onAddCustomer();
+                              done2 = true;
+                              StepConfirm = 3;
+                            "
+                            label="Save"
                           />
                           <q-btn
                             flat
@@ -382,6 +522,7 @@
                           />
                         </q-stepper-navigation>
                       </q-step>
+
                       <q-step
                         :name="3"
                         title="Transanction Complete"
@@ -401,7 +542,10 @@
                         <q-stepper-navigation>
                           <q-btn
                             color="green"
-                            @click="done3 = true"
+                            @click="
+                              done2 = true;
+                              clearOrder();
+                            "
                             label="Finish"
                             v-close-popup
                           />
@@ -428,31 +572,48 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { IOrderInfo } from '../../store/Order/state';
-import { IProductInfo } from '../../store/product/state';
 import { mapState, mapActions, mapGetters } from 'vuex';
+import { CustomerDto, ManageProductDto } from 'src/services/rest-api';
+import { ICartInfo } from 'src/store/cart/state';
+
+type TimeZone = { name: string; offset: number; timezone: any };
 
 @Options({
   computed: {
-    ...mapState('Order', ['allOrder']),
-    ...mapGetters('product', ['allProduct']),
+    ...mapState('cart', ['allCart']),
+    ...mapGetters('manageProduct', ['availableProduct']),
+    ...mapState('customer', ['allCustomer']),
+    ...mapState('saleOrder', ['allSaleOrder']),
+    ...mapState('saleRecord', ['allSaleRecord']),
   },
+
   methods: {
-    ...mapActions('Order', ['addOrder', 'editOrder', 'deleteOrder']),
-    ...mapActions('Product', ['addProduct', 'editProduct', 'deleteProduct']),
+    ...mapActions('cart', ['addCart', 'editCart', 'deleteCart']),
+    ...mapActions('manageProduct', ['getAllManageProduct']),
+    ...mapActions('customer', ['addCustomer']),
+    ...mapActions('saleOrder', ['addSaleOrder']),
+    ...mapActions('saleRecord', ['allSaleRecord']),
   },
 })
 export default class POS extends Vue {
-  addOrder!: (payload: IOrderInfo) => Promise<void>;
-  editOrder!: (payload: IOrderInfo) => Promise<void>;
-  deleteOrder!: (payload: IOrderInfo) => Promise<void>;
-  allOrder!: IOrderInfo[];
+  availableProduct!: ManageProductDto[];
 
-  addProduct!: (payload: IOrderInfo) => Promise<void>;
-  editProduct!: (payload: IOrderInfo) => Promise<void>;
-  deleteProduct!: (payload: IOrderInfo) => Promise<void>;
-  allProduct!: IProductInfo[];
-  model = 'Food';
+  addCart!: (payload: ICartInfo) => Promise<void>;
+  editCart!: (payload: ICartInfo) => Promise<void>;
+  deleteCart!: (payload: ICartInfo) => Promise<void>;
+  allCart!: ICartInfo[];
+
+  allCustomer!: CustomerDto[];
+  addCustomer!: (payload: CustomerDto) => Promise<void>;
+
+  getAllManageProduct!: () => Promise<void>;
+
+  async mounted() {
+    await this.getAllManageProduct();
+  }
+
+  radioSizes = 'Regular';
+  model = 'allProducts';
   filter = '';
   ConfirmOrder = false;
   StepConfirm = 1;
@@ -467,18 +628,104 @@ export default class POS extends Vue {
   grandTotal = 0;
   payment = 0;
   change = 0;
+
+  foodCat = false;
+  drinksCat = false;
+  addOnsCat = false;
+  desertsCat = false;
+  packagesCat = false;
+
   class_val = 'shadow-1 my-card';
+
   orderedProduct() {
     this.radioBTN;
   }
 
+  foodCategory = [
+    {
+      name: 'Meals',
+    },
+    {
+      name: 'Platters',
+    },
+    {
+      name: 'Rice Toppings',
+    },
+    {
+      name: 'Chicken Wings',
+    },
+    {
+      name: 'Sandwiches and Burgers',
+    },
+    {
+      name: 'All-Time Favorites',
+    },
+    {
+      name: 'Pasta and Noodles',
+    },
+    {
+      name: 'Something Sweet',
+    },
+    {
+      name: 'Pizza',
+    },
+    {
+      name: 'French Fries and Nachos',
+    },
+    {
+      name: 'Party Trays',
+    },
+    {
+      name: 'Healthy Option',
+    },
+    {
+      name: 'Smoothie Bowls',
+    },
+    {
+      name: 'Frozen Spoon Ice Cream',
+    },
+  ];
+  drinkCategory = [
+    {
+      name: 'Milk Teas',
+    },
+    {
+      name: 'Fruit Teas',
+    },
+    {
+      name: 'Yogurt Teas',
+    },
+    {
+      name: 'Ice Blended Drinks',
+    },
+    {
+      name: 'Salted Cream Series',
+    },
+    {
+      name: 'Iced Coffees',
+    },
+    {
+      name: 'Creamcheese Series',
+    },
+    {
+      name: 'Ice Blended Coffees',
+    },
+    {
+      name: 'Other Drinks',
+    },
+  ];
+  addOnsCategory = [
+    {
+      name: 'None',
+    },
+  ];
   selectedOrder = [
     {
       name: 'productName',
       required: true,
       label: 'Product Name',
       align: 'left',
-      field: (row: IOrderInfo) => row.prodName,
+      field: (row: ICartInfo) => row.prodName,
       format: (val: string) => `${val}`,
       sortable: true,
     },
@@ -515,25 +762,22 @@ export default class POS extends Vue {
     },
   ];
 
-  tempInput: IOrderInfo = {
+  tempInput: ICartInfo = {
     orderID: 0,
     prodName: '',
     prodQuant: 0,
     size: this.radioBTN,
     price: 0,
     subTotal: 0,
-    orderDate: '',
   };
 
-  inputOrder: IOrderInfo = {
-    orderID: 0,
-    prodName: '',
-    prodQuant: 0,
-    size: '',
-    price: 0,
-    subTotal: 0,
-    orderDate: '',
-  };
+  print() {
+    window.print();
+  }
+  clearOrder() {
+    window.location.reload();
+  }
+
   resetOrder() {
     this.tempInput = {
       orderID: 0,
@@ -542,16 +786,15 @@ export default class POS extends Vue {
       size: '',
       price: 0,
       subTotal: 0,
-      orderDate: '',
     };
   }
 
-  async onAddOrder() {
-    await this.addOrder(this.tempInput);
+  async onaddCart() {
+    await this.addCart(this.tempInput);
     this.chooseSize = false;
     this.resetOrder();
   }
-  onDeleteSpecificOrder(val: IOrderInfo) {
+  onDeleteSpecificCart(val: ICartInfo) {
     this.$q
       .dialog({
         message: 'Confirm to delete?',
@@ -559,13 +802,30 @@ export default class POS extends Vue {
         persistent: true,
       })
       .onOk(async () => {
-        await this.deleteOrder(val);
+        await this.deleteCart(val);
         this.grandTotal -= val.price;
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',
         });
       });
+  }
+
+  inputCustomer: CustomerDto = {
+    customerName: '',
+    date_created: '',
+  };
+
+  async onAddCustomer() {
+    await this.addCustomer(this.inputCustomer);
+    this.resetCustomer();
+  }
+
+  resetCustomer() {
+    this.inputCustomer = {
+      customerName: '',
+      date_created: '',
+    };
   }
 }
 </script>
@@ -583,5 +843,16 @@ export default class POS extends Vue {
 
   width: 17vw;
   max-width: 17vw;
+}
+.printme {
+  display: none;
+}
+@media print {
+  .no-printme {
+    display: none;
+  }
+  .printme {
+    display: block;
+  }
 }
 </style>

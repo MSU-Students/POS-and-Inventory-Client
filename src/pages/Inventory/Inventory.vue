@@ -379,6 +379,7 @@ const curentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
       'editInventory',
       'deleteInventory',
       'getAllInventory',
+      'getByItemName',
     ]),
   },
 })
@@ -388,6 +389,7 @@ export default class Inventory extends Vue {
   editInventory!: (payload: InventoryDto) => Promise<void>;
   deleteInventory!: (payload: InventoryDto) => Promise<void>;
   getAllInventory!: () => Promise<void>;
+  getByItemName!: () => Promise<void>;
 
   async mounted() {
     await this.getAllInventory();

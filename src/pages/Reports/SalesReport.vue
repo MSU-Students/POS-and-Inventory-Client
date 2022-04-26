@@ -4,7 +4,7 @@
     <div class="q-py-lg">
       <q-table
         title="Sales Record"
-        :rows="allOrder"
+        :rows="allCart"
         :columns="column"
         row-key="subCategoryID"
         :rows-per-page-options="[0]"
@@ -203,7 +203,7 @@ import BestSellerFood from 'src/components/Charts/BestSellerChartFood.vue';
 import BestSellerChartDrinks from 'src/components/Charts/BestSellerChartDrinks.vue';
 import BestSellerChartAddons from 'src/components/Charts/BestSellerChartAddons.vue';
 import { mapState } from 'vuex';
-import { IOrderInfo } from '../../store/Order/state';
+import { ICartInfo } from 'src/store/cart/state';
 @Options({
   components: {
     monthlyProductSales,
@@ -215,11 +215,11 @@ import { IOrderInfo } from '../../store/Order/state';
     BestSellerChartAddons,
   },
   computed: {
-    ...mapState('Order', ['allOrder']),
+    ...mapState('cart', ['allCart']),
   },
 })
 export default class ChartComponent extends Vue {
-  allOrder!: IOrderInfo[];
+  allCart!: ICartInfo[];
   tab = 'Food';
   saleFilter = '';
 
@@ -229,7 +229,7 @@ export default class ChartComponent extends Vue {
       required: true,
       label: 'Product',
       align: 'left',
-      field: (row: IOrderInfo) => row.prodName,
+      field: (row: ICartInfo) => row.prodName,
       format: (val: string) => `${val}`,
     },
     {

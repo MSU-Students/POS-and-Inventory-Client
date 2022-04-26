@@ -75,6 +75,7 @@
                         outlined
                         label="Product Image"
                         accept=".jpg, image/*"
+                        v-model="imageAttachement"
                       >
                         <template v-slot:prepend>
                           <q-icon name="camera" />
@@ -179,7 +180,13 @@
                       v-close-popup
                       @click="resetModel()"
                     />
-                    <q-btn flat label="Add" color="primary" type="submit" />
+                    <q-btn
+                      flat
+                      label="Add"
+                      color="primary"
+                      type="submit"
+                      :loading="loading"
+                    />
                   </div>
                 </q-form>
               </q-card-section>
@@ -232,6 +239,7 @@
                           outlined
                           label="Product Image"
                           accept=".jpg, image/*"
+                          v-model="imageAttachement"
                         >
                           <template v-slot:prepend>
                             <q-icon name="camera" />
@@ -330,7 +338,13 @@
                         v-close-popup
                         @click="resetModel()"
                       />
-                      <q-btn flat label="Save" color="primary" type="submit" />
+                      <q-btn
+                        flat
+                        label="Save"
+                        color="primary"
+                        type="submit"
+                        :loading="loading"
+                      />
                     </div>
                   </q-form>
                 </q-card-section>
@@ -356,7 +370,7 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import { mapState, mapActions } from 'vuex';
-import { ManageProductDto } from 'src/services/rest-api';
+import { ManageProductDto, MediaDto } from 'src/services/rest-api';
 import { date } from 'quasar';
 
 const timeStamp = Date.now();
@@ -373,6 +387,7 @@ const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
       'deleteManageProduct',
       'getAllManageProduct',
     ]),
+    ...mapActions('media', ['uploadMedia']),
   },
 })
 export default class ManageProduct extends Vue {
@@ -381,6 +396,7 @@ export default class ManageProduct extends Vue {
   editManageProduct!: (payload: ManageProductDto) => Promise<void>;
   deleteManageProduct!: (payload: ManageProductDto) => Promise<void>;
   getAllManageProduct!: () => Promise<void>;
+  uploadMedia!: (payload: File) => Promise<MediaDto>;
   async mounted() {
     await this.getAllManageProduct();
   }
@@ -443,8 +459,9 @@ export default class ManageProduct extends Vue {
   addNewManageSale = false;
   filter = '';
   editRowManageSale = false;
+  imageAttachement: File[] | File = [];
 
-  inputManageSale: ManageProductDto = {
+  inputManageSale: any = {
     productName: '',
     productPrice: 0,
     productAvailability: 'Yes',
@@ -452,6 +469,7 @@ export default class ManageProduct extends Vue {
     productCategory: '',
     productSubCategory: '',
     productSize: 'Regular',
+    url: '',
   };
 
   selectSubCategory() {
@@ -488,11 +506,18 @@ export default class ManageProduct extends Vue {
       return (this.SubCategory = ['None']);
     }
   }
-
+  loading = false;
   async onAddManageSale() {
-    await this.addManageProduct(this.inputManageSale);
+    //upload picture
+    this.loading = true;
+    const media = await this.uploadMedia(this.imageAttachement as File);
+    const res: any = await this.addManageProduct({
+      ...this.inputManageSale,
+      url: media.id,
+    });
     this.addNewManageSale = false;
     this.resetModel();
+    this.loading = false;
     this.$q.notify({
       type: 'positive',
       message: 'Successfully Adeded.',
@@ -500,7 +525,9 @@ export default class ManageProduct extends Vue {
   }
 
   async oneditManageProduct() {
-    await this.editManageProduct(this.inputManageSale);
+    this.loading = true;
+    const media = await this.uploadMedia(this.imageAttachement as File);
+    await this.editManageProduct({ ...this.inputManageSale, url: media.id });
     this.editRowManageSale = false;
     this.resetModel();
     this.$q.notify({
@@ -539,6 +566,8 @@ export default class ManageProduct extends Vue {
       productCategory: '',
       productSubCategory: '',
       productSize: 'Regular',
+      url: '',
+      imageAttachement: '',
     };
   }
 }

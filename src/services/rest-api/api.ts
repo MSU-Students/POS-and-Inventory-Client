@@ -229,6 +229,18 @@ export interface ManageProductDto {
      * @memberof ManageProductDto
      */
     'productDateCreated': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ManageProductDto
+     */
+    'url': number;
+    /**
+     * 
+     * @type {object}
+     * @memberof ManageProductDto
+     */
+    's'?: object;
 }
 /**
  * 
@@ -311,10 +323,10 @@ export interface PurchaseDto {
     'purchaseAmount'?: number;
     /**
      * 
-     * @type {SupplierDto}
+     * @type {object}
      * @memberof PurchaseDto
      */
-    'supplierPurchase'?: SupplierDto;
+    'supplierPurchase'?: object;
 }
 /**
  * 
@@ -369,31 +381,43 @@ export interface SaleOrderDto {
 /**
  * 
  * @export
- * @interface SellRecordDto
+ * @interface SaleRecordDto
  */
-export interface SellRecordDto {
+export interface SaleRecordDto {
     /**
      * 
      * @type {string}
-     * @memberof SellRecordDto
+     * @memberof SaleRecordDto
      */
     'invoiceID'?: string;
     /**
      * 
      * @type {string}
-     * @memberof SellRecordDto
+     * @memberof SaleRecordDto
      */
     'sales_order_created': string;
     /**
      * 
      * @type {number}
-     * @memberof SellRecordDto
+     * @memberof SaleRecordDto
      */
     'totalAmount': number;
     /**
      * 
+     * @type {UserDto}
+     * @memberof SaleRecordDto
+     */
+    'user'?: UserDto;
+    /**
+     * 
+     * @type {CustomerDto}
+     * @memberof SaleRecordDto
+     */
+    'customer'?: CustomerDto;
+    /**
+     * 
      * @type {SaleOrderDto}
-     * @memberof SellRecordDto
+     * @memberof SaleRecordDto
      */
     'saleOrder'?: SaleOrderDto;
 }
@@ -744,15 +768,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Add new Sell Record
-         * @param {SellRecordDto} sellRecordDto 
+         * @summary Add new Sale Record
+         * @param {SaleRecordDto} saleRecordDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addSellRecord: async (sellRecordDto: SellRecordDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'sellRecordDto' is not null or undefined
-            assertParamExists('addSellRecord', 'sellRecordDto', sellRecordDto)
-            const localVarPath = `/sell-record`;
+        addSaleRecord: async (saleRecordDto: SaleRecordDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'saleRecordDto' is not null or undefined
+            assertParamExists('addSaleRecord', 'saleRecordDto', saleRecordDto)
+            const localVarPath = `/SaleRecord`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -771,7 +795,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(sellRecordDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(saleRecordDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1090,15 +1114,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Delete Sell Record by id
+         * @summary Delete Sale Record by id
          * @param {number} invoiceID 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteSellRecord: async (invoiceID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteSaleRecord: async (invoiceID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'invoiceID' is not null or undefined
-            assertParamExists('deleteSellRecord', 'invoiceID', invoiceID)
-            const localVarPath = `/sell-record/{invoiceID}`
+            assertParamExists('deleteSaleRecord', 'invoiceID', invoiceID)
+            const localVarPath = `/SaleRecord/{invoiceID}`
                 .replace(`{${"invoiceID"}}`, encodeURIComponent(String(invoiceID)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1716,15 +1740,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Get Sell Record by id
+         * @summary Get Sale Record by id
          * @param {number} invoiceID 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSellRecord: async (invoiceID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getSaleRecord: async (invoiceID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'invoiceID' is not null or undefined
-            assertParamExists('getSellRecord', 'invoiceID', invoiceID)
-            const localVarPath = `/sell-record/{invoiceID}`
+            assertParamExists('getSaleRecord', 'invoiceID', invoiceID)
+            const localVarPath = `/SaleRecord/{invoiceID}`
                 .replace(`{${"invoiceID"}}`, encodeURIComponent(String(invoiceID)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1750,12 +1774,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Get all Sell Record
+         * @summary Get all Sale Record
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSellRecords: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sell-record`;
+        getSaleRecords: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/SaleRecord`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2310,18 +2334,18 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Update Sell Record by id
+         * @summary Update Sale Record by id
          * @param {number} invoiceID 
-         * @param {SellRecordDto} sellRecordDto 
+         * @param {SaleRecordDto} saleRecordDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateSellRecord: async (invoiceID: number, sellRecordDto: SellRecordDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateSaleRecord: async (invoiceID: number, saleRecordDto: SaleRecordDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'invoiceID' is not null or undefined
-            assertParamExists('updateSellRecord', 'invoiceID', invoiceID)
-            // verify required parameter 'sellRecordDto' is not null or undefined
-            assertParamExists('updateSellRecord', 'sellRecordDto', sellRecordDto)
-            const localVarPath = `/sell-record/{invoiceID}`
+            assertParamExists('updateSaleRecord', 'invoiceID', invoiceID)
+            // verify required parameter 'saleRecordDto' is not null or undefined
+            assertParamExists('updateSaleRecord', 'saleRecordDto', saleRecordDto)
+            const localVarPath = `/SaleRecord/{invoiceID}`
                 .replace(`{${"invoiceID"}}`, encodeURIComponent(String(invoiceID)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2341,7 +2365,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(sellRecordDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(saleRecordDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2549,13 +2573,13 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Add new Sell Record
-         * @param {SellRecordDto} sellRecordDto 
+         * @summary Add new Sale Record
+         * @param {SaleRecordDto} saleRecordDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async addSellRecord(sellRecordDto: SellRecordDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SellRecordDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.addSellRecord(sellRecordDto, options);
+        async addSaleRecord(saleRecordDto: SaleRecordDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SaleRecordDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addSaleRecord(saleRecordDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2659,13 +2683,13 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Delete Sell Record by id
+         * @summary Delete Sale Record by id
          * @param {number} invoiceID 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteSellRecord(invoiceID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SellRecordDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSellRecord(invoiceID, options);
+        async deleteSaleRecord(invoiceID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SaleRecordDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSaleRecord(invoiceID, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2861,23 +2885,23 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get Sell Record by id
+         * @summary Get Sale Record by id
          * @param {number} invoiceID 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSellRecord(invoiceID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SellRecordDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSellRecord(invoiceID, options);
+        async getSaleRecord(invoiceID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SaleRecordDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSaleRecord(invoiceID, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @summary Get all Sell Record
+         * @summary Get all Sale Record
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getSellRecords(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SellRecordDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSellRecords(options);
+        async getSaleRecords(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SaleRecordDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSaleRecords(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3040,14 +3064,14 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Update Sell Record by id
+         * @summary Update Sale Record by id
          * @param {number} invoiceID 
-         * @param {SellRecordDto} sellRecordDto 
+         * @param {SaleRecordDto} saleRecordDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateSellRecord(invoiceID: number, sellRecordDto: SellRecordDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SellRecordDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateSellRecord(invoiceID, sellRecordDto, options);
+        async updateSaleRecord(invoiceID: number, saleRecordDto: SaleRecordDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SaleRecordDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateSaleRecord(invoiceID, saleRecordDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3157,13 +3181,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Add new Sell Record
-         * @param {SellRecordDto} sellRecordDto 
+         * @summary Add new Sale Record
+         * @param {SaleRecordDto} saleRecordDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addSellRecord(sellRecordDto: SellRecordDto, options?: any): AxiosPromise<SellRecordDto> {
-            return localVarFp.addSellRecord(sellRecordDto, options).then((request) => request(axios, basePath));
+        addSaleRecord(saleRecordDto: SaleRecordDto, options?: any): AxiosPromise<SaleRecordDto> {
+            return localVarFp.addSaleRecord(saleRecordDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3257,13 +3281,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Delete Sell Record by id
+         * @summary Delete Sale Record by id
          * @param {number} invoiceID 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteSellRecord(invoiceID: number, options?: any): AxiosPromise<SellRecordDto> {
-            return localVarFp.deleteSellRecord(invoiceID, options).then((request) => request(axios, basePath));
+        deleteSaleRecord(invoiceID: number, options?: any): AxiosPromise<SaleRecordDto> {
+            return localVarFp.deleteSaleRecord(invoiceID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3440,22 +3464,22 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Get Sell Record by id
+         * @summary Get Sale Record by id
          * @param {number} invoiceID 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSellRecord(invoiceID: number, options?: any): AxiosPromise<SellRecordDto> {
-            return localVarFp.getSellRecord(invoiceID, options).then((request) => request(axios, basePath));
+        getSaleRecord(invoiceID: number, options?: any): AxiosPromise<SaleRecordDto> {
+            return localVarFp.getSaleRecord(invoiceID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary Get all Sell Record
+         * @summary Get all Sale Record
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getSellRecords(options?: any): AxiosPromise<SellRecordDto> {
-            return localVarFp.getSellRecords(options).then((request) => request(axios, basePath));
+        getSaleRecords(options?: any): AxiosPromise<SaleRecordDto> {
+            return localVarFp.getSaleRecords(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3603,14 +3627,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Update Sell Record by id
+         * @summary Update Sale Record by id
          * @param {number} invoiceID 
-         * @param {SellRecordDto} sellRecordDto 
+         * @param {SaleRecordDto} saleRecordDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateSellRecord(invoiceID: number, sellRecordDto: SellRecordDto, options?: any): AxiosPromise<SellRecordDto> {
-            return localVarFp.updateSellRecord(invoiceID, sellRecordDto, options).then((request) => request(axios, basePath));
+        updateSaleRecord(invoiceID: number, saleRecordDto: SaleRecordDto, options?: any): AxiosPromise<SaleRecordDto> {
+            return localVarFp.updateSaleRecord(invoiceID, saleRecordDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3728,14 +3752,14 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @summary Add new Sell Record
-     * @param {SellRecordDto} sellRecordDto 
+     * @summary Add new Sale Record
+     * @param {SaleRecordDto} saleRecordDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public addSellRecord(sellRecordDto: SellRecordDto, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).addSellRecord(sellRecordDto, options).then((request) => request(this.axios, this.basePath));
+    public addSaleRecord(saleRecordDto: SaleRecordDto, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).addSaleRecord(saleRecordDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3848,14 +3872,14 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @summary Delete Sell Record by id
+     * @summary Delete Sale Record by id
      * @param {number} invoiceID 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public deleteSellRecord(invoiceID: number, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).deleteSellRecord(invoiceID, options).then((request) => request(this.axios, this.basePath));
+    public deleteSaleRecord(invoiceID: number, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).deleteSaleRecord(invoiceID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4069,25 +4093,25 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get Sell Record by id
+     * @summary Get Sale Record by id
      * @param {number} invoiceID 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public getSellRecord(invoiceID: number, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getSellRecord(invoiceID, options).then((request) => request(this.axios, this.basePath));
+    public getSaleRecord(invoiceID: number, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).getSaleRecord(invoiceID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @summary Get all Sell Record
+     * @summary Get all Sale Record
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public getSellRecords(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getSellRecords(options).then((request) => request(this.axios, this.basePath));
+    public getSaleRecords(options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).getSaleRecords(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4264,15 +4288,15 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @summary Update Sell Record by id
+     * @summary Update Sale Record by id
      * @param {number} invoiceID 
-     * @param {SellRecordDto} sellRecordDto 
+     * @param {SaleRecordDto} saleRecordDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public updateSellRecord(invoiceID: number, sellRecordDto: SellRecordDto, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).updateSellRecord(invoiceID, sellRecordDto, options).then((request) => request(this.axios, this.basePath));
+    public updateSaleRecord(invoiceID: number, saleRecordDto: SaleRecordDto, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).updateSaleRecord(invoiceID, saleRecordDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

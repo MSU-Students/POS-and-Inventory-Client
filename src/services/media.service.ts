@@ -2,7 +2,7 @@ import { MediaDto } from './rest-api';
 import { posApiService } from './pos-inventory-api.service';
 import { DefaultApi } from './rest-api/api';
 
-class SupplierService extends DefaultApi {
+class MediaService extends DefaultApi {
   async getPicture(id: number): Promise<MediaDto> {
     const response = await posApiService.getMedia(id);
     return response.data;
@@ -14,5 +14,5 @@ class SupplierService extends DefaultApi {
   }
 }
 
-const supplierService = new SupplierService();
-export default supplierService;
+const mediaService = new MediaService();
+export default mediaService;

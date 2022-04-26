@@ -27,14 +27,20 @@ import { SupplierStateInterface } from './supplier/state';
 import cart from './cart';
 import { CartStateInterface } from './cart/state';
 
-import Order from './Order';
-import { OrderStateInterface } from './Order/state';
-
-import product from './product';
-import { ProductStateInterface } from './product/state';
-
 import auth from './auth';
 import { IAuthState } from './auth/state';
+
+import media from './media-module';
+import { MediaStateInterface } from './media-module/state';
+
+import customer from './customer';
+import { CustomertateInterface } from './customer/state';
+
+import saleOrder from './saleOrderList';
+import { SaleOrderStateInterface } from './saleOrderList/state';
+
+import saleRecord from './saleRecord';
+import { SaleRecordStateInterface } from './saleRecord/state';
 
 /*
  * If not building with SSR mode, you can
@@ -55,10 +61,12 @@ export interface StateInterface {
   manageProduct: ManageProductStateInterface;
   purchase: PurchaseStateInterface;
   supply: SupplierStateInterface;
-  Order: OrderStateInterface;
-  product: ProductStateInterface;
   auth: IAuthState;
   cart: CartStateInterface;
+  media: MediaStateInterface;
+  customer: CustomertateInterface;
+  saleOrder: SaleOrderStateInterface;
+  saleRecord: SaleOrderStateInterface;
 }
 
 // provide typings for `this.$store`
@@ -82,10 +90,12 @@ export default store(function (/* { ssrContext } */) {
       manageProduct,
       purchase,
       supplier,
-      Order,
-      product,
       auth,
       cart,
+      media,
+      customer,
+      saleOrder,
+      saleRecord,
     },
 
     // enable strict mode (adds overhead!)

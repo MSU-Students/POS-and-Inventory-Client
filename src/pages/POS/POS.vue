@@ -188,7 +188,9 @@
                     >
                       <div class="row">
                         <div class="col q-pt-md q-pl-md">
-                          <q-img src="../../assets/Frappe.png" />
+                          <q-img
+                            :src="`http://localhost:3000/media/${data.url}`"
+                          />
                         </div>
                         <div class="col">
                           <div class="q-py-xl text-subtitle7">
@@ -230,7 +232,7 @@
                                   tempInput.subTotal =
                                     tempInput.prodQuant * tempPrice;
                                   grandTotal += tempInput.subTotal;
-                                  onAddOrder();
+                                  onaddCart();
                                 "
                               >
                                 <div>
@@ -304,7 +306,7 @@
               <q-card style="height: 700px">
                 <q-card-section>
                   <q-table
-                    :rows="allOrder"
+                    :rows="allCart"
                     :columns="selectedOrder"
                     title="Customer Order"
                     :rows-per-page-options="[0]"
@@ -356,7 +358,7 @@
                               flat
                               round
                               dense
-                              @click="onDeleteSpecificOrder(props.row)"
+                              @click="onDeleteSpecificCart(props.row)"
                             />
                           </div>
                         </q-td>
@@ -429,7 +431,7 @@
                           <q-card flat bordered>
                             <q-card-section>
                               <q-table
-                                :rows="allOrder"
+                                :rows="allCart"
                                 :columns="selectedOrder"
                                 title="Selected Order"
                                 :rows-per-page-options="[]"
@@ -506,13 +508,48 @@
                             />
                           </q-stepper-navigation>
                         </q-step>
-
                         <q-step
                           :name="2"
-                          title="Transanction Complete"
+                          title="Customer Name"
                           caption="Optional"
                           icon="Transanction Finish"
                           :done="StepConfirm > 2"
+                        >
+                          <q-card>
+                            <q-card-section>
+                              <q-input
+                                label="Name"
+                                outlined
+                                v-model="inputCustomer.customerName"
+                              />
+                            </q-card-section>
+                          </q-card>
+                          <q-stepper-navigation align="center">
+                            <q-btn
+                              color="green"
+                              @click="
+                                onAddCustomer();
+                                done2 = true;
+                                StepConfirm = 3;
+                              "
+                              label="Save"
+                            />
+                            <q-btn
+                              flat
+                              @click="StepConfirm = 1"
+                              color="green"
+                              label="Back"
+                              class="q-ml-sm"
+                            />
+                          </q-stepper-navigation>
+                        </q-step>
+
+                        <q-step
+                          :name="3"
+                          title="Transanction Complete"
+                          caption="Optional"
+                          icon="Transanction Finish"
+                          :done="StepConfirm > 3"
                         >
                           <div class="text-h6 flex flex-center">
                             <q-avatar
@@ -558,38 +595,39 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { IOrderInfo } from '../../store/Order/state';
-import { IProductInfo } from '../../store/product/state';
 import { mapState, mapActions, mapGetters } from 'vuex';
-import { ManageProductDto } from 'src/services/rest-api';
-import ManageProduct from './ManageSale.vue';
+import { CustomerDto, ManageProductDto } from 'src/services/rest-api';
+import { ICartInfo } from 'src/store/cart/state';
 
 type TimeZone = { name: string; offset: number; timezone: any };
 
 @Options({
   computed: {
-    ...mapState('Order', ['allOrder']),
-    ...mapGetters('product', ['allProduct']),
+    ...mapState('cart', ['allCart']),
     ...mapGetters('manageProduct', ['availableProduct']),
+    ...mapState('customer', ['allCustomer']),
+    ...mapState('saleOrder', ['allSaleOrder']),
+    ...mapState('saleRecord', ['allSaleRecord']),
   },
 
   methods: {
-    ...mapActions('Order', ['addOrder', 'editOrder', 'deleteOrder']),
-    ...mapActions('Product', ['addProduct', 'editProduct', 'deleteProduct']),
+    ...mapActions('cart', ['addCart', 'editCart', 'deleteCart']),
     ...mapActions('manageProduct', ['getAllManageProduct']),
+    ...mapActions('customer', ['addCustomer']),
+    ...mapActions('saleOrder', ['addSaleOrder']),
+    ...mapActions('saleRecord', ['allSaleRecord']),
   },
 })
 export default class POS extends Vue {
   availableProduct!: ManageProductDto[];
-  addOrder!: (payload: IOrderInfo) => Promise<void>;
-  editOrder!: (payload: IOrderInfo) => Promise<void>;
-  deleteOrder!: (payload: IOrderInfo) => Promise<void>;
-  allOrder!: IOrderInfo[];
 
-  addProduct!: (payload: IOrderInfo) => Promise<void>;
-  editProduct!: (payload: IOrderInfo) => Promise<void>;
-  deleteProduct!: (payload: IOrderInfo) => Promise<void>;
-  allProduct!: IProductInfo[];
+  addCart!: (payload: ICartInfo) => Promise<void>;
+  editCart!: (payload: ICartInfo) => Promise<void>;
+  deleteCart!: (payload: ICartInfo) => Promise<void>;
+  allCart!: ICartInfo[];
+
+  allCustomer!: CustomerDto[];
+  addCustomer!: (payload: CustomerDto) => Promise<void>;
 
   getAllManageProduct!: () => Promise<void>;
 
@@ -621,6 +659,7 @@ export default class POS extends Vue {
   packagesCat = false;
 
   class_val = 'shadow-1 my-card';
+
   orderedProduct() {
     this.radioBTN;
   }
@@ -709,7 +748,7 @@ export default class POS extends Vue {
       required: true,
       label: 'Product Name',
       align: 'left',
-      field: (row: IOrderInfo) => row.prodName,
+      field: (row: ICartInfo) => row.prodName,
       format: (val: string) => `${val}`,
       sortable: true,
     },
@@ -746,21 +785,22 @@ export default class POS extends Vue {
     },
   ];
 
-  tempInput: IOrderInfo = {
+  tempInput: ICartInfo = {
     orderID: 0,
     prodName: '',
     prodQuant: 0,
     size: this.radioBTN,
     price: 0,
     subTotal: 0,
-    orderDate: '',
   };
+
   print() {
     window.print();
   }
   clearOrder() {
     window.location.reload();
   }
+
   resetOrder() {
     this.tempInput = {
       orderID: 0,
@@ -769,16 +809,15 @@ export default class POS extends Vue {
       size: '',
       price: 0,
       subTotal: 0,
-      orderDate: '',
     };
   }
 
-  async onAddOrder() {
-    await this.addOrder(this.tempInput);
+  async onaddCart() {
+    await this.addCart(this.tempInput);
     this.chooseSize = false;
     this.resetOrder();
   }
-  onDeleteSpecificOrder(val: IOrderInfo) {
+  onDeleteSpecificCart(val: ICartInfo) {
     this.$q
       .dialog({
         message: 'Confirm to delete?',
@@ -786,13 +825,30 @@ export default class POS extends Vue {
         persistent: true,
       })
       .onOk(async () => {
-        await this.deleteOrder(val);
+        await this.deleteCart(val);
         this.grandTotal -= val.price;
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',
         });
       });
+  }
+
+  inputCustomer: CustomerDto = {
+    customerName: '',
+    date_created: '',
+  };
+
+  async onAddCustomer() {
+    await this.addCustomer(this.inputCustomer);
+    this.resetCustomer();
+  }
+
+  resetCustomer() {
+    this.inputCustomer = {
+      customerName: '',
+      date_created: '',
+    };
   }
 }
 </script>

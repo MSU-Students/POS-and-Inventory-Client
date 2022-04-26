@@ -18,6 +18,11 @@ const mutation: MutationTree<InventoryStateInterface> = {
     state.allInventory.push(...payload);
   },
 
+  getByItemName(state, payload) {
+    state.allInventory = [];
+    state.allInventory = payload;
+  },
+
   getOneInventory(state, payload) {
     state.allInventory = payload;
   },

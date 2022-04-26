@@ -1,10 +1,13 @@
-export interface ExampleStateInterface {
-  prop: boolean;
+import { SaleRecord } from 'src/interfaces/sale-record.interface';
+
+export interface SaleRecordStateInterface {
+  allSaleRecord: SaleRecord[];
+  newSaleRecord?: SaleRecord;
 }
 
-function state(): ExampleStateInterface {
+function state(): SaleRecordStateInterface {
   return {
-    prop: false,
+    allSaleRecord: [],
   };
 }
 

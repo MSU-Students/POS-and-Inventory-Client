@@ -5,8 +5,9 @@ import { MediaStateInterface } from './state';
 
 const actions: ActionTree<MediaStateInterface, StateInterface> = {
   async uploadMedia(context, payload: any) {
-    const result = await mediaService.uploadMedia(payload);
-    context.commit('uploadMedia', result);
+    const result = await mediaService.uploadPicture(payload);
+    context.commit('addMedia', result);
+    return result;
   },
   async getMedia(context, id: number): Promise<any> {
     const result = await mediaService.getMedia(id);

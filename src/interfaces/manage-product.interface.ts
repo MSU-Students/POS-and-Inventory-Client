@@ -4,4 +4,5 @@ export interface ManageProduct {
   productPrice: number;
   productAvailability: 'Yes' | 'No';
   productDateCreated?: Date;
+  url?: string;
 }

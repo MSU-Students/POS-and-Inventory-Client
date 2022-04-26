@@ -65,8 +65,8 @@
             </q-form>
           </q-card-section>
         </q-card>
-      </q-page> </q-page-container
-    >s
+      </q-page>
+    </q-page-container>
   </q-layout>
 </template>
 
