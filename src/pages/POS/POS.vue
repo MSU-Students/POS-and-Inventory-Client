@@ -35,13 +35,12 @@
                 <q-space />
                 <div
                   class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
-                  @mouseover="foodCat = true"
                 >
                   <q-icon class="q-pa-sm" size="25px" name="dinner_dining" />
                   Foods
                   <q-menu
                     fit
-                    @mouseleave="foodCat = false"
+                    @click="foodCat = true"
                     v-model="foodCat"
                     transition-show="flip-right"
                     transition-hide="flip-left"
@@ -67,13 +66,12 @@
                 <!-- ------------------ -->
                 <div
                   class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
-                  @mouseover="drinksCat = true"
                 >
                   <q-icon class="q-pa-sm" size="25px" name="local_drink" />
                   Drinks
                   <q-menu
                     fit
-                    @mouseleave="drinksCat = false"
+                    @click="drinksCat = true"
                     v-model="drinksCat"
                     transition-show="flip-right"
                     transition-hide="flip-left"
@@ -100,33 +98,11 @@
 
                 <div
                   class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
-                  @mouseover="addOnsCat = true"
+                  @click="model = 'None'"
+                  clickable
                 >
                   <q-icon class="q-pa-sm" size="25px" name="add_box" />
                   Add-ons
-                  <q-menu
-                    fit
-                    @mouseleave="addOnsCat = false"
-                    v-model="addOnsCat"
-                    transition-show="flip-right"
-                    transition-hide="flip-left"
-                  >
-                    <q-list dense class="text-grey-9 text-caption">
-                      <div
-                        v-for="addOnsCat in addOnsCategory"
-                        v-bind:key="addOnsCat.name"
-                      >
-                        <q-item @click="model = addOnsCat.name" clickable>
-                          <q-item-section>{{ addOnsCat.name }}</q-item-section>
-                        </q-item>
-                      </div>
-                    </q-list>
-                  </q-menu>
-                  <q-icon
-                    size="sm"
-                    class="q-ml-xs text-grey-5"
-                    name="keyboard_arrow_down"
-                  ></q-icon>
                 </div>
 
                 <!-- ----------------- -->
@@ -187,7 +163,7 @@
                       "
                     >
                       <div class="row">
-                        <div class="col q-pt-md q-pl-md">
+                        <div class="col q-pt-md q-px-md">
                           <q-img
                             :src="`http://localhost:3000/media/${data.url}`"
                           />
@@ -494,7 +470,6 @@
                                 () => {
                                   done1 = true;
                                   StepConfirm = 2;
-                                  print();
                                 }
                               "
                               color="green"
@@ -515,25 +490,106 @@
                           icon="Transanction Finish"
                           :done="StepConfirm > 2"
                         >
-                          <q-card>
-                            <q-card-section>
-                              <q-input
-                                label="Name"
-                                outlined
-                                v-model="inputCustomer.customerName"
-                              />
-                            </q-card-section>
-                          </q-card>
+                          <q-form
+                            @submit="
+                              inputCustomer.customerName;
+                              printPreview = true;
+                            "
+                          >
+                            <q-card>
+                              <q-card-section>
+                                <q-input
+                                  label="Name"
+                                  outlined
+                                  v-model="inputCustomer.customerName"
+                                />
+                              </q-card-section>
+                            </q-card>
+                          </q-form>
                           <q-stepper-navigation align="center">
                             <q-btn
                               color="green"
                               @click="
                                 onAddCustomer();
-                                done2 = true;
                                 StepConfirm = 3;
+                                done2 = true;
                               "
                               label="Save"
                             />
+                            <q-dialog v-model="printPreview">
+                              <q-card
+                                style="width: 800px; height: 600px"
+                                class="q-px-sm q-pb-md"
+                                @click="print()"
+                              >
+                                <div class="row">
+                                  <div class="col-9">
+                                    <q-card-section>
+                                      <q-avatar size="125px">
+                                        <img class="logo" />
+                                      </q-avatar>
+                                    </q-card-section>
+                                  </div>
+                                  <div class="col-3">
+                                    <p>Date: {{ today }}</p>
+                                  </div>
+                                </div>
+                                <q-card-section>
+                                  <div class="row">
+                                    <p>
+                                      <strong
+                                        >Bill to:
+                                        {{ inputCustomer.customerName }}</strong
+                                      >
+                                    </p>
+                                  </div>
+                                  <div class="flex flex-center row">
+                                    <q-table
+                                      :rows="allCart"
+                                      :columns="selectedOrder"
+                                      :rows-per-page-options="[]"
+                                      row-key="SelProd"
+                                      wrap-cells
+                                      hide-bottom
+                                      flat
+                                      style="height: 200px; max-height: 500px"
+                                    >
+                                      <template v-slot:body="props">
+                                        <q-tr :props="props">
+                                          <q-td
+                                            key="productName"
+                                            :props="props"
+                                          >
+                                            {{ props.row.prodName }}
+                                          </q-td>
+                                          <q-td key="prodQuant" :props="props">
+                                            {{ props.row.prodQuant }}
+                                          </q-td>
+                                          <q-td key="size" :props="props">
+                                            {{ props.row.size }}
+                                          </q-td>
+                                          <q-td key="price" :props="props">
+                                            {{ props.row.price }}
+                                          </q-td>
+                                          <q-td key="subTotal" :props="props">
+                                            {{ props.row.subTotal }}
+                                          </q-td>
+                                        </q-tr>
+                                      </template>
+
+                                      <template v-slot:body-cell-action="props">
+                                        <q-td :props="props"> </q-td>
+                                      </template>
+                                    </q-table>
+                                  </div>
+                                  <q-card-section>
+                                    <p>Payment: {{ payment }}</p>
+                                    <p>Change: {{ change }}</p>
+                                    <p>Grand Total: {{ grandTotal }}</p>
+                                  </q-card-section>
+                                </q-card-section>
+                              </q-card>
+                            </q-dialog>
                             <q-btn
                               flat
                               @click="StepConfirm = 1"
@@ -651,7 +707,8 @@ export default class POS extends Vue {
   grandTotal = 0;
   payment = 0;
   change = 0;
-
+  printPreview = false;
+  today = new Date().toLocaleDateString();
   foodCat = false;
   drinksCat = false;
   addOnsCat = false;
@@ -855,6 +912,10 @@ export default class POS extends Vue {
 <style>
 .bg-image {
   background-image: url('../../assets/green.jpg');
+  background-size: cover;
+}
+.logo {
+  background-image: url('../../assets/BesTea.jpg');
   background-size: cover;
 }
 
