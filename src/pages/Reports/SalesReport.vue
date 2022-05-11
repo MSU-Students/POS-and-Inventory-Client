@@ -229,7 +229,7 @@ export default class ChartComponent extends Vue {
       required: true,
       label: 'Product',
       align: 'left',
-      field: (row: ICartInfo) => row.prodName,
+      field: (row: ICartInfo) => row.orderName,
       format: (val: string) => `${val}`,
     },
     {

@@ -1,10 +1,12 @@
 export interface ICartInfo {
-  orderID?: number;
-  prodName: string;
-  size: string;
+  order_id?: number;
+  orderName: string;
+  orderSize: string;
   prodQuant: number;
-  price: number;
-  subTotal: number;
+  orderPrice: number;
+  orderCategory: string;
+  orderSubCategory: string;
+  orderSubTotal: number;
   img?: string;
 }
 

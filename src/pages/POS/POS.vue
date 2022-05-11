@@ -157,8 +157,8 @@
                       class="my-card"
                       :class="class_val"
                       @click="
-                        tempInput.prodName = data.productName;
-                        tempInput.price = data.productPrice;
+                        tempInput.orderName = data.productName;
+                        tempInput.orderPrice = data.productPrice;
                         tempPrice = data.productPrice;
                       "
                     >
@@ -195,7 +195,7 @@
                           <q-card style="width: 400px">
                             <q-card-section>
                               <div class="text-h6 text-center">
-                                {{ tempInput.prodName }}
+                                {{ tempInput.orderName }}
                               </div>
                               <div class="text-h6">
                                 Choose Size and Quantity
@@ -205,9 +205,9 @@
                             <q-card-section>
                               <q-form
                                 @submit="
-                                  tempInput.subTotal =
+                                  tempInput.orderSubTotal =
                                     tempInput.prodQuant * tempPrice;
-                                  grandTotal += tempInput.subTotal;
+                                  grandTotal += tempInput.orderSubTotal;
                                   onaddCart();
                                 "
                               >
@@ -232,27 +232,27 @@
                                 <div class="q-pa-md q-gutter-sm">
                                   <div class="q-gutter-sm">
                                     <q-radio
-                                      v-model="tempInput.size"
+                                      v-model="tempInput.orderSize"
                                       dense
                                       val="Small"
                                       label="Small"
                                     />
                                     <q-radio
-                                      v-model="tempInput.size"
+                                      v-model="tempInput.orderSize"
                                       dense
                                       val="Medium"
                                       label="Medium"
                                     />
                                     <q-radio
-                                      v-model="tempInput.size"
+                                      v-model="tempInput.orderSize"
                                       dense
                                       val="Large"
                                       label="Large"
                                     />
                                     <q-radio
-                                      v-model="tempInput.size"
+                                      v-model="tempInput.orderSize"
                                       dense
-                                      val="regular"
+                                      val="Regular"
                                       label="Regular"
                                     />
                                   </div>
@@ -651,7 +651,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { mapState, mapActions, mapGetters } from 'vuex';
+import { mapState, mapActions, mapGetters, Payload } from 'vuex';
 import { CustomerDto, ManageProductDto } from 'src/services/rest-api';
 import { ICartInfo } from 'src/store/cart/state';
 
@@ -667,7 +667,7 @@ type TimeZone = { name: string; offset: number; timezone: any };
   },
 
   methods: {
-    ...mapActions('cart', ['addCart', 'editCart', 'deleteCart']),
+    ...mapActions('cart', ['addCart', 'editCart', 'deleteCart', 'clear']),
     ...mapActions('manageProduct', ['getAllManageProduct']),
     ...mapActions('customer', ['addCustomer']),
     ...mapActions('saleOrder', ['addSaleOrder']),
@@ -680,6 +680,7 @@ export default class POS extends Vue {
   addCart!: (payload: ICartInfo) => Promise<void>;
   editCart!: (payload: ICartInfo) => Promise<void>;
   deleteCart!: (payload: ICartInfo) => Promise<void>;
+  clear!: () => Promise<void>;
   allCart!: ICartInfo[];
 
   allCustomer!: CustomerDto[];
@@ -805,7 +806,7 @@ export default class POS extends Vue {
       required: true,
       label: 'Product Name',
       align: 'left',
-      field: (row: ICartInfo) => row.prodName,
+      field: (row: ICartInfo) => row.orderName,
       format: (val: string) => `${val}`,
       sortable: true,
     },
@@ -843,29 +844,33 @@ export default class POS extends Vue {
   ];
 
   tempInput: ICartInfo = {
-    orderID: 0,
-    prodName: '',
+    order_id: 0,
+    orderName: '',
     prodQuant: 0,
-    size: this.radioBTN,
-    price: 0,
-    subTotal: 0,
+    orderSize: this.radioBTN,
+    orderPrice: 0,
+    orderCategory: '',
+    orderSubCategory: '',
+    orderSubTotal: 0,
   };
 
   print() {
     window.print();
   }
-  clearOrder() {
-    window.location.reload();
-  }
+  // clearOrder() {
+  //   window.location.reload();
+  // }
 
   resetOrder() {
     this.tempInput = {
-      orderID: 0,
-      prodName: '',
+      order_id: 0,
+      orderName: '',
       prodQuant: 0,
-      size: '',
-      price: 0,
-      subTotal: 0,
+      orderSize: this.radioBTN,
+      orderPrice: 0,
+      orderCategory: '',
+      orderSubCategory: '',
+      orderSubTotal: 0,
     };
   }
 
@@ -883,7 +888,7 @@ export default class POS extends Vue {
       })
       .onOk(async () => {
         await this.deleteCart(val);
-        this.grandTotal -= val.price;
+        this.grandTotal -= val.orderPrice;
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',
@@ -906,6 +911,9 @@ export default class POS extends Vue {
       customerName: '',
       date_created: '',
     };
+  }
+  clearOrder() {
+    this.clear();
   }
 }
 </script>

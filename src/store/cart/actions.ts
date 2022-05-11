@@ -14,6 +14,9 @@ const actions: ActionTree<CartStateInterface, StateInterface> = {
   deleteCart(context, payload: ICartInfo) {
     context.commit('deleteCart', payload);
   },
+  clear(context) {
+    context.commit('clear');
+  },
 };
 
 export default actions;

@@ -166,9 +166,11 @@
                     class="my-card"
                     :class="class_val"
                     @click="
-                      tempInput.prodName = data.productName;
-                      tempInput.price = data.productPrice;
+                      tempInput.orderName = data.productName;
+                      tempInput.orderPrice = data.productPrice;
                       tempPrice = data.productPrice;
+                      tempInput.orderCategory = data.productCategory;
+                      tempInput.orderSubCategory = data.productSubCategory;
                     "
                   >
                     <div class="row">
@@ -200,7 +202,7 @@
                         <q-card style="width: 400px">
                           <q-card-section>
                             <div class="text-h6 text-center">
-                              {{ tempInput.prodName }}
+                              {{ tempInput.orderName }}
                             </div>
                             <div class="text-h6">Choose Size and Quantity</div>
                           </q-card-section>
@@ -208,9 +210,9 @@
                           <q-card-section>
                             <q-form
                               @submit="
-                                tempInput.subTotal =
+                                tempInput.orderSubTotal =
                                   tempInput.prodQuant * tempPrice;
-                                grandTotal += tempInput.subTotal;
+                                grandTotal += tempInput.orderSubTotal;
                                 onaddCart();
                               "
                             >
@@ -235,25 +237,25 @@
                               <div class="q-pa-md q-gutter-sm">
                                 <div class="q-gutter-sm">
                                   <q-radio
-                                    v-model="tempInput.size"
+                                    v-model="tempInput.orderSize"
                                     dense
                                     val="Small"
                                     label="Small"
                                   />
                                   <q-radio
-                                    v-model="tempInput.size"
+                                    v-model="tempInput.orderSize"
                                     dense
                                     val="Medium"
                                     label="Medium"
                                   />
                                   <q-radio
-                                    v-model="tempInput.size"
+                                    v-model="tempInput.orderSize"
                                     dense
                                     val="Large"
                                     label="Large"
                                   />
                                   <q-radio
-                                    v-model="tempInput.size"
+                                    v-model="tempInput.orderSize"
                                     dense
                                     val="regular"
                                     label="Regular"
@@ -725,7 +727,7 @@ export default class POS extends Vue {
       required: true,
       label: 'Product Name',
       align: 'left',
-      field: (row: ICartInfo) => row.prodName,
+      field: (row: ICartInfo) => row.orderName,
       format: (val: string) => `${val}`,
       sortable: true,
     },
@@ -763,12 +765,14 @@ export default class POS extends Vue {
   ];
 
   tempInput: ICartInfo = {
-    orderID: 0,
-    prodName: '',
+    order_id: 0,
+    orderName: '',
     prodQuant: 0,
-    size: this.radioBTN,
-    price: 0,
-    subTotal: 0,
+    orderSize: this.radioBTN,
+    orderPrice: 0,
+    orderCategory: '',
+    orderSubCategory: '',
+    orderSubTotal: 0,
   };
 
   print() {
@@ -780,12 +784,14 @@ export default class POS extends Vue {
 
   resetOrder() {
     this.tempInput = {
-      orderID: 0,
-      prodName: '',
+      order_id: 0,
+      orderName: '',
       prodQuant: 0,
-      size: '',
-      price: 0,
-      subTotal: 0,
+      orderSize: this.radioBTN,
+      orderPrice: 0,
+      orderCategory: '',
+      orderSubCategory: '',
+      orderSubTotal: 0,
     };
   }
 
@@ -803,7 +809,7 @@ export default class POS extends Vue {
       })
       .onOk(async () => {
         await this.deleteCart(val);
-        this.grandTotal -= val.price;
+        this.grandTotal -= val.orderPrice;
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',
