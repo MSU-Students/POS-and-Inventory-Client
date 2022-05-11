@@ -291,15 +291,15 @@
                   :columns="selectedOrder"
                   title="Customer Order"
                   :rows-per-page-options="[0]"
-                  row-key="OrderID"
+                  row-key="order_id"
                   wrap-cells
                   hide-bottom
                   style="height: 400px; max-height: 400px"
                 >
                   <template v-slot:body="props">
                     <q-tr :props="props">
-                      <q-td key="productName" :props="props">
-                        {{ props.row.prodName }}
+                      <q-td key="orderName" :props="props">
+                        {{ props.row.orderName }}
                       </q-td>
                       <q-td key="prodQuant" :props="props">
                         {{ props.row.prodQuant }}
@@ -320,13 +320,13 @@
                         </q-popup-edit>
                       </q-td>
                       <q-td key="size" :props="props">
-                        {{ props.row.size }}
+                        {{ props.row.orderSize }}
                       </q-td>
                       <q-td key="price" :props="props">
-                        {{ props.row.price }}
+                        {{ props.row.orderPrice }}
                       </q-td>
                       <q-td key="subTotal" :props="props">
-                        {{ props.row.subTotal }}
+                        {{ props.row.orderSubTotal }}
                       </q-td>
                       <q-td key="action" :props="props">
                         {{ props.row.action }}
@@ -423,19 +423,19 @@
                               <template v-slot:body="props">
                                 <q-tr :props="props">
                                   <q-td key="productName" :props="props">
-                                    {{ props.row.prodName }}
+                                    {{ props.row.orderName }}
                                   </q-td>
                                   <q-td key="prodQuant" :props="props">
                                     {{ props.row.prodQuant }}
                                   </q-td>
                                   <q-td key="size" :props="props">
-                                    {{ props.row.size }}
+                                    {{ props.row.orderSize }}
                                   </q-td>
                                   <q-td key="price" :props="props">
-                                    {{ props.row.price }}
+                                    {{ props.row.orderPrice }}
                                   </q-td>
                                   <q-td key="subTotal" :props="props">
-                                    {{ props.row.subTotal }}
+                                    {{ props.row.orderSubTotal }}
                                   </q-td>
                                 </q-tr>
                               </template>
@@ -723,7 +723,7 @@ export default class POS extends Vue {
   ];
   selectedOrder = [
     {
-      name: 'productName',
+      name: 'orderName',
       required: true,
       label: 'Product Name',
       align: 'left',
@@ -740,22 +740,22 @@ export default class POS extends Vue {
       sortable: true,
     },
     {
-      name: 'size',
+      name: 'orderSize',
       align: 'center',
       label: 'Size',
-      field: 'size',
+      field: 'orderSize',
     },
     {
-      name: 'price',
+      name: 'orderPrice',
       align: 'center',
       label: 'Price',
-      field: 'price',
+      field: 'orderPrice',
     },
     {
-      name: 'subTotal',
+      name: 'orderSubTotal',
       align: 'center',
-      label: 'SubTotal',
-      field: 'subTotal',
+      label: 'orderSubTotal',
+      field: 'orderSubTotal',
     },
     {
       name: 'action',
