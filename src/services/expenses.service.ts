@@ -3,9 +3,13 @@ import { posApiService } from './pos-inventory-api.service';
 import { DefaultApi } from './rest-api/api';
 
 class ExpensesService extends DefaultApi {
-  async create(payload: any): Promise<ExpensesDto> {
+  async create(payload: any) {
     const response = await posApiService.addExpenses(payload);
-    return response.data;
+    if (response.status === 201) {
+      return response.data;
+    } else {
+      [];
+    }
   }
 
   async getAll(): Promise<ExpensesDto[]> {

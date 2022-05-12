@@ -1,13 +1,12 @@
 export interface ICartInfo {
-  order_id?: number;
+  cart_ID?: number;
   orderName: string;
   orderSize: string;
-  prodQuant: number;
+  orderQuant: number;
   orderPrice: number;
   orderCategory: string;
   orderSubCategory: string;
   orderSubTotal: number;
-  img?: string;
 }
 
 export interface CartStateInterface {

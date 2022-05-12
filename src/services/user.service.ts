@@ -3,29 +3,49 @@ import { posApiService } from './pos-inventory-api.service';
 import { DefaultApi } from './rest-api/api';
 
 class UserService extends DefaultApi {
-  async create(payload: UserDto): Promise<UserDto> {
+  async create(payload: UserDto) {
     const response = await posApiService.addUser(payload);
-    return response.data;
+    if (response.status === 201) {
+      return response.data;
+    } else {
+      [];
+    }
   }
 
-  async getAll(): Promise<UserDto> {
+  async getAll() {
     const response = await posApiService.getUsers();
-    return response.data;
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      [];
+    }
   }
 
-  async getOne(id: number): Promise<UserDto> {
+  async getOne(id: number) {
     const response = await posApiService.getUser(id);
-    return response.data;
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      [];
+    }
   }
 
   async update(id: number, payload: any) {
     const response = await posApiService.updateUser(id, payload);
-    return response.data;
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      [];
+    }
   }
 
   async delete(id: number) {
     const response = await posApiService.deleteUser(id);
-    return response.data;
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      [];
+    }
   }
 
   async getUserProfile() {

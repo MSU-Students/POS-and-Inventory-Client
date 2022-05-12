@@ -3,9 +3,13 @@ import { posApiService } from './pos-inventory-api.service';
 import { DefaultApi } from './rest-api/api';
 
 class ProductService extends DefaultApi {
-  async create(payload: any): Promise<ManageProductDto> {
+  async create(payload: any) {
     const response = await posApiService.addProduct(payload);
-    return response.data;
+    if (response.status === 201) {
+      return response.data;
+    } else {
+      [];
+    }
   }
 
   async getAll(): Promise<ManageProductDto[]> {

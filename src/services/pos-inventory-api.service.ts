@@ -70,7 +70,11 @@ class PosApiService extends DefaultApi {
   async logoutUser() {
     const response = await posApiService.logout();
     localStorage.removeItem('access-token');
-    return response;
+    if (response.status === 201) {
+      return response.data;
+    } else {
+      [];
+    }
   }
 
   async getUserProfile() {

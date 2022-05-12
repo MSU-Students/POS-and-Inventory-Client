@@ -13,18 +13,18 @@ class SaleRecordService extends DefaultApi {
     return response.data;
   }
 
-  async getOne(id: number): Promise<SaleRecordDto> {
-    const response = await posApiService.getSaleRecord(id);
+  async getOne(invoiceID: number): Promise<SaleRecordDto> {
+    const response = await posApiService.getSaleRecord(invoiceID);
     return response.data;
   }
 
-  async update(id: number, payload: any) {
-    const response = await posApiService.updateSaleRecord(id, payload);
+  async update(invoiceID: number, payload: any) {
+    const response = await posApiService.updateSaleRecord(invoiceID, payload);
     return response.data;
   }
 
-  async delete(id: number) {
-    const response = await posApiService.deleteSaleRecord(id);
+  async delete(invoiceID: number) {
+    const response = await posApiService.deleteSaleRecord(invoiceID);
     return response.data;
   }
 }

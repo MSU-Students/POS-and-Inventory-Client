@@ -211,7 +211,7 @@
                             <q-form
                               @submit="
                                 tempInput.orderSubTotal =
-                                  tempInput.prodQuant * tempPrice;
+                                  tempInput.orderQuant * tempPrice;
                                 grandTotal += tempInput.orderSubTotal;
                                 onaddCart();
                               "
@@ -224,7 +224,7 @@
                                   mask="#"
                                   fill-mask="0"
                                   style="full-width"
-                                  v-model="tempInput.prodQuant"
+                                  v-model="tempInput.orderQuant"
                                   type
                                   lazy-rules
                                   :rules="[
@@ -301,10 +301,10 @@
                       <q-td key="orderName" :props="props">
                         {{ props.row.orderName }}
                       </q-td>
-                      <q-td key="prodQuant" :props="props">
-                        {{ props.row.prodQuant }}
+                      <q-td key="orderQuant" :props="props">
+                        {{ props.row.orderQuant }}
                         <q-popup-edit
-                          v-model="props.row.prodQuant"
+                          v-model="props.row.orderQuant"
                           title="Update quantity"
                           buttons
                           v-slot="editQuant"
@@ -425,8 +425,8 @@
                                   <q-td key="productName" :props="props">
                                     {{ props.row.orderName }}
                                   </q-td>
-                                  <q-td key="prodQuant" :props="props">
-                                    {{ props.row.prodQuant }}
+                                  <q-td key="orderQuant" :props="props">
+                                    {{ props.row.orderQuant }}
                                   </q-td>
                                   <q-td key="size" :props="props">
                                     {{ props.row.orderSize }}
@@ -733,10 +733,10 @@ export default class POS extends Vue {
     },
 
     {
-      name: 'prodQuant',
+      name: 'orderQuant',
       align: 'center',
       label: 'Quantity',
-      field: 'prodQuant',
+      field: 'orderQuant',
       sortable: true,
     },
     {
@@ -765,9 +765,8 @@ export default class POS extends Vue {
   ];
 
   tempInput: ICartInfo = {
-    order_id: 0,
     orderName: '',
-    prodQuant: 0,
+    orderQuant: 0,
     orderSize: this.radioBTN,
     orderPrice: 0,
     orderCategory: '',
@@ -784,9 +783,8 @@ export default class POS extends Vue {
 
   resetOrder() {
     this.tempInput = {
-      order_id: 0,
       orderName: '',
-      prodQuant: 0,
+      orderQuant: 0,
       orderSize: this.radioBTN,
       orderPrice: 0,
       orderCategory: '',

@@ -4,7 +4,9 @@
       <q-page class="flex bg-image flex-center">
         <q-card
           class="shadow-20"
-          v-bind:style="$q.screen.lt.md ? { width: '90%' } : { width: '20%' }"
+          v-bind:style="
+            $q.screen.lt.md ? { weight: '20%' } : { height: '100%' }
+          "
         >
           <q-card-section>
             <q-avatar size="125px" class="absolute-center shadow-10">

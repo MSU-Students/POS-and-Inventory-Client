@@ -48,6 +48,12 @@ export interface AccessTokenDto {
 export interface CustomerDto {
     /**
      * 
+     * @type {number}
+     * @memberof CustomerDto
+     */
+    'customerID'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof CustomerDto
      */
@@ -234,13 +240,7 @@ export interface ManageProductDto {
      * @type {number}
      * @memberof ManageProductDto
      */
-    'url': number;
-    /**
-     * 
-     * @type {object}
-     * @memberof ManageProductDto
-     */
-    's'?: object;
+    'url'?: number;
 }
 /**
  * 
@@ -323,10 +323,10 @@ export interface PurchaseDto {
     'purchaseAmount'?: number;
     /**
      * 
-     * @type {object}
+     * @type {SupplierDto}
      * @memberof PurchaseDto
      */
-    'supplierPurchase'?: object;
+    'supplierPurchase'?: SupplierDto;
 }
 /**
  * 
@@ -352,31 +352,55 @@ export interface SaleOrderDto {
      * @type {number}
      * @memberof SaleOrderDto
      */
-    'quantity': number;
+    'order_ID'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SaleOrderDto
+     */
+    'orderName': string;
     /**
      * 
      * @type {number}
      * @memberof SaleOrderDto
      */
-    'price': number;
+    'orderQuant': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SaleOrderDto
+     */
+    'orderPrice': number;
     /**
      * 
      * @type {string}
      * @memberof SaleOrderDto
      */
-    'size': string;
+    'orderSize': string;
     /**
      * 
      * @type {string}
      * @memberof SaleOrderDto
      */
-    'category': string;
+    'orderCategory'?: string;
     /**
      * 
      * @type {string}
      * @memberof SaleOrderDto
      */
-    'subCategory': string;
+    'orderSubCategory'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SaleOrderDto
+     */
+    'orderSubTotal': number;
+    /**
+     * 
+     * @type {SaleRecordDto}
+     * @memberof SaleOrderDto
+     */
+    'invoice'?: SaleRecordDto;
 }
 /**
  * 
@@ -386,10 +410,10 @@ export interface SaleOrderDto {
 export interface SaleRecordDto {
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof SaleRecordDto
      */
-    'invoiceID'?: string;
+    'invoiceID'?: number;
     /**
      * 
      * @type {string}
@@ -402,6 +426,12 @@ export interface SaleRecordDto {
      * @memberof SaleRecordDto
      */
     'totalAmount': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SaleRecordDto
+     */
+    'payment': number;
     /**
      * 
      * @type {UserDto}
@@ -1906,6 +1936,40 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Get user by username
+         * @param {string} username 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUsername: async (username: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'username' is not null or undefined
+            assertParamExists('getUsername', 'username', username)
+            const localVarPath = `/user/{username}`
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get all users
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2938,6 +3002,17 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get user by username
+         * @param {string} username 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUsername(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUsername(username, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Get all users
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3509,6 +3584,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         getUser(id: number, options?: any): AxiosPromise<UserDto> {
             return localVarFp.getUser(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get user by username
+         * @param {string} username 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUsername(username: string, options?: any): AxiosPromise<UserDto> {
+            return localVarFp.getUsername(username, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4147,6 +4232,18 @@ export class DefaultApi extends BaseAPI {
      */
     public getUser(id: number, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).getUser(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get user by username
+     * @param {string} username 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getUsername(username: string, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).getUsername(username, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

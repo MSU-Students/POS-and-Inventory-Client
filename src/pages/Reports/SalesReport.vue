@@ -4,7 +4,7 @@
     <div class="q-py-lg">
       <q-table
         title="Sales Record"
-        :rows="allCart"
+        :rows="allSaleRecord"
         :columns="column"
         row-key="subCategoryID"
         :rows-per-page-options="[0]"
@@ -202,8 +202,14 @@ import YearlySaleReport from 'components/Charts/YearlySaleReport.vue';
 import BestSellerFood from 'src/components/Charts/BestSellerChartFood.vue';
 import BestSellerChartDrinks from 'src/components/Charts/BestSellerChartDrinks.vue';
 import BestSellerChartAddons from 'src/components/Charts/BestSellerChartAddons.vue';
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import { ICartInfo } from 'src/store/cart/state';
+import {
+  CustomerDto,
+  SaleOrderDto,
+  SaleRecordDto,
+  UserDto,
+} from 'src/services/rest-api';
 @Options({
   components: {
     monthlyProductSales,
@@ -215,47 +221,72 @@ import { ICartInfo } from 'src/store/cart/state';
     BestSellerChartAddons,
   },
   computed: {
-    ...mapState('cart', ['allCart']),
+    ...mapState('saleRecord', ['allSaleRecord']),
+    ...mapState('customer', ['allCustomer']),
+    ...mapState('saleOrder', ['allSaleOrder']),
+    ...mapState('account', ['allAccount']),
+  },
+  methods: {
+    ...mapActions('saleRecord', ['getAllSaleRecord']),
   },
 })
 export default class ChartComponent extends Vue {
-  allCart!: ICartInfo[];
+  allSaleRecord!: SaleRecordDto[];
+  allAccount!: UserDto[];
+  allCustomer!: CustomerDto[];
+  allSaleOrder!: SaleOrderDto[];
+  getAllSaleRecord!: () => Promise<void>;
+
+  async mounted() {
+    await this.getAllSaleRecord();
+  }
   tab = 'Food';
   saleFilter = '';
 
   column = [
     {
-      name: 'prodName',
+      name: 'inovoiceID',
       required: true,
-      label: 'Product',
+      label: 'Reference',
       align: 'left',
-      field: (row: ICartInfo) => row.orderName,
-      format: (val: string) => `${val}`,
+      field: (row: SaleRecordDto) => row.invoiceID,
     },
     {
       name: 'orderDate',
       align: 'center',
-      label: 'Date Order',
-      field: 'orderDate',
+      label: 'Customer Name',
+      field: (row: any) => row.customer?.customerName || 'None',
+    },
+    {
+      name: 'cashier',
+      align: 'center',
+      label: 'Cashier',
+      field: (row: any) => row.user?.FName + ' ' + row.user?.LName,
+    },
+    {
+      name: 'total',
+      align: 'center',
+      label: 'Total Amount',
+      field: 'totalAmount',
+    },
+    {
+      name: 'payment',
+      align: 'center',
+      label: 'Payment Amount',
+      field: 'payment',
+    },
+    {
+      name: 'date',
+      align: 'center',
+      label: 'Date Created',
+      field: 'sales_order_created',
       sortable: true,
     },
+
     {
-      name: 'prodQuant',
+      name: 'action',
       align: 'center',
-      label: 'Product Quantity',
-      field: 'prodQuant',
-    },
-    {
-      name: 'price',
-      align: 'center',
-      label: 'Price',
-      field: 'price',
-    },
-    {
-      name: 'subTotal',
-      align: 'center',
-      label: 'Total',
-      field: 'subTotal',
+      label: 'View Order',
     },
   ];
 }

@@ -8,6 +8,7 @@ const actions: ActionTree<CustomertateInterface, StateInterface> = {
     const result = await customerService.create(payload);
     context.commit('setNewCustomer', result);
     await context.dispatch('getAllCustomer');
+    return result;
   },
 
   async editCustomer(context, payload: any): Promise<any> {
@@ -25,7 +26,6 @@ const actions: ActionTree<CustomertateInterface, StateInterface> = {
   async getAllCustomer(context): Promise<any> {
     const res = await customerService.getAll();
     context.commit('getAllCustomer', res);
-    await this.dispatch('supplier/getAllSupplier');
   },
 
   async getOneCustomer(context, id: number): Promise<any> {

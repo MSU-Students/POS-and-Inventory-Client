@@ -153,15 +153,32 @@
 </template>
 <script lang="ts">
 import { posApiService } from 'src/services/pos-inventory-api.service';
-import { Vue } from 'vue-class-component';
+import { Options, Vue } from 'vue-class-component';
+import { mapActions } from 'vuex';
+
+@Options({
+  methods: {
+    ...mapActions('account', ['getProfile']),
+  },
+})
 export default class MainLayout extends Vue {
+  getProfile!: () => Promise<void>;
   drawer = false;
   miniState = true;
 
   async logout() {
-    const res = await posApiService.logoutUser();
-    if (res.status == 201) {
-      await this.$router.replace('/');
+    try {
+      await posApiService.logoutUser();
+      this.$router.replace('/');
+      this.$q.notify({
+        type: 'warning',
+        message: 'You have been logged out!',
+      });
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something went wrong',
+      });
     }
   }
 }

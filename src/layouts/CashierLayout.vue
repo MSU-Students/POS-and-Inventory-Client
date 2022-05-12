@@ -43,9 +43,18 @@ export default class MainLayout extends Vue {
   drawer = false;
 
   async logout() {
-    const res = await posApiService.logoutUser();
-    if (res.status == 201) {
-      await this.$router.replace('/');
+    try {
+      await posApiService.logoutUser();
+      this.$router.replace('/');
+      this.$q.notify({
+        type: 'warning',
+        message: 'You have been logged out!',
+      });
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something went wrong',
+      });
     }
   }
 }

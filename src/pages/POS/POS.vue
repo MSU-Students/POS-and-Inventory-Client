@@ -159,6 +159,8 @@
                       @click="
                         tempInput.orderName = data.productName;
                         tempInput.orderPrice = data.productPrice;
+                        tempInput.orderCategory = data.productCategory;
+                        tempInput.orderSubCategory = data.productSubCategory;
                         tempPrice = data.productPrice;
                       "
                     >
@@ -206,7 +208,7 @@
                               <q-form
                                 @submit="
                                   tempInput.orderSubTotal =
-                                    tempInput.prodQuant * tempPrice;
+                                    tempInput.orderQuant * tempPrice;
                                   grandTotal += tempInput.orderSubTotal;
                                   onaddCart();
                                 "
@@ -219,7 +221,7 @@
                                     mask="#"
                                     fill-mask="0"
                                     style="full-width"
-                                    v-model="tempInput.prodQuant"
+                                    v-model="tempInput.orderQuant"
                                     type
                                     lazy-rules
                                     :rules="[
@@ -286,7 +288,7 @@
                     :columns="selectedOrder"
                     title="Customer Order"
                     :rows-per-page-options="[0]"
-                    row-key="Order_id"
+                    row-key="cart_ID"
                     wrap-cells
                     hide-bottom
                     style="height: 400px; max-height: 400px"
@@ -296,10 +298,10 @@
                         <q-td key="productName" :props="props">
                           {{ props.row.orderName }}
                         </q-td>
-                        <q-td key="prodQuant" :props="props">
-                          {{ props.row.prodQuant }}
+                        <q-td key="orderQuant" :props="props">
+                          {{ props.row.orderQuant }}
                           <q-popup-edit
-                            v-model="props.row.prodQuant"
+                            v-model="props.row.orderQuant"
                             title="Update quantity"
                             buttons
                             v-slot="editQuant"
@@ -420,8 +422,8 @@
                                     <q-td key="productName" :props="props">
                                       {{ props.row.prodName }}
                                     </q-td>
-                                    <q-td key="prodQuant" :props="props">
-                                      {{ props.row.prodQuant }}
+                                    <q-td key="orderQuant" :props="props">
+                                      {{ props.row.orderQuant }}
                                     </q-td>
                                     <q-td key="size" :props="props">
                                       {{ props.row.size }}
@@ -490,27 +492,21 @@
                           icon="Transanction Finish"
                           :done="StepConfirm > 2"
                         >
-                          <q-form
-                            @submit="
-                              inputCustomer.customerName;
-                              printPreview = true;
-                            "
-                          >
-                            <q-card>
-                              <q-card-section>
-                                <q-input
-                                  label="Name"
-                                  outlined
-                                  v-model="inputCustomer.customerName"
-                                />
-                              </q-card-section>
-                            </q-card>
-                          </q-form>
+                          <q-card>
+                            <q-card-section>
+                              <q-input
+                                label="Name"
+                                outlined
+                                v-model="inputCustomer.customerName"
+                              />
+                            </q-card-section>
+                          </q-card>
                           <q-stepper-navigation align="center">
                             <q-btn
                               color="green"
                               @click="
-                                onAddCustomer();
+                                onPunchOrder();
+                                printPreview = true;
                                 StepConfirm = 3;
                                 done2 = true;
                               "
@@ -562,8 +558,8 @@
                                           >
                                             {{ props.row.prodName }}
                                           </q-td>
-                                          <q-td key="prodQuant" :props="props">
-                                            {{ props.row.prodQuant }}
+                                          <q-td key="orderQuant" :props="props">
+                                            {{ props.row.orderQuant }}
                                           </q-td>
                                           <q-td key="size" :props="props">
                                             {{ props.row.size }}
@@ -652,10 +648,17 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import { mapState, mapActions, mapGetters, Payload } from 'vuex';
-import { CustomerDto, ManageProductDto } from 'src/services/rest-api';
+import {
+  CustomerDto,
+  ManageProductDto,
+  SaleOrderDto,
+  SaleRecordDto,
+} from 'src/services/rest-api';
 import { ICartInfo } from 'src/store/cart/state';
+import { date } from 'quasar';
 
-type TimeZone = { name: string; offset: number; timezone: any };
+const timeStamp = Date.now();
+const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {
@@ -671,7 +674,8 @@ type TimeZone = { name: string; offset: number; timezone: any };
     ...mapActions('manageProduct', ['getAllManageProduct']),
     ...mapActions('customer', ['addCustomer']),
     ...mapActions('saleOrder', ['addSaleOrder']),
-    ...mapActions('saleRecord', ['allSaleRecord']),
+    ...mapActions('saleRecord', ['addSaleRecord']),
+    ...mapActions('account', ['getProfile']),
   },
 })
 export default class POS extends Vue {
@@ -683,9 +687,10 @@ export default class POS extends Vue {
   clear!: () => Promise<void>;
   allCart!: ICartInfo[];
 
-  allCustomer!: CustomerDto[];
   addCustomer!: (payload: CustomerDto) => Promise<void>;
-
+  addSaleRecord!: (payload: SaleRecordDto) => Promise<void>;
+  addSaleOrder!: (payload: SaleOrderDto) => Promise<void>;
+  getProfile!: () => Promise<void>;
   getAllManageProduct!: () => Promise<void>;
 
   async mounted() {
@@ -702,7 +707,7 @@ export default class POS extends Vue {
   done3 = false;
   cancelOrder = true;
   chooseSize = false;
-  radioBTN = 'regular';
+
   quantity = 0;
   tempPrice = 0;
   grandTotal = 0;
@@ -713,14 +718,8 @@ export default class POS extends Vue {
   foodCat = false;
   drinksCat = false;
   addOnsCat = false;
-  desertsCat = false;
-  packagesCat = false;
 
   class_val = 'shadow-1 my-card';
-
-  orderedProduct() {
-    this.radioBTN;
-  }
 
   foodCategory = [
     {
@@ -812,10 +811,10 @@ export default class POS extends Vue {
     },
 
     {
-      name: 'prodQuant',
+      name: 'orderQuant',
       align: 'center',
       label: 'Quantity',
-      field: 'prodQuant',
+      field: 'orderQuant',
       sortable: true,
     },
     {
@@ -836,6 +835,7 @@ export default class POS extends Vue {
       label: 'SubTotal',
       field: 'subTotal',
     },
+
     {
       name: 'action',
       align: 'center',
@@ -844,10 +844,9 @@ export default class POS extends Vue {
   ];
 
   tempInput: ICartInfo = {
-    order_id: 0,
     orderName: '',
-    prodQuant: 0,
-    orderSize: this.radioBTN,
+    orderQuant: 0,
+    orderSize: this.radioSizes,
     orderPrice: 0,
     orderCategory: '',
     orderSubCategory: '',
@@ -857,16 +856,12 @@ export default class POS extends Vue {
   print() {
     window.print();
   }
-  // clearOrder() {
-  //   window.location.reload();
-  // }
 
   resetOrder() {
     this.tempInput = {
-      order_id: 0,
       orderName: '',
-      prodQuant: 0,
-      orderSize: this.radioBTN,
+      orderQuant: 0,
+      orderSize: this.radioSizes,
       orderPrice: 0,
       orderCategory: '',
       orderSubCategory: '',
@@ -896,22 +891,32 @@ export default class POS extends Vue {
       });
   }
 
+  async onPunchOrder() {
+    const name: any = await this.addCustomer(this.inputCustomer);
+    const getUser: any = await this.getProfile();
+    const invoice = await this.addSaleRecord({
+      ...this.inputSaleRecord,
+      customer: name.customerID,
+      user: getUser.id,
+      totalAmount: this.grandTotal,
+      payment: this.payment,
+    });
+    this.grandTotal = 0;
+    this.payment = 0;
+    this.change = 0;
+  }
+
+  inputSaleRecord: SaleRecordDto = {
+    sales_order_created: currentDate,
+    totalAmount: 0,
+    payment: 0,
+  };
+
   inputCustomer: CustomerDto = {
     customerName: '',
     date_created: '',
   };
 
-  async onAddCustomer() {
-    await this.addCustomer(this.inputCustomer);
-    this.resetCustomer();
-  }
-
-  resetCustomer() {
-    this.inputCustomer = {
-      customerName: '',
-      date_created: '',
-    };
-  }
   clearOrder() {
     this.clear();
   }

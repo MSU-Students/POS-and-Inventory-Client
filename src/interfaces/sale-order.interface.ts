@@ -1,6 +1,10 @@
 export interface SellOrder {
-  sale_id: number;
-  quantity: number;
-  price: number;
-  size: string;
+  order_id?: number;
+  orderName: string;
+  orderSize: string;
+  orderQuant: number;
+  orderPrice: number;
+  orderCategory: string;
+  orderSubCategory: string;
+  orderSubTotal: number;
 }

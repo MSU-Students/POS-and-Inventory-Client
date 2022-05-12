@@ -76,6 +76,8 @@
                         label="Product Image"
                         accept=".jpg, image/*"
                         v-model="imageAttachement"
+                        max-file-size="2000000"
+                        @rejected="onRejected"
                       >
                         <template v-slot:prepend>
                           <q-icon name="camera" />
@@ -240,6 +242,8 @@
                           label="Product Image"
                           accept=".jpg, image/*"
                           v-model="imageAttachement"
+                          max-file-size="2000000"
+                          @rejected="onRejected"
                         >
                           <template v-slot:prepend>
                             <q-icon name="camera" />
@@ -400,6 +404,13 @@ export default class ManageProduct extends Vue {
   async mounted() {
     await this.getAllManageProduct();
   }
+
+  onRejected() {
+    this.$q.notify({
+      type: 'negative',
+      message: `The File is too Large`,
+    });
+  }
   columns = [
     {
       name: 'Product Name',
@@ -459,7 +470,7 @@ export default class ManageProduct extends Vue {
   addNewManageSale = false;
   filter = '';
   editRowManageSale = false;
-  imageAttachement: File[] | File = [];
+  imageAttachement: File = new File([], 'Select File');
 
   inputManageSale: any = {
     productName: '',
@@ -469,7 +480,6 @@ export default class ManageProduct extends Vue {
     productCategory: '',
     productSubCategory: '',
     productSize: 'Regular',
-    url: '',
   };
 
   selectSubCategory() {
@@ -508,32 +518,52 @@ export default class ManageProduct extends Vue {
   }
   loading = false;
   async onAddManageSale() {
-    //upload picture
-    this.loading = true;
-    const media = await this.uploadMedia(this.imageAttachement as File);
-    const res: any = await this.addManageProduct({
-      ...this.inputManageSale,
-      url: media.id,
-    });
+    try {
+      if (this.imageAttachement.size > 0) {
+        this.loading = true;
+        const media = await this.uploadMedia(this.imageAttachement as File);
+        await this.addManageProduct({
+          ...this.inputManageSale,
+          url: media.id,
+        });
+      } else if (this.imageAttachement.size < 0) {
+        this.loading = true;
+        await this.addManageProduct(this.inputManageSale);
+      }
+    } catch (error) {}
+
     this.addNewManageSale = false;
     this.resetModel();
     this.loading = false;
-    this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Adeded.',
-    });
   }
 
   async oneditManageProduct() {
-    this.loading = true;
-    const media = await this.uploadMedia(this.imageAttachement as File);
-    await this.editManageProduct({ ...this.inputManageSale, url: media.id });
+    try {
+      if (this.imageAttachement.size > 0) {
+        this.loading = true;
+        const media = await this.uploadMedia(this.imageAttachement as File);
+        await this.editManageProduct({
+          ...this.inputManageSale,
+          url: media.id,
+        });
+      } else {
+        await this.editManageProduct(this.inputManageSale);
+      }
+
+      this.$q.notify({
+        type: 'positive',
+        message: 'Successfully Edit.',
+      });
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something went wrong!',
+      });
+    }
+
+    this.loading = false;
     this.editRowManageSale = false;
     this.resetModel();
-    this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Edit.',
-    });
   }
 
   deleteSpecificManageSale(val: ManageProductDto) {
@@ -567,8 +597,8 @@ export default class ManageProduct extends Vue {
       productSubCategory: '',
       productSize: 'Regular',
       url: '',
-      imageAttachement: '',
     };
+    this.imageAttachement = new File([], 'Select File');
   }
 }
 </script>

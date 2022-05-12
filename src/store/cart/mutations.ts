@@ -6,17 +6,13 @@ const mutation: MutationTree<CartStateInterface> = {
     state.allCart.push(payload);
   },
   updateCart(state, payload: ICartInfo) {
-    const index = state.allCart.findIndex(
-      (s) => s.order_id === payload.order_id
-    );
+    const index = state.allCart.findIndex((s) => s.cart_ID === payload.cart_ID);
     if (index >= 0) {
       state.allCart.splice(index, 1, payload);
     }
   },
   deleteCart(state, payload: ICartInfo) {
-    const index = state.allCart.findIndex(
-      (s) => s.order_id === payload.order_id
-    );
+    const index = state.allCart.findIndex((s) => s.cart_ID === payload.cart_ID);
     if (index >= 0) {
       state.allCart.splice(index, 1);
     }

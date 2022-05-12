@@ -8,9 +8,13 @@ class MediaService extends DefaultApi {
     return response.data;
   }
 
-  async uploadPicture(file: File[]): Promise<MediaDto> {
+  async uploadPicture(file: File[]) {
     const response = await posApiService.uploadMedia(file);
-    return response.data;
+    if (response.status === 201) {
+      return response.data;
+    } else {
+      [];
+    }
   }
 }
 

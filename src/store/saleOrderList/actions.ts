@@ -5,7 +5,7 @@ import { StateInterface } from '../index';
 import { SaleOrderStateInterface } from './state';
 
 const actions: ActionTree<SaleOrderStateInterface, StateInterface> = {
-  async addSaleOrder(context, payload: SaleOrderDto): Promise<void> {
+  async addSaleOrder(context, payload: any) {
     const result = await saleOrderService.create(payload);
     context.commit('setNewSaleOrder', result);
     await context.dispatch('getAllSaleOrder');

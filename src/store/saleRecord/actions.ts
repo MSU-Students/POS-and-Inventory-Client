@@ -5,20 +5,33 @@ import { StateInterface } from '../index';
 import { SaleRecordStateInterface } from './state';
 
 const actions: ActionTree<SaleRecordStateInterface, StateInterface> = {
-  async addSaleRecord(context, payload: SaleRecordDto): Promise<void> {
+  async addSaleRecord(context, payload: any): Promise<any> {
     const result = await saleRecordService.create(payload);
     context.commit('setNewSaleRecord', result);
     await context.dispatch('getAllSaleRecord');
+
+    const listOrders = context.rootState.cart.allCart;
+    if (listOrders.length > 0 && result) {
+      listOrders.map(
+        async (s) =>
+          await context.dispatch(
+            'saleOrder/addSaleOrder',
+            { ...s, invoice: result.invoiceID },
+            { root: true }
+          )
+      );
+    }
+    return result;
   },
 
   async editSaleRecord(context, payload: any): Promise<any> {
-    const result = await saleRecordService.update(payload.invoiceID, payload);
+    const result = await saleRecordService.update(payload.order_ID, payload);
     context.commit('updateSaleRecord', result);
     await context.dispatch('getAllSaleRecord');
   },
 
-  async deleteSaleRecord(context, invoiceID: number): Promise<any> {
-    const result = await saleRecordService.delete(invoiceID);
+  async deleteSaleRecord(context, order_ID: number): Promise<any> {
+    const result = await saleRecordService.delete(order_ID);
     context.commit('deleteSaleRecord', result);
     await context.dispatch('getAllSaleRecord');
   },

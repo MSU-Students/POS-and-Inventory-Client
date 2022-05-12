@@ -288,6 +288,7 @@ const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
       'editAccount',
       'deleteAccount',
       'getAllUser',
+      'getUsername',
     ]),
   },
 })
@@ -296,6 +297,7 @@ export default class ManageAccount extends Vue {
   editAccount!: (payload: UserDto) => Promise<void>;
   deleteAccount!: (payload: UserDto) => Promise<void>;
   getAllUser!: () => Promise<void>;
+  getUsername!: (payload: UserDto) => Promise<void>;
   allAccount!: UserDto[];
 
   async mounted() {
@@ -358,13 +360,20 @@ export default class ManageAccount extends Vue {
   };
 
   async onaddAccount() {
-    await this.addAccount(this.inputAccount);
-    this.addNewAccount = false;
-    this.resetModel();
-    this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Added.',
-    });
+    try {
+      const res = await this.addAccount(this.inputAccount);
+      this.addNewAccount = false;
+      this.resetModel();
+      this.$q.notify({
+        type: 'positive',
+        message: 'Successfully Added.',
+      });
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something went wrong or User is already in use!',
+      });
+    }
   }
 
   async oneditAccount() {
