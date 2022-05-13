@@ -521,7 +521,7 @@ export default class ManageProduct extends Vue {
     try {
       if (this.imageAttachement.size > 0) {
         this.loading = true;
-        const media = await this.uploadMedia(this.imageAttachement as File);
+        const media = await this.uploadMedia(this.imageAttachement);
         await this.addManageProduct({
           ...this.inputManageSale,
           url: media.id,
@@ -541,7 +541,7 @@ export default class ManageProduct extends Vue {
     try {
       if (this.imageAttachement.size > 0) {
         this.loading = true;
-        const media = await this.uploadMedia(this.imageAttachement as File);
+        const media = await this.uploadMedia(this.imageAttachement);
         await this.editManageProduct({
           ...this.inputManageSale,
           url: media.id,

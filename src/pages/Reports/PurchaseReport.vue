@@ -232,7 +232,7 @@ export default class Expenses extends Vue {
       name: 'supplier',
       align: 'center',
       label: 'Supplier',
-      field: (row: any) => row.supplierPurchase?.company || 'None',
+      field: (row: PurchaseDto) => row.supplierPurchase?.company || 'None',
     },
 
     {

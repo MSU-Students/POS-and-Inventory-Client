@@ -39,6 +39,7 @@ const actions: ActionTree<SaleRecordStateInterface, StateInterface> = {
   async getAllSaleRecord(context): Promise<any> {
     const res = await saleRecordService.getAll();
     context.commit('getAllSaleRecord', res);
+    await this.dispatch('saleOrder/getAllSaleOrder');
   },
 
   async getOneSaleRecord(context, id: number): Promise<any> {

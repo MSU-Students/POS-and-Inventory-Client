@@ -168,8 +168,10 @@ export default class MainLayout extends Vue {
 
   async logout() {
     try {
-      await posApiService.logoutUser();
-      this.$router.replace('/');
+      const result = await posApiService.logoutUser();
+      if (result.status == 201) {
+        await this.$router.replace('/');
+      }
       this.$q.notify({
         type: 'warning',
         message: 'You have been logged out!',

@@ -1,9 +1,14 @@
+import { Http2ServerRequest } from 'http2';
 import { MutationTree } from 'vuex';
 import { CartStateInterface, ICartInfo } from './state';
 
 const mutation: MutationTree<CartStateInterface> = {
   setNewCart(state, payload: ICartInfo) {
-    state.allCart.push(payload);
+    const exist = state.allCart.find((order) => order.orderName);
+    if (!exist) {
+      state.allCart.push(payload);
+    } else {
+    }
   },
   updateCart(state, payload: ICartInfo) {
     const index = state.allCart.findIndex((s) => s.cart_ID === payload.cart_ID);

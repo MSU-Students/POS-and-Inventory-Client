@@ -413,33 +413,9 @@
                                 :columns="selectedOrder"
                                 title="Selected Order"
                                 :rows-per-page-options="[]"
-                                row-key="SelProd"
                                 wrap-cells
                                 hide-bottom
                               >
-                                <template v-slot:body="props">
-                                  <q-tr :props="props">
-                                    <q-td key="productName" :props="props">
-                                      {{ props.row.prodName }}
-                                    </q-td>
-                                    <q-td key="orderQuant" :props="props">
-                                      {{ props.row.orderQuant }}
-                                    </q-td>
-                                    <q-td key="size" :props="props">
-                                      {{ props.row.size }}
-                                    </q-td>
-                                    <q-td key="price" :props="props">
-                                      {{ props.row.price }}
-                                    </q-td>
-                                    <q-td key="subTotal" :props="props">
-                                      {{ props.row.subTotal }}
-                                    </q-td>
-                                  </q-tr>
-                                </template>
-
-                                <template v-slot:body-cell-action="props">
-                                  <q-td :props="props"> </q-td>
-                                </template>
                               </q-table>
                             </q-card-section>
 
@@ -870,6 +846,15 @@ export default class POS extends Vue {
   }
 
   async onaddCart() {
+    try {
+      await this.addCart(this.tempInput);
+    } catch (error) {
+      this.$q.notify({
+        position: 'center',
+        type: 'warning',
+        message: 'Already Exist',
+      });
+    }
     await this.addCart(this.tempInput);
     this.chooseSize = false;
     this.resetOrder();

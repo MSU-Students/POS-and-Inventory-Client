@@ -43,6 +43,86 @@
             </q-input>
           </div>
         </template>
+
+        <template v-slot:body-cell-viewOrderList="props">
+          <q-td :props="props">
+            <div>
+              <q-btn
+                round
+                color="blue"
+                icon="preview"
+                size="sm"
+                flat
+                dense
+                @click="openViewOrderList(props.row)"
+              />
+            </div>
+            <q-dialog v-model="showOrderList">
+              <q-card style="width: 800px; max-width: 100vw" flat bordered>
+                <q-card-section class="flex flex-center text-h6">
+                  <q-item-label> Order List </q-item-label>
+                </q-card-section>
+                <q-card-section>
+                  <div>
+                    Invoice Reference:
+                    <strong> {{ inputSaleRecord.invoiceID }}</strong>
+                  </div>
+                  <div>
+                    Customer Name:
+                    <strong>
+                      {{ inputSaleRecord.customer?.customerName }}
+                    </strong>
+                  </div>
+                  <div>
+                    Cashier:
+                    <strong>
+                      {{
+                        inputSaleRecord.user?.FName +
+                        ' ' +
+                        inputSaleRecord.user?.LName
+                      }}
+                    </strong>
+                  </div>
+                  <div>
+                    Total Amount:
+                    <strong>
+                      {{ inputSaleRecord.totalAmount }}
+                    </strong>
+                  </div>
+                </q-card-section>
+                <q-separator />
+                <q-card-section>
+                  <q-list>
+                    <q-item
+                      style="border: 1px solid black"
+                      v-for="invoice in mapSalesOrder(inputSaleRecord)"
+                      :key="invoice.order_ID"
+                    >
+                      <q-item-section>
+                        {{ invoice.orderName }}
+                      </q-item-section>
+                      <q-item-section>
+                        {{ invoice.orderQuant }}
+                      </q-item-section>
+                      <q-item-section>
+                        {{ invoice.orderPrice }}
+                      </q-item-section>
+                      <q-item-section>
+                        {{ invoice.orderSize }}
+                      </q-item-section>
+                      <q-item-section>
+                        {{ invoice.orderCategory }}
+                      </q-item-section>
+                      <q-item-section>
+                        {{ invoice.orderSubCategory }}
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-card-section>
+              </q-card>
+            </q-dialog>
+          </q-td>
+        </template>
       </q-table>
     </div>
     <q-card class="q-py-md">
@@ -228,20 +308,27 @@ import {
   },
   methods: {
     ...mapActions('saleRecord', ['getAllSaleRecord']),
+    ...mapActions('saleOrder', ['getAllSaleOrder']),
   },
 })
-export default class ChartComponent extends Vue {
+export default class SaleRecord extends Vue {
   allSaleRecord!: SaleRecordDto[];
   allAccount!: UserDto[];
   allCustomer!: CustomerDto[];
   allSaleOrder!: SaleOrderDto[];
   getAllSaleRecord!: () => Promise<void>;
-
+  getAllSaleOrder!: () => Promise<void>;
+  mapSalesOrder(invoice: SaleRecordDto) {
+    return this.allSaleOrder.filter(
+      (r) => r.invoice?.invoiceID == invoice.invoiceID
+    );
+  }
   async mounted() {
     await this.getAllSaleRecord();
   }
   tab = 'Food';
   saleFilter = '';
+  showOrderList = false;
 
   column = [
     {
@@ -284,11 +371,76 @@ export default class ChartComponent extends Vue {
     },
 
     {
-      name: 'action',
+      name: 'viewOrderList',
       align: 'center',
       label: 'View Order',
     },
   ];
+
+  orderColumn = [
+    {
+      name: 'order',
+      label: 'Order',
+      align: 'left',
+      field: (row: SaleRecordDto) => row.saleOrder?.orderName,
+      sortable: true,
+    },
+
+    {
+      name: 'quantity',
+      align: 'center',
+      label: 'Order Quantity',
+      field: (row: SaleRecordDto) => row.saleOrder?.orderQuant,
+      sortable: true,
+    },
+    {
+      name: 'price',
+      align: 'center',
+      label: 'Price',
+      field: (row: SaleRecordDto) => row.saleOrder?.orderPrice,
+      sortable: true,
+    },
+    {
+      name: 'size',
+      align: 'center',
+      label: 'Order Size',
+      field: (row: SaleRecordDto) => row.saleOrder?.orderSize,
+      sortable: true,
+    },
+    {
+      name: 'category',
+      align: 'center',
+      label: 'Category',
+      field: (row: SaleRecordDto) => row.saleOrder?.orderCategory,
+      sortable: true,
+    },
+    {
+      name: 'subCategory',
+      align: 'center',
+      label: 'Sub-Categories',
+      field: (row: SaleRecordDto) => row.saleOrder?.orderSubCategory,
+      sortable: true,
+    },
+  ];
+
+  inputSaleRecord: SaleRecordDto = {
+    sales_order_created: '',
+    totalAmount: 0,
+    payment: 0,
+  };
+
+  inputSaleOrder: SaleOrderDto = {
+    orderName: '',
+    orderQuant: 0,
+    orderPrice: 0,
+    orderSize: '',
+    orderSubTotal: 0,
+  };
+
+  openViewOrderList(val: SaleRecordDto) {
+    this.showOrderList = true;
+    this.inputSaleRecord = { ...val };
+  }
 }
 </script>
 <style lang="sass" scoped>
