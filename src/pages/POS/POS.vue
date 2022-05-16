@@ -199,8 +199,11 @@
                               <div class="text-h6 text-center">
                                 {{ tempInput.orderName }}
                               </div>
-                              <div class="text-h6">
-                                Choose Size and Quantity
+                              <div class="text-h6 text-center">
+                                Size: {{ data.productSize }}
+                              </div>
+                              <div class="q-pt-md text-h6">
+                                Enter the Quantity
                               </div>
                             </q-card-section>
 
@@ -210,6 +213,8 @@
                                   tempInput.orderSubTotal =
                                     tempInput.orderQuant * tempPrice;
                                   grandTotal += tempInput.orderSubTotal;
+                                  tempInput.orderSize = data.productSize;
+                                  StepConfirm = 1;
                                   onaddCart();
                                 "
                               >
@@ -231,34 +236,7 @@
                                     ]"
                                   />
                                 </div>
-                                <div class="q-pa-md q-gutter-sm">
-                                  <div class="q-gutter-sm">
-                                    <q-radio
-                                      v-model="tempInput.orderSize"
-                                      dense
-                                      val="Small"
-                                      label="Small"
-                                    />
-                                    <q-radio
-                                      v-model="tempInput.orderSize"
-                                      dense
-                                      val="Medium"
-                                      label="Medium"
-                                    />
-                                    <q-radio
-                                      v-model="tempInput.orderSize"
-                                      dense
-                                      val="Large"
-                                      label="Large"
-                                    />
-                                    <q-radio
-                                      v-model="tempInput.orderSize"
-                                      dense
-                                      val="Regular"
-                                      label="Regular"
-                                    />
-                                  </div>
-                                </div>
+
                                 <div align="right">
                                   <q-btn
                                     color="green"
@@ -316,13 +294,13 @@
                             />
                           </q-popup-edit>
                         </q-td>
-                        <q-td key="size" :props="props">
+                        <q-td key="orderSize" :props="props">
                           {{ props.row.orderSize }}
                         </q-td>
-                        <q-td key="price" :props="props">
+                        <q-td key="orderPrice" :props="props">
                           {{ props.row.orderPrice }}
                         </q-td>
-                        <q-td key="subTotal" :props="props">
+                        <q-td key="orderSubTotal" :props="props">
                           {{ props.row.orderSubTotal }}
                         </q-td>
                         <q-td key="action" :props="props">
@@ -332,7 +310,7 @@
                               color="red-10"
                               icon="delete"
                               size="sm"
-                              class="q-ml-sm"
+                              class="q-ml-xs"
                               flat
                               round
                               dense
@@ -474,6 +452,12 @@
                                 label="Name"
                                 outlined
                                 v-model="inputCustomer.customerName"
+                                class="q-py-md"
+                              />
+                              <q-btn
+                                color="green"
+                                @click="printPreview = true"
+                                label="Print"
                               />
                             </q-card-section>
                           </q-card>
@@ -532,19 +516,22 @@
                                             key="productName"
                                             :props="props"
                                           >
-                                            {{ props.row.prodName }}
+                                            {{ props.row.orderName }}
                                           </q-td>
                                           <q-td key="orderQuant" :props="props">
                                             {{ props.row.orderQuant }}
                                           </q-td>
-                                          <q-td key="size" :props="props">
-                                            {{ props.row.size }}
+                                          <q-td key="orderSize" :props="props">
+                                            {{ props.row.orderSize }}
                                           </q-td>
-                                          <q-td key="price" :props="props">
-                                            {{ props.row.price }}
+                                          <q-td key="orderPrice" :props="props">
+                                            {{ props.row.orderPrice }}
                                           </q-td>
-                                          <q-td key="subTotal" :props="props">
-                                            {{ props.row.subTotal }}
+                                          <q-td
+                                            key="orderSubTotal"
+                                            :props="props"
+                                          >
+                                            {{ props.row.orderSubTotal }}
                                           </q-td>
                                         </q-tr>
                                       </template>
@@ -594,6 +581,7 @@
                               @click="
                                 done2 = true;
                                 clearOrder();
+                                printPreview = false;
                               "
                               label="Finish"
                               v-close-popup
@@ -794,22 +782,22 @@ export default class POS extends Vue {
       sortable: true,
     },
     {
-      name: 'size',
+      name: 'orderSize',
       align: 'center',
       label: 'Size',
-      field: 'size',
+      field: 'orderSize',
     },
     {
-      name: 'price',
+      name: 'orderPrice',
       align: 'center',
       label: 'Price',
-      field: 'price',
+      field: 'orderPrice',
     },
     {
-      name: 'subTotal',
+      name: 'orderSubTotal',
       align: 'center',
       label: 'SubTotal',
-      field: 'subTotal',
+      field: 'orderSubTotal',
     },
 
     {
@@ -822,7 +810,7 @@ export default class POS extends Vue {
   tempInput: ICartInfo = {
     orderName: '',
     orderQuant: 0,
-    orderSize: this.radioSizes,
+    orderSize: '',
     orderPrice: 0,
     orderCategory: '',
     orderSubCategory: '',
@@ -886,9 +874,6 @@ export default class POS extends Vue {
       totalAmount: this.grandTotal,
       payment: this.payment,
     });
-    this.grandTotal = 0;
-    this.payment = 0;
-    this.change = 0;
   }
 
   inputSaleRecord: SaleRecordDto = {
@@ -904,6 +889,7 @@ export default class POS extends Vue {
 
   clearOrder() {
     this.clear();
+    this.payment = 0;
   }
 }
 </script>

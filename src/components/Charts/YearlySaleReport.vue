@@ -23,7 +23,7 @@ export default class monthlyProductSales extends Vue {
         },
         {
           label: '2020',
-          data: [34, 103, 512, 223],
+          data: [34, 103, 512],
           backgroundColor: 'green',
           borderColor: 'green',
         },

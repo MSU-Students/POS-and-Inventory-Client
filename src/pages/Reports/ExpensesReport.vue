@@ -33,21 +33,34 @@
                   <q-fab-action
                     color="white"
                     text-color="black"
-                    @click="filter = 'utensil'"
-                    label="utensil"
+                    @click="filter = 'Bills'"
+                    label="Bills"
                   />
                   <q-fab-action
                     color="white"
                     text-color="black"
-                    @click="filter = 'Ingredient'"
-                    label="Ingredient"
+                    @click="filter = 'Purchase Order'"
+                    label="Purchase Order"
                   />
                   <q-fab-action
                     color="white"
                     text-color="black"
-                    @click="filter = 'Equipment'"
-                    label="Equipment"
+                    @click="filter = 'Rent'"
+                    label="Rent"
                   />
+                  <q-fab-action
+                    color="white"
+                    text-color="black"
+                    @click="filter = 'Transportation'"
+                    label="Transportation"
+                  />
+                  <q-fab-action
+                    color="white"
+                    text-color="black"
+                    @click="filter = 'Miscellaneous/Other'"
+                    label="Miscellaneous/Other"
+                  />
+
                   <q-fab-action
                     color="white"
                     text-color="black"
@@ -131,7 +144,7 @@ export default class ExpensesReport extends Vue {
       required: true,
       label: 'Expenses Name',
       align: 'center',
-      file: 'expensesName',
+      field: (row: any) => row.expensesName,
     },
     {
       name: 'category',

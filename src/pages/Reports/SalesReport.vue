@@ -12,13 +12,7 @@
       >
         <template v-slot:top-right>
           <div class="q-pa-md" style="max-width: 300px">
-            <q-input
-              dense
-              borderless
-              v-model="saleFilter"
-              mask="date"
-              :rules="['date']"
-            >
+            <q-input dense borderless v-model="saleFilter">
               <template v-slot:append>
                 <q-icon name="event" color="secondary" class="cursor-pointer">
                   <q-popup-proxy
@@ -27,7 +21,7 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="saleFilter">
+                    <q-date v-model="saleFilter" mask="YYYY-MM-DD">
                       <div class="row items-center justify-end">
                         <q-btn
                           v-close-popup
