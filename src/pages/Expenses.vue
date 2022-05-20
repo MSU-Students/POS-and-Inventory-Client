@@ -419,7 +419,7 @@ export default class Expenses extends Vue {
   statusExpenses = false;
   filter = '';
 
-  inputExpenses: ExpensesDto = {
+  inputExpenses: any = {
     expensesName: '',
     expensesDate: formattedString,
     description: '',

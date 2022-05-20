@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lFf">
-    <q-header elevated class="bg-green">
+    <q-header elevated class="bg-green-5">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
         <q-avatar>
@@ -8,9 +8,9 @@
         </q-avatar>
         <q-toolbar-title>BesTea Restaurant</q-toolbar-title>
         <q-btn-dropdown flat dropdown-icon="account_circle">
+          <q-tooltip> Account </q-tooltip>
           <div class="row no-wrap q-pa-md">
-            <div class="column">
-              <div class="text-h6 q-mb-md">Menu</div>
+            <div class="column q-pt-md">
               <div class="q-pb-md">
                 <q-btn
                   color="green"
@@ -31,7 +31,10 @@
                 <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
               </q-avatar>
 
-              <div class="text-subtitle1 q-mt-md q-mb-xs">Basam C. Serad</div>
+              <div class="text-subtitle1 q-mt-md">
+                {{ currentUser.FName }}
+                {{ currentUser.LName }}
+              </div>
             </div>
           </div>
         </q-btn-dropdown>
@@ -47,7 +50,7 @@
       :width="200"
       :breakpoint="500"
       bordered
-      content-class="bg-grey-3"
+      content-class="bg-grey-1"
     >
       <q-scroll-area class="fit">
         <q-list padding>
@@ -153,18 +156,28 @@
 </template>
 <script lang="ts">
 import { posApiService } from 'src/services/pos-inventory-api.service';
+import { AUser } from 'src/store/auth/state';
 import { Options, Vue } from 'vue-class-component';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 @Options({
   methods: {
-    ...mapActions('account', ['getProfile']),
+    ...mapActions('auth', ['authUser']),
+  },
+  computed: {
+    ...mapState('auth', ['currentUser']),
   },
 })
 export default class MainLayout extends Vue {
   getProfile!: () => Promise<void>;
+  authUser!: () => Promise<void>;
+  currentUser!: AUser;
   drawer = false;
   miniState = true;
+
+  async mounted() {
+    await this.authUser();
+  }
 
   async logout() {
     try {
@@ -185,4 +198,3 @@ export default class MainLayout extends Vue {
   }
 }
 </script>
-<style></style>

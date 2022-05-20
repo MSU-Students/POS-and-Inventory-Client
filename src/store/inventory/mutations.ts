@@ -1,4 +1,5 @@
 import { Inventory } from 'src/interfaces/inventory.interface';
+import { InventoryDto } from 'src/services/rest-api';
 import { MutationTree } from 'vuex';
 import { InventoryStateInterface } from './state';
 
@@ -14,6 +15,19 @@ const mutation: MutationTree<InventoryStateInterface> = {
   },
 
   getAllInventory(state, payload) {
+    state.allInventory = [];
+    // const newPayload = payload.map((inventory) => {
+    //   if (inventory.itemQuantStatus === 0) {
+    //     return {
+    //       ...inventory,
+    //       itemStatus: 'Used',
+    //     };
+    //   }
+    // });
+    state.allInventory.push(...payload);
+  },
+
+  editInventoryStatus(state, payload) {
     state.allInventory = [];
     state.allInventory.push(...payload);
   },

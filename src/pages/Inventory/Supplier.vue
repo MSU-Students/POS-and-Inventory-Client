@@ -222,7 +222,7 @@
                         />
                         <q-btn
                           flat
-                          label="Add"
+                          label="Save"
                           color="secondary"
                           type="submit"
                         />

@@ -27,8 +27,8 @@
               <q-fab-action
                 color="white"
                 text-color="black"
-                @click="filter = 'utensil'"
-                label="utensil"
+                @click="filter = 'Utensil'"
+                label="Utensil"
               />
               <q-fab-action
                 color="white"
@@ -66,7 +66,7 @@
             </q-input>
             <q-btn
               label="Add Product"
-              color="primary"
+              color="teal"
               dense
               flat
               icon="add"
@@ -322,8 +322,13 @@
                           v-model="inputInventory.itemQuantStatus"
                           type="number"
                           min="0"
+                          lazy-rules
+                          :rules="[
+                            (val) =>
+                              val < inputInventory || 'Please type your age',
+                          ]"
                         />
-                        <q-list>
+                        <!-- <q-list>
                           <q-item tag="label" v-ripple>
                             <q-item-section>
                               <q-item-label>Product Availability</q-item-label>
@@ -336,7 +341,7 @@
                                 true-value="Available"
                               />
                             </q-item-section> </q-item
-                        ></q-list>
+                        ></q-list> -->
                       </div>
                       <div align="right">
                         <q-btn
@@ -380,6 +385,7 @@ const curentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
       'deleteInventory',
       'getAllInventory',
       'getByItemName',
+      'editInventoryStatus',
     ]),
   },
 })
@@ -390,6 +396,7 @@ export default class Inventory extends Vue {
   deleteInventory!: (payload: InventoryDto) => Promise<void>;
   getAllInventory!: () => Promise<void>;
   getByItemName!: () => Promise<void>;
+  editInventoryStatus!: () => Promise<void>;
 
   async mounted() {
     await this.getAllInventory();
@@ -480,10 +487,11 @@ export default class Inventory extends Vue {
     itemCategory: '',
     itemStatus: 'Available',
     itemConsumeAt: '',
+    itemQuantStatus: 0,
   };
 
   async onAddInventory() {
-    const newInputInventory = {
+    const newInputInventory: any = {
       ...this.inputInventory,
       itemQuantStatus: this.inputInventory.itemQuantProd,
     };
@@ -498,7 +506,7 @@ export default class Inventory extends Vue {
   }
 
   async onEditInventory() {
-    const newInputInventory = {
+    const newInputInventory: any = {
       ...this.inputInventory,
       itemQuantStatus: this.inputInventory.itemQuantProd,
     };
@@ -518,6 +526,7 @@ export default class Inventory extends Vue {
       itemConsumeAt: curentDate,
     };
     await this.editInventory(newInputInventory);
+    await this.editInventoryStatus();
     this.editRowInventory = false;
     this.statusInventory = false;
     this.resetModel();
@@ -562,6 +571,7 @@ export default class Inventory extends Vue {
       itemCategory: '',
       itemStatus: 'Available',
       itemConsumeAt: '',
+      itemQuantStatus: 0,
     };
   }
 }

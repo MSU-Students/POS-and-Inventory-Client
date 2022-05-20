@@ -367,7 +367,13 @@
                       push
                       color="green"
                       label="Confirm Order"
-                      @click="ConfirmOrder = true"
+                      @click="
+                        ConfirmOrder =
+                          true &&
+                          this.payment != 0 &&
+                          this.allCart.length > 0 &&
+                          this.change > 0
+                      "
                     />
                     <q-dialog v-model="ConfirmOrder" persistent>
                       <q-stepper
@@ -622,7 +628,7 @@ import { ICartInfo } from 'src/store/cart/state';
 import { date } from 'quasar';
 
 const timeStamp = Date.now();
-const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
+const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD');
 
 @Options({
   computed: {
@@ -887,8 +893,10 @@ export default class POS extends Vue {
     date_created: '',
   };
 
-  clearOrder() {
-    this.clear();
+  async clearOrder() {
+    await this.clear();
+    this.grandTotal = 0;
+    this.change = 0;
     this.payment = 0;
   }
 }
