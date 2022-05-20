@@ -191,9 +191,17 @@
                           color="green"
                           label="Add Product"
                           class="full-width absolute-bottom"
-                          @click="chooseSize = true"
+                          @click="
+                            tempInput.orderPrice = data.productPrice;
+                            tempInput.orderSubTotal =
+                              tempInput.orderQuant * tempInput.orderPrice;
+                            grandTotal += tempInput.orderSubTotal;
+                            tempInput.orderSize = data.productSize;
+                            tempInput.orderName = data.productName;
+                            onaddCart();
+                          "
                         />
-                        <q-dialog v-model="chooseSize">
+                        <!-- <q-dialog v-model="chooseSize">
                           <q-card style="width: 400px">
                             <q-card-section>
                               <div class="text-h6 text-center">
@@ -210,11 +218,11 @@
                             <q-card-section>
                               <q-form
                                 @submit="
+                                  tempInput.orderPrice = data.productPrice;
                                   tempInput.orderSubTotal =
                                     tempInput.orderQuant * tempPrice;
                                   grandTotal += tempInput.orderSubTotal;
                                   tempInput.orderSize = data.productSize;
-                                  StepConfirm = 1;
                                   onaddCart();
                                 "
                               >
@@ -231,7 +239,7 @@
                                     lazy-rules
                                     :rules="[
                                       (val) =>
-                                        (val && val.length > 0) ||
+                                        (val != 0 && val.length > 0) ||
                                         'Must input greater than or equal to one quantity',
                                     ]"
                                   />
@@ -247,7 +255,7 @@
                               </q-form>
                             </q-card-section>
                           </q-card>
-                        </q-dialog>
+                        </q-dialog> -->
                       </div>
                     </q-card>
                   </div>
@@ -271,58 +279,70 @@
                     hide-bottom
                     style="height: 400px; max-height: 400px"
                   >
-                    <template v-slot:body="props">
-                      <q-tr :props="props">
-                        <q-td key="productName" :props="props">
-                          {{ props.row.orderName }}
-                        </q-td>
-                        <q-td key="orderQuant" :props="props">
-                          {{ props.row.orderQuant }}
-                          <q-popup-edit
-                            v-model="props.row.orderQuant"
-                            title="Update quantity"
-                            buttons
-                            v-slot="editQuant"
+                    <template #body-cell-orderQuant="props">
+                      <q-td :props="props">
+                        <div class="q-gutter-md">
+                          <q-btn
+                            round
+                            @click="openEditDialog(props.row)"
+                            text-color="white"
+                            color="green-6"
                           >
-                            <q-input
-                              type="number"
-                              v-model="editQuant.value"
-                              dense
-                              autofocus
-                              counter
-                              @keyup.enter="editQuant.set"
-                            />
-                          </q-popup-edit>
-                        </q-td>
-                        <q-td key="orderSize" :props="props">
-                          {{ props.row.orderSize }}
-                        </q-td>
-                        <q-td key="orderPrice" :props="props">
-                          {{ props.row.orderPrice }}
-                        </q-td>
-                        <q-td key="orderSubTotal" :props="props">
-                          {{ props.row.orderSubTotal }}
-                        </q-td>
-                        <q-td key="action" :props="props">
-                          {{ props.row.action }}
-                          <div>
-                            <q-btn
-                              color="red-10"
-                              icon="delete"
-                              size="sm"
-                              class="q-ml-xs"
-                              flat
-                              round
-                              dense
-                              @click="onDeleteSpecificCart(props.row)"
-                            />
-                          </div>
-                        </q-td>
-                      </q-tr>
+                            {{ props.row.orderQuant }}
+                            <q-dialog v-model="editOrderQuant">
+                              <q-card style="width: 300px">
+                                <q-card-section>
+                                  <q-form
+                                    @submit="
+                                      tempInput.orderSubTotal =
+                                        tempInput.orderQuant * tempPrice;
+                                      grandTotal += tempInput.orderSubTotal;
+                                      onEditCart();
+                                    "
+                                  >
+                                    <div class="q-pb-lg">
+                                      <q-input
+                                        v-model="tempInput.orderQuant"
+                                        label="Edit Quantity"
+                                      />
+                                    </div>
+                                    <div class="q-gutter-md" align="right">
+                                      <q-btn
+                                        label="Save"
+                                        type="submit"
+                                        color="green"
+                                        flat
+                                      />
+                                      <q-btn
+                                        label="Cancel"
+                                        color="red"
+                                        v-close-popup
+                                        flat
+                                      />
+                                    </div>
+                                  </q-form>
+                                </q-card-section>
+                              </q-card>
+                            </q-dialog>
+                          </q-btn>
+                        </div>
+                      </q-td>
                     </template>
 
                     <template v-slot:body-cell-action="props">
-                      <q-td :props="props"> </q-td>
+                      <q-td :props="props">
+                        <div>
+                          <q-btn
+                            color="red-10"
+                            icon="delete"
+                            size="sm"
+                            class="q-ml-xs"
+                            flat
+                            round
+                            dense
+                            @click="onDeleteSpecificCart(props.row)"
+                          /></div
+                      ></q-td>
                     </template>
                   </q-table>
                 </q-card-section>
@@ -378,7 +398,6 @@
                     <q-dialog v-model="ConfirmOrder" persistent>
                       <q-stepper
                         v-model="StepConfirm"
-                        header-nav
                         ref="stepper"
                         color="green"
                         animated
@@ -460,11 +479,6 @@
                                 v-model="inputCustomer.customerName"
                                 class="q-py-md"
                               />
-                              <q-btn
-                                color="green"
-                                @click="printPreview = true"
-                                label="Print"
-                              />
                             </q-card-section>
                           </q-card>
                           <q-stepper-navigation align="center">
@@ -472,11 +486,56 @@
                               color="green"
                               @click="
                                 onPunchOrder();
-                                printPreview = true;
                                 StepConfirm = 3;
                                 done2 = true;
                               "
                               label="Save"
+                            />
+
+                            <q-btn
+                              flat
+                              @click="StepConfirm = 1"
+                              color="green"
+                              label="Back"
+                              class="q-ml-sm"
+                            />
+                          </q-stepper-navigation>
+                        </q-step>
+
+                        <q-step
+                          :name="3"
+                          title="Transanction Complete"
+                          caption="Optional"
+                          icon="Transanction Finish"
+                          :done="StepConfirm > 3"
+                        >
+                          <div class="text-h6 flex flex-center">
+                            <q-avatar
+                              size="sm"
+                              icon="task_alt"
+                              color="green-5"
+                              style="font-size: 3rem"
+                            />
+                            Transanction Finish
+                          </div>
+                          <q-stepper-navigation
+                            class="q-gutter-md"
+                            align="center"
+                          >
+                            <q-btn
+                              color="green"
+                              @click="
+                                done2 = true;
+                                clearOrder();
+                                printPreview = false;
+                              "
+                              label="Finish"
+                              v-close-popup
+                            />
+                            <q-btn
+                              color="green"
+                              @click="printPreview = true"
+                              label="Print"
                             />
                             <q-dialog v-model="printPreview">
                               <q-card
@@ -555,50 +614,6 @@
                                 </q-card-section>
                               </q-card>
                             </q-dialog>
-                            <q-btn
-                              flat
-                              @click="StepConfirm = 1"
-                              color="green"
-                              label="Back"
-                              class="q-ml-sm"
-                            />
-                          </q-stepper-navigation>
-                        </q-step>
-
-                        <q-step
-                          :name="3"
-                          title="Transanction Complete"
-                          caption="Optional"
-                          icon="Transanction Finish"
-                          :done="StepConfirm > 3"
-                        >
-                          <div class="text-h6 flex flex-center">
-                            <q-avatar
-                              size="sm"
-                              icon="task_alt"
-                              color="green-5"
-                              style="font-size: 3rem"
-                            />
-                            Transanction Finish
-                          </div>
-                          <q-stepper-navigation>
-                            <q-btn
-                              color="green"
-                              @click="
-                                done2 = true;
-                                clearOrder();
-                                printPreview = false;
-                              "
-                              label="Finish"
-                              v-close-popup
-                            />
-                            <q-btn
-                              flat
-                              @click="StepConfirm = 2"
-                              color="green"
-                              label="Back"
-                              class="q-ml-sm"
-                            />
                           </q-stepper-navigation>
                         </q-step>
                       </q-stepper>
@@ -677,6 +692,7 @@ export default class POS extends Vue {
   done3 = false;
   cancelOrder = true;
   chooseSize = false;
+  editOrderQuant = false;
 
   quantity = 0;
   tempPrice = 0;
@@ -815,7 +831,7 @@ export default class POS extends Vue {
 
   tempInput: ICartInfo = {
     orderName: '',
-    orderQuant: 0,
+    orderQuant: 1,
     orderSize: '',
     orderPrice: 0,
     orderCategory: '',
@@ -840,17 +856,13 @@ export default class POS extends Vue {
   }
 
   async onaddCart() {
-    try {
-      await this.addCart(this.tempInput);
-    } catch (error) {
-      this.$q.notify({
-        position: 'center',
-        type: 'warning',
-        message: 'Already Exist',
-      });
-    }
     await this.addCart(this.tempInput);
-    this.chooseSize = false;
+    this.resetOrder();
+  }
+
+  async onEditCart() {
+    await this.editCart(this.tempInput);
+    this.editOrderQuant = false;
     this.resetOrder();
   }
   onDeleteSpecificCart(val: ICartInfo) {
@@ -868,6 +880,11 @@ export default class POS extends Vue {
           message: 'Successfully deleted',
         });
       });
+  }
+
+  openEditDialog(val: ICartInfo) {
+    this.editOrderQuant = true;
+    this.tempInput = { ...val };
   }
 
   async onPunchOrder() {

@@ -11,12 +11,14 @@ const mutation: MutationTree<CartStateInterface> = {
     );
     if (!exist) {
       state.allCart.push(payload);
+    } else if (exist) {
+      exist.orderQuant++;
     }
   },
   updateCart(state, payload: ICartInfo) {
     const index = state.allCart.findIndex((s) => s.cart_ID === payload.cart_ID);
     if (index >= 0) {
-      state.allCart.splice(index, 1);
+      state.allCart.splice(index, 1, payload);
     }
   },
   deleteCart(state, payload: ICartInfo) {

@@ -26,34 +26,10 @@ const actions: ActionTree<InventoryStateInterface, StateInterface> = {
 
   async getAllInventory(context): Promise<any> {
     const res = await inventoryService.getAll();
-    // const check = context.state.allInventory.map(async (invent) => {
-    //   if (invent.itemQuantStatus === 0) {
-    //     await context.dispatch('editInventory', {
-    //       ...invent,
-    //       itemStatus: 'Used',
-    //     });
-    //   }
-    // });
     context.commit('getAllInventory', res);
   },
 
-  async editItemQuant(context) {
-    const check = context.state.allInventory.map(async (invent) => {
-      if (invent.itemQuantStatus === 0) {
-        await context.dispatch('editInventory', {
-          ...invent,
-          itemStatus: 'Used',
-        });
-      }
-    });
-    context.commit('getAllInventory', check);
-  },
-
   async editInventoryStatus(context) {
-    if (!context.state.allInventory || context.state.allInventory.length == 0) {
-      await context.dispatch('getAllInventory');
-    }
-
     const check = context.state.allInventory.map(async (stock) => {
       if (stock.itemQuantStatus === 0 && stock.itemStatus === 'Available') {
         await context.dispatch('editInventory', {

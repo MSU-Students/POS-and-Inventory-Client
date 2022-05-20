@@ -16,14 +16,6 @@ const mutation: MutationTree<InventoryStateInterface> = {
 
   getAllInventory(state, payload) {
     state.allInventory = [];
-    // const newPayload = payload.map((inventory) => {
-    //   if (inventory.itemQuantStatus === 0) {
-    //     return {
-    //       ...inventory,
-    //       itemStatus: 'Used',
-    //     };
-    //   }
-    // });
     state.allInventory.push(...payload);
   },
 
