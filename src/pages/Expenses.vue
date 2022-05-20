@@ -387,7 +387,7 @@ export default class Expenses extends Vue {
 
     {
       name: 'amount',
-      align: 'center',
+      align: 'right',
       label: 'Amount',
       field: 'amount',
     },

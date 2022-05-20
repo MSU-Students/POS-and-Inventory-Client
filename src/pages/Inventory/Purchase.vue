@@ -460,7 +460,7 @@ export default class Pruchase extends Vue {
     },
     {
       name: 'purchaseAmount',
-      align: 'center',
+      align: 'right',
       label: 'Amount',
       field: 'purchaseAmount',
     },

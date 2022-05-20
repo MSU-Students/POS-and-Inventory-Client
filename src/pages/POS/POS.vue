@@ -789,13 +789,13 @@ export default class POS extends Vue {
     },
     {
       name: 'orderPrice',
-      align: 'center',
+      align: 'right',
       label: 'Price',
       field: 'orderPrice',
     },
     {
       name: 'orderSubTotal',
-      align: 'center',
+      align: 'right',
       label: 'SubTotal',
       field: 'orderSubTotal',
     },
@@ -887,8 +887,8 @@ export default class POS extends Vue {
     date_created: '',
   };
 
-  clearOrder() {
-    this.clear();
+  async clearOrder() {
+    await this.clear();
     this.payment = 0;
   }
 }

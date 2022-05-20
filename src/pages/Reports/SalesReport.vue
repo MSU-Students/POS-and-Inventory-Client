@@ -346,13 +346,13 @@ export default class SaleRecord extends Vue {
     },
     {
       name: 'total',
-      align: 'center',
+      align: 'right',
       label: 'Total Amount',
       field: 'totalAmount',
     },
     {
       name: 'payment',
-      align: 'center',
+      align: 'right',
       label: 'Payment Amount',
       field: 'payment',
     },
@@ -389,7 +389,7 @@ export default class SaleRecord extends Vue {
     },
     {
       name: 'price',
-      align: 'center',
+      align: 'right',
       label: 'Price',
       field: (row: SaleRecordDto) => row.saleOrder?.orderPrice,
       sortable: true,
