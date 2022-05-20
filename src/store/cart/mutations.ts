@@ -5,7 +5,9 @@ import { CartStateInterface, ICartInfo } from './state';
 const mutation: MutationTree<CartStateInterface> = {
   setNewCart(state, payload: ICartInfo) {
     const exist = state.allCart.find(
-      (order) => order.orderName === payload.orderName
+      (order) =>
+        order.orderName === payload.orderName &&
+        order.orderSize === payload.orderSize
     );
     if (!exist) {
       state.allCart.push(payload);

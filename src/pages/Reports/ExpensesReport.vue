@@ -120,7 +120,7 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import ExpensesChart from 'components/Charts/ExpensesReportChart.vue';
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import { ExpensesDto } from 'src/services/rest-api';
 
 @Options({
@@ -128,10 +128,18 @@ import { ExpensesDto } from 'src/services/rest-api';
   computed: {
     ...mapState('expenses', ['allExpenses']),
   },
+  methods: {
+    ...mapActions('expenses', ['getAllExpenses']),
+  },
 })
 export default class ExpensesReport extends Vue {
   filter = '';
   allExpenses!: ExpensesDto;
+  getAllExpenses!: () => Promise<void>;
+  async mounted() {
+    await this.getAllExpenses();
+  }
+
   columns = [
     {
       name: 'expensesID',

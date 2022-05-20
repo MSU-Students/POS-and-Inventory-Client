@@ -12,7 +12,7 @@
       >
         <template v-slot:top-right>
           <div class="q-pa-md" style="max-width: 300px">
-            <q-input dense borderless v-model="saleFilter">
+            <q-input clearable dense borderless v-model="saleFilter">
               <template v-slot:append>
                 <q-icon name="event" color="secondary" class="cursor-pointer">
                   <q-popup-proxy
@@ -43,7 +43,7 @@
             <div>
               <q-btn
                 round
-                color="blue"
+                color="teal"
                 icon="preview"
                 size="sm"
                 flat
@@ -86,7 +86,13 @@
                 </q-card-section>
                 <q-separator />
                 <q-card-section>
-                  <q-list>
+                  <q-table
+                    :rows="mapSalesOrder(inputSaleRecord)"
+                    :columns="orderColumn"
+                    row-key="subCategoryID"
+                    :rows-per-page-options="[0]"
+                  />
+                  <!-- <q-list>
                     <q-item
                       style="border: 1px solid black"
                       v-for="invoice in mapSalesOrder(inputSaleRecord)"
@@ -111,7 +117,7 @@
                         {{ invoice.orderSubCategory }}
                       </q-item-section>
                     </q-item>
-                  </q-list>
+                  </q-list> -->
                 </q-card-section>
               </q-card>
             </q-dialog>
@@ -376,7 +382,7 @@ export default class SaleRecord extends Vue {
       name: 'order',
       label: 'Order',
       align: 'left',
-      field: (row: SaleRecordDto) => row.saleOrder?.orderName,
+      field: (row: any) => row.orderName,
       sortable: true,
     },
 
@@ -384,35 +390,35 @@ export default class SaleRecord extends Vue {
       name: 'quantity',
       align: 'center',
       label: 'Order Quantity',
-      field: (row: SaleRecordDto) => row.saleOrder?.orderQuant,
+      field: (row: any) => row.orderQuant,
       sortable: true,
     },
     {
       name: 'price',
       align: 'right',
       label: 'Price',
-      field: (row: SaleRecordDto) => row.saleOrder?.orderPrice,
+      field: (row: any) => row.orderPrice,
       sortable: true,
     },
     {
       name: 'size',
       align: 'center',
       label: 'Order Size',
-      field: (row: SaleRecordDto) => row.saleOrder?.orderSize,
+      field: (row: any) => row.orderSize,
       sortable: true,
     },
     {
       name: 'category',
       align: 'center',
       label: 'Category',
-      field: (row: SaleRecordDto) => row.saleOrder?.orderCategory,
+      field: (row: any) => row.orderCategory,
       sortable: true,
     },
     {
       name: 'subCategory',
       align: 'center',
       label: 'Sub-Categories',
-      field: (row: SaleRecordDto) => row.saleOrder?.orderSubCategory,
+      field: (row: any) => row.orderSubCategory,
       sortable: true,
     },
   ];

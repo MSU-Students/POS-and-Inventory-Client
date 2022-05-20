@@ -1,16 +1,23 @@
 export interface AUser {
   id?: number;
-  fullName: string;
-  password: string;
-  type: string;
+  FName: string;
+  MName?: string;
+  LName: string;
+  username?: string;
+  password?: string;
+  type?: string;
+  contact?: string;
+  email?: string;
+  status: string;
+  userDateCreated: string;
 }
 export interface IAuthState {
-  currentUser?: AUser;
+  currentUser?: AUser[];
 }
 
 function state(): IAuthState {
   return {
-    currentUser: undefined,
+    currentUser: [],
   };
 }
 

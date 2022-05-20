@@ -4,6 +4,17 @@
       <div class="col">
         <q-card align="center">
           <q-card-section>
+            <q-icon name="paid" color="cyan" style="font-size: 2rem"> </q-icon>
+            <div class="text-h6 text-cyan q-pb-md">Profit</div>
+            <div class="text-h6">
+              {{ getSumSaleToday() - getSumExpenses() }}
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col">
+        <q-card align="center">
+          <q-card-section>
             <q-icon
               name="signal_cellular_alt"
               color="deep-purple"
@@ -11,7 +22,7 @@
             >
             </q-icon>
             <div class="text-h6 text-deep-purple q-pb-md">Revenue</div>
-            <div class="text-h6">10000.000</div>
+            <div class="text-h6">{{ getSumSaleToday() }}</div>
           </q-card-section>
         </q-card>
       </div>
@@ -21,7 +32,7 @@
             <q-icon name="shopping_cart" color="amber" style="font-size: 2rem">
             </q-icon>
             <div class="text-h6 text-amber q-pb-md">Purchase</div>
-            <div class="text-h6">10000.000</div>
+            <div class="text-h6">{{ getSumPurchase() }}</div>
           </q-card-section>
         </q-card>
       </div>
@@ -31,16 +42,7 @@
             <q-icon name="shopping_bag" color="teal" style="font-size: 2rem">
             </q-icon>
             <div class="text-h6 text-teal q-pb-md">Expenses</div>
-            <div class="text-h6">10000.000</div>
-          </q-card-section>
-        </q-card>
-      </div>
-      <div class="col">
-        <q-card align="center">
-          <q-card-section>
-            <q-icon name="paid" color="cyan" style="font-size: 2rem"> </q-icon>
-            <div class="text-h6 text-cyan q-pb-md">Profit</div>
-            <div class="text-h6">10000.000</div>
+            <div class="text-h6">{{ getSumExpenses() }}</div>
           </q-card-section>
         </q-card>
       </div>
@@ -102,7 +104,7 @@
                   <q-item>
                     <q-item-section>Total Cost</q-item-section>
                     <q-item-section class="text-h6 text-bold" side>
-                      10
+                      {{ getSumPurchase() }}
                     </q-item-section>
                   </q-item>
                   <q-separator inset />
@@ -165,8 +167,18 @@ import { Vue, Options } from 'vue-class-component';
 import YearlyChart from 'components/Charts/DashYearly.vue';
 import CashFlowChart from 'components/Charts/DashSalePurchase.vue';
 import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
-import { mapGetters, mapState } from 'vuex';
-import { InventoryDto, PurchaseDto } from 'src/services/rest-api';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import {
+  ExpensesDto,
+  InventoryDto,
+  PurchaseDto,
+  SaleRecordDto,
+  UserDto,
+} from 'src/services/rest-api';
+import { date } from 'quasar';
+import { AUser } from 'src/store/auth/state';
+const dateNow = new Date();
+const dateNowStr = date.formatDate(dateNow, 'YYYY-MM-DD');
 
 @Options({
   components: { YearlyChart, CashFlowChart, MonthCashFlowChart },
@@ -179,6 +191,14 @@ import { InventoryDto, PurchaseDto } from 'src/services/rest-api';
       'pendingPurchase',
     ]),
     ...mapState('purchase', ['allPurchase']),
+    ...mapState('saleRecord', ['allSaleRecord']),
+    ...mapState('expenses', ['allExpenses']),
+  },
+  methods: {
+    ...mapActions('purchase', ['getAllPurchase']),
+    ...mapActions('saleRecord', ['getAllSaleRecord']),
+    ...mapActions('expenses', ['getAllExpenses']),
+    ...mapActions('inventory', ['getAllInventory']),
   },
 })
 export default class Dashboard extends Vue {
@@ -189,5 +209,49 @@ export default class Dashboard extends Vue {
   completePurchase!: PurchaseDto[];
   cancelPurchase!: PurchaseDto[];
   pendingPurchase!: PurchaseDto[];
+  allSaleRecord!: SaleRecordDto[];
+  allExpenses!: ExpensesDto[];
+  getAllPurchase!: () => Promise<void>;
+  getAllSaleRecord!: () => Promise<void>;
+  getAllExpenses!: () => Promise<void>;
+  getAllInventory!: () => Promise<void>;
+
+  getProfile!: () => Promise<void>;
+  async mounted() {
+    await this.getAllPurchase();
+    await this.getAllSaleRecord();
+    await this.getAllExpenses();
+    await this.getAllInventory();
+  }
+
+  getSumPurchase() {
+    const result = this.completePurchase.reduce<number>(
+      (accumulator, current) => {
+        return accumulator + current.purchaseAmount;
+      },
+      0
+    );
+    return result;
+  }
+  getSumExpenses() {
+    const result = this.allExpenses.reduce<number>((accumulator, current) => {
+      return accumulator + current.amount;
+    }, 0);
+    return result;
+  }
+  getSumSale() {
+    const result = this.allSaleRecord.reduce<number>((accumulator, current) => {
+      return accumulator + current.totalAmount;
+    }, 0);
+    return result;
+  }
+  getSumSaleToday() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created == dateNowStr)
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
 }
 </script>

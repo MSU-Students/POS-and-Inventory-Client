@@ -408,7 +408,7 @@ export default class ManageProduct extends Vue {
   onRejected() {
     this.$q.notify({
       type: 'negative',
-      message: `The File is too Large`,
+      message: 'The File is too Large',
     });
   }
   columns = [
