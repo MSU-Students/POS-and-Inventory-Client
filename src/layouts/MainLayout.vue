@@ -7,36 +7,87 @@
           <img src="../assets/BesTea.jpg" />
         </q-avatar>
         <q-toolbar-title>BesTea Restaurant</q-toolbar-title>
-        <q-btn-dropdown flat dropdown-icon="account_circle">
-          <q-tooltip> Account </q-tooltip>
-          <div class="row no-wrap q-pa-md">
-            <div class="column q-pt-md">
-              <div class="q-pb-md">
-                <q-btn
-                  color="green"
-                  label="Manage"
-                  push
-                  to="/Account"
-                  v-close-popup
-                />
+        <q-btn-dropdown elevated flat dropdown-icon="account_circle">
+          <div class="bg-green-1 row no-wrap q-px-xl q-py-lg">
+            <div class="column items-center">
+              <q-avatar size="80px">
+                <q-img src="../assets/pngwing.com.png" />
+              </q-avatar>
+
+              <div
+                class="text-weight-bold text-h6 q-pb-md"
+                style="text-align: center"
+              >
+                {{ currentUser.FName }}
+                {{ currentUser.LName }}
               </div>
 
-              <q-btn color="green" label="Logout" push @click="logout()" />
+              <q-list>
+                <q-item clickable v-ripple to="/Account">
+                  <q-item-section avatar>
+                    <q-avatar
+                      icon="settings"
+                      color="positive"
+                      text-color="white"
+                    />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>Manage Account</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item clickable to="/changepassword">
+                  <q-item-section avatar>
+                    <q-avatar
+                      icon="manage_accounts"
+                      color="warning"
+                      text-color="white"
+                    />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>Change Password</q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-item clickable @click="logout()">
+                  <q-item-section avatar>
+                    <q-avatar
+                      icon="logout"
+                      color="negative"
+                      text-color="white"
+                    />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>Logout</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
             </div>
+          </div>
 
-            <q-separator vertical inset class="q-mx-lg" />
-
-            <div class="column q-py-md items-center">
-              <q-avatar size="72px">
-                <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+          <!-- <q-card
+            style="width: 300px; max-width: 100vw"
+            class="q-pa-md flex flex-center"
+          >
+            <div class="q-pt-md">
+              <q-avatar size="70px">
+                <q-img src="../assets/BesTea.jpg" />
               </q-avatar>
 
               <div class="text-subtitle1 q-mt-md">
                 {{ currentUser.FName }}
                 {{ currentUser.LName }}
               </div>
+              <div class="q-pb-md">
+                <q-btn color="green" label="Manage" push to="/Account" />
+              </div>
+              <div class="q-pb-md">
+                <q-btn color="green" label="Manage" push to="/changepassword" />
+              </div>
+
+              <q-btn color="red" label="Logout" push @click="logout()" />
             </div>
-          </div>
+          </q-card> -->
         </q-btn-dropdown>
       </q-toolbar>
     </q-header>
@@ -50,7 +101,7 @@
       :width="200"
       :breakpoint="500"
       bordered
-      content-class="bg-grey-1"
+      class="bg-grey-1"
     >
       <q-scroll-area class="fit">
         <q-list padding>
@@ -135,6 +186,14 @@
               </q-card-section>
             </q-card>
           </q-expansion-item>
+
+          <q-item clickable v-ripple to="/account">
+            <q-item-section avatar>
+              <q-icon name="settings" color="green-2" />
+            </q-item-section>
+
+            <q-item-section> Manage Account </q-item-section>
+          </q-item>
 
           <q-separator />
 

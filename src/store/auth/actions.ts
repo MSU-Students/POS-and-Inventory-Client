@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
 import { IAuthState } from './state';
 import { posApiService } from '../../services/pos-inventory-api.service';
+import { ChangePasswordDto } from 'src/services/rest-api';
 
 const actions: ActionTree<IAuthState, StateInterface> = {
   async login(context, payload: { userName: string; password: string }) {
@@ -22,6 +23,10 @@ const actions: ActionTree<IAuthState, StateInterface> = {
       localStorage.removeItem('refresh-token');
       return error;
     }
+  },
+  async changePassword(context, changePassword: ChangePasswordDto) {
+    await posApiService.changeMyPass(changePassword);
+    context.commit('')
   },
 };
 

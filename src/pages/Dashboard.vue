@@ -2,87 +2,124 @@
   <q-page class="q-pa-xl">
     <div class="row q-gutter-xl">
       <div class="col">
-        <q-card align="center">
+        <q-card class="profit_bg text-white" align="center">
           <q-card-section>
-            <q-icon name="paid" color="cyan" style="font-size: 2rem"> </q-icon>
-            <div class="text-h6 text-cyan q-pb-md">Profit</div>
-            <div class="text-h6">
-              {{ getSumSaleToday() - getSumExpenses() }}
-            </div>
+            <q-item>
+              <q-item-section avatar top>
+                <q-icon name="paid" color="white" size="60px" />
+              </q-item-section>
+              <q-item-section top>
+                <q-item-label>
+                  <span class="text-h6">Today Profit </span>
+                </q-item-label>
+                <q-item-label>
+                  <span> ₱ </span>
+                  {{ getSumSaleToday() - getSumExpenses() }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
           </q-card-section>
         </q-card>
       </div>
       <div class="col">
-        <q-card align="center">
+        <q-card class="revenue_bg text-white" align="center">
           <q-card-section>
-            <q-icon
-              name="signal_cellular_alt"
-              color="deep-purple"
-              style="font-size: 2rem"
-            >
-            </q-icon>
-            <div class="text-h6 text-deep-purple q-pb-md">Revenue</div>
-            <div class="text-h6">{{ getSumSaleToday() }}</div>
+            <q-item>
+              <q-item-section avatar top>
+                <q-icon name="signal_cellular_alt" color="white" size="60px" />
+              </q-item-section>
+              <q-item-section top>
+                <q-item-label>
+                  <span class="text-h6">Today Revenue </span>
+                </q-item-label>
+                <q-item-label>
+                  <span> ₱ </span>
+                  {{ getSumSaleToday() }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
           </q-card-section>
         </q-card>
       </div>
       <div class="col">
-        <q-card align="center">
+        <q-card class="purhcase_bg text-white" align="center">
           <q-card-section>
-            <q-icon name="shopping_cart" color="amber" style="font-size: 2rem">
-            </q-icon>
-            <div class="text-h6 text-amber q-pb-md">Purchase</div>
-            <div class="text-h6">{{ getSumPurchase() }}</div>
+            <q-item>
+              <q-item-section avatar top>
+                <q-icon name="shopping_cart" color="white" size="60px" />
+              </q-item-section>
+              <q-item-section top>
+                <q-item-label>
+                  <span class="text-h6">Today Purchase </span>
+                </q-item-label>
+                <q-item-label>
+                  <span> ₱ </span>
+                  {{ getSumPurchase() }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
           </q-card-section>
         </q-card>
       </div>
       <div class="col">
-        <q-card align="center">
+        <q-card class="expense_bg text-white" align="center">
           <q-card-section>
-            <q-icon name="shopping_bag" color="teal" style="font-size: 2rem">
-            </q-icon>
-            <div class="text-h6 text-teal q-pb-md">Expenses</div>
-            <div class="text-h6">{{ getSumExpenses() }}</div>
+            <q-item>
+              <q-item-section avatar top>
+                <q-icon name="shopping_bag" color="white" size="60px" />
+              </q-item-section>
+              <q-item-section top>
+                <q-item-label>
+                  <span class="text-h6">Today Expenses </span>
+                </q-item-label>
+                <q-item-label>
+                  <span> ₱ </span>
+                  {{ getSumExpenses() }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
           </q-card-section>
         </q-card>
       </div>
     </div>
-    <div class="row q-gutter-lg">
-      <div class="q-pt-lg col">
-        <q-card>
-          <q-list>
-            <q-item>
-              <q-item-section>
-                <q-item-label class="text-h6"> Invetory Details </q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-separator />
-            <q-item>
-              <q-item-section>Total Stock Item</q-item-section>
-              <q-item-section class="text-h6 text-bold" side>
-                {{ allInventory.length }}
-              </q-item-section>
-            </q-item>
-            <q-separator inset />
-            <q-item>
-              <q-item-section>Total Available Stock</q-item-section>
-              <q-item-section class="text-h6 text-bold" side>
-                {{ availableInventory.length }}
-              </q-item-section>
-            </q-item>
-            <q-separator inset />
-            <q-item>
-              <q-item-section>Total Used Stock</q-item-section>
-              <q-item-section class="text-h6 text-bold" side>
-                {{ usedInventory.length }}
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card>
-      </div>
-      <div class="q-pt-lg col">
-        <q-card>
-          <q-card>
+    <div class="q-pt-md row q-gutter-xl">
+      <div class="col">
+        <div class="q-pt-lg row">
+          <q-card class="text-secondary" style="width: 750px; max-width: 80vw">
+            <q-list>
+              <q-item>
+                <q-item-section>
+                  <q-item-label class="text-h6">
+                    Invetory Details
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item>
+                <q-item-section>Total Stock Item</q-item-section>
+                <q-item-section class="text-h6 text-bold" side>
+                  {{ allInventory.length }}
+                </q-item-section>
+              </q-item>
+              <q-separator inset />
+              <q-item>
+                <q-item-section>Total Available Stock</q-item-section>
+                <q-item-section class="text-h6 text-bold" side>
+                  {{ availableInventory.length }}
+                </q-item-section>
+              </q-item>
+              <q-separator inset />
+              <q-item>
+                <q-item-section>Total Used Stock</q-item-section>
+                <q-item-section class="text-h6 text-bold" side>
+                  {{ usedInventory.length }}
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card>
+        </div>
+        <div class="q-pt-xl row">
+          <q-card class="text-secondary" style="width: 750px; max-width: 80vw">
             <q-list>
               <q-item>
                 <q-item-section>
@@ -134,31 +171,21 @@
               </div>
             </q-list>
           </q-card>
-        </q-card>
+        </div>
       </div>
-    </div>
-    <div class="row q-gutter-md q-py-lg">
-      <div class="col">
-        <q-card class="q-pa-lg">
-          <div class="text-h5">Cash Flow</div>
-          <div><CashFlowChart /></div>
-        </q-card>
+      <div class="col q-pt-lg">
+        <q-table
+          style="max-height: 435px"
+          class="text-secondary"
+          title="Recent Transanction"
+          :rows="getTodaySale()"
+          :columns="orderColumn"
+          row-key="customer"
+          :rows-per-page-options="[0]"
+          hide-no-data
+          hide-bottom
+        />
       </div>
-      <div class="col">
-        <q-card class="q-pa-lg">
-          <div class="text-h5">November 2021</div>
-          <div><MonthCashFlowChart /></div>
-        </q-card>
-      </div>
-    </div>
-
-    <div class="q-py-lg">
-      <q-card>
-        <q-card-section class="q-pa-lg">
-          <div class="text-h5">Yearly Report</div>
-          <div><YearlyChart /></div
-        ></q-card-section>
-      </q-card>
     </div>
   </q-page>
 </template>
@@ -224,19 +251,49 @@ export default class Dashboard extends Vue {
     await this.getAllInventory();
   }
 
-  getSumPurchase() {
-    const result = this.completePurchase.reduce<number>(
-      (accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      },
-      0
+  orderColumn = [
+    {
+      name: 'customer',
+      label: 'Customer Name',
+      align: 'left',
+      field: (row: any) => row.customer?.customerName,
+    },
+
+    {
+      name: 'cashier',
+      align: 'center',
+      label: 'Cashier',
+      field: (row: any) => row.user?.FName + ' ' + row.user?.LName || 'None',
+    },
+    {
+      name: 'total',
+      align: 'center',
+      label: 'Total Amount',
+      field: (row: any) => row.totalAmount,
+    },
+  ];
+
+  getTodaySale() {
+    const result = this.allSaleRecord.filter(
+      (s) => s.sales_order_created == dateNowStr
     );
     return result;
   }
+
+  getSumPurchase() {
+    const result = this.completePurchase
+      .filter((s) => s.purchaseDate == dateNowStr)
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.purchaseAmount;
+      }, 0);
+    return result;
+  }
   getSumExpenses() {
-    const result = this.allExpenses.reduce<number>((accumulator, current) => {
-      return accumulator + current.amount;
-    }, 0);
+    const result = this.allExpenses
+      .filter((s) => s.expensesDate == dateNowStr)
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.amount;
+      }, 0);
     return result;
   }
   getSumSale() {
@@ -255,3 +312,28 @@ export default class Dashboard extends Vue {
   }
 }
 </script>
+<style>
+.profit_bg {
+  background-image: linear-gradient(
+    to right,
+    rgb(51, 131, 131),
+    rgb(64, 246, 246)
+  );
+}
+
+.revenue_bg {
+  background-image: linear-gradient(to right, rgb(202, 24, 24), red);
+}
+
+.purhcase_bg {
+  background-image: linear-gradient(
+    to right,
+    rgb(255, 191, 0),
+    rgb(234, 214, 153)
+  );
+}
+
+.expense_bg {
+  background-image: linear-gradient(to right, rgb(7, 76, 76), teal);
+}
+</style>

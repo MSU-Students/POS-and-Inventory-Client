@@ -92,32 +92,6 @@
                     row-key="subCategoryID"
                     :rows-per-page-options="[0]"
                   />
-                  <!-- <q-list>
-                    <q-item
-                      style="border: 1px solid black"
-                      v-for="invoice in mapSalesOrder(inputSaleRecord)"
-                      :key="invoice.order_ID"
-                    >
-                      <q-item-section>
-                        {{ invoice.orderName }}
-                      </q-item-section>
-                      <q-item-section>
-                        {{ invoice.orderQuant }}
-                      </q-item-section>
-                      <q-item-section>
-                        {{ invoice.orderPrice }}
-                      </q-item-section>
-                      <q-item-section>
-                        {{ invoice.orderSize }}
-                      </q-item-section>
-                      <q-item-section>
-                        {{ invoice.orderCategory }}
-                      </q-item-section>
-                      <q-item-section>
-                        {{ invoice.orderSubCategory }}
-                      </q-item-section>
-                    </q-item>
-                  </q-list> -->
                 </q-card-section>
               </q-card>
             </q-dialog>

@@ -35,7 +35,7 @@
           </q-input>
           <q-btn
             label="Add User"
-            color="primary"
+            color="secondary"
             e
             dense
             flat
@@ -134,7 +134,7 @@
                       v-close-popup
                       @click="resetModel()"
                     />
-                    <q-btn flat label="Save" color="primary" type="submit" />
+                    <q-btn flat label="Save" color="secondary" type="submit" />
                   </div>
                 </q-form>
               </q-card-section>
@@ -148,7 +148,7 @@
           <div class="q-gutter-sm">
             <q-btn
               round
-              color="blue"
+              color="secondary"
               icon="edit"
               size="sm"
               flat
@@ -205,13 +205,6 @@
                         />
                       </div>
                       <div class="col">
-                        <q-input
-                          outlined
-                          v-model="inputAccount.password"
-                          label="Password"
-                        />
-                      </div>
-                      <div class="col">
                         <q-select
                           outlined
                           v-model="inputAccount.status"
@@ -246,14 +239,19 @@
                         @click="resetModel()"
                         v-close-popup
                       />
-                      <q-btn flat label="Save" color="primary" type="submit" />
+                      <q-btn
+                        flat
+                        label="Save"
+                        color="secondary"
+                        type="submit"
+                      />
                     </div>
                   </q-form>
                 </q-card-section>
               </q-card>
             </q-dialog>
             <q-btn
-              color="red-10"
+              color="red-5"
               icon="delete"
               size="sm"
               class="q-ml-sm"
@@ -422,3 +420,11 @@ export default class ManageAccount extends Vue {
   }
 }
 </script>
+
+<style>
+.bg-image {
+  background-image: url('../assets/green.jpg');
+  background-size: cover;
+  background-blend-mode: overlay;
+}
+</style>

@@ -35,7 +35,7 @@
             </q-input>
             <q-btn
               label="Add Supplier"
-              color="primary"
+              color="teal"
               dense
               size="13px"
               flat
@@ -123,7 +123,7 @@
                       <q-btn
                         flat
                         label="Cancel"
-                        color="red-10"
+                        color="red-5"
                         v-close-popup
                         @click="resetModel()"
                       />
@@ -140,7 +140,7 @@
             <div class="q-gutter-sm">
               <q-btn
                 round
-                color="blue"
+                color="teal"
                 icon="edit"
                 size="sm"
                 flat
@@ -216,7 +216,7 @@
                         <q-btn
                           flat
                           label="Cancel"
-                          color="red-10"
+                          color="red-5"
                           v-close-popup
                           @click="resetModel()"
                         />
@@ -232,7 +232,7 @@
                 </q-card>
               </q-dialog>
               <q-btn
-                color="red-10"
+                color="red-5"
                 icon="delete"
                 size="sm"
                 class="q-ml-sm"

@@ -28,7 +28,7 @@
           </q-input>
           <q-btn
             label="Add Expenses"
-            color="primary"
+            color="teal"
             dense
             flat
             icon="add"
@@ -133,11 +133,11 @@
                     <q-btn
                       flat
                       label="Cancel"
-                      color="red-10"
+                      color="red-5"
                       v-close-popup
                       @click="resetModel()"
                     />
-                    <q-btn flat label="Save" color="primary" type="submit" />
+                    <q-btn flat label="Save" color="teal" type="submit" />
                   </div>
                 </q-form>
               </q-card-section>
@@ -150,7 +150,7 @@
           <div class="q-gutter-sm">
             <q-btn
               round
-              color="blue"
+              color="green"
               icon="description"
               size="sm"
               flat
@@ -203,7 +203,7 @@
           <div class="q-gutter-sm">
             <q-btn
               round
-              color="blue"
+              color="teal"
               icon="edit"
               size="sm"
               flat
@@ -290,18 +290,18 @@
                       <q-btn
                         flat
                         label="Cancel"
-                        color="red-10"
+                        color="red-5"
                         v-close-popup
                         @click="resetModel()"
                       />
-                      <q-btn flat label="Save" color="primary" type="submit" />
+                      <q-btn flat label="Save" color="teal" type="submit" />
                     </div>
                   </q-form>
                 </q-card-section>
               </q-card>
             </q-dialog>
             <q-btn
-              color="red-10"
+              color="red-5"
               icon="delete"
               size="sm"
               class="q-ml-sm"
@@ -324,7 +324,7 @@ import { mapState, mapActions } from 'vuex';
 import { date } from 'quasar';
 
 const timeStamp = Date.now();
-const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
+const dateNowStr = date.formatDate(timeStamp, 'YYYY-MM-DD');
 
 @Options({
   computed: {
@@ -421,7 +421,7 @@ export default class Expenses extends Vue {
 
   inputExpenses: any = {
     expensesName: '',
-    expensesDate: formattedString,
+    expensesDate: dateNowStr,
     description: '',
     expensesCategory: '',
   };
@@ -475,7 +475,7 @@ export default class Expenses extends Vue {
   resetModel() {
     this.inputExpenses = {
       expensesName: '',
-      expensesDate: formattedString,
+      expensesDate: dateNowStr,
       description: '',
       expensesCategory: '',
     };

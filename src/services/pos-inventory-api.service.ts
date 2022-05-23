@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Configuration, DefaultApi } from './rest-api';
+import { Configuration, DefaultApi, ChangePasswordDto } from './rest-api';
 
 const localBasePath = 'http://' + location.hostname + ':3000';
 
@@ -76,6 +76,14 @@ class PosApiService extends DefaultApi {
   async getUserProfile() {
     const response = await posApiService.getProfile();
     return response;
+  }
+
+  async changeMyPass(password: ChangePasswordDto) {
+    try {
+      await posApiService.changePassword(password);
+    } catch (error) {
+      console.log('change pass error', error);
+    }
   }
 }
 

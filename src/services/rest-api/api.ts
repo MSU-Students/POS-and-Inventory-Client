@@ -43,6 +43,25 @@ export interface AccessTokenDto {
 /**
  * 
  * @export
+ * @interface ChangePasswordDto
+ */
+export interface ChangePasswordDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof ChangePasswordDto
+     */
+    'oldPassword': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ChangePasswordDto
+     */
+    'newPassword': string;
+}
+/**
+ * 
+ * @export
  * @interface CustomerDto
  */
 export interface CustomerDto {
@@ -898,6 +917,46 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(userDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Change the password
+         * @param {ChangePasswordDto} changePasswordDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        changePassword: async (changePasswordDto: ChangePasswordDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'changePasswordDto' is not null or undefined
+            assertParamExists('changePassword', 'changePasswordDto', changePasswordDto)
+            const localVarPath = `/auth/changepassword`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(changePasswordDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2636,6 +2695,17 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Change the password
+         * @param {ChangePasswordDto} changePasswordDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async changePassword(changePasswordDto: ChangePasswordDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.changePassword(changePasswordDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Delete Customer by id
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -3241,6 +3311,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Change the password
+         * @param {ChangePasswordDto} changePasswordDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        changePassword(changePasswordDto: ChangePasswordDto, options?: any): AxiosPromise<void> {
+            return localVarFp.changePassword(changePasswordDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Delete Customer by id
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -3814,6 +3894,18 @@ export class DefaultApi extends BaseAPI {
      */
     public addUser(userDto: UserDto, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).addUser(userDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Change the password
+     * @param {ChangePasswordDto} changePasswordDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public changePassword(changePasswordDto: ChangePasswordDto, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).changePassword(changePasswordDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -33,6 +33,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../pages/ManageAccount.vue'),
       },
       {
+        path: 'changepassword',
+        component: () => import('../pages/ChangePassword.vue'),
+      },
+
+      {
         path: 'Expenses',
         component: () => import('pages/Expenses.vue'),
       },

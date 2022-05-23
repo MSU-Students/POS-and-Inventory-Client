@@ -7,7 +7,7 @@
     <div class="q-mt-lg">
       <div class="q-gutter-sm q-pa-sm row">
         <q-space />
-        <q-btn color="primary" icon-right="archive" label="Export to csv" />
+        <q-btn color="teal" icon-right="archive" label="Export to csv" />
       </div>
     </div>
     <q-table
@@ -35,7 +35,7 @@
           <q-btn
             size="13px"
             label="Add Purchase"
-            color="primary"
+            color="teal"
             dense
             flat
             icon="add"
@@ -181,7 +181,7 @@
           <div class="q-gutter-sm">
             <q-btn
               round
-              color="blue"
+              color="teal"
               icon="edit"
               size="sm"
               flat
@@ -339,7 +339,7 @@
                         v-model="inputPurchase.purchaseStatus"
                         val="Pending"
                         label="Pending"
-                        color="Primary"
+                        color="teal"
                         size="lg"
                       />
                       <q-radio
@@ -384,7 +384,7 @@ import { date } from 'quasar';
 import { exportFile } from 'quasar';
 
 const timeStamp = Date.now();
-const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
+const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD');
 
 @Options({
   computed: {
