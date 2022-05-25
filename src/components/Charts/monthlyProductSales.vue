@@ -1,31 +1,37 @@
 <template>
   <div>
     <canvas id="myChart" width="400" height="200"></canvas>
-    <q-select
-      rounded
-      outlined
-      v-model="selectedYear"
-      :options="yearOption"
-      label="Year selected"
-    />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import Chart from 'chart.js/auto';
-@Options({})
+import { date } from 'quasar';
+import { mapActions, mapState } from 'vuex';
+import { SaleRecordDto } from 'src/services/rest-api';
+const dateNow = new Date();
+const year = date.formatDate(dateNow, 'YYYY');
+@Options({
+  computed: {
+    ...mapState('saleRecord', ['allSaleRecord']),
+  },
+  methods: {
+    ...mapActions('saleRecord', ['getAllSaleRecord']),
+  },
+})
 export default class monthlyProductSales extends Vue {
   chart?: Chart;
+  allSaleRecord!: SaleRecordDto[];
+  getAllSaleRecord!: () => Promise<void>;
   selectedYear = 2022;
   yearOption = [2020, 2021, 2022];
   date = '';
   menu = false;
 
-  mounted() {
-    const yearLabel = [
-      2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030,
-    ];
+  async mounted() {
+    await this.getAllSaleRecord();
+
     const labels = [
       'January',
       'February',
@@ -44,35 +50,49 @@ export default class monthlyProductSales extends Vue {
       labels: labels,
       datasets: [
         {
-          data: [34, 22, 10, 67, 15, 42, 8, 76, 11, 74, 30, 40],
-          year: 2022,
-          backgroundColor: 'grey',
-        },
-        {
-          data: [34, 100, 25, 76, 32, 27, 48, 52, 13, 45, 23, 74],
-          year: 2022,
-          backgroundColor: 'green',
-        },
-        {
-          data: [44, 13, 40, 10, 12, 30, 89, 44, 76, 21, 65, 100],
-          year: 2022,
-          backgroundColor: 'orange',
-        },
-        //<------------------------------------>
-        {
-          data: [34, 12, 55, 88, 2, 56, 8, 31, 56, 75, 12, 65],
-          year: 2021,
-          backgroundColor: 'grey',
-        },
-        {
-          data: [34, 11, 55, 88, 21, 56, 31, 65, 100, 99, 90, 12],
-          year: 2021,
-          backgroundColor: 'green',
-        },
-        {
-          data: [12, 13, 40, 44, 56, 30, 66, 40, 52, 12, 22, 100],
-          year: 2021,
-          backgroundColor: 'orange',
+          label: 'Amount',
+          data: [
+            this.getSalesJan(),
+            this.getSalesFeb(),
+            this.getSalesMarch(),
+            this.getSalesApril(),
+            this.getSalesMay(),
+            this.getSalesJune(),
+            this.getSalesJuly(),
+            this.getSalesAug(),
+            this.getSalesSept(),
+            this.getSalesOct(),
+            this.getSalesNov(),
+            this.getSalesDec(),
+          ],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(201, 203, 207, 0.2)',
+            'rgb(54, 162, 235)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+          ],
+          borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)',
+            '#fff',
+            'rgb(255, 159, 64)',
+            'rgb(75, 192, 192)',
+            'rgb(255, 99, 132)',
+            'rgb(255, 205, 86)',
+          ],
         },
       ],
     };
@@ -91,6 +111,103 @@ export default class monthlyProductSales extends Vue {
         },
       },
     });
+  }
+
+  getSalesJan() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(year + '-01'))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
+  getSalesFeb() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(year + '-02'))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
+  getSalesMarch() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(year + '-03'))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
+  getSalesApril() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(year + '-04'))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
+  getSalesMay() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(year + '-05'))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
+  getSalesJune() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(year + '-06'))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
+  getSalesJuly() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(year + '-07'))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
+  getSalesAug() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(year + '-08'))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
+  getSalesSept() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(year + '-09'))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
+  getSalesOct() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(year + '-10'))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
+  getSalesNov() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(year + '-11'))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
+  getSalesDec() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(year + '-12'))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lFf">
-    <q-header elevated class="bg-green-5">
+    <q-header elevated class="header_bg">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
         <q-avatar>
@@ -64,30 +64,6 @@
               </q-list>
             </div>
           </div>
-
-          <!-- <q-card
-            style="width: 300px; max-width: 100vw"
-            class="q-pa-md flex flex-center"
-          >
-            <div class="q-pt-md">
-              <q-avatar size="70px">
-                <q-img src="../assets/BesTea.jpg" />
-              </q-avatar>
-
-              <div class="text-subtitle1 q-mt-md">
-                {{ currentUser.FName }}
-                {{ currentUser.LName }}
-              </div>
-              <div class="q-pb-md">
-                <q-btn color="green" label="Manage" push to="/Account" />
-              </div>
-              <div class="q-pb-md">
-                <q-btn color="green" label="Manage" push to="/changepassword" />
-              </div>
-
-              <q-btn color="red" label="Logout" push @click="logout()" />
-            </div>
-          </q-card> -->
         </q-btn-dropdown>
       </q-toolbar>
     </q-header>
@@ -105,7 +81,7 @@
     >
       <q-scroll-area class="fit">
         <q-list padding>
-          <q-item clickable v-ripple to="/Dashboard">
+          <q-item clickable active-class="text-green" v-ripple to="/Dashboard">
             <q-item-section avatar>
               <q-icon name="dashboard" color="green-2" />
             </q-item-section>
@@ -121,17 +97,22 @@
             </template>
             <q-card>
               <q-card-section>
-                <q-item clickable v-ripple to="/POS">
+                <q-item clickable active-class="text-green" v-ripple to="/POS">
                   <q-item-section> POS </q-item-section>
                 </q-item>
-                <q-item clickable v-ripple to="/ManageSale">
+                <q-item
+                  active-class="text-green"
+                  clickable
+                  v-ripple
+                  to="/ManageSale"
+                >
                   <q-item-section> Manage Product </q-item-section>
                 </q-item>
               </q-card-section>
             </q-card>
           </q-expansion-item>
 
-          <q-item clickable v-ripple to="/Inventory">
+          <q-item clickable active-class="text-green" v-ripple to="/Inventory">
             <q-item-section avatar>
               <q-icon name="inventory_2" color="green-2" />
             </q-item-section>
@@ -139,7 +120,7 @@
             <q-item-section> Inventory </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/Supplier">
+          <q-item clickable active-class="text-green" v-ripple to="/Supplier">
             <q-item-section avatar>
               <q-icon name="local_shipping" color="green-2" />
             </q-item-section>
@@ -147,14 +128,14 @@
             <q-item-section> Supplier </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/Purchase">
+          <q-item clickable active-class="text-green" v-ripple to="/Purchase">
             <q-item-section avatar>
               <q-icon name="checklist" color="green-2" />
             </q-item-section>
 
             <q-item-section> Purchase </q-item-section>
           </q-item>
-          <q-item clickable v-ripple to="/Expenses">
+          <q-item clickable active-class="text-green" v-ripple to="/Expenses">
             <q-item-section avatar>
               <q-icon name="payments" color="green-2" />
             </q-item-section>
@@ -171,23 +152,43 @@
             </template>
             <q-card>
               <q-card-section>
-                <q-item clickable v-ripple to="/SalesReport">
+                <q-item
+                  clickable
+                  active-class="text-green"
+                  v-ripple
+                  to="/SalesReport"
+                >
                   <q-item-section> Sales Report </q-item-section>
                 </q-item>
-                <q-item clickable v-ripple to="/StockReport">
+                <q-item
+                  clickable
+                  active-class="text-green"
+                  v-ripple
+                  to="/StockReport"
+                >
                   <q-item-section> Stock Report </q-item-section>
                 </q-item>
-                <q-item clickable v-ripple to="/PurchaseReport">
+                <q-item
+                  clickable
+                  active-class="text-green"
+                  v-ripple
+                  to="/PurchaseReport"
+                >
                   <q-item-section> Purchase Report </q-item-section>
                 </q-item>
-                <q-item clickable v-ripple to="/ExpenseReport">
+                <q-item
+                  clickable
+                  active-class="text-green"
+                  v-ripple
+                  to="/ExpenseReport"
+                >
                   <q-item-section> Expense Report </q-item-section>
                 </q-item>
               </q-card-section>
             </q-card>
           </q-expansion-item>
 
-          <q-item clickable v-ripple to="/account">
+          <q-item clickable active-class="text-green" v-ripple to="/account">
             <q-item-section avatar>
               <q-icon name="settings" color="green-2" />
             </q-item-section>
@@ -257,3 +258,12 @@ export default class MainLayout extends Vue {
   }
 }
 </script>
+<style>
+.header_bg {
+  background-image: linear-gradient(
+    to right,
+    rgb(15, 158, 15),
+    rgb(19, 188, 19)
+  );
+}
+</style>

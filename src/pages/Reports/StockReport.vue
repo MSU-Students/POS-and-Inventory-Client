@@ -67,6 +67,15 @@
                     </template>
                   </q-input>
                 </div>
+                <div class="q-gutter-sm q-pa-sm row">
+                  <q-space />
+                  <q-btn
+                    color="teal"
+                    icon-right="archive"
+                    label="Export to csv"
+                    @click="exportTable()"
+                  />
+                </div>
               </template>
             </q-table>
           </q-card>
@@ -113,6 +122,7 @@
 import { Vue, Options } from 'vue-class-component';
 import { InventoryDto } from 'src/services/rest-api';
 import { mapActions, mapGetters, mapState } from 'vuex';
+import { exportFile } from 'quasar';
 
 @Options({
   computed: {
@@ -190,6 +200,68 @@ export default class Expenses extends Vue {
     },
   ];
   filter = '';
+  wrapCsvValue(
+    val: string,
+    formatFn?: (v: string, r: any) => string,
+    row?: any
+  ) {
+    let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
+
+    formatted =
+      formatted === void 0 || formatted === null ? '' : String(formatted);
+
+    formatted = formatted.split('"').join('""');
+    /**
+     * Excel accepts \n and \r in strings, but some other CSV parsers do not
+     * Uncomment the next two lines to escape new lines
+     */
+    // .split('\n').join('\\n')
+    // .split('\r').join('\\r')
+
+    return `"${formatted}"`;
+  }
+
+  exportTable() {
+    // naive encoding to csv format
+    const header = [
+      this.wrapCsvValue('Item Name'),
+      this.wrapCsvValue('Category'),
+      this.wrapCsvValue('Quantity'),
+      this.wrapCsvValue('Unit'),
+      this.wrapCsvValue('Status'),
+      this.wrapCsvValue('Expiry Date'),
+      this.wrapCsvValue('Recent Consume'),
+      this.wrapCsvValue('Date Stock-in'),
+    ];
+    const rows = [header.join(',')].concat(
+      this.allInventory.map((c) =>
+        [
+          this.wrapCsvValue(String(c.itemName)),
+          this.wrapCsvValue(String(c.itemCategory)),
+          this.wrapCsvValue(String(c.itemQuantProd)),
+          this.wrapCsvValue(String(c.itemUnitProd)),
+          this.wrapCsvValue(String(c.itemStatus)),
+          this.wrapCsvValue(String(c.itemExpiryDate) || 'None'),
+          this.wrapCsvValue(String(c.itemConsumeAt)),
+          this.wrapCsvValue(String(c.itemDateCreated)),
+        ].join(',')
+      )
+    );
+
+    const status = exportFile(
+      'category-export.csv',
+      rows.join('\r\n'),
+      'text/csv'
+    );
+
+    if (status !== true) {
+      this.$q.notify({
+        message: 'Browser denied file download...',
+        color: 'negative',
+        icon: 'warning',
+      });
+    }
+  }
 }
 </script>
 <style lang="sass" scoped>

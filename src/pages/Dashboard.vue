@@ -203,9 +203,8 @@ import {
   UserDto,
 } from 'src/services/rest-api';
 import { date } from 'quasar';
-import { AUser } from 'src/store/auth/state';
 const dateNow = new Date();
-const dateNowStr = date.formatDate(dateNow, 'YYYY-MM-DD');
+const TodayDate = date.formatDate(dateNow, 'YYYY-MM-DD');
 
 @Options({
   components: { YearlyChart, CashFlowChart, MonthCashFlowChart },
@@ -274,15 +273,15 @@ export default class Dashboard extends Vue {
   ];
 
   getTodaySale() {
-    const result = this.allSaleRecord.filter(
-      (s) => s.sales_order_created == dateNowStr
+    const result = this.allSaleRecord.filter((s) =>
+      s.sales_order_created.match(TodayDate)
     );
     return result;
   }
 
   getSumPurchase() {
     const result = this.completePurchase
-      .filter((s) => s.purchaseDate == dateNowStr)
+      .filter((s) => s.purchaseDate.match(TodayDate))
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
@@ -290,21 +289,15 @@ export default class Dashboard extends Vue {
   }
   getSumExpenses() {
     const result = this.allExpenses
-      .filter((s) => s.expensesDate == dateNowStr)
+      .filter((s) => s.expensesDate.match(TodayDate))
       .reduce<number>((accumulator, current) => {
         return accumulator + current.amount;
       }, 0);
     return result;
   }
-  getSumSale() {
-    const result = this.allSaleRecord.reduce<number>((accumulator, current) => {
-      return accumulator + current.totalAmount;
-    }, 0);
-    return result;
-  }
   getSumSaleToday() {
     const result = this.allSaleRecord
-      .filter((s) => s.sales_order_created == dateNowStr)
+      .filter((s) => s.sales_order_created.match(TodayDate))
       .reduce<number>((accumulator, current) => {
         return accumulator + current.totalAmount;
       }, 0);

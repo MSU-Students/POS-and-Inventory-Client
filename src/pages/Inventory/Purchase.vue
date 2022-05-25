@@ -7,7 +7,12 @@
     <div class="q-mt-lg">
       <div class="q-gutter-sm q-pa-sm row">
         <q-space />
-        <q-btn color="teal" icon-right="archive" label="Export to csv" />
+        <q-btn
+          color="teal"
+          icon-right="archive"
+          label="Export to csv"
+          @click="exportTable()"
+        />
       </div>
     </div>
     <q-table
@@ -384,7 +389,7 @@ import { date } from 'quasar';
 import { exportFile } from 'quasar';
 
 const timeStamp = Date.now();
-const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD');
+const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {
@@ -556,48 +561,69 @@ export default class Pruchase extends Vue {
     };
   }
 
-  // wrapCsvValue(val: any, formatFn?: any) {
-  //   let formatted = formatFn !== void 0 ? formatFn(val) : val;
+  wrapCsvValue(
+    val: string,
+    formatFn?: (v: string, r: any) => string,
+    row?: any
+  ) {
+    let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
 
-  //   formatted =
-  //     formatted === void 0 || formatted === null ? '' : String(formatted);
+    formatted =
+      formatted === void 0 || formatted === null ? '' : String(formatted);
 
-  //   formatted = formatted.split('"').join('""');
+    formatted = formatted.split('"').join('""');
+    /**
+     * Excel accepts \n and \r in strings, but some other CSV parsers do not
+     * Uncomment the next two lines to escape new lines
+     */
+    // .split('\n').join('\\n')
+    // .split('\r').join('\\r')
 
-  //   return `"${formatted}"`;
-  // }
+    return `"${formatted}"`;
+  }
 
-  // exportTable() {
-  //   const content = [this.columns.map((col) => this.wrapCsvValue(col.label))]
-  //     .concat(
-  //       this.data.map((row) =>
-  //         this.columns
-  //           .map((col) =>
-  //             this.wrapCsvValue(
-  //               typeof col.field === "function"
-  //                 ? col.field(row)
-  //                 : row[col.field === void 0 ? col.name : col.field],
-  //               col.format
-  //             )
-  //           )
-  //           .join(",")
-  //       )
-  //     )
-  //     .join("\r\n");
+  exportTable() {
+    // naive encoding to csv format
+    const header = [
+      this.wrapCsvValue('ID'),
+      this.wrapCsvValue('Product'),
+      this.wrapCsvValue('Category'),
+      this.wrapCsvValue('Purchase Date'),
+      this.wrapCsvValue('Quantity'),
+      this.wrapCsvValue('Quantity Unit'),
+      this.wrapCsvValue('Status'),
+      this.wrapCsvValue('Amount'),
+      this.wrapCsvValue('Supplier'),
+    ];
+    const rows = [header.join(',')].concat(
+      this.allPurchase.map((c) =>
+        [
+          this.wrapCsvValue(String(c.purchaseID)),
+          this.wrapCsvValue(c.purchaseProduct),
+          this.wrapCsvValue(c.purchaseCategory),
+          this.wrapCsvValue(String(c.purchaseDate)),
+          this.wrapCsvValue(String(c.productQuantity)),
+          this.wrapCsvValue(String(c.productUnit)),
+          this.wrapCsvValue(c.purchaseStatus),
+          this.wrapCsvValue(String(c.purchaseAmount)),
+          this.wrapCsvValue(String(c.supplierPurchase?.company) || 'None'),
+        ].join(',')
+      )
+    );
 
-  //   const status = exportFile(
-  //     `table-${this.$route.name as string}.csv`,
-  //     content,
-  //     'text/csv'
-  //   );
+    const status = exportFile(
+      'category-export.csv',
+      rows.join('\r\n'),
+      'text/csv'
+    );
 
-  //   if (status !== true) {
-  //     this.$q.notify({
-  //       message: 'Browser denied file download...',
-  //       color: 'negative',
-  //       icon: "warning can't download",
-  //     });
-  //   }
-  // }
+    if (status !== true) {
+      this.$q.notify({
+        message: 'Browser denied file download...',
+        color: 'negative',
+        icon: 'warning',
+      });
+    }
+  }
 }
 </script>

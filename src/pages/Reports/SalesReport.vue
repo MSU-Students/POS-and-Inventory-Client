@@ -2,7 +2,19 @@
   <q-page class="q-pa-lg">
     <div class="text-h4 text-bold row">Sales Report</div>
     <div class="q-py-lg">
+      <div class="q-mt-lg">
+        <div class="q-gutter-sm q-pa-sm row">
+          <q-space />
+          <q-btn
+            color="teal"
+            icon-right="archive"
+            label="Export to csv"
+            @click="exportTable()"
+          />
+        </div>
+      </div>
       <q-table
+        style="max-height: 600px"
         title="Sales Record"
         :rows="allSaleRecord"
         :columns="column"
@@ -264,6 +276,7 @@ import {
   SaleRecordDto,
   UserDto,
 } from 'src/services/rest-api';
+import { exportFile } from 'quasar';
 @Options({
   components: {
     monthlyProductSales,
@@ -414,6 +427,65 @@ export default class SaleRecord extends Vue {
   openViewOrderList(val: SaleRecordDto) {
     this.showOrderList = true;
     this.inputSaleRecord = { ...val };
+  }
+  wrapCsvValue(
+    val: string,
+    formatFn?: (v: string, r: any) => string,
+    row?: any
+  ) {
+    let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
+
+    formatted =
+      formatted === void 0 || formatted === null ? '' : String(formatted);
+
+    formatted = formatted.split('"').join('""');
+    /**
+     * Excel accepts \n and \r in strings, but some other CSV parsers do not
+     * Uncomment the next two lines to escape new lines
+     */
+    // .split('\n').join('\\n')
+    // .split('\r').join('\\r')
+
+    return `"${formatted}"`;
+  }
+
+  exportTable() {
+    // naive encoding to csv format
+    const header = [
+      this.wrapCsvValue('Reference'),
+      this.wrapCsvValue('Customer Name'),
+      this.wrapCsvValue('Cashier'),
+      this.wrapCsvValue('Total Amount'),
+      this.wrapCsvValue('Payment Amount'),
+      this.wrapCsvValue('Date Created'),
+    ];
+    const rows = [header.join(',')].concat(
+      this.allSaleRecord.map((c) =>
+        [
+          this.wrapCsvValue(String(c.invoiceID)),
+          this.wrapCsvValue(String(c.customer?.customerName)),
+          this.wrapCsvValue(String(c.user?.FName)) +
+            this.wrapCsvValue(String(c.user?.LName)),
+          this.wrapCsvValue(String(c.totalAmount)),
+          this.wrapCsvValue(String(c.payment)),
+          this.wrapCsvValue(String(c.sales_order_created)),
+        ].join(',')
+      )
+    );
+
+    const status = exportFile(
+      'category-export.csv',
+      rows.join('\r\n'),
+      'text/csv'
+    );
+
+    if (status !== true) {
+      this.$q.notify({
+        message: 'Browser denied file download...',
+        color: 'negative',
+        icon: 'warning',
+      });
+    }
   }
 }
 </script>

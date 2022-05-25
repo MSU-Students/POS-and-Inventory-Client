@@ -1,15 +1,22 @@
 <template>
   <div>
-    <canvas class="q-pr-md" id="myChart" style="height: 70px;  width: 100px;"></canvas>
+    <canvas
+      class="q-pr-md"
+      id="myChart"
+      style="height: 70px; width: 100px"
+    ></canvas>
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import Chart from 'chart.js/auto';
+import { mapGetters, mapState } from 'vuex';
+
 @Options({})
 export default class ChartComponent extends Vue {
   chart?: Chart;
+
   mounted() {
     const labels = [
       'January',

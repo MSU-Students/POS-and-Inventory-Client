@@ -10,7 +10,17 @@
     </div>
 
     <br />
-
+    <div class="q-mt-lg">
+      <div class="q-gutter-sm q-pa-sm row">
+        <q-space />
+        <q-btn
+          color="teal"
+          icon-right="archive"
+          label="Export to csv"
+          @click="exportTable()"
+        />
+      </div>
+    </div>
     <q-table
       title="Account List"
       :rows="allAccount"
@@ -271,10 +281,10 @@
 import { Vue, Options } from 'vue-class-component';
 import { mapActions, mapState } from 'vuex';
 import { UserDto } from 'src/services/rest-api';
-import { date } from 'quasar';
+import { date, exportFile } from 'quasar';
 
 const timeStamp = Date.now();
-const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
+const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD');
 
 @Options({
   computed: {
@@ -417,6 +427,65 @@ export default class ManageAccount extends Vue {
       status: '',
       userDateCreated: '',
     };
+  }
+
+  wrapCsvValue(
+    val: string,
+    formatFn?: (v: string, r: any) => string,
+    row?: any
+  ) {
+    let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
+
+    formatted =
+      formatted === void 0 || formatted === null ? '' : String(formatted);
+
+    formatted = formatted.split('"').join('""');
+    /**
+     * Excel accepts \n and \r in strings, but some other CSV parsers do not
+     * Uncomment the next two lines to escape new lines
+     */
+    // .split('\n').join('\\n')
+    // .split('\r').join('\\r')
+
+    return `"${formatted}"`;
+  }
+
+  exportTable() {
+    // naive encoding to csv format
+    const header = [
+      this.wrapCsvValue('First Name'),
+      this.wrapCsvValue('Middle Name'),
+      this.wrapCsvValue('Last Name'),
+      this.wrapCsvValue('Date created'),
+      this.wrapCsvValue('User Type'),
+      this.wrapCsvValue('Status'),
+    ];
+    const rows = [header.join(',')].concat(
+      this.allAccount.map((c) =>
+        [
+          this.wrapCsvValue(c.FName),
+          this.wrapCsvValue(c.LName),
+          this.wrapCsvValue(c.LName),
+          this.wrapCsvValue(c.userDateCreated),
+          this.wrapCsvValue(String(c.type)),
+          this.wrapCsvValue(String(c.status)),
+        ].join(',')
+      )
+    );
+
+    const status = exportFile(
+      'accountlist-export.csv',
+      rows.join('\r\n'),
+      'text/csv'
+    );
+
+    if (status !== true) {
+      this.$q.notify({
+        message: 'Browser denied file download...',
+        color: 'negative',
+        icon: 'warning',
+      });
+    }
   }
 }
 </script>

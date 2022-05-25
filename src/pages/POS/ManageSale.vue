@@ -4,6 +4,17 @@
       <q-icon name="menu_book" color="amber" style="font-size: 4rem" />
       Manage Products
     </div>
+    <div class="q-mt-lg">
+      <div class="q-gutter-sm q-pa-sm row">
+        <q-space />
+        <q-btn
+          color="teal"
+          icon-right="archive"
+          label="Export to csv"
+          @click="exportTable()"
+        />
+      </div>
+    </div>
     <q-table
       title="Menu products"
       :rows="allProduct"
@@ -29,7 +40,7 @@
           <q-btn
             size="13px"
             label="Add Product"
-            color="primary"
+            color="secondary"
             dense
             flat
             icon="add"
@@ -185,7 +196,7 @@
                     <q-btn
                       flat
                       label="Add"
-                      color="primary"
+                      color="secondary"
                       type="submit"
                       :loading="loading"
                     />
@@ -201,7 +212,7 @@
           <div class="q-gutter-sm">
             <q-btn
               round
-              color="blue"
+              color="secondary"
               icon="edit"
               size="sm"
               flat
@@ -338,7 +349,7 @@
                       <q-btn
                         flat
                         label="Cancel"
-                        color="red-10"
+                        color="red-5"
                         v-close-popup
                         @click="resetModel()"
                       />
@@ -375,7 +386,7 @@
 import { Vue, Options } from 'vue-class-component';
 import { mapState, mapActions } from 'vuex';
 import { ManageProductDto, MediaDto } from 'src/services/rest-api';
-import { date } from 'quasar';
+import { date, exportFile } from 'quasar';
 
 const timeStamp = Date.now();
 const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
@@ -599,6 +610,63 @@ export default class ManageProduct extends Vue {
       url: '',
     };
     this.imageAttachement = new File([], 'Select File');
+  }
+  wrapCsvValue(
+    val: string,
+    formatFn?: (v: string, r: any) => string,
+    row?: any
+  ) {
+    let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
+
+    formatted =
+      formatted === void 0 || formatted === null ? '' : String(formatted);
+
+    formatted = formatted.split('"').join('""');
+    /**
+     * Excel accepts \n and \r in strings, but some other CSV parsers do not
+     * Uncomment the next two lines to escape new lines
+     */
+    // .split('\n').join('\\n')
+    // .split('\r').join('\\r')
+
+    return `"${formatted}"`;
+  }
+  exportTable() {
+    // naive encoding to csv format
+    const header = [
+      this.wrapCsvValue('Product number'),
+      this.wrapCsvValue('Category'),
+      this.wrapCsvValue('Product Size'),
+      this.wrapCsvValue('Price'),
+      this.wrapCsvValue('Product Availability'),
+      this.wrapCsvValue('Date Created'),
+    ];
+    const rows = [header.join(',')].concat(
+      this.allProduct.map((c) =>
+        [
+          this.wrapCsvValue(String(c.product_ID)),
+          this.wrapCsvValue(c.productCategory),
+          this.wrapCsvValue(c.productSubCategory),
+          this.wrapCsvValue(c.productSize),
+          this.wrapCsvValue(String(c.productAvailability)),
+          this.wrapCsvValue(String(c.productDateCreated)),
+        ].join(',')
+      )
+    );
+
+    const status = exportFile(
+      'MenuList-export.csv',
+      rows.join('\r\n'),
+      'text/csv'
+    );
+
+    if (status !== true) {
+      this.$q.notify({
+        message: 'Browser denied file download...',
+        color: 'negative',
+        icon: 'warning',
+      });
+    }
   }
 }
 </script>

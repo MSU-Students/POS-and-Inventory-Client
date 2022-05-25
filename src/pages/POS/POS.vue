@@ -153,17 +153,7 @@
                         data.productSize === radioSizes)
                     "
                   >
-                    <q-card
-                      class="my-card"
-                      :class="class_val"
-                      @click="
-                        tempInput.orderName = data.productName;
-                        tempInput.orderPrice = data.productPrice;
-                        tempInput.orderCategory = data.productCategory;
-                        tempInput.orderSubCategory = data.productSubCategory;
-                        tempPrice = data.productPrice;
-                      "
-                    >
+                    <q-card class="my-card" :class="class_val">
                       <div class="row">
                         <div class="col q-pt-md q-px-md">
                           <q-img
@@ -193,9 +183,6 @@
                           class="full-width absolute-bottom"
                           @click="
                             tempInput.orderPrice = data.productPrice;
-                            tempInput.orderSubTotal =
-                              tempInput.orderQuant * tempInput.orderPrice;
-                            grandTotal += tempInput.orderSubTotal;
                             tempInput.orderSize = data.productSize;
                             tempInput.orderName = data.productName;
                             onaddCart();
@@ -221,7 +208,7 @@
                                   tempInput.orderPrice = data.productPrice;
                                   tempInput.orderSubTotal =
                                     tempInput.orderQuant * tempPrice;
-                                  grandTotal += tempInput.orderSubTotal;
+                                  agrandTotal += tempInput.orderSubTotal;
                                   tempInput.orderSize = data.productSize;
                                   onaddCart();
                                 "
@@ -292,14 +279,7 @@
                             <q-dialog v-model="editOrderQuant">
                               <q-card style="width: 300px">
                                 <q-card-section>
-                                  <q-form
-                                    @submit="
-                                      tempInput.orderSubTotal =
-                                        tempInput.orderQuant * tempPrice;
-                                      grandTotal += tempInput.orderSubTotal;
-                                      onEditCart();
-                                    "
-                                  >
+                                  <q-form @submit="onEditCart()">
                                     <div class="q-pb-lg">
                                       <q-input
                                         v-model="tempInput.orderQuant"
@@ -360,7 +340,7 @@
                 <q-card-section>
                   <div class="row q-py-sm">
                     <div class="col">Grand Total:</div>
-                    <div class="q-px-sm text-red-5">₱ {{ grandTotal }}</div>
+                    <div class="q-px-sm text-red-5">₱ {{ grandTotal() }}</div>
                   </div>
                   <div class="row q-py-sm">
                     <div class="q-py-sm col">Payment:</div>
@@ -372,7 +352,7 @@
                       type="number"
                       style="width: 300px"
                       prefix="₱"
-                      @keyup.enter="change = payment - grandTotal"
+                      @keyup.enter="change = payment - grandTotal()"
                     >
                     </q-input>
                   </div>
@@ -407,6 +387,7 @@
                           :name="1"
                           title="Confirming Order"
                           icon="settings"
+                          color="green"
                           :done="done1"
                         >
                           <q-card flat bordered>
@@ -439,13 +420,16 @@
                               <div class="row">
                                 <div class="col">Grand Total:</div>
                                 <div class="col text-right q-px-sm">
-                                  {{ grandTotal }}
+                                  {{ grandTotal() }}
                                 </div>
                               </div>
                             </q-card-section>
                           </q-card>
 
-                          <q-stepper-navigation class="q-gutter-md">
+                          <q-stepper-navigation
+                            align="center"
+                            class="q-gutter-md"
+                          >
                             <q-btn
                               @click="
                                 () => {
@@ -467,44 +451,55 @@
                         <q-step
                           :name="2"
                           title="Customer Name"
+                          color="green"
                           caption="Optional"
                           icon="Transanction Finish"
                           :done="StepConfirm > 2"
                         >
-                          <q-card>
-                            <q-card-section>
-                              <q-input
-                                label="Name"
-                                outlined
-                                v-model="inputCustomer.customerName"
-                                class="q-py-md"
-                              />
+                          <q-card flat class="q-pa-sm">
+                            <q-card-header class="flex flex-center text-h6">
+                              Customer Name
+                            </q-card-header>
+
+                            <q-card-section class="flex flex-center">
+                              <q-form
+                                @submit="
+                                  onPunchOrder();
+                                  StepConfirm = 3;
+                                  done2 = true;
+                                "
+                              >
+                                <div class="q-pb-md">
+                                  <q-input
+                                    autofocus
+                                    color="teal"
+                                    outlined
+                                    v-model="inputCustomer.customerName"
+                                  />
+                                </div>
+                                <div class="q-gutter-md" align="center">
+                                  <q-btn
+                                    color="green"
+                                    type="submit"
+                                    label="Save"
+                                  />
+
+                                  <q-btn
+                                    @click="StepConfirm = 1"
+                                    color="red-5"
+                                    label="Back"
+                                    class="q-ml-sm"
+                                  />
+                                </div>
+                              </q-form>
                             </q-card-section>
                           </q-card>
-                          <q-stepper-navigation align="center">
-                            <q-btn
-                              color="green"
-                              @click="
-                                onPunchOrder();
-                                StepConfirm = 3;
-                                done2 = true;
-                              "
-                              label="Save"
-                            />
-
-                            <q-btn
-                              flat
-                              @click="StepConfirm = 1"
-                              color="green"
-                              label="Back"
-                              class="q-ml-sm"
-                            />
-                          </q-stepper-navigation>
                         </q-step>
 
                         <q-step
                           :name="3"
                           title="Transanction Complete"
+                          color="green"
                           caption="Optional"
                           icon="Transanction Finish"
                           :done="StepConfirm > 3"
@@ -609,7 +604,7 @@
                                   <q-card-section>
                                     <p>Payment: {{ payment }}</p>
                                     <p>Change: {{ change }}</p>
-                                    <p>Grand Total: {{ grandTotal }}</p>
+                                    <p>Grand Total: {{ grandTotal() }}</p>
                                   </q-card-section>
                                 </q-card-section>
                               </q-card>
@@ -643,7 +638,8 @@ import { ICartInfo } from 'src/store/cart/state';
 import { date } from 'quasar';
 
 const timeStamp = Date.now();
-const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD');
+
+const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {
@@ -696,7 +692,6 @@ export default class POS extends Vue {
 
   quantity = 0;
   tempPrice = 0;
-  grandTotal = 0;
   payment = 0;
   change = 0;
   printPreview = false;
@@ -831,7 +826,7 @@ export default class POS extends Vue {
 
   tempInput: ICartInfo = {
     orderName: '',
-    orderQuant: 1,
+    orderQuant: 0,
     orderSize: '',
     orderPrice: 0,
     orderCategory: '',
@@ -841,6 +836,12 @@ export default class POS extends Vue {
 
   print() {
     window.print();
+  }
+  grandTotal() {
+    const result = this.allCart.reduce<number>((accumulator, current) => {
+      return accumulator + current.orderSubTotal;
+    }, 0);
+    return result;
   }
 
   resetOrder() {
@@ -874,7 +875,6 @@ export default class POS extends Vue {
       })
       .onOk(async () => {
         await this.deleteCart(val);
-        this.grandTotal -= val.orderPrice;
         this.$q.notify({
           type: 'warning',
           message: 'Successfully deleted',
@@ -894,7 +894,7 @@ export default class POS extends Vue {
       ...this.inputSaleRecord,
       customer: name.customerID,
       user: getUser.id,
-      totalAmount: this.grandTotal,
+      totalAmount: this.grandTotal(),
       payment: this.payment,
     });
   }
@@ -912,7 +912,6 @@ export default class POS extends Vue {
 
   async clearOrder() {
     await this.clear();
-    this.grandTotal = 0;
     this.change = 0;
     this.payment = 0;
   }

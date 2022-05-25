@@ -4,6 +4,17 @@
       <q-icon name="payments" color="indigo" style="font-size: 4rem" />
       Expenses
     </div>
+    <div class="q-mt-lg">
+      <div class="q-gutter-sm q-pa-sm row">
+        <q-space />
+        <q-btn
+          color="teal"
+          icon-right="archive"
+          label="Export to csv"
+          @click="exportTable()"
+        />
+      </div>
+    </div>
     <q-table
       title="Expenses List"
       :rows="allExpenses"
@@ -321,10 +332,10 @@
 import { ExpensesDto, SupplierDto } from 'src/services/rest-api';
 import { Vue, Options } from 'vue-class-component';
 import { mapState, mapActions } from 'vuex';
-import { date } from 'quasar';
+import { date, exportFile } from 'quasar';
 
 const timeStamp = Date.now();
-const dateNowStr = date.formatDate(timeStamp, 'YYYY-MM-DD');
+const dateNowStr = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {
@@ -479,6 +490,64 @@ export default class Expenses extends Vue {
       description: '',
       expensesCategory: '',
     };
+  }
+  wrapCsvValue(
+    val: string,
+    formatFn?: (v: string, r: any) => string,
+    row?: any
+  ) {
+    let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
+
+    formatted =
+      formatted === void 0 || formatted === null ? '' : String(formatted);
+
+    formatted = formatted.split('"').join('""');
+    /**
+     * Excel accepts \n and \r in strings, but some other CSV parsers do not
+     * Uncomment the next two lines to escape new lines
+     */
+    // .split('\n').join('\\n')
+    // .split('\r').join('\\r')
+
+    return `"${formatted}"`;
+  }
+
+  exportTable() {
+    // naive encoding to csv format
+    const header = [
+      this.wrapCsvValue('Expense Reference'),
+      this.wrapCsvValue('Expense Name'),
+      this.wrapCsvValue('Category'),
+      this.wrapCsvValue('Supplier'),
+      this.wrapCsvValue('Date'),
+      this.wrapCsvValue('Amount'),
+    ];
+    const rows = [header.join(',')].concat(
+      this.allExpenses.map((c) =>
+        [
+          this.wrapCsvValue(String(c.expensesID)),
+          this.wrapCsvValue(c.expensesName),
+          this.wrapCsvValue(String(c.expensesCategory)),
+          this.wrapCsvValue(String(c.supplier) || 'None'),
+          this.wrapCsvValue(String(c.expensesDate)),
+          this.wrapCsvValue(String(c.amount)),
+        ].join(',')
+      )
+    );
+
+    const status = exportFile(
+      'ExpenseList-export.csv',
+      rows.join('\r\n'),
+      'text/csv'
+    );
+
+    if (status !== true) {
+      this.$q.notify({
+        message: 'Browser denied file download...',
+        color: 'negative',
+        icon: 'warning',
+      });
+    }
   }
 }
 </script>

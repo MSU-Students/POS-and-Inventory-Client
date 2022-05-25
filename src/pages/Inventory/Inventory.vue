@@ -5,6 +5,17 @@
       Inventory
     </div>
     <div class="q-pr-md">
+      <div class="q-mt-lg">
+        <div class="q-gutter-sm q-pa-sm row">
+          <q-space />
+          <q-btn
+            color="teal"
+            icon-right="archive"
+            label="Export to csv"
+            @click="exportTable()"
+          />
+        </div>
+      </div>
       <q-table
         title="Inventory List"
         :rows="availableInventory"
@@ -170,7 +181,7 @@
                       <q-btn
                         flat
                         label="Cancel"
-                        color="red-10"
+                        color="red-5"
                         v-close-popup
                         @click="resetModel()"
                       />
@@ -187,7 +198,7 @@
             <div class="q-gutter-sm">
               <q-btn
                 round
-                color="blue"
+                color="secondary"
                 icon="edit"
                 size="sm"
                 flat
@@ -269,7 +280,7 @@
                         <q-btn
                           flat
                           label="Cancel"
-                          color="red-10"
+                          color="red-5"
                           v-close-popup
                           @click="resetModel()"
                         />
@@ -280,7 +291,7 @@
                 </q-card>
               </q-dialog>
               <q-btn
-                color="red-10"
+                color="red-5"
                 icon="delete"
                 size="sm"
                 class="q-ml-sm"
@@ -320,34 +331,21 @@
                           color="green"
                           label="Quantity"
                           v-model="inputInventory.itemQuantStatus"
-                          type="number"
-                          min="0"
-                          lazy-rules
                           :rules="[
                             (val) =>
-                              val < inputInventory || 'Please type your age',
+                              (val &&
+                                val.itemQuantStatus <
+                                  inputInventory.itemQuantStatus) ||
+                              'Please input amount',
+                            limit,
                           ]"
                         />
-                        <!-- <q-list>
-                          <q-item tag="label" v-ripple>
-                            <q-item-section>
-                              <q-item-label>Product Availability</q-item-label>
-                            </q-item-section>
-                            <q-item-section avatar>
-                              <q-toggle
-                                color="blue"
-                                v-model="inputInventory.itemStatus"
-                                false-value="Used"
-                                true-value="Available"
-                              />
-                            </q-item-section> </q-item
-                        ></q-list> -->
                       </div>
                       <div align="right">
                         <q-btn
                           flat
                           label="Cancel"
-                          color="red-10"
+                          color="red-5"
                           v-close-popup
                           @click="resetModel()"
                         />
@@ -367,9 +365,9 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import { InventoryDto } from 'src/services/rest-api';
-import { date } from 'quasar';
+import { date, exportFile } from 'quasar';
 
 const timeStamp = Date.now();
 const curentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
@@ -377,6 +375,7 @@ const curentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 @Options({
   computed: {
     ...mapGetters('inventory', ['availableInventory']),
+    ...mapState('inventory', ['allInventory']),
   },
   methods: {
     ...mapActions('inventory', [
@@ -390,6 +389,7 @@ const curentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
   },
 })
 export default class Inventory extends Vue {
+  allInventory!: InventoryDto[];
   availableInventory!: InventoryDto[];
   addInventory!: (payload: InventoryDto) => Promise<void>;
   editInventory!: (payload: InventoryDto) => Promise<void>;
@@ -573,6 +573,73 @@ export default class Inventory extends Vue {
       itemConsumeAt: '',
       itemQuantStatus: 0,
     };
+  }
+  wrapCsvValue(
+    val: string,
+    formatFn?: (v: string, r: any) => string,
+    row?: any
+  ) {
+    let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
+
+    formatted =
+      formatted === void 0 || formatted === null ? '' : String(formatted);
+
+    formatted = formatted.split('"').join('""');
+    /**
+     * Excel accepts \n and \r in strings, but some other CSV parsers do not
+     * Uncomment the next two lines to escape new lines
+     */
+    // .split('\n').join('\\n')
+    // .split('\r').join('\\r')
+
+    return `"${formatted}"`;
+  }
+  exportTable() {
+    // naive encoding to csv format
+    const header = [
+      this.wrapCsvValue('Item Name'),
+      this.wrapCsvValue('Category'),
+      this.wrapCsvValue('Quantity'),
+      this.wrapCsvValue('Unit'),
+      this.wrapCsvValue('Status'),
+      this.wrapCsvValue('Recent Consume'),
+      this.wrapCsvValue('Expiry Date'),
+      this.wrapCsvValue('Date Stock-in'),
+    ];
+    const rows = [header.join(',')].concat(
+      this.allInventory.map((c) =>
+        [
+          this.wrapCsvValue(String(c.itemName)),
+          this.wrapCsvValue(String(c.itemCategory)),
+          this.wrapCsvValue(String(c.itemQuantProd)),
+          this.wrapCsvValue(String(c.itemUnitProd)),
+          this.wrapCsvValue(String(c.itemStatus)),
+          this.wrapCsvValue(String(c.itemConsumeAt)),
+          this.wrapCsvValue(String(c.itemExpiryDate)),
+          this.wrapCsvValue(String(c.itemDateCreated)),
+        ].join(',')
+      )
+    );
+
+    const status = exportFile(
+      'InventoryList-export.csv',
+      rows.join('\r\n'),
+      'text/csv'
+    );
+
+    if (status !== true) {
+      this.$q.notify({
+        message: 'Browser denied file download...',
+        color: 'negative',
+        icon: 'warning',
+      });
+    }
+  }
+
+  limit() {
+    if (this.inputInventory.itemQuantStatus >= 24) {
+      return 'Exceeded!';
+    }
   }
 }
 </script>

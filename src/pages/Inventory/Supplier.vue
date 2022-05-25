@@ -9,7 +9,17 @@
         />
         Supplier
       </div>
-
+      <div class="q-mt-lg">
+        <div class="q-gutter-sm q-pa-sm row">
+          <q-space />
+          <q-btn
+            color="teal"
+            icon-right="archive"
+            label="Export to csv"
+            @click="exportTable()"
+          />
+        </div>
+      </div>
       <q-table
         title="List of suppliers"
         :rows="allSupplier"
@@ -253,6 +263,7 @@
 import { Vue, Options } from 'vue-class-component';
 import { mapState, mapActions } from 'vuex';
 import { SupplierDto } from 'src/services/rest-api';
+import { exportFile } from 'quasar';
 
 @Options({
   computed: {
@@ -375,6 +386,62 @@ export default class Supplier extends Vue {
       contact: '',
       address: '',
     };
+  }
+  wrapCsvValue(
+    val: string,
+    formatFn?: (v: string, r: any) => string,
+    row?: any
+  ) {
+    let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
+
+    formatted =
+      formatted === void 0 || formatted === null ? '' : String(formatted);
+
+    formatted = formatted.split('"').join('""');
+    /**
+     * Excel accepts \n and \r in strings, but some other CSV parsers do not
+     * Uncomment the next two lines to escape new lines
+     */
+    // .split('\n').join('\\n')
+    // .split('\r').join('\\r')
+
+    return `"${formatted}"`;
+  }
+
+  exportTable() {
+    // naive encoding to csv format
+    const header = [
+      this.wrapCsvValue('Supplier Name'),
+      this.wrapCsvValue('Company Name'),
+      this.wrapCsvValue('Email'),
+      this.wrapCsvValue('Contact'),
+      this.wrapCsvValue('Address'),
+    ];
+    const rows = [header.join(',')].concat(
+      this.allSupplier.map((c) =>
+        [
+          this.wrapCsvValue(String(c.supplierName)),
+          this.wrapCsvValue(String(c.company) || 'None'),
+          this.wrapCsvValue(String(c.email)),
+          this.wrapCsvValue(String(c.contact)),
+          this.wrapCsvValue(String(c.address) || 'None'),
+        ].join(',')
+      )
+    );
+
+    const status = exportFile(
+      'category-export.csv',
+      rows.join('\r\n'),
+      'text/csv'
+    );
+
+    if (status !== true) {
+      this.$q.notify({
+        message: 'Browser denied file download...',
+        color: 'negative',
+        icon: 'warning',
+      });
+    }
   }
 }
 </script>

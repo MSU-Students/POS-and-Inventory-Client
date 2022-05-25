@@ -5,6 +5,17 @@
       Purchase Report
     </div>
     <div>
+      <div class="q-mt-lg">
+        <div class="q-gutter-sm q-pa-sm row">
+          <q-space />
+          <q-btn
+            color="teal"
+            icon-right="archive"
+            label="Export to csv"
+            @click="exportTable()"
+          />
+        </div>
+      </div>
       <q-table
         title="Purchase History"
         :rows="completePurchase"
@@ -164,8 +175,8 @@
         </q-card>
       </div>
     </div>
-    <div class="q-pt-sm row">
-      <q-card>
+    <div class="q-pt-sm">
+      <q-card class="flex flex-center">
         <q-card-section>
           <q-item-section>
             <div class="text-h6">Monthly Cost</div>
@@ -184,6 +195,7 @@ import { Vue, Options } from 'vue-class-component';
 import CostChart from 'components/Charts/CostChart.vue';
 import { mapActions, mapGetters } from 'vuex';
 import { PurchaseDto } from 'src/services/rest-api';
+import { exportFile } from 'quasar';
 
 @Options({
   components: { CostChart },
@@ -268,6 +280,70 @@ export default class Expenses extends Vue {
     },
   ];
   filter = '';
+  wrapCsvValue(
+    val: string,
+    formatFn?: (v: string, r: any) => string,
+    row?: any
+  ) {
+    let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
+
+    formatted =
+      formatted === void 0 || formatted === null ? '' : String(formatted);
+
+    formatted = formatted.split('"').join('""');
+    /**
+     * Excel accepts \n and \r in strings, but some other CSV parsers do not
+     * Uncomment the next two lines to escape new lines
+     */
+    // .split('\n').join('\\n')
+    // .split('\r').join('\\r')
+
+    return `"${formatted}"`;
+  }
+
+  exportTable() {
+    // naive encoding to csv format
+    const header = [
+      this.wrapCsvValue('Purchase Reference'),
+      this.wrapCsvValue('Product Name'),
+      this.wrapCsvValue('Purchase Date'),
+      this.wrapCsvValue('Supplier'),
+      this.wrapCsvValue('Category'),
+      this.wrapCsvValue('Quantity'),
+      this.wrapCsvValue('Unit Measurement'),
+      this.wrapCsvValue('Amount'),
+      this.wrapCsvValue('Purchase Status'),
+    ];
+    const rows = [header.join(',')].concat(
+      this.completePurchase.map((c) =>
+        [
+          this.wrapCsvValue(String(c.purchaseID)),
+          this.wrapCsvValue(c.purchaseProduct),
+          this.wrapCsvValue(String(c.purchaseDate)),
+          this.wrapCsvValue(String(c.supplierPurchase?.company) || 'None'),
+          this.wrapCsvValue(c.purchaseCategory),
+          this.wrapCsvValue(String(c.productQuantity)),
+          this.wrapCsvValue(String(c.productUnit)),
+          this.wrapCsvValue(String(c.purchaseAmount)),
+          this.wrapCsvValue(c.purchaseStatus),
+        ].join(',')
+      )
+    );
+
+    const status = exportFile(
+      'category-export.csv',
+      rows.join('\r\n'),
+      'text/csv'
+    );
+
+    if (status !== true) {
+      this.$q.notify({
+        message: 'Browser denied file download...',
+        color: 'negative',
+        icon: 'warning',
+      });
+    }
+  }
 }
 </script>
 <style lang="sass" scoped>

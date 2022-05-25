@@ -11,23 +11,39 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import Chart from 'chart.js/auto';
-@Options({})
+import { mapActions, mapState } from 'vuex';
+import { ExpensesDto, SaleRecordDto } from 'src/services/rest-api';
+import { date } from 'quasar';
+const dateNow = new Date();
+const TodayDate = date.formatDate(dateNow, 'YYYY-MM-DD');
+@Options({
+  computed: {
+    ...mapState('saleRecord', ['allSaleRecord']),
+    ...mapState('expenses', ['allExpenses']),
+  },
+  methods: {
+    ...mapActions('saleRecord', ['getAllSaleRecord']),
+    ...mapActions('expenses', ['getAllExpenses']),
+  },
+})
 export default class ChartComponent extends Vue {
   chart?: Chart;
-  mounted() {
-    const labels = ['Revenue', 'Purchase', 'Expenses'];
+  allSaleRecord!: SaleRecordDto[];
+  allExpenses!: ExpensesDto[];
+  getAllSaleRecord!: () => Promise<void>;
+  getAllExpenses!: () => Promise<void>;
+  async mounted() {
+    await this.getAllSaleRecord();
+    await this.getAllExpenses();
+    const labels = ['Revenue', 'Expenses'];
     const data = {
       labels: labels,
       datasets: [
         {
           label: 'Revenue',
-          backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)',
-          ],
-          data: [15000, 4000, 5000],
-          hoverOffset: 40,
+          backgroundColor: ['rgb(255, 205, 86)', 'rgb(255, 99, 132)'],
+          data: [this.getSumSaleToday(), this.getSumExpenses()],
+          hoverOffset: 30,
         },
       ],
     };
@@ -44,6 +60,24 @@ export default class ChartComponent extends Vue {
         maintainAspectRatio: false,
       },
     });
+  }
+
+  getSumSaleToday() {
+    const result = this.allSaleRecord
+      .filter((s) => s.sales_order_created.match(TodayDate))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.totalAmount;
+      }, 0);
+    return result;
+  }
+
+  getSumExpenses() {
+    const result = this.allExpenses
+      .filter((s) => s.expensesDate.match(TodayDate))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.amount;
+      }, 0);
+    return result;
   }
 }
 </script>

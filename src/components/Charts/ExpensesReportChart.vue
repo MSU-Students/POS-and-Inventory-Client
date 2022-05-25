@@ -7,16 +7,34 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import Chart from 'chart.js/auto';
-@Options({})
+import { date } from 'quasar';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import { ExpensesDto } from 'src/services/rest-api';
+const dateNow = new Date();
+const CurrentMonth = date.formatDate(dateNow, 'YYYY-MM');
+@Options({
+  computed: {
+    ...mapState('expenses', ['allExpenses']),
+  },
+
+  methods: {
+    ...mapActions('expenses', ['getAllExpenses']),
+  },
+})
 export default class DashYearly extends Vue {
   chart?: Chart;
-  mounted() {
+  allExpenses!: ExpensesDto[];
+  getAllExpenses!: () => Promise<void>;
+
+  async mounted() {
+    await this.getAllExpenses();
+
     const labels = [
-      'Foods and Ingredients',
       'Bill',
+      'Purchase Order',
       'Rent',
-      'Beverage',
-      'Equipments and Utensil',
+      'Transportation',
+      'Miscellaneous/Other',
     ];
     const data = {
       labels: labels,
@@ -41,7 +59,13 @@ export default class DashYearly extends Vue {
             'rgb(153, 102, 255)',
             'rgb(201, 203, 207)',
           ],
-          data: [12453, 6798, 4352, 9675, 17452],
+          data: [
+            this.getBillExpenses(),
+            this.getPurchaseExpenses(),
+            this.getRentExpenses(),
+            this.getTranspoExpenses(),
+            this.getOtherExpenses(),
+          ],
         },
       ],
     };
@@ -55,6 +79,69 @@ export default class DashYearly extends Vue {
         responsive: true,
       },
     });
+  }
+
+  getRentExpenses() {
+    const result = this.allExpenses
+      .filter(
+        (s) =>
+          s.expensesDate.match(CurrentMonth) && s.expensesCategory === 'Rent'
+      )
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.amount;
+      }, 0);
+    return result;
+  }
+
+  getBillExpenses() {
+    const result = this.allExpenses
+      .filter(
+        (s) =>
+          s.expensesDate.match(CurrentMonth) && s.expensesCategory === 'Bills'
+      )
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.amount;
+      }, 0);
+    return result;
+  }
+
+  getPurchaseExpenses() {
+    const result = this.allExpenses
+      .filter(
+        (s) =>
+          s.expensesDate.match(CurrentMonth) &&
+          s.expensesCategory === 'Purchase Order'
+      )
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.amount;
+      }, 0);
+    return result;
+  }
+
+  getTranspoExpenses() {
+    const result = this.allExpenses
+      .filter(
+        (s) =>
+          s.expensesDate.match(CurrentMonth) &&
+          s.expensesCategory === 'Transportation'
+      )
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.amount;
+      }, 0);
+    return result;
+  }
+
+  getOtherExpenses() {
+    const result = this.allExpenses
+      .filter(
+        (s) =>
+          s.expensesDate.match(CurrentMonth) &&
+          s.expensesCategory === 'Miscellaneous/Other'
+      )
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.amount;
+      }, 0);
+    return result;
   }
 }
 </script>

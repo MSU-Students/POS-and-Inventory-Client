@@ -309,7 +309,7 @@ export interface PurchaseDto {
      * @type {string}
      * @memberof PurchaseDto
      */
-    'purchaseDate'?: string;
+    'purchaseDate': string;
     /**
      * 
      * @type {string}
