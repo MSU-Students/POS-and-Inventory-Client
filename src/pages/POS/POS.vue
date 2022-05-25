@@ -188,61 +188,6 @@
                             onaddCart();
                           "
                         />
-                        <!-- <q-dialog v-model="chooseSize">
-                          <q-card style="width: 400px">
-                            <q-card-section>
-                              <div class="text-h6 text-center">
-                                {{ tempInput.orderName }}
-                              </div>
-                              <div class="text-h6 text-center">
-                                Size: {{ data.productSize }}
-                              </div>
-                              <div class="q-pt-md text-h6">
-                                Enter the Quantity
-                              </div>
-                            </q-card-section>
-
-                            <q-card-section>
-                              <q-form
-                                @submit="
-                                  tempInput.orderPrice = data.productPrice;
-                                  tempInput.orderSubTotal =
-                                    tempInput.orderQuant * tempPrice;
-                                  agrandTotal += tempInput.orderSubTotal;
-                                  tempInput.orderSize = data.productSize;
-                                  onaddCart();
-                                "
-                              >
-                                <div>
-                                  <q-input
-                                    autofocus
-                                    placeholder="Enter quantity"
-                                    filled
-                                    mask="#"
-                                    fill-mask="0"
-                                    style="full-width"
-                                    v-model="tempInput.orderQuant"
-                                    type
-                                    lazy-rules
-                                    :rules="[
-                                      (val) =>
-                                        (val != 0 && val.length > 0) ||
-                                        'Must input greater than or equal to one quantity',
-                                    ]"
-                                  />
-                                </div>
-
-                                <div align="right">
-                                  <q-btn
-                                    color="green"
-                                    label="Add Order"
-                                    type="submit"
-                                  />
-                                </div>
-                              </q-form>
-                            </q-card-section>
-                          </q-card>
-                        </q-dialog> -->
                       </div>
                     </q-card>
                   </div>
@@ -636,11 +581,8 @@ import {
 } from 'src/services/rest-api';
 import { ICartInfo } from 'src/store/cart/state';
 import { date } from 'quasar';
-
 const timeStamp = Date.now();
-
 const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
-
 @Options({
   computed: {
     ...mapState('cart', ['allCart']),
@@ -649,7 +591,6 @@ const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
     ...mapState('saleOrder', ['allSaleOrder']),
     ...mapState('saleRecord', ['allSaleRecord']),
   },
-
   methods: {
     ...mapActions('cart', ['addCart', 'editCart', 'deleteCart', 'clear']),
     ...mapActions('manageProduct', ['getAllManageProduct']),
@@ -661,23 +602,19 @@ const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 })
 export default class POS extends Vue {
   availableProduct!: ManageProductDto[];
-
   addCart!: (payload: ICartInfo) => Promise<void>;
   editCart!: (payload: ICartInfo) => Promise<void>;
   deleteCart!: (payload: ICartInfo) => Promise<void>;
   clear!: () => Promise<void>;
   allCart!: ICartInfo[];
-
   addCustomer!: (payload: CustomerDto) => Promise<void>;
   addSaleRecord!: (payload: SaleRecordDto) => Promise<void>;
   addSaleOrder!: (payload: SaleOrderDto) => Promise<void>;
   getProfile!: () => Promise<void>;
   getAllManageProduct!: () => Promise<void>;
-
   async mounted() {
     await this.getAllManageProduct();
   }
-
   radioSizes = 'Regular';
   model = 'allProducts';
   filter = '';
@@ -689,7 +626,6 @@ export default class POS extends Vue {
   cancelOrder = true;
   chooseSize = false;
   editOrderQuant = false;
-
   quantity = 0;
   tempPrice = 0;
   payment = 0;
@@ -699,9 +635,7 @@ export default class POS extends Vue {
   foodCat = false;
   drinksCat = false;
   addOnsCat = false;
-
   class_val = 'shadow-1 my-card';
-
   foodCategory = [
     {
       name: 'Meals',
@@ -790,7 +724,6 @@ export default class POS extends Vue {
       format: (val: string) => `${val}`,
       sortable: true,
     },
-
     {
       name: 'orderQuant',
       align: 'center',
@@ -816,14 +749,12 @@ export default class POS extends Vue {
       label: 'SubTotal',
       field: 'orderSubTotal',
     },
-
     {
       name: 'action',
       align: 'center',
       field: 'action',
     },
   ];
-
   tempInput: ICartInfo = {
     orderName: '',
     orderQuant: 0,
@@ -833,7 +764,6 @@ export default class POS extends Vue {
     orderSubCategory: '',
     orderSubTotal: 0,
   };
-
   print() {
     window.print();
   }
@@ -843,7 +773,6 @@ export default class POS extends Vue {
     }, 0);
     return result;
   }
-
   resetOrder() {
     this.tempInput = {
       orderName: '',
@@ -855,12 +784,10 @@ export default class POS extends Vue {
       orderSubTotal: 0,
     };
   }
-
   async onaddCart() {
     await this.addCart(this.tempInput);
     this.resetOrder();
   }
-
   async onEditCart() {
     await this.editCart(this.tempInput);
     this.editOrderQuant = false;
@@ -881,12 +808,10 @@ export default class POS extends Vue {
         });
       });
   }
-
   openEditDialog(val: ICartInfo) {
     this.editOrderQuant = true;
     this.tempInput = { ...val };
   }
-
   async onPunchOrder() {
     const name: any = await this.addCustomer(this.inputCustomer);
     const getUser: any = await this.getProfile();
@@ -898,18 +823,15 @@ export default class POS extends Vue {
       payment: this.payment,
     });
   }
-
   inputSaleRecord: SaleRecordDto = {
     sales_order_created: currentDate,
     totalAmount: 0,
     payment: 0,
   };
-
   inputCustomer: CustomerDto = {
     customerName: '',
     date_created: '',
   };
-
   async clearOrder() {
     await this.clear();
     this.change = 0;
@@ -926,13 +848,10 @@ export default class POS extends Vue {
   background-image: url('../../assets/BesTea.jpg');
   background-size: cover;
 }
-
 .my-card {
   position: relative;
-
   left: 20px;
   height: 25vh;
-
   width: 17vw;
   max-width: 17vw;
 }

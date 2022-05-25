@@ -78,8 +78,13 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/cashier',
     name: 'cashier',
+
     component: () => import('layouts/CashierLayout.vue'),
     children: [
+      {
+        path: '/landingPage',
+        component: () => import('../pages/Landingpage.vue'),
+      },
       {
         path: '/cashierpos',
         component: () => import('../pages/Cashier/POS.vue'),

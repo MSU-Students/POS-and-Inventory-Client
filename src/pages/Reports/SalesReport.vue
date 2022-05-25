@@ -237,7 +237,7 @@
             </q-item-section>
 
             <q-item-section>
-              <div class="text-h6">TODAY SALES</div>
+              <div class="text-h6">TODAY'S PROFIT</div>
             </q-item-section>
           </q-item>
           <div>

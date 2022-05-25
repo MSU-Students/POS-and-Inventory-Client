@@ -1,34 +1,54 @@
 <template>
-  <q-layout view="hHh Lpr lFf">
+  <q-layout view="hHh Lpr fFf">
     <q-header elevated class="bg-green">
       <q-toolbar>
-        <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
         <q-avatar>
           <img src="../assets/BesTea.jpg" />
         </q-avatar>
         <q-toolbar-title>BesTea Restaurant</q-toolbar-title>
+        <q-space />
+        <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="drawer" show-if-above bordered content-class="bg-grey-3">
-      <div class="absolute-top">
-        <q-avatar size="56px" class="q-mb-sm">
-          <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+    <q-drawer
+      v-model="drawer"
+      show-if-above
+      bordered
+      side="right"
+      content-class="bg-grey-3"
+      overlay
+      elevated
+    >
+      <div class="q-pa-lg flex flex-center">
+        <q-avatar size="10rem" class="q-mb-sm">
+          <img src="../assets/BesTea.jpg" />
         </q-avatar>
-        <div class="text-weight-bold">Razvan Stoenescu</div>
-        <div>@rstoenescu</div>
       </div>
-      <q-scroll-area class="fit">
-        <q-list padding>
-          <q-item clickable v-ripple @click="logout()">
-            <q-item-section avatar>
-              <q-icon name="logout" color="red" />
-            </q-item-section>
 
-            <q-item-section> Logout </q-item-section>
-          </q-item>
-        </q-list>
-      </q-scroll-area>
+      <div class="q-pb-xl text-capitalize text-h6" align="center">
+        {{ currentUser.FName }} {{ currentUser.MName }}
+        {{ currentUser.LName }}
+      </div>
+
+      <div class="q-pa-md flex flex-center">
+        <q-btn
+          @click="logout()"
+          size="md"
+          color="green-5"
+          rounded
+          label="Change Password"
+        ></q-btn>
+      </div>
+      <div class="q-pa-md flex flex-center">
+        <q-btn
+          @click="logout()"
+          size="md"
+          color="green-5"
+          rounded
+          label="Switch Account"
+        ></q-btn>
+      </div>
     </q-drawer>
 
     <q-page-container>
@@ -38,10 +58,25 @@
 </template>
 <script lang="ts">
 import { posApiService } from 'src/services/pos-inventory-api.service';
-import { Vue } from 'vue-class-component';
+import { AUser } from 'src/store/auth/state';
+import { Options, Vue } from 'vue-class-component';
+import { mapActions, mapState } from 'vuex';
+@Options({
+  methods: {
+    ...mapActions('auth', ['authUser']),
+  },
+  computed: {
+    ...mapState('auth', ['currentUser']),
+  },
+})
 export default class MainLayout extends Vue {
-  drawer = false;
+  authUser!: () => Promise<void>;
+  currentUser!: AUser;
+  drawer = true;
 
+  async mounted() {
+    await this.authUser();
+  }
   async logout() {
     try {
       const result = await posApiService.logoutUser();

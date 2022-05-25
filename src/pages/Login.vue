@@ -114,7 +114,7 @@ export default class Login extends Vue {
         this.currentUser.type == 'cashier' ||
         this.currentUser.type == 'Cashier'
       ) {
-        await this.$router.replace('/cashierpos');
+        await this.$router.replace('/landingPage');
         this.$q.notify({
           position: 'center',
           type: 'positive',
