@@ -14,7 +14,21 @@ const dateNow = new Date();
 const year = date.formatDate(dateNow, 'YYYY');
 @Options({
   computed: {
-    ...mapGetters('purchase', ['completePurchase']),
+    ...mapGetters('purchase', [
+      'completePurchase',
+      'getCostPurchaseJan',
+      'getCostPurchaseFeb',
+      'getCostPurchaseMarch',
+      'getCostPurchaseApril',
+      'getCostPurchaseMay',
+      'getCostPurchaseJune',
+      'getCostPurchaseJuly',
+      'getCostPurchaseAug',
+      'getCostPurchaseSept',
+      'getCostPurchaseOct',
+      'getCostPurchaseNov',
+      'getCostPurchaseDec',
+    ]),
   },
 
   methods: {
@@ -22,6 +36,19 @@ const year = date.formatDate(dateNow, 'YYYY');
   },
 })
 export default class monthlyProductSales extends Vue {
+  getCostPurchaseDec!: number;
+  getCostPurchaseNov!: number;
+  getCostPurchaseOct!: number;
+  getCostPurchaseSept!: number;
+  getCostPurchaseAug!: number;
+  getCostPurchaseJuly!: number;
+  getCostPurchaseJune!: number;
+  getCostPurchaseMay!: number;
+  getCostPurchaseApril!: number;
+  getCostPurchaseMarch!: number;
+  getCostPurchaseFeb!: number;
+  getCostPurchaseJan!: number;
+
   chart?: Chart;
   completePurchase!: PurchaseDto[];
   getAllPurchase!: () => Promise<void>;
@@ -48,18 +75,18 @@ export default class monthlyProductSales extends Vue {
         {
           label: 'Amount',
           data: [
-            this.getCostPurchaseJan(),
-            this.getCostPurchaseFeb(),
-            this.getCostPurchaseMarch(),
-            this.getCostPurchaseApril(),
-            this.getCostPurchaseMay(),
-            this.getCostPurchaseJune(),
-            this.getCostPurchaseJuly(),
-            this.getCostPurchaseAug(),
-            this.getCostPurchaseSept(),
-            this.getCostPurchaseOct(),
-            this.getCostPurchaseNov(),
-            this.getCostPurchaseDec(),
+            this.getCostPurchaseJan,
+            this.getCostPurchaseFeb,
+            this.getCostPurchaseMarch,
+            this.getCostPurchaseApril,
+            this.getCostPurchaseMay,
+            this.getCostPurchaseJune,
+            this.getCostPurchaseJuly,
+            this.getCostPurchaseAug,
+            this.getCostPurchaseSept,
+            this.getCostPurchaseOct,
+            this.getCostPurchaseNov,
+            this.getCostPurchaseDec,
           ],
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
@@ -83,103 +110,6 @@ export default class monthlyProductSales extends Vue {
         },
       },
     });
-  }
-
-  getCostPurchaseJan() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(year + '-01'))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
-  }
-  getCostPurchaseFeb() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(year + '-02'))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
-  }
-  getCostPurchaseMarch() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(year + '-03'))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
-  }
-  getCostPurchaseApril() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(year + '-04'))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
-  }
-  getCostPurchaseMay() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(year + '-05'))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
-  }
-  getCostPurchaseJune() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(year + '-06'))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
-  }
-  getCostPurchaseJuly() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(year + '-07'))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
-  }
-  getCostPurchaseAug() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(year + '-08'))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
-  }
-  getCostPurchaseSept() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(year + '-09'))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
-  }
-  getCostPurchaseOct() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(year + '-10'))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
-  }
-  getCostPurchaseNov() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(year + '-11'))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
-  }
-  getCostPurchaseDec() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(year + '-12'))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
   }
 }
 </script>

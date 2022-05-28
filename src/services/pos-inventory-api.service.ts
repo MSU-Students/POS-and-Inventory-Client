@@ -64,6 +64,8 @@ class PosApiService extends DefaultApi {
       );
       const user = await this.getUserProfile();
       return user.data;
+    } else {
+      [];
     }
   }
 
@@ -79,10 +81,11 @@ class PosApiService extends DefaultApi {
   }
 
   async changeMyPass(password: ChangePasswordDto) {
-    try {
-      await posApiService.changePassword(password);
-    } catch (error) {
-      console.log('change pass error', error);
+    const res = await posApiService.changePassword(password);
+    if (res.status === 201) {
+      return res.data;
+    } else {
+      [];
     }
   }
 }

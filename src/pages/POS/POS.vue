@@ -185,6 +185,9 @@
                             tempInput.orderPrice = data.productPrice;
                             tempInput.orderSize = data.productSize;
                             tempInput.orderName = data.productName;
+                            tempInput.orderCategory = data.productCategory;
+                            tempInput.orderSubCategory =
+                              data.productSubCategory;
                             onaddCart();
                           "
                         />
@@ -229,6 +232,12 @@
                                       <q-input
                                         v-model="tempInput.orderQuant"
                                         label="Edit Quantity"
+                                        autofocus
+                                        :rules="[
+                                          (val) =>
+                                            val < 5000 ||
+                                            'You can only input less than 5000',
+                                        ]"
                                       />
                                     </div>
                                     <div class="q-gutter-md" align="right">
@@ -283,43 +292,43 @@
                 <q-separator inset />
 
                 <q-card-section>
-                  <div class="row q-py-sm">
-                    <div class="col">Grand Total:</div>
-                    <div class="q-px-sm text-red-5">₱ {{ grandTotal() }}</div>
-                  </div>
-                  <div class="row q-py-sm">
-                    <div class="q-py-sm col">Payment:</div>
-                    <q-input
-                      dense
-                      square
-                      outlined
-                      v-model="payment"
-                      type="number"
-                      style="width: 300px"
-                      prefix="₱"
-                      @keyup.enter="change = payment - grandTotal()"
-                    >
-                    </q-input>
-                  </div>
-                  <div class="row q-py-sm">
-                    <div class="col">Change:</div>
-                    <div class="q-px-sm text-red-5">₱ {{ change }}</div>
-                  </div>
-
-                  <div class="q-pt-lg">
+                  <q-form @submit="ConfirmOrder = true">
+                    <div class="row q-py-sm">
+                      <div class="col">Grand Total:</div>
+                      <div class="q-px-sm text-red-5">₱ {{ grandTotal() }}</div>
+                    </div>
+                    <div class="row q-py-sm">
+                      <div class="q-py-sm col">Payment:</div>
+                      <q-input
+                        dense
+                        square
+                        outlined
+                        v-model="payment"
+                        type="number"
+                        style="width: 300px"
+                        prefix="₱"
+                        :rules="[
+                          (val) =>
+                            (val != 0 && val >= grandTotal()) ||
+                            'You must input the right amount',
+                        ]"
+                      >
+                      </q-input>
+                    </div>
+                    <div class="row q-py-sm">
+                      <div class="col">Change:</div>
+                      <div class="q-px-sm text-red-5">₱ {{ change }}</div>
+                    </div>
                     <q-btn
                       class="full-width"
                       push
                       color="green"
                       label="Confirm Order"
-                      @click="
-                        ConfirmOrder =
-                          true &&
-                          this.payment != 0 &&
-                          this.allCart.length > 0 &&
-                          this.change > 0
-                      "
+                      type="submit"
                     />
+                  </q-form>
+
+                  <div class="q-pt-lg">
                     <q-dialog v-model="ConfirmOrder" persistent>
                       <q-stepper
                         v-model="StepConfirm"
@@ -631,7 +640,7 @@ export default class POS extends Vue {
   payment = 0;
   change = 0;
   printPreview = false;
-  today = new Date().toLocaleDateString();
+  today = new Date().toLocaleString();
   foodCat = false;
   drinksCat = false;
   addOnsCat = false;
@@ -764,6 +773,11 @@ export default class POS extends Vue {
     orderSubCategory: '',
     orderSubTotal: 0,
   };
+  OrderConfimition() {
+    if ((this.payment = 0 && this.allCart.length > 0 && this.change < -1)) {
+      return 'You must input payment';
+    }
+  }
   print() {
     window.print();
   }
@@ -771,6 +785,8 @@ export default class POS extends Vue {
     const result = this.allCart.reduce<number>((accumulator, current) => {
       return accumulator + current.orderSubTotal;
     }, 0);
+
+    this.change = this.payment - result;
     return result;
   }
   resetOrder() {

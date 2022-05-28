@@ -183,6 +183,7 @@ export default class Expenses extends Vue {
       align: 'center',
       label: 'Expiry Date',
       field: 'itemExpiryDate',
+      sortable: true,
     },
 
     {
@@ -190,6 +191,7 @@ export default class Expenses extends Vue {
       align: 'center',
       label: 'Consume At',
       field: 'itemConsumeAt',
+      sortable: true,
     },
 
     {
@@ -197,6 +199,7 @@ export default class Expenses extends Vue {
       align: 'center',
       label: 'Date Stock In',
       field: 'itemDateCreated',
+      sortable: true,
     },
   ];
   filter = '';

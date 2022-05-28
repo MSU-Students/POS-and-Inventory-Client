@@ -239,6 +239,7 @@ export default class Expenses extends Vue {
       align: 'center',
       label: 'Date Purchase',
       field: 'purchaseDate',
+      sortable: true,
     },
     {
       name: 'supplier',

@@ -99,10 +99,7 @@ export default class Login extends Vue {
         userName: this.username,
         password: this.password,
       });
-      if (
-        this.currentUser.type == 'admin' ||
-        this.currentUser.type == 'Admin'
-      ) {
+      if (this.currentUser.type == 'Admin') {
         await this.$router.replace('/Dashboard');
         this.$q.notify({
           position: 'center',
@@ -110,10 +107,7 @@ export default class Login extends Vue {
           message: 'You are logged in',
         });
       }
-      if (
-        this.currentUser.type == 'cashier' ||
-        this.currentUser.type == 'Cashier'
-      ) {
+      if (this.currentUser.type == 'Cashier') {
         await this.$router.replace('/landingPage');
         this.$q.notify({
           position: 'center',
@@ -121,7 +115,7 @@ export default class Login extends Vue {
           message: 'You are logged in',
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       this.$q.notify({
         type: 'negative',
         message: 'Wrong Username or Password!',

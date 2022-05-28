@@ -19,7 +19,7 @@
         <div class="col">
           <q-btn
             size="lg"
-            color="green-5"
+            color="red-5"
             rounded
             @click="logout()"
             padding="5rem"

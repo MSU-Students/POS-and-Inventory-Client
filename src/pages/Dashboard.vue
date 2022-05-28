@@ -191,9 +191,6 @@
 </template>
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import YearlyChart from 'components/Charts/DashYearly.vue';
-import CashFlowChart from 'components/Charts/DashSalePurchase.vue';
-import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
 import {
   ExpensesDto,
@@ -207,7 +204,7 @@ const dateNow = new Date();
 const TodayDate = date.formatDate(dateNow, 'YYYY-MM-DD');
 
 @Options({
-  components: { YearlyChart, CashFlowChart, MonthCashFlowChart },
+  components: {},
   computed: {
     ...mapGetters('inventory', ['usedInventory', 'availableInventory']),
     ...mapState('inventory', ['allInventory']),
@@ -307,26 +304,18 @@ export default class Dashboard extends Vue {
 </script>
 <style>
 .profit_bg {
-  background-image: linear-gradient(
-    to right,
-    rgb(51, 131, 131),
-    rgb(64, 246, 246)
-  );
+  background-image: linear-gradient(to right, #1f2c36, #1b2b36);
 }
 
 .revenue_bg {
-  background-image: linear-gradient(to right, rgb(202, 24, 24), red);
+  background-image: linear-gradient(to right, #0c5874, #0c5874);
 }
 
 .purhcase_bg {
-  background-image: linear-gradient(
-    to right,
-    rgb(255, 191, 0),
-    rgb(234, 214, 153)
-  );
+  background-image: linear-gradient(to right, #f25278, #f25278);
 }
 
 .expense_bg {
-  background-image: linear-gradient(to right, rgb(7, 76, 76), teal);
+  background-image: linear-gradient(to right, #ffc657, #ffc657);
 }
 </style>

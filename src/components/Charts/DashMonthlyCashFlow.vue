@@ -11,7 +11,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import Chart from 'chart.js/auto';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import { ExpensesDto, SaleRecordDto } from 'src/services/rest-api';
 import { date } from 'quasar';
 const dateNow = new Date();
@@ -20,6 +20,8 @@ const TodayDate = date.formatDate(dateNow, 'YYYY-MM-DD');
   computed: {
     ...mapState('saleRecord', ['allSaleRecord']),
     ...mapState('expenses', ['allExpenses']),
+    ...mapGetters('saleRecord', ['getDailySale']),
+    ...mapGetters('expenses', ['getDailyExpenses']),
   },
   methods: {
     ...mapActions('saleRecord', ['getAllSaleRecord']),
@@ -30,6 +32,8 @@ export default class ChartComponent extends Vue {
   chart?: Chart;
   allSaleRecord!: SaleRecordDto[];
   allExpenses!: ExpensesDto[];
+  getDailySale!: number;
+  getDailyExpenses!: number;
   getAllSaleRecord!: () => Promise<void>;
   getAllExpenses!: () => Promise<void>;
   async mounted() {
@@ -42,7 +46,7 @@ export default class ChartComponent extends Vue {
         {
           label: 'Revenue',
           backgroundColor: ['rgb(255, 205, 86)', 'rgb(255, 99, 132)'],
-          data: [this.getSumSaleToday(), this.getSumExpenses()],
+          data: [this.getDailySale, this.getDailyExpenses],
           hoverOffset: 30,
         },
       ],
@@ -60,15 +64,6 @@ export default class ChartComponent extends Vue {
         maintainAspectRatio: false,
       },
     });
-  }
-
-  getSumSaleToday() {
-    const result = this.allSaleRecord
-      .filter((s) => s.sales_order_created.match(TodayDate))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
-      }, 0);
-    return result;
   }
 
   getSumExpenses() {

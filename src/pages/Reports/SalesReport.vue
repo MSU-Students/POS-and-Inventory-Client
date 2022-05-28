@@ -2,116 +2,178 @@
   <q-page class="q-pa-lg">
     <div class="text-h4 text-bold row">Sales Report</div>
     <div class="q-py-lg">
-      <div class="q-mt-lg">
-        <div class="q-gutter-sm q-pa-sm row">
-          <q-space />
-          <q-btn
-            color="teal"
-            icon-right="archive"
-            label="Export to csv"
-            @click="exportTable()"
-          />
+      <div class="row q-gutter-lg">
+        <div class="col-9">
+          <q-table
+            style="max-height: 600px"
+            title="Sales Record"
+            :rows="allSaleRecord"
+            :columns="column"
+            row-key="subCategoryID"
+            :rows-per-page-options="[0]"
+            :filter="saleFilter"
+          >
+            <template v-slot:top-right>
+              <div class="q-pa-md" style="max-width: 300px">
+                <q-input clearable dense borderless v-model="saleFilter">
+                  <template v-slot:append>
+                    <q-icon
+                      name="event"
+                      color="secondary"
+                      class="cursor-pointer"
+                    >
+                      <q-popup-proxy
+                        ref="qDateProxy"
+                        cover
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date v-model="saleFilter" mask="YYYY-MM-DD">
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              label="Close"
+                              color="primary"
+                              flat
+                            />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </div>
+              <q-btn
+                color="teal"
+                icon-right="archive"
+                label="Export to csv"
+                @click="exportTable()"
+              />
+            </template>
+
+            <template v-slot:body-cell-viewOrderList="props">
+              <q-td :props="props">
+                <div>
+                  <q-btn
+                    round
+                    color="teal"
+                    icon="preview"
+                    size="sm"
+                    flat
+                    dense
+                    @click="openViewOrderList(props.row)"
+                  />
+                </div>
+                <q-dialog v-model="showOrderList">
+                  <q-card style="width: 800px; max-width: 100vw" flat bordered>
+                    <q-card-section class="flex flex-center text-h6">
+                      <q-item-label> Order List </q-item-label>
+                    </q-card-section>
+                    <q-card-section>
+                      <div>
+                        Invoice Reference:
+                        <strong> {{ inputSaleRecord.invoiceID }}</strong>
+                      </div>
+                      <div>
+                        Customer Name:
+                        <strong>
+                          {{ inputSaleRecord.customer?.customerName }}
+                        </strong>
+                      </div>
+                      <div>
+                        Cashier:
+                        <strong>
+                          {{
+                            inputSaleRecord.user?.FName +
+                            ' ' +
+                            inputSaleRecord.user?.LName
+                          }}
+                        </strong>
+                      </div>
+                      <div>
+                        Total Amount:
+                        <strong>
+                          {{ inputSaleRecord.totalAmount }}
+                        </strong>
+                      </div>
+                    </q-card-section>
+                    <q-separator />
+                    <q-card-section>
+                      <q-table
+                        :rows="mapSalesOrder(inputSaleRecord)"
+                        :columns="orderColumn"
+                        row-key="subCategoryID"
+                        :rows-per-page-options="[0]"
+                      />
+                    </q-card-section>
+                  </q-card>
+                </q-dialog>
+              </q-td>
+            </template>
+          </q-table>
+        </div>
+        <div class="col">
+          <q-card>
+            <q-list bordered class="rounded-borders" style="max-width: 800px">
+              <q-item-label header> Expenses Overview </q-item-label>
+
+              <q-item>
+                <q-item-section avatar top>
+                  <q-icon name="payment" color="teal" size="35px" />
+                </q-item-section>
+
+                <q-item-section top>
+                  <q-item-label class="q-mt-sm">
+                    Today's Expenses
+                  </q-item-label>
+                </q-item-section>
+
+                <q-item-section top side>
+                  <q-item-label class="q-mt-sm">
+                    {{ getDailySale }}</q-item-label
+                  >
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section avatar top>
+                  <q-icon name="payment" color="teal" size="35px" />
+                </q-item-section>
+
+                <q-item-section top>
+                  <q-item-label class="q-mt-sm">
+                    Monthly Expenses
+                  </q-item-label>
+                </q-item-section>
+
+                <q-item-section top side>
+                  <q-item-label class="q-mt-sm">
+                    {{ getMonthlySale }}</q-item-label
+                  >
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section avatar top>
+                  <q-icon name="payment" color="teal" size="35px" />
+                </q-item-section>
+
+                <q-item-section top>
+                  <q-item-label class="q-mt-sm"> Yearl Expenses </q-item-label>
+                </q-item-section>
+
+                <q-item-section top side>
+                  <q-item-label class="q-mt-sm">
+                    {{ getYearlySale }}</q-item-label
+                  >
+                </q-item-section>
+              </q-item>
+
+              <q-separator spaced />
+            </q-list>
+          </q-card>
         </div>
       </div>
-      <q-table
-        style="max-height: 600px"
-        title="Sales Record"
-        :rows="allSaleRecord"
-        :columns="column"
-        row-key="subCategoryID"
-        :rows-per-page-options="[0]"
-        :filter="saleFilter"
-      >
-        <template v-slot:top-right>
-          <div class="q-pa-md" style="max-width: 300px">
-            <q-input clearable dense borderless v-model="saleFilter">
-              <template v-slot:append>
-                <q-icon name="event" color="secondary" class="cursor-pointer">
-                  <q-popup-proxy
-                    ref="qDateProxy"
-                    cover
-                    transition-show="scale"
-                    transition-hide="scale"
-                  >
-                    <q-date v-model="saleFilter" mask="YYYY-MM-DD">
-                      <div class="row items-center justify-end">
-                        <q-btn
-                          v-close-popup
-                          label="Close"
-                          color="primary"
-                          flat
-                        />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-              </template>
-            </q-input>
-          </div>
-        </template>
-
-        <template v-slot:body-cell-viewOrderList="props">
-          <q-td :props="props">
-            <div>
-              <q-btn
-                round
-                color="teal"
-                icon="preview"
-                size="sm"
-                flat
-                dense
-                @click="openViewOrderList(props.row)"
-              />
-            </div>
-            <q-dialog v-model="showOrderList">
-              <q-card style="width: 800px; max-width: 100vw" flat bordered>
-                <q-card-section class="flex flex-center text-h6">
-                  <q-item-label> Order List </q-item-label>
-                </q-card-section>
-                <q-card-section>
-                  <div>
-                    Invoice Reference:
-                    <strong> {{ inputSaleRecord.invoiceID }}</strong>
-                  </div>
-                  <div>
-                    Customer Name:
-                    <strong>
-                      {{ inputSaleRecord.customer?.customerName }}
-                    </strong>
-                  </div>
-                  <div>
-                    Cashier:
-                    <strong>
-                      {{
-                        inputSaleRecord.user?.FName +
-                        ' ' +
-                        inputSaleRecord.user?.LName
-                      }}
-                    </strong>
-                  </div>
-                  <div>
-                    Total Amount:
-                    <strong>
-                      {{ inputSaleRecord.totalAmount }}
-                    </strong>
-                  </div>
-                </q-card-section>
-                <q-separator />
-                <q-card-section>
-                  <q-table
-                    :rows="mapSalesOrder(inputSaleRecord)"
-                    :columns="orderColumn"
-                    row-key="subCategoryID"
-                    :rows-per-page-options="[0]"
-                  />
-                </q-card-section>
-              </q-card>
-            </q-dialog>
-          </q-td>
-        </template>
-      </q-table>
     </div>
-    <q-card class="q-py-md">
+    <!-- <q-card class="q-py-md">
       <q-card-section>
         <q-item-section>
           <div class="text-center text-h6">Best Seller</div>
@@ -153,7 +215,8 @@
         </q-tab-panel>
       </q-tab-panels>
       <div class="q-pa-lg"></div>
-    </q-card>
+    </q-card> -->
+
     <q-card class="q-my-lg">
       <q-card-section class="text-h6 q-pb-none">
         <q-item>
@@ -262,14 +325,9 @@
 import { Vue, Options } from 'vue-class-component';
 
 import monthlyProductSales from 'components/Charts/monthlyProductSales.vue';
-import CashFlowChart from 'components/Charts/DashSalePurchase.vue';
 import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
 import YearlySaleReport from 'components/Charts/YearlySaleReport.vue';
-import BestSellerFood from 'src/components/Charts/BestSellerChartFood.vue';
-import BestSellerChartDrinks from 'src/components/Charts/BestSellerChartDrinks.vue';
-import BestSellerChartAddons from 'src/components/Charts/BestSellerChartAddons.vue';
-import { mapActions, mapState } from 'vuex';
-import { ICartInfo } from 'src/store/cart/state';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import {
   CustomerDto,
   SaleOrderDto,
@@ -280,18 +338,20 @@ import { exportFile } from 'quasar';
 @Options({
   components: {
     monthlyProductSales,
-    CashFlowChart,
     MonthCashFlowChart,
     YearlySaleReport,
-    BestSellerFood,
-    BestSellerChartDrinks,
-    BestSellerChartAddons,
   },
   computed: {
     ...mapState('saleRecord', ['allSaleRecord']),
     ...mapState('customer', ['allCustomer']),
     ...mapState('saleOrder', ['allSaleOrder']),
     ...mapState('account', ['allAccount']),
+    ...mapGetters('saleRecord', [
+      'getDailySale',
+      'getMonthlySale',
+      'getYearlySale',
+    ]),
+    ...mapGetters('saleOrder', ['getMilkteaTotal']),
   },
   methods: {
     ...mapActions('saleRecord', ['getAllSaleRecord']),
@@ -303,6 +363,10 @@ export default class SaleRecord extends Vue {
   allAccount!: UserDto[];
   allCustomer!: CustomerDto[];
   allSaleOrder!: SaleOrderDto[];
+  getDailySale!: number;
+  getMonthlySale!: number;
+  getYearlySale!: number;
+  getMilkteaTotal!: SaleOrderDto[];
   getAllSaleRecord!: () => Promise<void>;
   getAllSaleOrder!: () => Promise<void>;
   mapSalesOrder(invoice: SaleRecordDto) {
@@ -312,6 +376,7 @@ export default class SaleRecord extends Vue {
   }
   async mounted() {
     await this.getAllSaleRecord();
+    await this.getAllSaleOrder();
   }
   tab = 'Food';
   saleFilter = '';
@@ -329,13 +394,13 @@ export default class SaleRecord extends Vue {
       name: 'orderDate',
       align: 'center',
       label: 'Customer Name',
-      field: (row: any) => row.customer?.customerName || 'None',
+      field: (row: SaleRecordDto) => row.customer?.customerName || 'None',
     },
     {
       name: 'cashier',
       align: 'center',
       label: 'Cashier',
-      field: (row: any) => row.user?.FName + ' ' + row.user?.LName,
+      field: (row: SaleRecordDto) => row.user?.FName + ' ' + row.user?.LName,
     },
     {
       name: 'total',
@@ -349,6 +414,7 @@ export default class SaleRecord extends Vue {
       label: 'Payment Amount',
       field: 'payment',
     },
+
     {
       name: 'date',
       align: 'center',

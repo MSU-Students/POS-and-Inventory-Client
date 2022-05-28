@@ -127,43 +127,41 @@ export default class LibrarianChangePass extends Vue {
   user = 'librarian';
 
   async onSubmit() {
-    try {
-      this.$q
-        .dialog({
-          message: 'Are you sure to change your password?',
-          cancel: true,
-          persistent: true,
-        })
-        .onOk(async () => {
+    this.$q
+      .dialog({
+        message: 'Are you sure to change your password?',
+        cancel: true,
+        persistent: true,
+      })
+      .onOk(async () => {
+        try {
           if (this.password.newPassword != this.confirmpassword) {
             this.$q.notify({
               type: 'negative',
               message: 'Passwords not match!',
             });
             return;
-          } else {
-            await posApiService.changeMyPass(this.password);
-            this.$q.notify({
-              type: 'positive',
-              message: 'Change password successfully',
-            });
-
-            const result = await posApiService.logoutUser();
-            if (result.status == 201) {
-              await this.$router.replace('/');
-            }
+          }
+          await posApiService.changeMyPass(this.password);
+          this.$q.notify({
+            type: 'positive',
+            message: 'Change password successfully',
+          });
+          const result = await posApiService.logoutUser();
+          if (result.status == 201) {
+            await this.$router.replace('/');
             this.$q.notify({
               type: 'warning',
               message: 'You have been logged out!',
             });
           }
-        });
-    } catch (error: any) {
-      this.$q.notify({
-        type: 'negative',
-        message: error.message,
+        } catch (error: any) {
+          this.$q.notify({
+            type: 'negative',
+            message: error.message,
+          });
+        }
       });
-    }
   }
 
   onClear() {

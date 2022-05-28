@@ -1,10 +1,12 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
 import { CartStateInterface, ICartInfo } from './state';
+import { uid } from 'quasar';
 
 const actions: ActionTree<CartStateInterface, StateInterface> = {
   addCart(context, payload: ICartInfo) {
-    context.commit('setNewCart', payload);
+    const id = uid();
+    context.commit('setNewCart', { ...payload, cart_ID: id });
   },
 
   editCart(context, payload: ICartInfo) {

@@ -21,6 +21,17 @@ const actions: ActionTree<SaleRecordStateInterface, StateInterface> = {
           )
       );
     }
+    const Orders = context.rootState.cart.allCart;
+    if (listOrders.length > 0 && result) {
+      listOrders.map(
+        async (b) =>
+          await context.dispatch(
+            'manageProduct/editManageProduct',
+            { ...b, invoice: result.invoiceID },
+            { root: true }
+          )
+      );
+    }
     return result;
   },
 

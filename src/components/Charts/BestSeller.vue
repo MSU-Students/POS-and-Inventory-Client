@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="myChart" width="1400" height="500"></canvas>
+    <canvas width="1400" height="500"></canvas>
   </div>
 </template>
 
@@ -8,25 +8,25 @@
 import { Options, Vue } from 'vue-class-component';
 import Chart from 'chart.js/auto';
 @Options({})
-export default class BestSellerChartAddons extends Vue {
+export default class BestSeller extends Vue {
   chart?: Chart;
   mounted() {
-    const labels = ['Tapioca Pearls', 'Nata De Coco', 'Black pearls'];
+    const labels = ['Tuna sandwich', 'Beef Burger', 'Grilled cheese sandwich'];
     const data = {
       labels: labels,
       datasets: [
         {
           label: 'products',
-          data: [40, 100, 25],
+          data: [50, 40, 90],
           backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
+            'rgba(201, 203, 207, 0.2)',
             'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
           ],
           borderColor: [
-            'rgb(255, 99, 132)',
+            'rgb(201, 203, 207)',
             'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
+            'rgb(153, 102, 255)',
           ],
         },
       ],

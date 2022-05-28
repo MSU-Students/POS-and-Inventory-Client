@@ -13,13 +13,11 @@ const mutation: MutationTree<CartStateInterface> = {
       const res = state.allCart.push({
         ...payload,
         orderQuant: 0,
-        orderSubTotal: payload.orderQuant * payload.orderPrice,
       });
     }
     if (exist) {
       const ex = exist.orderQuant++;
-      const x = (exist.orderSubTotal = exist.orderQuant * exist.orderPrice);
-      console.log(ex, x);
+      exist.orderSubTotal = exist.orderQuant * exist.orderPrice;
     }
   },
   updateCart(state, payload: ICartInfo) {

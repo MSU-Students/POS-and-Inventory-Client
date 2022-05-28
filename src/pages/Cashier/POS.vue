@@ -5,7 +5,7 @@
         <q-toolbar-title> Welcome to POS </q-toolbar-title>
         <q-btn
           class="q-py-sm"
-          to="/Dashboard"
+          to="/LandingPage"
           icon="logout"
           label="Back"
           flat

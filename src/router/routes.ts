@@ -86,11 +86,18 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../pages/Landingpage.vue'),
       },
       {
-        path: '/cashierpos',
-        component: () => import('../pages/Cashier/POS.vue'),
+        path: '/changepass',
+        component: () => import('../pages/ChangePassword.vue'),
       },
     ],
   },
+
+  {
+    path: '/cashierpos',
+    meta: { requiresAdmin: true },
+    component: () => import('../pages/Cashier/POS.vue'),
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {

@@ -151,7 +151,7 @@
                       <q-input
                         outlined
                         label="Price"
-                        mask="#.##"
+                        mask="##.##"
                         fill-mask="0"
                         reverse-fill-mask
                         v-model="inputManageSale.productPrice"
@@ -317,9 +317,6 @@
                         <q-input
                           outlined
                           label="Price"
-                          mask="#.##"
-                          fill-mask="0"
-                          reverse-fill-mask
                           v-model="inputManageSale.productPrice"
                         >
                           <template v-slot:prepend> ₱ </template>

@@ -33,7 +33,7 @@
 
       <div class="q-pa-md flex flex-center">
         <q-btn
-          @click="logout()"
+          to="/changepass"
           size="md"
           color="green-5"
           rounded
@@ -44,7 +44,7 @@
         <q-btn
           @click="logout()"
           size="md"
-          color="green-5"
+          color="red-5"
           rounded
           label="Switch Account"
         ></q-btn>

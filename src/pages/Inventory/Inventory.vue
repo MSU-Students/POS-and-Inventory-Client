@@ -23,6 +23,7 @@
         row-key="itemName"
         :rows-per-page-options="[0]"
         :filter="filter"
+        style="max-height: 600px"
       >
         <template v-slot:top-right>
           <div>
@@ -332,12 +333,9 @@
                           label="Quantity"
                           v-model="inputInventory.itemQuantStatus"
                           :rules="[
-                            (val) =>
-                              (val &&
-                                val.itemQuantStatus <
-                                  inputInventory.itemQuantStatus) ||
-                              'Please input amount',
-                            limit,
+                            (val, prev) =>
+                              (val && isExceeded(val, oldInventoryValue)) ||
+                              'You exceeded the value',
                           ]"
                         />
                       </div>
@@ -468,6 +466,7 @@ export default class Inventory extends Vue {
   addNewInventory = false;
   editRowInventory = false;
   statusInventory = false;
+  oldInventoryValue = 0;
   filter = '';
   unitInvOpt = [
     'Piece (pcs)',
@@ -489,7 +488,9 @@ export default class Inventory extends Vue {
     itemConsumeAt: '',
     itemQuantStatus: 0,
   };
-
+  isExceeded(val: number | string, on: number | string) {
+    return Number(val) < Number(on);
+  }
   async onAddInventory() {
     const newInputInventory: any = {
       ...this.inputInventory,
@@ -558,6 +559,7 @@ export default class Inventory extends Vue {
   }
 
   openStatusDialog(val: InventoryDto) {
+    this.oldInventoryValue = val.itemQuantStatus;
     this.statusInventory = true;
     this.inputInventory = { ...val };
   }

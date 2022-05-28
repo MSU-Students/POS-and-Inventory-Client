@@ -1,9 +1,8 @@
 export interface Expenses {
   expensesID?: number;
   expensesName: string;
-  date: string;
+  expensesDate: string;
   description: string;
   amount: number;
-  itemDateCreated?: Date;
   expensesCategory: string;
 }

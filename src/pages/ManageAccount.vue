@@ -32,6 +32,7 @@
       <template v-slot:top-right>
         <div class="q-pa-md q-gutter-sm row">
           <q-input
+            color="secondary"
             outlined
             rounded
             dense
@@ -40,13 +41,12 @@
             placeholder="Search"
           >
             <template v-slot:append>
-              <q-icon name="search" />
+              <q-icon name="search" color="secondary" />
             </template>
           </q-input>
           <q-btn
             label="Add User"
             color="secondary"
-            e
             dense
             flat
             icon="add"
@@ -64,6 +64,7 @@
                   icon="close"
                   v-close-popup
                   @click="resetModel()"
+                  color="red-5"
                 />
               </q-card-section>
 
@@ -72,46 +73,72 @@
                   <div class="row q-gutter-md q-py-sm">
                     <div class="col">
                       <q-input
+                        color="secondary"
                         autofocus
                         outlined
                         v-model="inputAccount.FName"
                         label="First Name"
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You Must enter your first name',
+                        ]"
                       />
                     </div>
                     <div class="col">
                       <q-input
+                        color="secondary"
                         outlined
                         v-model="inputAccount.MName"
-                        label="Middle Initial"
+                        label="Middle Name"
                       />
                     </div>
                     <div class="col">
                       <q-input
+                        color="secondary"
                         outlined
                         v-model="inputAccount.LName"
                         label="Last Name"
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You Must enter your Last name',
+                        ]"
                       />
                     </div>
                   </div>
                   <div class="row q-gutter-md q-py-sm">
                     <div class="col">
                       <q-input
+                        color="secondary"
                         outlined
                         v-model="inputAccount.username"
                         label="Username"
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You Must enter your username',
+                        ]"
                       />
                     </div>
                     <div class="col">
                       <q-input
+                        color="secondary"
                         outlined
                         v-model="inputAccount.password"
                         label="Password"
+                        :rules="[
+                          (val) =>
+                            (val && val.length > 0) ||
+                            'You Must enter your password',
+                        ]"
                       />
                     </div>
                   </div>
                   <div class="row q-gutter-md q-py-sm">
                     <div class="col">
                       <q-input
+                        color="secondary"
                         outlined
                         v-model="inputAccount.contact"
                         label="Contact Number"
@@ -121,6 +148,7 @@
                     </div>
                     <div class="col">
                       <q-input
+                        color="secondary"
                         outlined
                         v-model="inputAccount.email"
                         label="Email"
@@ -129,6 +157,7 @@
                     </div>
                     <div class="col">
                       <q-select
+                        color="secondary"
                         outlined
                         v-model="inputAccount.type"
                         :options="options"
@@ -140,7 +169,7 @@
                     <q-btn
                       flat
                       label="Cancel"
-                      color="red-10"
+                      color="red-5"
                       v-close-popup
                       @click="resetModel()"
                     />
@@ -172,6 +201,7 @@
                   <q-space />
                   <q-btn
                     flat
+                    color="red-5"
                     round
                     dense
                     icon="close"
@@ -185,6 +215,7 @@
                     <div class="row q-gutter-md q-py-sm">
                       <div class="col">
                         <q-input
+                          color="secondary"
                           autofocus
                           outlined
                           v-model="inputAccount.FName"
@@ -193,6 +224,7 @@
                       </div>
                       <div class="col">
                         <q-input
+                          color="secondary"
                           outlined
                           v-model="inputAccount.MName"
                           label="Middle Initial"
@@ -200,6 +232,7 @@
                       </div>
                       <div class="col">
                         <q-input
+                          color="secondary"
                           outlined
                           v-model="inputAccount.LName"
                           label="Last Name"
@@ -209,6 +242,7 @@
                     <div class="row q-gutter-md q-py-sm">
                       <div class="col">
                         <q-input
+                          color="secondary"
                           outlined
                           v-model="inputAccount.username"
                           label="Username"
@@ -216,6 +250,7 @@
                       </div>
                       <div class="col">
                         <q-select
+                          color="secondary"
                           outlined
                           v-model="inputAccount.status"
                           label="Status"
@@ -226,6 +261,7 @@
                     <div class="row q-gutter-md q-py-sm">
                       <div class="col">
                         <q-input
+                          color="secondary"
                           outlined
                           v-model="inputAccount.email"
                           label="Email"
@@ -234,6 +270,7 @@
                       </div>
                       <div class="col">
                         <q-select
+                          color="secondary"
                           outlined
                           v-model="inputAccount.type"
                           :options="options"
@@ -245,7 +282,7 @@
                       <q-btn
                         flat
                         label="Cancel"
-                        color="red-10"
+                        color="red-5"
                         @click="resetModel()"
                         v-close-popup
                       />
@@ -260,17 +297,18 @@
                 </q-card-section>
               </q-card>
             </q-dialog>
-            <q-btn
-              color="red-5"
-              icon="delete"
-              size="sm"
-              class="q-ml-sm"
-              flat
-              round
-              dense
-              @click="deleteSpecificAccount(props.row)"
-            />
           </div>
+        </q-td>
+      </template>
+      <template #body-cell-status="props">
+        <q-td :props="props">
+          <q-btn
+            flat
+            color="white"
+            :text-color="colorManipulation(props.row.status)"
+            :label="labelManipulation(props.row.status)"
+          >
+          </q-btn>
         </q-td>
       </template>
     </q-table>
@@ -284,7 +322,7 @@ import { UserDto } from 'src/services/rest-api';
 import { date, exportFile } from 'quasar';
 
 const timeStamp = Date.now();
-const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD');
+const formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {
@@ -344,7 +382,6 @@ export default class ManageAccount extends Vue {
       align: 'center',
       label: 'Status',
       field: 'status',
-      color: 'green',
     },
     { name: 'action', align: 'center', label: 'Action', field: 'action' },
   ];
@@ -376,22 +413,29 @@ export default class ManageAccount extends Vue {
         type: 'positive',
         message: 'Successfully Added.',
       });
-    } catch (error) {
+    } catch (error: any) {
       this.$q.notify({
         type: 'negative',
-        message: 'Something went wrong or User is already in use!',
+        message: error.message,
       });
     }
   }
 
   async oneditAccount() {
-    await this.editAccount(this.inputAccount);
-    this.updateAccount = false;
-    this.resetModel();
-    this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Edit.',
-    });
+    try {
+      await this.editAccount(this.inputAccount);
+      this.updateAccount = false;
+      this.resetModel();
+      this.$q.notify({
+        type: 'positive',
+        message: 'Successfully Edit.',
+      });
+    } catch (error: any) {
+      this.$q.notify({
+        type: 'negative',
+        message: error.message,
+      });
+    }
   }
 
   deleteSpecificAccount(val: UserDto) {
@@ -427,6 +471,21 @@ export default class ManageAccount extends Vue {
       status: '',
       userDateCreated: '',
     };
+  }
+
+  colorManipulation(status: string) {
+    if (status == 'Active') {
+      return 'teal';
+    } else if (status == 'Inactive') {
+      return 'red';
+    }
+  }
+  labelManipulation(status: string) {
+    if (status == 'Active') {
+      return 'Active';
+    } else if (status == 'Inactive') {
+      return 'Inactive';
+    }
   }
 
   wrapCsvValue(

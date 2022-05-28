@@ -8,13 +8,27 @@
 import { Options, Vue } from 'vue-class-component';
 import Chart from 'chart.js/auto';
 import { date } from 'quasar';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import { SaleRecordDto } from 'src/services/rest-api';
 const dateNow = new Date();
 const year = date.formatDate(dateNow, 'YYYY');
 @Options({
   computed: {
     ...mapState('saleRecord', ['allSaleRecord']),
+    ...mapGetters('saleRecord', [
+      'getJanSale',
+      'getFebSale',
+      'getMarchSale',
+      'getAprilSale',
+      'getMaySale',
+      'getJuneSale',
+      'getJulySale',
+      'getAugSale',
+      'getSeptSale',
+      'getOctSale',
+      'getNovSale',
+      'getDecSale',
+    ]),
   },
   methods: {
     ...mapActions('saleRecord', ['getAllSaleRecord']),
@@ -23,6 +37,18 @@ const year = date.formatDate(dateNow, 'YYYY');
 export default class monthlyProductSales extends Vue {
   chart?: Chart;
   allSaleRecord!: SaleRecordDto[];
+  getDecSale!: number;
+  getNovSale!: number;
+  getOctSale!: number;
+  getSeptSale!: number;
+  getAugSale!: number;
+  getJulySale!: number;
+  getJuneSale!: number;
+  getMaySale!: number;
+  getAprilSale!: number;
+  getMarchSale!: number;
+  getFebSale!: number;
+  getJanSale!: number;
   getAllSaleRecord!: () => Promise<void>;
   selectedYear = 2022;
   yearOption = [2020, 2021, 2022];
@@ -52,18 +78,18 @@ export default class monthlyProductSales extends Vue {
         {
           label: 'Amount',
           data: [
-            this.getSalesJan(),
-            this.getSalesFeb(),
-            this.getSalesMarch(),
-            this.getSalesApril(),
-            this.getSalesMay(),
-            this.getSalesJune(),
-            this.getSalesJuly(),
-            this.getSalesAug(),
-            this.getSalesSept(),
-            this.getSalesOct(),
-            this.getSalesNov(),
-            this.getSalesDec(),
+            this.getJanSale,
+            this.getFebSale,
+            this.getMarchSale,
+            this.getAprilSale,
+            this.getMaySale,
+            this.getJuneSale,
+            this.getJulySale,
+            this.getAugSale,
+            this.getSeptSale,
+            this.getOctSale,
+            this.getNovSale,
+            this.getDecSale,
           ],
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
