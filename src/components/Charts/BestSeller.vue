@@ -7,8 +7,19 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import Chart from 'chart.js/auto';
-@Options({})
-export default class BestSeller extends Vue {
+import { mapActions, mapState } from 'vuex';
+import { SaleRecordDto } from 'src/services/rest-api';
+@Options({
+  computed: {
+    ...mapState('saleRecord', ['allSaleRecord']),
+  },
+  methods: {
+    ...mapActions('saleRecord', ['getAllSaleRecord']),
+  },
+})
+export default class monthlyProductSales extends Vue {
+  allSaleRecord!: SaleRecordDto[];
+  getAllSaleRecord!: () => Promise<void>;
   chart?: Chart;
   mounted() {
     const labels = ['Tuna sandwich', 'Beef Burger', 'Grilled cheese sandwich'];

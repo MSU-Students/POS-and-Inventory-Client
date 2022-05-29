@@ -123,9 +123,7 @@
                 </q-item-section>
 
                 <q-item-section top>
-                  <q-item-label class="q-mt-sm">
-                    Today's Expenses
-                  </q-item-label>
+                  <q-item-label class="q-mt-sm"> Today's Sale </q-item-label>
                 </q-item-section>
 
                 <q-item-section top side>
@@ -140,9 +138,7 @@
                 </q-item-section>
 
                 <q-item-section top>
-                  <q-item-label class="q-mt-sm">
-                    Monthly Expenses
-                  </q-item-label>
+                  <q-item-label class="q-mt-sm"> Monthly Sale </q-item-label>
                 </q-item-section>
 
                 <q-item-section top side>
@@ -157,7 +153,7 @@
                 </q-item-section>
 
                 <q-item-section top>
-                  <q-item-label class="q-mt-sm"> Yearl Expenses </q-item-label>
+                  <q-item-label class="q-mt-sm"> Yearly Sales </q-item-label>
                 </q-item-section>
 
                 <q-item-section top side>

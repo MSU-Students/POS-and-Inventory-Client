@@ -188,6 +188,7 @@
                             tempInput.orderCategory = data.productCategory;
                             tempInput.orderSubCategory =
                               data.productSubCategory;
+                            StepConfirm = 1;
                             onaddCart();
                           "
                         />
@@ -235,8 +236,8 @@
                                         autofocus
                                         :rules="[
                                           (val) =>
-                                            val < 5000 ||
-                                            'You can only input less than 5000',
+                                            (val < 5000 && val > 0) ||
+                                            'You can only input greater than 0 and less than 5000',
                                         ]"
                                       />
                                     </div>
@@ -309,7 +310,9 @@
                         prefix="₱"
                         :rules="[
                           (val) =>
-                            (val != 0 && val >= grandTotal()) ||
+                            (val != 0 &&
+                              val >= grandTotal() &&
+                              grandTotal() != 0) ||
                             'You must input the right amount',
                         ]"
                       >

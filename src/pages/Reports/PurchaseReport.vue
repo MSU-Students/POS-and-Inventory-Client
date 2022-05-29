@@ -216,7 +216,7 @@ export default class Expenses extends Vue {
   pendingPurchase!: PurchaseDto[];
   getAllPurchase!: () => Promise<void>;
 
-  async mounted() {
+  async moungited() {
     await this.getAllPurchase();
   }
   columns = [
@@ -239,7 +239,6 @@ export default class Expenses extends Vue {
       align: 'center',
       label: 'Date Purchase',
       field: 'purchaseDate',
-      sortable: true,
     },
     {
       name: 'supplier',
