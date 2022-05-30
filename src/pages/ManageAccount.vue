@@ -302,12 +302,13 @@
       </template>
       <template #body-cell-status="props">
         <q-td :props="props">
-          <q-chip
-            rounded
-            :color="colorManipulation(props.row.status)"
-            text-color="white"
+          <q-btn
+            flat
+            color="white"
+            :text-color="colorManipulation(props.row.status)"
             :label="labelManipulation(props.row.status)"
-          />
+          >
+          </q-btn>
         </q-td>
       </template>
     </q-table>

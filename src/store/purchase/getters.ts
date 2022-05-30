@@ -22,36 +22,6 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
     );
   },
 
-  getDailyPurchase(state) {
-    const dateNow = new Date();
-    const year = date.formatDate(dateNow, 'YYYY-MM-DD');
-    const result = state.allPurchase
-      .filter(
-        (s) =>
-          /^completed$/i.test(s.purchaseStatus || '') &&
-          s.purchaseDate.match(year)
-      )
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result.toFixed(2);
-  },
-
-  getMonthlyPurchase(state) {
-    const dateNow = new Date();
-    const year = date.formatDate(dateNow, 'YYYY-MM');
-    const result = state.allPurchase
-      .filter(
-        (s) =>
-          /^completed$/i.test(s.purchaseStatus || '') &&
-          s.purchaseDate.match(year)
-      )
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result.toFixed(2);
-  },
-
   getCostPurchaseJan(state) {
     const dateNow = new Date();
     const year = date.formatDate(dateNow, 'YYYY');
@@ -64,7 +34,7 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getCostPurchaseFeb(state) {
     const dateNow = new Date();
@@ -78,7 +48,7 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getCostPurchaseMarch(state) {
     const dateNow = new Date();
@@ -92,7 +62,7 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getCostPurchaseApril(state) {
     const dateNow = new Date();
@@ -106,7 +76,7 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getCostPurchaseMay(state) {
     const dateNow = new Date();
@@ -120,7 +90,7 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getCostPurchaseJune(state) {
     const dateNow = new Date();
@@ -134,7 +104,7 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getCostPurchaseJuly(state) {
     const dateNow = new Date();
@@ -148,7 +118,7 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getCostPurchaseAug(state) {
     const dateNow = new Date();
@@ -162,7 +132,7 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getCostPurchaseSept(state) {
     const dateNow = new Date();
@@ -176,7 +146,7 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getCostPurchaseOct(state) {
     const dateNow = new Date();
@@ -190,7 +160,7 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getCostPurchaseNov(state) {
     const dateNow = new Date();
@@ -204,7 +174,7 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getCostPurchaseDec(state) {
     const dateNow = new Date();
@@ -218,7 +188,7 @@ const getters: GetterTree<PurchaseStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.purchaseAmount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
 };
 

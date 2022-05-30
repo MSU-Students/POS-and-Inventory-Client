@@ -10,7 +10,10 @@ const mutation: MutationTree<CartStateInterface> = {
         order.orderSize === payload.orderSize
     );
     if (!exist) {
-      const res = state.allCart.push(payload);
+      const res = state.allCart.push({
+        ...payload,
+        orderQuant: 0,
+      });
     }
     if (exist) {
       const ex = exist.orderQuant++;

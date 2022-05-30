@@ -2,7 +2,7 @@
   <q-layout view="hHh lpR fFf" class="q-pa-md bg-image">
     <q-header reveal elevated class="bg-green text-white">
       <q-toolbar>
-        <q-toolbar-title> Welcome to POS {{ getTotal }}</q-toolbar-title>
+        <q-toolbar-title> Welcome to POS </q-toolbar-title>
         <q-btn
           class="q-py-sm"
           to="/Dashboard"
@@ -157,7 +157,6 @@
                       <div class="row">
                         <div class="col q-pt-md q-px-md">
                           <q-img
-                            v-if="data.url != null"
                             :src="`http://localhost:3000/media/${data.url}`"
                           />
                         </div>
@@ -189,6 +188,7 @@
                             tempInput.orderCategory = data.productCategory;
                             tempInput.orderSubCategory =
                               data.productSubCategory;
+                            StepConfirm = 1;
                             onaddCart();
                           "
                         />
@@ -293,7 +293,7 @@
                 <q-separator inset />
 
                 <q-card-section>
-                  <q-form @submit="OrderConfimition()">
+                  <q-form @submit="ConfirmOrder = true">
                     <div class="row q-py-sm">
                       <div class="col">Grand Total:</div>
                       <div class="q-px-sm text-red-5">₱ {{ grandTotal() }}</div>
@@ -307,9 +307,16 @@
                         v-model="payment"
                         type="number"
                         style="width: 300px"
-                        key=""
                         prefix="₱"
-                      />
+                        :rules="[
+                          (val) =>
+                            (val != 0 &&
+                              val >= grandTotal() &&
+                              grandTotal() != 0) ||
+                            'You must input the right amount',
+                        ]"
+                      >
+                      </q-input>
                     </div>
                     <div class="row q-py-sm">
                       <div class="col">Change:</div>
@@ -357,27 +364,20 @@
 
                             <q-card-section>
                               <div class="row">
-                                <div class="col">Grand Total:</div>
-                                <div class="col text-right q-px-sm">
-                                  {{ grandTotal() }}
-                                </div>
-                              </div>
-
-                              <q-separator inset />
-
-                              <div class="row">
-                                <div class="col">Payment:</div>
-                                <div class="col text-right q-px-sm">
-                                  {{ payment }}
-                                </div>
-                              </div>
-
-                              <q-separator inset />
-
-                              <div class="row">
                                 <div class="col">Change:</div>
                                 <div class="col text-right q-px-sm">
                                   {{ change }}
+                                </div>
+                              </div>
+                            </q-card-section>
+
+                            <q-separator inset />
+
+                            <q-card-section>
+                              <div class="row">
+                                <div class="col">Grand Total:</div>
+                                <div class="col text-right q-px-sm">
+                                  {{ grandTotal() }}
                                 </div>
                               </div>
                             </q-card-section>
@@ -602,7 +602,6 @@ const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
     ...mapState('customer', ['allCustomer']),
     ...mapState('saleOrder', ['allSaleOrder']),
     ...mapState('saleRecord', ['allSaleRecord']),
-    ...mapGetters('cart', ['getTotal']),
   },
   methods: {
     ...mapActions('cart', ['addCart', 'editCart', 'deleteCart', 'clear']),
@@ -620,7 +619,6 @@ export default class POS extends Vue {
   deleteCart!: (payload: ICartInfo) => Promise<void>;
   clear!: () => Promise<void>;
   allCart!: ICartInfo[];
-  getTotal!: number;
   addCustomer!: (payload: CustomerDto) => Promise<void>;
   addSaleRecord!: (payload: SaleRecordDto) => Promise<void>;
   addSaleOrder!: (payload: SaleOrderDto) => Promise<void>;
@@ -638,7 +636,10 @@ export default class POS extends Vue {
   done2 = false;
   done3 = false;
   cancelOrder = true;
+  chooseSize = false;
   editOrderQuant = false;
+  quantity = 0;
+  tempPrice = 0;
   payment = 0;
   change = 0;
   printPreview = false;
@@ -776,24 +777,8 @@ export default class POS extends Vue {
     orderSubTotal: 0,
   };
   OrderConfimition() {
-    if (this.grandTotal() > 0 && this.change >= 0 && this.payment != 0) {
-      this.ConfirmOrder = true;
-    }
-    if (this.grandTotal() === 0 && this.addCart.length <= 0) {
-      this.$q.notify({
-        type: 'negative',
-        message: 'You have to add an order.',
-        position: 'center',
-        timeout: 500,
-      });
-    }
-    if (this.change < 0) {
-      this.$q.notify({
-        type: 'negative',
-        message: 'You have to enter greater payment!',
-        position: 'center',
-        timeout: 500,
-      });
+    if ((this.payment = 0 && this.allCart.length > 0 && this.change < -1)) {
+      return 'You must input payment';
     }
   }
   print() {

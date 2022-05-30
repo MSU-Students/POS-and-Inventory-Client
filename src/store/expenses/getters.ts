@@ -12,7 +12,7 @@ const getters: GetterTree<ExpensesStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.amount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getRentExpenses(state) {
     const dateNow = new Date();
@@ -25,7 +25,7 @@ const getters: GetterTree<ExpensesStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.amount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
   getBillExpenses(state) {
     const dateNow = new Date();
@@ -38,7 +38,7 @@ const getters: GetterTree<ExpensesStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.amount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
 
   getPurchaseExpenses(state) {
@@ -53,7 +53,7 @@ const getters: GetterTree<ExpensesStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.amount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
 
   getTranspoExpenses(state) {
@@ -68,7 +68,7 @@ const getters: GetterTree<ExpensesStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.amount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
 
   getOtherExpenses(state) {
@@ -83,7 +83,7 @@ const getters: GetterTree<ExpensesStateInterface, StateInterface> = {
       .reduce<number>((accumulator, current) => {
         return accumulator + current.amount;
       }, 0);
-    return result.toFixed(2);
+    return result;
   },
 };
 

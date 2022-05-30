@@ -3,6 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
+    meta: { requiresGuest: true },
     component: () => import('layouts/DefaultLayout.vue'),
     children: [
       {
