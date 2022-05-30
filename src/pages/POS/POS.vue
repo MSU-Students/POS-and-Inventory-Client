@@ -2,7 +2,7 @@
   <q-layout view="hHh lpR fFf" class="q-pa-md bg-image">
     <q-header reveal elevated class="bg-green text-white">
       <q-toolbar>
-        <q-toolbar-title> Welcome to POS {{ getTotal }}</q-toolbar-title>
+        <q-toolbar-title> Welcome to POS </q-toolbar-title>
         <q-btn
           class="q-py-sm"
           to="/Dashboard"
@@ -157,7 +157,6 @@
                       <div class="row">
                         <div class="col q-pt-md q-px-md">
                           <q-img
-                            v-if="data.url != null"
                             :src="`http://localhost:3000/media/${data.url}`"
                           />
                         </div>
@@ -307,7 +306,6 @@
                         v-model="payment"
                         type="number"
                         style="width: 300px"
-                        key=""
                         prefix="₱"
                       />
                     </div>
@@ -602,7 +600,6 @@ const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
     ...mapState('customer', ['allCustomer']),
     ...mapState('saleOrder', ['allSaleOrder']),
     ...mapState('saleRecord', ['allSaleRecord']),
-    ...mapGetters('cart', ['getTotal']),
   },
   methods: {
     ...mapActions('cart', ['addCart', 'editCart', 'deleteCart', 'clear']),
@@ -620,7 +617,6 @@ export default class POS extends Vue {
   deleteCart!: (payload: ICartInfo) => Promise<void>;
   clear!: () => Promise<void>;
   allCart!: ICartInfo[];
-  getTotal!: number;
   addCustomer!: (payload: CustomerDto) => Promise<void>;
   addSaleRecord!: (payload: SaleRecordDto) => Promise<void>;
   addSaleOrder!: (payload: SaleOrderDto) => Promise<void>;
