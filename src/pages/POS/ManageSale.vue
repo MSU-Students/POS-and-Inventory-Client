@@ -8,7 +8,7 @@
       <div class="q-gutter-sm q-pa-sm row">
         <q-space />
         <q-btn
-          color="teal"
+          color="green"
           icon-right="archive"
           label="Export to csv"
           @click="exportTable()"
@@ -62,10 +62,12 @@
               </q-card-section>
 
               <q-card-section>
-                <q-form @submit="onAddManageSale">
+                <q-form @submit="onAddManageSale()">
                   <div class="row q-gutter-md">
                     <div class="col">
                       <q-input
+                        autofocus
+                        color="green"
                         outlined
                         v-model="inputManageSale.productName"
                         label="Product Name"
@@ -77,13 +79,17 @@
                         ]"
                       >
                         <template v-slot:prepend>
-                          <q-icon name="drive_file_rename_outline" />
+                          <q-icon
+                            name="drive_file_rename_outline"
+                            color="green"
+                          />
                         </template>
                       </q-input>
                     </div>
                     <div class="col">
                       <q-file
                         outlined
+                        color="green"
                         label="Product Image"
                         accept=".jpg, image/*"
                         v-model="imageAttachement"
@@ -91,7 +97,7 @@
                         @rejected="onRejected"
                       >
                         <template v-slot:prepend>
-                          <q-icon name="camera" />
+                          <q-icon name="camera" color="green" />
                         </template>
                       </q-file>
                     </div>
@@ -99,18 +105,20 @@
                   <div class="row q-gutter-md">
                     <div class="col">
                       <q-select
+                        color="green"
                         outlined
                         :options="productCategoryType"
                         label="Category"
                         v-model="inputManageSale.productCategory"
                       >
                         <template v-slot:prepend>
-                          <q-icon name="category" />
+                          <q-icon name="category" color="green" />
                         </template>
                       </q-select>
                     </div>
                     <div class="col">
                       <q-select
+                        color="green"
                         :v-model="
                           inputManageSale.productCategory ==
                             'Beverage/Drinks' ||
@@ -127,7 +135,7 @@
                         transition-hide="flip-down"
                       >
                         <template v-slot:prepend>
-                          <q-icon name="category" />
+                          <q-icon name="category" color="green" />
                         </template>
                       </q-select>
                     </div>
@@ -135,6 +143,7 @@
                   <div class="row q-pt-md q-gutter-md">
                     <div class="col">
                       <q-select
+                        color="green"
                         label="Product Size"
                         outlined
                         :options="sizeOpt"
@@ -143,17 +152,16 @@
                         v-model="inputManageSale.productSize"
                       >
                         <template v-slot:prepend>
-                          <q-icon name="menu_open" />
+                          <q-icon name="menu_open" color="green" />
                         </template>
                       </q-select>
                     </div>
                     <div class="col">
                       <q-input
+                        color="green"
                         outlined
                         label="Price"
-                        mask="##.##"
-                        fill-mask="0"
-                        reverse-fill-mask
+                        type="number"
                         v-model="inputManageSale.productPrice"
                         lazy-rules
                         :rules="[
@@ -534,11 +542,20 @@ export default class ManageProduct extends Vue {
           ...this.inputManageSale,
           url: media.id,
         });
-      } else if (this.imageAttachement.size < 0) {
+      } else {
         this.loading = true;
         await this.addManageProduct(this.inputManageSale);
       }
-    } catch (error) {}
+      this.$q.notify({
+        type: 'positive',
+        message: 'Successfully Added.',
+      });
+    } catch (error: any) {
+      this.$q.notify({
+        type: 'negative',
+        message: error.message,
+      });
+    }
 
     this.addNewManageSale = false;
     this.resetModel();
@@ -557,7 +574,6 @@ export default class ManageProduct extends Vue {
       } else {
         await this.editManageProduct(this.inputManageSale);
       }
-
       this.$q.notify({
         type: 'positive',
         message: 'Successfully Edit.',

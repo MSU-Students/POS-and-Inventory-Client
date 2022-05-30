@@ -5,20 +5,18 @@ export interface AUser {
   LName: string;
   username?: string;
   password?: string;
-  type?: string;
+  type: string;
   contact?: string;
   email?: string;
   status: string;
   userDateCreated: string;
 }
 export interface IAuthState {
-  currentUser?: AUser[];
+  currentUser?: AUser;
 }
 
 function state(): IAuthState {
-  return {
-    currentUser: [],
-  };
+  return {};
 }
 
 export default state;
