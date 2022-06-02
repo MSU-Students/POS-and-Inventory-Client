@@ -1,10 +1,14 @@
 <template>
   <q-page class="q-pa-lg">
-    <div class="text-h4 q-pb-lg text-bold">
-      <q-icon name="archive" color="indigo" style="font-size: 4rem" />
+    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+      <q-icon
+        class="bi bi-graph-down q-pr-sm"
+        color="teal"
+        style="font-size: 3rem"
+      />
       Stock Report
     </div>
-    <div class="row">
+    <div class="row q-py-lg">
       <div class="col-9">
         <div class="q-pr-md">
           <q-card>
@@ -31,7 +35,7 @@
                       color="white"
                       text-color="black"
                       @click="filter = 'utensil'"
-                      label="utensil"
+                      label="Utensil"
                     />
                     <q-fab-action
                       color="white"
@@ -110,8 +114,6 @@
                 {{ usedInventory.length }}
               </q-item-section>
             </q-item>
-            <q-separator inset />
-            <q-separator inset />
           </q-list>
         </q-card>
       </div>

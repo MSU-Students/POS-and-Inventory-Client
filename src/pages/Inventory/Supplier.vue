@@ -1,13 +1,14 @@
 <template>
   <q-page class="q-pa-lg">
     <div>
-      <div class="text-h4 q-pb-lg text-bold">
+      <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
         <q-icon
+          class="q-pr-sm"
           name="local_shipping"
-          color="deep-orange"
-          style="font-size: 4rem"
+          color="teal"
+          style="font-size: 3rem"
         />
-        Supplier
+        Supplier List
       </div>
       <div class="q-mt-lg">
         <div class="q-gutter-sm q-pa-sm row">

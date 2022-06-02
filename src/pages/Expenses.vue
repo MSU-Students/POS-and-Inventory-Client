@@ -1,7 +1,11 @@
 <template>
   <q-page class="q-pa-lg">
-    <div class="text-h4 q-pb-lg text-bold">
-      <q-icon name="payments" color="indigo" style="font-size: 4rem" />
+    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+      <q-icon
+        class="bi bi-wallet q-pr-sm"
+        color="teal"
+        style="font-size: 3rem"
+      />
       Expenses
     </div>
     <div class="q-mt-lg">

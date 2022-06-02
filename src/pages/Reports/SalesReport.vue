@@ -1,6 +1,13 @@
 <template>
   <q-page class="q-pa-lg">
-    <div class="text-h4 text-bold row">Sales Report</div>
+    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+      <q-icon
+        class="bi bi-graph-down q-pr-sm"
+        color="teal"
+        style="font-size: 3rem"
+      />
+      Sales Report
+    </div>
     <div class="q-py-lg">
       <div class="row q-gutter-lg">
         <div class="col-9">
@@ -347,7 +354,7 @@ import { exportFile } from 'quasar';
       'getMonthlySale',
       'getYearlySale',
     ]),
-    ...mapGetters('saleOrder', ['getMilkteaTotal']),
+    ...mapGetters('saleOrder', ['getBestSeller']),
   },
   methods: {
     ...mapActions('saleRecord', ['getAllSaleRecord']),
@@ -363,6 +370,7 @@ export default class SaleRecord extends Vue {
   getMonthlySale!: number;
   getYearlySale!: number;
   getMilkteaTotal!: SaleOrderDto[];
+  getBestSeller!: SaleOrderDto[];
   getAllSaleRecord!: () => Promise<void>;
   getAllSaleOrder!: () => Promise<void>;
   mapSalesOrder(invoice: SaleRecordDto) {
@@ -373,6 +381,7 @@ export default class SaleRecord extends Vue {
   async mounted() {
     await this.getAllSaleRecord();
     await this.getAllSaleOrder();
+    console.log(this.getBestSeller);
   }
   tab = 'Food';
   saleFilter = '';

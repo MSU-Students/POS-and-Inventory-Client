@@ -1,15 +1,14 @@
 <template>
   <q-page class="q-pa-lg">
-    <div class="text-h4 text-bold">
+    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
       <q-icon
-        name="account_circle"
-        color="light-blue-6"
-        style="font-size: 4rem"
+        class="bi bi-person-fill q-pr-sm"
+        color="teal"
+        style="font-size: 3rem"
       />
-      Account Management
+      Manage Account
     </div>
 
-    <br />
     <div class="q-mt-lg">
       <div class="q-gutter-sm q-pa-sm row">
         <q-space />
@@ -302,13 +301,12 @@
       </template>
       <template #body-cell-status="props">
         <q-td :props="props">
-          <q-btn
+          <q-chip
             flat
             color="white"
             :text-color="colorManipulation(props.row.status)"
             :label="labelManipulation(props.row.status)"
-          >
-          </q-btn>
+          />
         </q-td>
       </template>
     </q-table>
@@ -482,9 +480,9 @@ export default class ManageAccount extends Vue {
   }
   labelManipulation(status: string) {
     if (status == 'Active') {
-      return 'Active';
+      return 'ACTIVE';
     } else if (status == 'Inactive') {
-      return 'Inactive';
+      return 'INACTIVE';
     }
   }
 

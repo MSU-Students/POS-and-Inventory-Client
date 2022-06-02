@@ -1,15 +1,15 @@
 <template>
   <q-page>
     <div class="q-pa-lg">
-      <div class="text-h4 text-bold q-pb-lg">
+      <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
         <q-icon
-          name="stacked_bar_chart"
-          color="orange"
-          style="font-size: 4rem"
+          class="bi bi-graph-down q-pr-sm"
+          color="teal"
+          style="font-size: 3rem"
         />
-        Expense Report
+        Expenses Report
       </div>
-      <div class="row q-pb-lg q-gutter-lg">
+      <div class="q-py-lg q-gutter-lg row">
         <div class="col-8">
           <q-table
             title="Expenses List"

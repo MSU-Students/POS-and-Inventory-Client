@@ -1,7 +1,11 @@
 <template>
   <q-page class="q-pa-lg">
-    <div class="text-h4 q-pb-lg text-bold">
-      <q-icon name="inventory" color="indigo" style="font-size: 4rem" />
+    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+      <q-icon
+        class="bi bi-box-seam q-pr-sm"
+        color="teal"
+        style="font-size: 3rem"
+      />
       Inventory
     </div>
     <div class="q-pr-md">
@@ -104,6 +108,7 @@
                     <div class="q-py-sm q-gutter-md row">
                       <div class="col">
                         <q-input
+                          autofocus
                           outlined
                           label="Item Name"
                           color="green"
@@ -328,6 +333,7 @@
                     <q-form @submit="onEditStatusInventory()">
                       <div class="q-pb-md">
                         <q-input
+                          autofocus
                           outlined
                           color="green"
                           label="Quantity"
