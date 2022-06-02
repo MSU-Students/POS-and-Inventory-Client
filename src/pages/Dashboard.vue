@@ -14,7 +14,7 @@
                 </q-item-label>
                 <q-item-label>
                   <span> ₱ </span>
-                  {{ getSumSaleToday() - getSumExpenses() }}
+                  {{ getTodayProfit() }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -34,7 +34,7 @@
                 </q-item-label>
                 <q-item-label>
                   <span> ₱ </span>
-                  {{ getSumSaleToday() }}
+                  {{ getDailySale }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -54,7 +54,7 @@
                 </q-item-label>
                 <q-item-label>
                   <span> ₱ </span>
-                  {{ getSumPurchase() }}
+                  {{ getDailyPurchase }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -74,7 +74,7 @@
                 </q-item-label>
                 <q-item-label>
                   <span> ₱ </span>
-                  {{ getSumExpenses() }}
+                  {{ getDailyExpenses }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -139,9 +139,9 @@
                   </q-item>
                   <q-separator inset />
                   <q-item>
-                    <q-item-section>Total Cost</q-item-section>
+                    <q-item-section>Monthly Cost</q-item-section>
                     <q-item-section class="text-h6 text-bold" side>
-                      {{ getSumPurchase() }}
+                      {{ getMonthlyPurchase }}
                     </q-item-section>
                   </q-item>
                   <q-separator inset />
@@ -212,10 +212,14 @@ const TodayDate = date.formatDate(dateNow, 'YYYY-MM-DD');
       'completePurchase',
       'cancelPurchase',
       'pendingPurchase',
+      'getDailyPurchase',
+      'getMonthlyPurchase',
     ]),
     ...mapState('purchase', ['allPurchase']),
     ...mapState('saleRecord', ['allSaleRecord']),
     ...mapState('expenses', ['allExpenses']),
+    ...mapGetters('saleRecord', ['getDailySale']),
+    ...mapGetters('expenses', ['getDailyExpenses']),
   },
   methods: {
     ...mapActions('purchase', ['getAllPurchase']),
@@ -234,6 +238,10 @@ export default class Dashboard extends Vue {
   pendingPurchase!: PurchaseDto[];
   allSaleRecord!: SaleRecordDto[];
   allExpenses!: ExpensesDto[];
+  getDailySale!: number;
+  getDailyExpenses!: number;
+  getDailyPurchase!: number;
+  getMonthlyPurchase!: number;
   getAllPurchase!: () => Promise<void>;
   getAllSaleRecord!: () => Promise<void>;
   getAllExpenses!: () => Promise<void>;
@@ -268,37 +276,15 @@ export default class Dashboard extends Vue {
       field: (row: any) => row.totalAmount,
     },
   ];
-
   getTodaySale() {
     const result = this.allSaleRecord.filter((s) =>
       s.sales_order_created.match(TodayDate)
     );
     return result;
   }
-
-  getSumPurchase() {
-    const result = this.completePurchase
-      .filter((s) => s.purchaseDate.match(TodayDate))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.purchaseAmount;
-      }, 0);
-    return result;
-  }
-  getSumExpenses() {
-    const result = this.allExpenses
-      .filter((s) => s.expensesDate.match(TodayDate))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.amount;
-      }, 0);
-    return result;
-  }
-  getSumSaleToday() {
-    const result = this.allSaleRecord
-      .filter((s) => s.sales_order_created.match(TodayDate))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
-      }, 0);
-    return result;
+  getTodayProfit() {
+    const result = this.getDailySale - this.getDailyExpenses;
+    return result.toFixed(2);
   }
 }
 </script>

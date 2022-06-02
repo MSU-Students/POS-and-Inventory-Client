@@ -1,8 +1,13 @@
 <template>
   <q-page class="q-pa-lg">
-    <div class="text-h4 text-bold">
-      <q-icon name="shopping_bag" color="amber" style="font-size: 4rem" />
-      Purchase
+    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+      <q-icon
+        class="b q-pr-sm"
+        name="shopping_bag"
+        color="teal"
+        style="font-size: 3rem"
+      />
+      Purchase record
     </div>
     <div class="q-mt-lg">
       <div class="q-gutter-sm q-pa-sm row">

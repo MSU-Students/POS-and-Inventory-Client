@@ -1,8 +1,16 @@
+import { SellOrder } from 'src/interfaces/sale-order.interface';
+import { SaleOrderDto } from 'src/services/rest-api';
 import { GetterTree } from 'vuex';
 import { StateInterface } from '../index';
 import { SaleOrderStateInterface } from './state';
 
 const getters: GetterTree<SaleOrderStateInterface, StateInterface> = {
+  getBestSeller(state) {
+    const product = state.allSaleOrder
+      .filter((s) => s.orderCategory === 'Food')
+      .sort((a, b) => a.orderQuant - b.orderQuant);
+    return product.concat();
+  },
   getMilkteaTotal(state) {
     const result = state.allSaleOrder
       .filter((s) => s.orderName === 'Red Velvet')

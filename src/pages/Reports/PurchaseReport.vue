@@ -1,11 +1,15 @@
 <template>
   <q-page class="q-pa-lg">
-    <div class="text-h4 q-pb-lg text-bold">
-      <q-icon name="request_quote" color="indigo" style="font-size: 4rem" />
+    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+      <q-icon
+        class="bi bi-graph-down q-pr-sm"
+        color="teal"
+        style="font-size: 3rem"
+      />
       Purchase Report
     </div>
-    <div>
-      <div class="q-mt-lg">
+    <div class="q-py-lg">
+      <div>
         <div class="q-gutter-sm q-pa-sm row">
           <q-space />
           <q-btn
@@ -39,7 +43,7 @@
                 color="white"
                 text-color="black"
                 @click="filter = 'utensil'"
-                label="utensil"
+                label="Utensil"
               />
               <q-fab-action
                 color="white"
@@ -136,7 +140,7 @@
 
               <q-item
                 v-for="data in cancelPurchase"
-                v-bind:key="data.purchaseProduct"
+                v-bind:key="data.purchaseID"
               >
                 <q-item-section avatar top>
                   <q-icon name="assignment_return" color="red" size="34px" />
@@ -169,6 +173,16 @@
                     Date: {{ data.purchaseDate }}
                   </q-item-label>
                 </q-item-section>
+                <div class="q-pl-sm" top>
+                  <q-btn
+                    color="red-5"
+                    icon="delete"
+                    flat
+                    round
+                    dense
+                    @click="onDeleteCanceled(data)"
+                  />
+                </div>
               </q-item>
             </q-list>
           </q-layout>
@@ -207,13 +221,14 @@ import { exportFile } from 'quasar';
     ]),
   },
   methods: {
-    ...mapActions('purchase', ['getAllPurchase']),
+    ...mapActions('purchase', ['getAllPurchase', 'deletePurchase']),
   },
 })
 export default class Expenses extends Vue {
   completePurchase!: PurchaseDto[];
   cancelPurchase!: PurchaseDto[];
   pendingPurchase!: PurchaseDto[];
+  deletePurchase!: (payload: PurchaseDto) => Promise<void>;
   getAllPurchase!: () => Promise<void>;
 
   async moungited() {
@@ -280,6 +295,21 @@ export default class Expenses extends Vue {
     },
   ];
   filter = '';
+  onDeleteCanceled(val: PurchaseDto) {
+    this.$q
+      .dialog({
+        message: 'Confirm to delete?',
+        cancel: true,
+        persistent: true,
+      })
+      .onOk(async () => {
+        await this.deletePurchase(val.purchaseID as any);
+        this.$q.notify({
+          type: 'warning',
+          message: 'Successfully deleted',
+        });
+      });
+  }
   wrapCsvValue(
     val: string,
     formatFn?: (v: string, r: any) => string,

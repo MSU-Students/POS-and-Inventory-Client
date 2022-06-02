@@ -66,6 +66,8 @@
                   <div class="row q-gutter-md">
                     <div class="col">
                       <q-input
+                        autofocus
+                        color="primary"
                         outlined
                         v-model="inputManageSale.productName"
                         label="Product Name"
@@ -77,12 +79,16 @@
                         ]"
                       >
                         <template v-slot:prepend>
-                          <q-icon name="drive_file_rename_outline" />
+                          <q-icon
+                            name="drive_file_rename_outline"
+                            color="primary"
+                          />
                         </template>
                       </q-input>
                     </div>
                     <div class="col">
                       <q-file
+                        color="primary"
                         outlined
                         label="Product Image"
                         accept=".jpg, image/*"
@@ -91,7 +97,7 @@
                         @rejected="onRejected"
                       >
                         <template v-slot:prepend>
-                          <q-icon name="camera" />
+                          <q-icon name="camera" color="primary" />
                         </template>
                       </q-file>
                     </div>
@@ -99,18 +105,20 @@
                   <div class="row q-gutter-md">
                     <div class="col">
                       <q-select
+                        color="primary"
                         outlined
                         :options="productCategoryType"
                         label="Category"
                         v-model="inputManageSale.productCategory"
                       >
                         <template v-slot:prepend>
-                          <q-icon name="category" />
+                          <q-icon name="category" color="primary" />
                         </template>
                       </q-select>
                     </div>
                     <div class="col">
                       <q-select
+                        color="primary"
                         :v-model="
                           inputManageSale.productCategory ==
                             'Beverage/Drinks' ||
@@ -127,7 +135,7 @@
                         transition-hide="flip-down"
                       >
                         <template v-slot:prepend>
-                          <q-icon name="category" />
+                          <q-icon name="category" color="primary" />
                         </template>
                       </q-select>
                     </div>
@@ -135,6 +143,7 @@
                   <div class="row q-pt-md q-gutter-md">
                     <div class="col">
                       <q-select
+                        color="primary"
                         label="Product Size"
                         outlined
                         :options="sizeOpt"
@@ -143,12 +152,13 @@
                         v-model="inputManageSale.productSize"
                       >
                         <template v-slot:prepend>
-                          <q-icon name="menu_open" />
+                          <q-icon name="menu_open" color="primary" />
                         </template>
                       </q-select>
                     </div>
                     <div class="col">
                       <q-input
+                        color="primary"
                         outlined
                         label="Price"
                         mask="##.##"
@@ -189,7 +199,7 @@
                     <q-btn
                       flat
                       label="Cancel"
-                      color="red-10"
+                      color="red-5"
                       v-close-popup
                       @click="resetModel()"
                     />
@@ -206,6 +216,16 @@
             </q-card>
           </q-dialog>
         </div>
+      </template>
+      <template #body-cell-availability="props">
+        <q-td :props="props">
+          <q-chip
+            flat
+            color="white"
+            :text-color="colorManipulation(props.row.productAvailability)"
+            :label="labelManipulation(props.row.productAvailability)"
+          />
+        </q-td>
       </template>
       <template v-slot:body-cell-Actions="props">
         <q-td :props="props">
@@ -238,6 +258,8 @@
                     <div class="row q-gutter-md">
                       <div class="col">
                         <q-input
+                          autofocus
+                          color="primary"
                           outlined
                           v-model="inputManageSale.productName"
                           label="Product Name"
@@ -249,6 +271,7 @@
                       </div>
                       <div class="col">
                         <q-file
+                          color="primary"
                           outlined
                           label="Product Image"
                           accept=".jpg, image/*"
@@ -257,7 +280,7 @@
                           @rejected="onRejected"
                         >
                           <template v-slot:prepend>
-                            <q-icon name="camera" />
+                            <q-icon name="camera" color="primary" />
                           </template>
                         </q-file>
                       </div>
@@ -265,18 +288,20 @@
                     <div class="row q-pt-md q-gutter-md">
                       <div class="col">
                         <q-select
+                          color="primary"
                           outlined
                           :options="productCategoryType"
                           label="Category"
                           v-model="inputManageSale.productCategory"
                         >
                           <template v-slot:prepend>
-                            <q-icon name="category" />
+                            <q-icon name="category" color="primary" />
                           </template>
                         </q-select>
                       </div>
                       <div class="col">
                         <q-select
+                          color="primary"
                           :v-model="
                             inputManageSale.productCategory ==
                               'Beverage/Drinks' ||
@@ -293,7 +318,7 @@
                           transition-hide="flip-down"
                         >
                           <template v-slot:prepend>
-                            <q-icon name="category" />
+                            <q-icon name="category" color="primary" />
                           </template>
                         </q-select>
                       </div>
@@ -301,6 +326,7 @@
                     <div class="row q-pt-md q-gutter-md">
                       <div class="col">
                         <q-select
+                          color="primary"
                           label="Product Size"
                           outlined
                           :options="sizeOpt"
@@ -309,13 +335,14 @@
                           v-model="inputManageSale.productSize"
                         >
                           <template v-slot:prepend>
-                            <q-icon name="menu_open" />
+                            <q-icon name="menu_open" color="primary" />
                           </template>
                         </q-select>
                       </div>
                       <div class="col">
                         <q-input
                           outlined
+                          color="primary"
                           label="Price"
                           v-model="inputManageSale.productPrice"
                         >
@@ -363,7 +390,7 @@
               </q-card>
             </q-dialog>
             <q-btn
-              color="red-10"
+              color="red-5"
               icon="delete"
               size="sm"
               class="q-ml-sm"
@@ -421,9 +448,9 @@ export default class ManageProduct extends Vue {
   }
   columns = [
     {
-      name: 'Product Name',
+      name: 'productName',
       required: true,
-      label: 'Product Number',
+      label: 'Product Name',
       align: 'left',
       field: (row: ManageProductDto) => row.productName,
       format: (val: string) => `${val}`,
@@ -453,7 +480,7 @@ export default class ManageProduct extends Vue {
       field: 'productPrice',
     },
     {
-      name: 'productAvailability',
+      name: 'availability',
       align: 'center',
       label: 'Product Availability ',
       field: 'productAvailability',
@@ -534,11 +561,20 @@ export default class ManageProduct extends Vue {
           ...this.inputManageSale,
           url: media.id,
         });
-      } else if (this.imageAttachement.size < 0) {
+      } else {
         this.loading = true;
         await this.addManageProduct(this.inputManageSale);
       }
-    } catch (error) {}
+      this.$q.notify({
+        type: 'positive',
+        message: 'Successfully Added.',
+      });
+    } catch (error: any) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something went wrong!... Please try again.',
+      });
+    }
 
     this.addNewManageSale = false;
     this.resetModel();
@@ -607,6 +643,20 @@ export default class ManageProduct extends Vue {
       url: '',
     };
     this.imageAttachement = new File([], 'Select File');
+  }
+  colorManipulation(productAvailability: string) {
+    if (productAvailability == 'Yes') {
+      return 'positive';
+    } else if (productAvailability == 'No') {
+      return 'negative';
+    }
+  }
+  labelManipulation(productAvailability: string) {
+    if (productAvailability == 'Yes') {
+      return 'YES';
+    } else if (productAvailability == 'No') {
+      return 'NO';
+    }
   }
   wrapCsvValue(
     val: string,
