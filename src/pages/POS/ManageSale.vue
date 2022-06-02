@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-lg">
+  <q-page class="q-pa-lg bg-grey-1">
     <div class="q-pb-xl text-h4 text-bold">
       <q-icon name="menu_book" color="amber" style="font-size: 4rem" />
       Manage Products
@@ -20,7 +20,6 @@
       :rows="allProduct"
       :columns="columns"
       row-key="name"
-      :rows-per-page-options="[0]"
       :filter="filter"
     >
       <template v-slot:top-right>

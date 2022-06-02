@@ -117,7 +117,7 @@
                 <q-radio v-model="radioSizes" val="Large" label="Large" />
               </div>
               <div class="q-pa-md col-7">
-                <div v-if="filter == null">
+                <div v-if="filter === null || filter === ''">
                   <q-form @submit="model = 'allProducts'">
                     <q-input
                       clearable

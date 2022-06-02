@@ -5,7 +5,7 @@
         <q-toolbar-title> Welcome to POS </q-toolbar-title>
         <q-btn
           class="q-py-sm"
-          to="/landingPage"
+          to="/Dashboard"
           icon="logout"
           label="Back"
           flat
@@ -117,22 +117,40 @@
                 <q-radio v-model="radioSizes" val="Large" label="Large" />
               </div>
               <div class="q-pa-md col-7">
-                <q-form @submit="model = filter">
-                  <q-input
-                    color="green"
-                    dense
-                    square
-                    outlined
-                    debounce="300"
-                    v-model="filter"
-                  >
-                    <template v-slot:append>
-                      <q-btn flat @click="model = filter">
+                <div v-if="filter === null || filter === ''">
+                  <q-form @submit="model = 'allProducts'">
+                    <q-input
+                      clearable
+                      color="green"
+                      dense
+                      square
+                      outlined
+                      debounce="300"
+                      v-model="filter"
+                    >
+                      <template v-slot:append>
                         <q-icon name="search" color="green" />
-                      </q-btn>
-                    </template>
-                  </q-input>
-                </q-form>
+                      </template>
+                    </q-input>
+                  </q-form>
+                </div>
+                <div v-else>
+                  <q-form @submit="model = filter">
+                    <q-input
+                      clearable
+                      color="green"
+                      dense
+                      square
+                      outlined
+                      debounce="300"
+                      v-model="filter"
+                    >
+                      <template v-slot:append>
+                        <q-icon name="search" color="green" />
+                      </template>
+                    </q-input>
+                  </q-form>
+                </div>
               </div>
             </div>
 
@@ -157,19 +175,24 @@
                       <div class="row">
                         <div class="col q-pt-md q-px-md">
                           <q-img
+                            v-if="data.url != null || data.url != undefined"
                             :src="`http://localhost:3000/media/${data.url}`"
                           />
                         </div>
                         <div class="col">
                           <div class="q-py-xl text-subtitle7">
-                            <q-item-label>
+                            <q-item-label class="text-bold">
                               {{ data.productName }}
+                            </q-item-label>
+                            <q-item-label
+                              class="text-weight-bolder text-red-10 q-pt-sm"
+                            >
+                              Price:
                             </q-item-label>
                             <q-item-label
                               class="text-weight-bolder text-red-10"
                             >
-                              Price:
-                              {{ data.productPrice }}
+                              ₱ {{ data.productPrice }}
                             </q-item-label>
                           </div>
                         </div>
@@ -189,6 +212,7 @@
                             tempInput.orderSubCategory =
                               data.productSubCategory;
                             onaddCart();
+                            StepConfirm = 1;
                           "
                         />
                       </div>
@@ -489,28 +513,37 @@
                             />
                             <q-dialog v-model="printPreview">
                               <q-card
-                                style="width: 800px; height: 600px"
+                                bordered="false"
+                                style="width: 800px"
                                 class="q-px-sm q-pb-md"
                                 @click="print()"
                               >
-                                <div class="row">
-                                  <div class="col-9">
-                                    <q-card-section>
-                                      <q-avatar size="125px">
-                                        <img class="logo" />
-                                      </q-avatar>
-                                    </q-card-section>
-                                  </div>
-                                  <div class="col-3">
+                                <q-card-section>
+                                  <q-avatar
+                                    size="125px"
+                                    class="absolute-top-right"
+                                  >
+                                    <img src="~assets/BesTea.jpg" />
+                                  </q-avatar>
+                                </q-card-section>
+                                <q-card-section>
+                                  <div class="row">
                                     <p>Date: {{ today }}</p>
                                   </div>
-                                </div>
-                                <q-card-section>
                                   <div class="row">
                                     <p>
                                       <strong
                                         >Bill to:
                                         {{ inputCustomer.customerName }}</strong
+                                      >
+                                    </p>
+                                  </div>
+                                  <div class="row">
+                                    <p>
+                                      <strong
+                                        >Cashier: {{ currentUser.FName }}
+                                        {{ currentUser.MName }}
+                                        {{ currentUser.LName }}</strong
                                       >
                                     </p>
                                   </div>
@@ -559,6 +592,8 @@
                                   <q-card-section>
                                     <p>Payment: {{ payment }}</p>
                                     <p>Change: {{ change }}</p>
+                                    <p>Discount: 0% - ₱ 00.00</p>
+                                    <p>Tax: 0% - ₱ 00.00</p>
                                     <p>Grand Total: {{ grandTotal() }}</p>
                                   </q-card-section>
                                 </q-card-section>
@@ -591,6 +626,7 @@ import {
 } from 'src/services/rest-api';
 import { ICartInfo } from 'src/store/cart/state';
 import { date } from 'quasar';
+import { AUser } from 'src/store/auth/state';
 const timeStamp = Date.now();
 const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 @Options({
@@ -600,6 +636,7 @@ const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
     ...mapState('customer', ['allCustomer']),
     ...mapState('saleOrder', ['allSaleOrder']),
     ...mapState('saleRecord', ['allSaleRecord']),
+    ...mapState('auth', ['currentUser']),
   },
   methods: {
     ...mapActions('cart', ['addCart', 'editCart', 'deleteCart', 'clear']),
@@ -608,6 +645,7 @@ const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
     ...mapActions('saleOrder', ['addSaleOrder']),
     ...mapActions('saleRecord', ['addSaleRecord']),
     ...mapActions('account', ['getProfile']),
+    ...mapActions('auth', ['authUser']),
   },
 })
 export default class POS extends Vue {
@@ -616,6 +654,8 @@ export default class POS extends Vue {
   editCart!: (payload: ICartInfo) => Promise<void>;
   deleteCart!: (payload: ICartInfo) => Promise<void>;
   clear!: () => Promise<void>;
+  authUser!: () => Promise<void>;
+  currentUser!: AUser;
   allCart!: ICartInfo[];
   addCustomer!: (payload: CustomerDto) => Promise<void>;
   addSaleRecord!: (payload: SaleRecordDto) => Promise<void>;
@@ -624,6 +664,7 @@ export default class POS extends Vue {
   getAllManageProduct!: () => Promise<void>;
   async mounted() {
     await this.getAllManageProduct();
+    await this.authUser();
   }
   radioSizes = 'Regular';
   model = 'allProducts';

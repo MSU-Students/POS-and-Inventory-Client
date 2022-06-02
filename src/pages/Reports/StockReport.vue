@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-lg">
+  <q-page class="q-pa-lg bg-grey-1">
     <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
       <q-icon
         class="bi bi-graph-down q-pr-sm"
@@ -19,6 +19,7 @@
               row-key="itemCode"
               :rows-per-page-options="[0]"
               :filter="filter"
+              style="max-height: 600px"
             >
               <template v-slot:top-right>
                 <div>

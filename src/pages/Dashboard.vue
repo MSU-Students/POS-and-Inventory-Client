@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-xl">
+  <q-page class="q-pa-xl bg-grey-1">
     <div class="row q-gutter-xl">
       <div class="col">
         <q-card class="profit_bg text-white" align="center">
@@ -87,7 +87,7 @@
         <div class="q-pt-lg row">
           <q-card class="text-secondary" style="width: 750px; max-width: 80vw">
             <q-list>
-              <q-item>
+              <q-item clickable to="/Inventory">
                 <q-item-section>
                   <q-item-label class="text-h6">
                     Invetory Details
@@ -121,7 +121,7 @@
         <div class="q-pt-xl row">
           <q-card class="text-secondary" style="width: 750px; max-width: 80vw">
             <q-list>
-              <q-item>
+              <q-item clickable to="/Inventory">
                 <q-item-section>
                   <q-item-label class="text-h6">
                     Purchase Details

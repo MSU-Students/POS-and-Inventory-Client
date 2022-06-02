@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="q-pa-lg">
+    <div class="q-pa-lg bg-grey-1">
       <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
         <q-icon
           class="bi bi-graph-down q-pr-sm"
@@ -16,8 +16,9 @@
             :rows="allExpenses"
             :columns="columns"
             row-key="reference"
-            :rows-per-page-options="[5]"
             :search="search"
+            :rows-per-page-options="[0]"
+            style="max-height: 600px"
           >
             <template v-slot:top-right>
               <div>
