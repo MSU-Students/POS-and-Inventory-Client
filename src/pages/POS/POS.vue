@@ -174,10 +174,16 @@
                     <q-card class="my-card" :class="class_val">
                       <div class="row">
                         <div class="col q-pt-md q-px-md">
-                          <q-img
-                            v-if="data.url != null || data.url != undefined"
-                            :src="`http://localhost:3000/media/${data.url}`"
-                          />
+                          <q-avatar size="110px">
+                            <q-img
+                              v-if="data.url"
+                              :src="`http://localhost:3000/media/${data.url}`"
+                            />
+                            <q-img
+                              v-if="!data.url"
+                              src="../../assets/BesTea.jpg"
+                            />
+                          </q-avatar>
                         </div>
                         <div class="col">
                           <div class="q-py-xl text-subtitle7">
