@@ -5,7 +5,7 @@
         <q-toolbar-title> Welcome to POS </q-toolbar-title>
         <q-btn
           class="q-py-sm"
-          to="/Dashboard"
+          to="/LandingPage"
           icon="logout"
           label="Back"
           flat
@@ -117,40 +117,22 @@
                 <q-radio v-model="radioSizes" val="Large" label="Large" />
               </div>
               <div class="q-pa-md col-7">
-                <div v-if="filter === null || filter === ''">
-                  <q-form @submit="model = 'allProducts'">
-                    <q-input
-                      clearable
-                      color="green"
-                      dense
-                      square
-                      outlined
-                      debounce="300"
-                      v-model="filter"
-                    >
-                      <template v-slot:append>
+                <q-form @submit="model = filter">
+                  <q-input
+                    color="green"
+                    dense
+                    square
+                    outlined
+                    debounce="300"
+                    v-model="filter"
+                  >
+                    <template v-slot:append>
+                      <q-btn flat @click="model = filter">
                         <q-icon name="search" color="green" />
-                      </template>
-                    </q-input>
-                  </q-form>
-                </div>
-                <div v-else>
-                  <q-form @submit="model = filter">
-                    <q-input
-                      clearable
-                      color="green"
-                      dense
-                      square
-                      outlined
-                      debounce="300"
-                      v-model="filter"
-                    >
-                      <template v-slot:append>
-                        <q-icon name="search" color="green" />
-                      </template>
-                    </q-input>
-                  </q-form>
-                </div>
+                      </q-btn>
+                    </template>
+                  </q-input>
+                </q-form>
               </div>
             </div>
 
@@ -175,25 +157,19 @@
                       <div class="row">
                         <div class="col q-pt-md q-px-md">
                           <q-img
-                            v-if="data.url"
                             :src="`http://localhost:3000/media/${data.url}`"
                           />
-                          <q-img v-if="!data.url" src="~assets/BesTea.jpg" />
                         </div>
                         <div class="col">
                           <div class="q-py-xl text-subtitle7">
-                            <q-item-label class="text-bold">
+                            <q-item-label>
                               {{ data.productName }}
-                            </q-item-label>
-                            <q-item-label
-                              class="text-weight-bolder text-red-10 q-pt-sm"
-                            >
-                              Price:
                             </q-item-label>
                             <q-item-label
                               class="text-weight-bolder text-red-10"
                             >
-                              ₱ {{ data.productPrice }}
+                              Price:
+                              {{ data.productPrice }}
                             </q-item-label>
                           </div>
                         </div>
@@ -209,11 +185,7 @@
                             tempInput.orderPrice = data.productPrice;
                             tempInput.orderSize = data.productSize;
                             tempInput.orderName = data.productName;
-                            tempInput.orderCategory = data.productCategory;
-                            tempInput.orderSubCategory =
-                              data.productSubCategory;
                             onaddCart();
-                            StepConfirm = 1;
                           "
                         />
                       </div>
@@ -257,12 +229,6 @@
                                       <q-input
                                         v-model="tempInput.orderQuant"
                                         label="Edit Quantity"
-                                        autofocus
-                                        :rules="[
-                                          (val) =>
-                                            (val < 5000 && val > 0) ||
-                                            'You can only input greater than 0 and less than 5000',
-                                        ]"
                                       />
                                     </div>
                                     <div class="q-gutter-md" align="right">
@@ -317,37 +283,43 @@
                 <q-separator inset />
 
                 <q-card-section>
-                  <q-form @submit="OrderConfimition()">
-                    <div class="row q-py-sm">
-                      <div class="col">Grand Total:</div>
-                      <div class="q-px-sm text-red-5">₱ {{ grandTotal() }}</div>
-                    </div>
-                    <div class="row q-py-sm">
-                      <div class="q-py-sm col">Payment:</div>
-                      <q-input
-                        dense
-                        square
-                        outlined
-                        v-model="payment"
-                        type="number"
-                        style="width: 300px"
-                        prefix="₱"
-                      />
-                    </div>
-                    <div class="row q-py-sm">
-                      <div class="col">Change:</div>
-                      <div class="q-px-sm text-red-5">₱ {{ change }}</div>
-                    </div>
+                  <div class="row q-py-sm">
+                    <div class="col">Grand Total:</div>
+                    <div class="q-px-sm text-red-5">₱ {{ grandTotal() }}</div>
+                  </div>
+                  <div class="row q-py-sm">
+                    <div class="q-py-sm col">Payment:</div>
+                    <q-input
+                      dense
+                      square
+                      outlined
+                      v-model="payment"
+                      type="number"
+                      style="width: 300px"
+                      prefix="₱"
+                      @keyup.enter="change = payment - grandTotal()"
+                    >
+                    </q-input>
+                  </div>
+                  <div class="row q-py-sm">
+                    <div class="col">Change:</div>
+                    <div class="q-px-sm text-red-5">₱ {{ change }}</div>
+                  </div>
+
+                  <div class="q-pt-lg">
                     <q-btn
                       class="full-width"
                       push
                       color="green"
                       label="Confirm Order"
-                      type="submit"
+                      @click="
+                        ConfirmOrder =
+                          true &&
+                          this.payment != 0 &&
+                          this.allCart.length > 0 &&
+                          this.change > 0
+                      "
                     />
-                  </q-form>
-
-                  <div class="q-pt-lg">
                     <q-dialog v-model="ConfirmOrder" persistent>
                       <q-stepper
                         v-model="StepConfirm"
@@ -380,27 +352,20 @@
 
                             <q-card-section>
                               <div class="row">
-                                <div class="col">Grand Total:</div>
-                                <div class="col text-right q-px-sm">
-                                  {{ grandTotal() }}
-                                </div>
-                              </div>
-
-                              <q-separator inset />
-
-                              <div class="row">
-                                <div class="col">Payment:</div>
-                                <div class="col text-right q-px-sm">
-                                  {{ payment }}
-                                </div>
-                              </div>
-
-                              <q-separator inset />
-
-                              <div class="row">
                                 <div class="col">Change:</div>
                                 <div class="col text-right q-px-sm">
                                   {{ change }}
+                                </div>
+                              </div>
+                            </q-card-section>
+
+                            <q-separator inset />
+
+                            <q-card-section>
+                              <div class="row">
+                                <div class="col">Grand Total:</div>
+                                <div class="col text-right q-px-sm">
+                                  {{ grandTotal() }}
                                 </div>
                               </div>
                             </q-card-section>
@@ -514,37 +479,28 @@
                             />
                             <q-dialog v-model="printPreview">
                               <q-card
-                                bordered="false"
-                                style="width: 800px"
+                                style="width: 800px; height: 600px"
                                 class="q-px-sm q-pb-md"
                                 @click="print()"
                               >
-                                <q-card-section>
-                                  <q-avatar
-                                    size="125px"
-                                    class="absolute-top-right"
-                                  >
-                                    <img src="~assets/BesTea.jpg" />
-                                  </q-avatar>
-                                </q-card-section>
-                                <q-card-section>
-                                  <div class="row">
+                                <div class="row">
+                                  <div class="col-9">
+                                    <q-card-section>
+                                      <q-avatar size="125px">
+                                        <img class="logo" />
+                                      </q-avatar>
+                                    </q-card-section>
+                                  </div>
+                                  <div class="col-3">
                                     <p>Date: {{ today }}</p>
                                   </div>
+                                </div>
+                                <q-card-section>
                                   <div class="row">
                                     <p>
                                       <strong
                                         >Bill to:
                                         {{ inputCustomer.customerName }}</strong
-                                      >
-                                    </p>
-                                  </div>
-                                  <div class="row">
-                                    <p>
-                                      <strong
-                                        >Cashier: {{ currentUser.FName }}
-                                        {{ currentUser.MName }}
-                                        {{ currentUser.LName }}</strong
                                       >
                                     </p>
                                   </div>
@@ -593,8 +549,6 @@
                                   <q-card-section>
                                     <p>Payment: {{ payment }}</p>
                                     <p>Change: {{ change }}</p>
-                                    <p>Discount: 0% - ₱ 00.00</p>
-                                    <p>Tax: 0% - ₱ 00.00</p>
                                     <p>Grand Total: {{ grandTotal() }}</p>
                                   </q-card-section>
                                 </q-card-section>
@@ -627,7 +581,6 @@ import {
 } from 'src/services/rest-api';
 import { ICartInfo } from 'src/store/cart/state';
 import { date } from 'quasar';
-import { AUser } from 'src/store/auth/state';
 const timeStamp = Date.now();
 const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 @Options({
@@ -637,7 +590,6 @@ const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
     ...mapState('customer', ['allCustomer']),
     ...mapState('saleOrder', ['allSaleOrder']),
     ...mapState('saleRecord', ['allSaleRecord']),
-    ...mapState('auth', ['currentUser']),
   },
   methods: {
     ...mapActions('cart', ['addCart', 'editCart', 'deleteCart', 'clear']),
@@ -646,7 +598,6 @@ const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
     ...mapActions('saleOrder', ['addSaleOrder']),
     ...mapActions('saleRecord', ['addSaleRecord']),
     ...mapActions('account', ['getProfile']),
-    ...mapActions('auth', ['authUser']),
   },
 })
 export default class POS extends Vue {
@@ -655,8 +606,6 @@ export default class POS extends Vue {
   editCart!: (payload: ICartInfo) => Promise<void>;
   deleteCart!: (payload: ICartInfo) => Promise<void>;
   clear!: () => Promise<void>;
-  authUser!: () => Promise<void>;
-  currentUser!: AUser;
   allCart!: ICartInfo[];
   addCustomer!: (payload: CustomerDto) => Promise<void>;
   addSaleRecord!: (payload: SaleRecordDto) => Promise<void>;
@@ -665,7 +614,6 @@ export default class POS extends Vue {
   getAllManageProduct!: () => Promise<void>;
   async mounted() {
     await this.getAllManageProduct();
-    await this.authUser();
   }
   radioSizes = 'Regular';
   model = 'allProducts';
@@ -676,11 +624,14 @@ export default class POS extends Vue {
   done2 = false;
   done3 = false;
   cancelOrder = true;
+  chooseSize = false;
   editOrderQuant = false;
+  quantity = 0;
+  tempPrice = 0;
   payment = 0;
   change = 0;
   printPreview = false;
-  today = new Date().toLocaleString();
+  today = new Date().toLocaleDateString();
   foodCat = false;
   drinksCat = false;
   addOnsCat = false;
@@ -813,27 +764,6 @@ export default class POS extends Vue {
     orderSubCategory: '',
     orderSubTotal: 0,
   };
-  OrderConfimition() {
-    if (this.grandTotal() > 0 && this.change >= 0 && this.payment != 0) {
-      this.ConfirmOrder = true;
-    }
-    if (this.grandTotal() === 0 && this.addCart.length <= 0) {
-      this.$q.notify({
-        type: 'negative',
-        message: 'You have to add an order.',
-        position: 'center',
-        timeout: 500,
-      });
-    }
-    if (this.change < 0) {
-      this.$q.notify({
-        type: 'negative',
-        message: 'You have to enter greater payment!',
-        position: 'center',
-        timeout: 500,
-      });
-    }
-  }
   print() {
     window.print();
   }
@@ -841,8 +771,6 @@ export default class POS extends Vue {
     const result = this.allCart.reduce<number>((accumulator, current) => {
       return accumulator + current.orderSubTotal;
     }, 0);
-
-    this.change = this.payment - result;
     return result;
   }
   resetOrder() {
