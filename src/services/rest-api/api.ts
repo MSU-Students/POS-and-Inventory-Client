@@ -208,10 +208,10 @@ export interface InventoryDto {
 export interface ManageProductDto {
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof ManageProductDto
      */
-    'product_ID'?: string;
+    'product_ID'?: number;
     /**
      * 
      * @type {string}
@@ -1102,11 +1102,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Delete Product by id
-         * @param {string} productID 
+         * @param {number} productID 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteProduct: async (productID: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteProduct: async (productID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'productID' is not null or undefined
             assertParamExists('deleteProduct', 'productID', productID)
             const localVarPath = `/manage-product/{product_ID}`
@@ -1604,11 +1604,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Get Product by id
-         * @param {string} productID 
+         * @param {number} productID 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getProduct: async (productID: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getProduct: async (productID: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'productID' is not null or undefined
             assertParamExists('getProduct', 'productID', productID)
             const localVarPath = `/manage-product/{product_ID}`
@@ -2304,12 +2304,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Update Product by id
-         * @param {string} productID 
+         * @param {number} productID 
          * @param {ManageProductDto} manageProductDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProduct: async (productID: string, manageProductDto: ManageProductDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateProduct: async (productID: number, manageProductDto: ManageProductDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'productID' is not null or undefined
             assertParamExists('updateProduct', 'productID', productID)
             // verify required parameter 'manageProductDto' is not null or undefined
@@ -2751,11 +2751,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Delete Product by id
-         * @param {string} productID 
+         * @param {number} productID 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteProduct(productID: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManageProductDto>> {
+        async deleteProduct(productID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManageProductDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProduct(productID, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2913,11 +2913,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get Product by id
-         * @param {string} productID 
+         * @param {number} productID 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getProduct(productID: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManageProductDto>> {
+        async getProduct(productID: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManageProductDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getProduct(productID, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3129,12 +3129,12 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Update Product by id
-         * @param {string} productID 
+         * @param {number} productID 
          * @param {ManageProductDto} manageProductDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateProduct(productID: string, manageProductDto: ManageProductDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManageProductDto>> {
+        async updateProduct(productID: number, manageProductDto: ManageProductDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManageProductDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateProduct(productID, manageProductDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3362,11 +3362,11 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Delete Product by id
-         * @param {string} productID 
+         * @param {number} productID 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteProduct(productID: string, options?: any): AxiosPromise<ManageProductDto> {
+        deleteProduct(productID: number, options?: any): AxiosPromise<ManageProductDto> {
             return localVarFp.deleteProduct(productID, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3509,11 +3509,11 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Get Product by id
-         * @param {string} productID 
+         * @param {number} productID 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getProduct(productID: string, options?: any): AxiosPromise<ManageProductDto> {
+        getProduct(productID: number, options?: any): AxiosPromise<ManageProductDto> {
             return localVarFp.getProduct(productID, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3705,12 +3705,12 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Update Product by id
-         * @param {string} productID 
+         * @param {number} productID 
          * @param {ManageProductDto} manageProductDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProduct(productID: string, manageProductDto: ManageProductDto, options?: any): AxiosPromise<ManageProductDto> {
+        updateProduct(productID: number, manageProductDto: ManageProductDto, options?: any): AxiosPromise<ManageProductDto> {
             return localVarFp.updateProduct(productID, manageProductDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3959,12 +3959,12 @@ export class DefaultApi extends BaseAPI {
     /**
      * 
      * @summary Delete Product by id
-     * @param {string} productID 
+     * @param {number} productID 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public deleteProduct(productID: string, options?: AxiosRequestConfig) {
+    public deleteProduct(productID: number, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).deleteProduct(productID, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4136,12 +4136,12 @@ export class DefaultApi extends BaseAPI {
     /**
      * 
      * @summary Get Product by id
-     * @param {string} productID 
+     * @param {number} productID 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public getProduct(productID: string, options?: AxiosRequestConfig) {
+    public getProduct(productID: number, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).getProduct(productID, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4372,13 +4372,13 @@ export class DefaultApi extends BaseAPI {
     /**
      * 
      * @summary Update Product by id
-     * @param {string} productID 
+     * @param {number} productID 
      * @param {ManageProductDto} manageProductDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public updateProduct(productID: string, manageProductDto: ManageProductDto, options?: AxiosRequestConfig) {
+    public updateProduct(productID: number, manageProductDto: ManageProductDto, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).updateProduct(productID, manageProductDto, options).then((request) => request(this.axios, this.basePath));
     }
 

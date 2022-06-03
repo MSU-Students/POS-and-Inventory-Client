@@ -1,4 +1,4 @@
-import { SaleRecord } from 'src/interfaces/sale-record.interface';
+import { SaleRecord } from 'src/interfaces/saleRecord.interface';
 import { MutationTree } from 'vuex';
 import { SaleRecordStateInterface } from './state';
 

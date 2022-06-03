@@ -1,9 +1,12 @@
 export interface Inventory {
   itemCode?: number;
   itemName: string;
-  itemQuantProd?: number;
+  itemQuantProd: number;
+  itemQuantStatus: number;
+  itemStatus: string;
   itemUnitProd: string;
   itemExpiryDate: string;
-  itemDateCreated: Date;
+  itemDateCreated: string;
   itemCategory: string;
+  itemConsumeAt: string;
 }

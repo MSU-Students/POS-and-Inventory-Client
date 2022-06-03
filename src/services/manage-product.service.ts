@@ -17,17 +17,17 @@ class ProductService extends DefaultApi {
     return response.data as unknown as ManageProductDto[];
   }
 
-  async getOne(product_ID: string): Promise<ManageProductDto> {
+  async getOne(product_ID: number): Promise<ManageProductDto> {
     const response = await posApiService.getProduct(product_ID);
     return response.data;
   }
 
-  async update(product_ID: string, payload: any) {
+  async update(product_ID: number, payload: any) {
     const response = await posApiService.updateProduct(product_ID, payload);
     return response.data;
   }
 
-  async delete(product_ID: string) {
+  async delete(product_ID: number) {
     const response = await posApiService.deleteProduct(product_ID);
     return response.data;
   }

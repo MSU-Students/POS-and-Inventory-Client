@@ -5,9 +5,9 @@ export interface Users {
   LName: string;
   username?: string;
   password?: string;
-  type?: string;
+  type?: 'admin' | 'cashier';
   contact?: string;
   email?: string;
-  status: string;
+  status: 'Active' | 'Inactive';
   userDateCreated: string;
 }
