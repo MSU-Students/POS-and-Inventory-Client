@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-lg">
+  <q-page class="q-pa-lg bg-grey-1">
     <div class="q-pb-xl text-h4 text-bold">
       <q-icon name="menu_book" color="amber" style="font-size: 4rem" />
       Manage Products
@@ -20,7 +20,6 @@
       :rows="allProduct"
       :columns="columns"
       row-key="name"
-      :rows-per-page-options="[0]"
       :filter="filter"
     >
       <template v-slot:top-right>
@@ -491,6 +490,7 @@ export default class ManageProduct extends Vue {
       align: 'center',
       label: 'Date Created',
       field: 'productDateCreated',
+      sortable: true,
     },
     {
       name: 'Actions',
@@ -565,6 +565,9 @@ export default class ManageProduct extends Vue {
         this.loading = true;
         await this.addManageProduct(this.inputManageSale);
       }
+      this.addNewManageSale = false;
+      this.resetModel();
+      this.loading = false;
       this.$q.notify({
         type: 'positive',
         message: 'Successfully Added.',
@@ -575,10 +578,6 @@ export default class ManageProduct extends Vue {
         message: 'Something went wrong!... Please try again.',
       });
     }
-
-    this.addNewManageSale = false;
-    this.resetModel();
-    this.loading = false;
   }
 
   async oneditManageProduct() {
@@ -593,7 +592,9 @@ export default class ManageProduct extends Vue {
       } else {
         await this.editManageProduct(this.inputManageSale);
       }
-
+      this.loading = false;
+      this.editRowManageSale = false;
+      this.resetModel();
       this.$q.notify({
         type: 'positive',
         message: 'Successfully Edit.',
@@ -604,10 +605,6 @@ export default class ManageProduct extends Vue {
         message: 'Something went wrong!',
       });
     }
-
-    this.loading = false;
-    this.editRowManageSale = false;
-    this.resetModel();
   }
 
   deleteSpecificManageSale(val: ManageProductDto) {
@@ -640,7 +637,6 @@ export default class ManageProduct extends Vue {
       productCategory: '',
       productSubCategory: '',
       productSize: 'Regular',
-      url: '',
     };
     this.imageAttachement = new File([], 'Select File');
   }

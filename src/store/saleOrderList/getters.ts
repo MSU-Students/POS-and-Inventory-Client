@@ -1,5 +1,3 @@
-import { SellOrder } from 'src/interfaces/sale-order.interface';
-import { SaleOrderDto } from 'src/services/rest-api';
 import { GetterTree } from 'vuex';
 import { StateInterface } from '../index';
 import { SaleOrderStateInterface } from './state';

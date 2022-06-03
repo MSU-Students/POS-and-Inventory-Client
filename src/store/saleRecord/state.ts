@@ -1,4 +1,4 @@
-import { SaleRecord } from 'src/interfaces/sale-record.interface';
+import { SaleRecord } from 'src/interfaces/saleRecord.interface';
 
 export interface SaleRecordStateInterface {
   allSaleRecord: SaleRecord[];

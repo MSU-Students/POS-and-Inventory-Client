@@ -1,12 +1,12 @@
-import { SellOrder } from 'src/interfaces/sale-order.interface';
+import { SaleOrder } from 'src/interfaces/saleOrder.interface';
 import { MutationTree } from 'vuex';
 import { SaleOrderStateInterface } from './state';
 
 const mutation: MutationTree<SaleOrderStateInterface> = {
-  setNewSaleOrder(state, payload: SellOrder) {
+  setNewSaleOrder(state, payload: SaleOrder) {
     state.newSaleOrder = payload;
   },
-  updateSaleOrder(state, payload: SellOrder) {
+  updateSaleOrder(state, payload: SaleOrder) {
     state.newSaleOrder = payload;
   },
   deleteSaleOrder(state, payload: any) {

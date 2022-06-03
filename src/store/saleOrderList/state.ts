@@ -1,8 +1,8 @@
-import { SellOrder } from 'src/interfaces/sale-order.interface';
+import { SaleOrder } from 'src/interfaces/saleOrder.interface';
 
 export interface SaleOrderStateInterface {
-  allSaleOrder: SellOrder[];
-  newSaleOrder?: SellOrder;
+  allSaleOrder: SaleOrder[];
+  newSaleOrder?: SaleOrder;
 }
 
 function state(): SaleOrderStateInterface {

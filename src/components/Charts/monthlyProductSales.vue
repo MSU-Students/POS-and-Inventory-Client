@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="myChart" width="400" height="200"></canvas>
+    <canvas id="myChart" width="500" height="300"></canvas>
   </div>
 </template>
 
@@ -34,7 +34,7 @@ const year = date.formatDate(dateNow, 'YYYY');
     ...mapActions('saleRecord', ['getAllSaleRecord']),
   },
 })
-export default class monthlyProductSales extends Vue {
+export default class MonthlySales extends Vue {
   chart?: Chart;
   allSaleRecord!: SaleRecordDto[];
   getDecSale!: number;

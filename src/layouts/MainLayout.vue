@@ -83,7 +83,7 @@
         <q-list padding>
           <q-item clickable active-class="text-green" v-ripple to="/Dashboard">
             <q-item-section avatar>
-              <q-icon name="dashboard" color="green-2" />
+              <q-icon name="dashboard" color="green-3" />
             </q-item-section>
             <q-item-section> Dashboard </q-item-section>
           </q-item>
@@ -91,7 +91,7 @@
           <q-expansion-item>
             <template v-slot:header>
               <q-item-section avatar>
-                <q-icon name="shopping_cart" color="green-2" />
+                <q-icon name="shopping_cart" color="green-3" />
               </q-item-section>
               <q-item-section> Sale </q-item-section>
             </template>
@@ -114,7 +114,7 @@
 
           <q-item clickable active-class="text-green" v-ripple to="/Inventory">
             <q-item-section avatar>
-              <q-icon name="inventory_2" color="green-2" />
+              <q-icon name="inventory_2" color="green-3" />
             </q-item-section>
 
             <q-item-section> Inventory </q-item-section>
@@ -122,7 +122,7 @@
 
           <q-item clickable active-class="text-green" v-ripple to="/Supplier">
             <q-item-section avatar>
-              <q-icon name="local_shipping" color="green-2" />
+              <q-icon name="local_shipping" color="green-3" />
             </q-item-section>
 
             <q-item-section> Supplier </q-item-section>
@@ -130,14 +130,14 @@
 
           <q-item clickable active-class="text-green" v-ripple to="/Purchase">
             <q-item-section avatar>
-              <q-icon name="checklist" color="green-2" />
+              <q-icon name="checklist" color="green-3" />
             </q-item-section>
 
             <q-item-section> Purchase </q-item-section>
           </q-item>
           <q-item clickable active-class="text-green" v-ripple to="/Expenses">
             <q-item-section avatar>
-              <q-icon name="payments" color="green-2" />
+              <q-icon name="payments" color="green-3" />
             </q-item-section>
 
             <q-item-section> Expenses </q-item-section>
@@ -146,7 +146,7 @@
           <q-expansion-item>
             <template v-slot:header>
               <q-item-section avatar>
-                <q-icon name="analytics" color="green-2" />
+                <q-icon name="analytics" color="green-3" />
               </q-item-section>
               <q-item-section> Reports </q-item-section>
             </template>
@@ -190,7 +190,7 @@
 
           <q-item clickable active-class="text-green" v-ripple to="/account">
             <q-item-section avatar>
-              <q-icon name="settings" color="green-2" />
+              <q-icon name="settings" color="green-3" />
             </q-item-section>
 
             <q-item-section> Manage Account </q-item-section>
@@ -262,8 +262,8 @@ export default class MainLayout extends Vue {
 .header_bg {
   background-image: linear-gradient(
     to right,
-    rgb(15, 158, 15),
-    rgb(19, 188, 19)
+    rgb(21, 164, 21),
+    rgb(22, 194, 22)
   );
 }
 </style>

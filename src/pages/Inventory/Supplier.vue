@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-lg">
+  <q-page class="q-pa-lg bg-grey-1">
     <div>
       <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
         <q-icon
@@ -26,7 +26,6 @@
         :rows="allSupplier"
         :columns="columns"
         row-key="supplierName"
-        :rows-per-page-options="[0]"
         :filter="filter"
       >
         <template v-slot:top-right>
@@ -296,38 +295,37 @@ export default class Supplier extends Vue {
       required: true,
       label: 'Supplier Name',
       align: 'left',
-      field: 'supplierName',
+      field: (row: SupplierDto) => row.supplierName || 'None',
     },
     {
       name: 'company',
       align: 'center',
       label: 'Company Name',
-      field: 'company',
+
+      field: (row: SupplierDto) => row.company || 'None',
     },
     {
       name: 'email',
       align: 'center',
       label: 'Email',
-      field: 'email',
+      field: (row: SupplierDto) => row.email || 'None',
     },
     {
       name: 'contact',
       align: 'center',
       label: 'Contact',
-      field: 'contact',
+      field: (row: SupplierDto) => row.contact || 'None',
     },
     {
       name: 'address',
       align: 'center',
       label: 'Address',
-      field: 'address',
+      field: (row: SupplierDto) => row.address || 'None',
     },
     { name: 'Actions', align: 'center', label: 'Actions', field: 'Actions' },
   ];
   addNewSupplier = false;
   editRowSupplier = false;
-  supplierDetails = false;
-  files = '';
   filter = '';
 
   inputSupplier: SupplierDto = {
