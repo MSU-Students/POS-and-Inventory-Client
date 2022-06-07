@@ -368,16 +368,10 @@ export default class Expenses extends Vue {
 
   columns = [
     {
-      name: 'expensesID',
-      align: 'left',
-      label: 'Expenses Reference',
-      field: 'expensesID',
-    },
-    {
       name: 'expensesName',
       required: true,
       label: 'Expenses Name',
-      align: 'center',
+      align: 'left',
       field: 'expensesName',
     },
     {
@@ -401,9 +395,9 @@ export default class Expenses extends Vue {
 
     {
       name: 'amount',
-      align: 'right',
+      align: 'center',
       label: 'Amount',
-      field: 'amount',
+      field: (row: ExpensesDto) => '₱ ' + row.amount,
     },
     {
       name: 'expensesNote',

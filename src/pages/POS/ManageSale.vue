@@ -1,8 +1,8 @@
 <template>
   <q-page class="q-pa-lg bg-grey-1">
-    <div class="q-pb-xl text-h4 text-bold">
-      <q-icon name="menu_book" color="amber" style="font-size: 4rem" />
-      Manage Products
+    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+      <q-icon class="bi bi-shop q-pr-sm" color="teal" style="font-size: 3rem" />
+      Manage Product
     </div>
     <div class="q-mt-lg">
       <div class="q-gutter-sm q-pa-sm row">
@@ -160,9 +160,6 @@
                         color="primary"
                         outlined
                         label="Price"
-                        mask="##.##"
-                        fill-mask="0"
-                        reverse-fill-mask
                         v-model="inputManageSale.productPrice"
                         lazy-rules
                         :rules="[
@@ -171,7 +168,9 @@
                             'You must enter an input',
                         ]"
                       >
-                        <template v-slot:prepend> ₱ </template>
+                        <template class="text-teal-4" v-slot:prepend>
+                          ₱
+                        </template>
                       </q-input>
                     </div>
                   </div>
@@ -401,6 +400,17 @@
           </div>
         </q-td>
       </template>
+      <template #body-cell-image="props">
+        <q-td :props="props">
+          <q-avatar size="50px">
+            <q-img
+              v-if="props.row.url"
+              :src="`http://localhost:3000/media/${props.row.url}`"
+            />
+            <q-img v-if="!props.row.url" src="../../assets/BesTea.jpg" />
+          </q-avatar>
+        </q-td>
+      </template>
     </q-table>
   </q-page>
 </template>
@@ -447,42 +457,53 @@ export default class ManageProduct extends Vue {
   }
   columns = [
     {
+      name: 'image',
+      align: 'center',
+      field: 'url',
+    },
+    {
       name: 'productName',
       required: true,
       label: 'Product Name',
       align: 'left',
       field: (row: ManageProductDto) => row.productName,
       format: (val: string) => `${val}`,
+      sortable: true,
     },
     {
       name: 'productCategory',
       align: 'center',
       label: 'Category',
       field: 'productCategory',
+      sortable: true,
     },
     {
       name: 'SubCategory',
       align: 'center',
       label: 'Sub-Category',
       field: 'productSubCategory',
+      sortable: true,
     },
     {
       name: 'productSize',
       align: 'center',
       label: 'Product Size',
       field: 'productSize',
+      sortable: true,
     },
     {
       name: 'productPrice',
       align: 'center',
       label: 'Price',
-      field: 'productPrice',
+      field: (row: ManageProductDto) => '₱ ' + row.productPrice,
+      sortable: true,
     },
     {
       name: 'availability',
       align: 'center',
       label: 'Product Availability ',
       field: 'productAvailability',
+      sortable: true,
     },
 
     {
@@ -509,7 +530,7 @@ export default class ManageProduct extends Vue {
 
   inputManageSale: any = {
     productName: '',
-    productPrice: 0,
+    productPrice: '',
     productAvailability: 'Yes',
     productDateCreated: formattedString,
     productCategory: '',
@@ -631,7 +652,7 @@ export default class ManageProduct extends Vue {
   resetModel() {
     this.inputManageSale = {
       productName: '',
-      productPrice: 0,
+      productPrice: '',
       productAvailability: 'Yes',
       productDateCreated: formattedString,
       productCategory: '',

@@ -154,7 +154,7 @@
               </div>
             </div>
 
-            <q-scroll-area style="height: 600px; max-height: 600px">
+            <q-scroll-area class="q-pb-md" style="height: 600px">
               <div class="row">
                 <div
                   v-for="data in availableProduct"
@@ -337,6 +337,7 @@
                         type="number"
                         style="width: 300px"
                         prefix="₱"
+                        key="payment"
                       />
                     </div>
                     <div class="row q-py-sm">
@@ -374,7 +375,6 @@
                                 :rows="allCart"
                                 :columns="selectedOrder"
                                 title="Selected Order"
-                                :rows-per-page-options="[]"
                                 wrap-cells
                                 hide-bottom
                               >
@@ -387,16 +387,16 @@
                               <div class="row">
                                 <div class="col">Grand Total:</div>
                                 <div class="col text-right q-px-sm">
-                                  {{ grandTotal() }}
+                                  ₱ {{ grandTotal() }}
                                 </div>
                               </div>
 
                               <q-separator inset />
 
-                              <div class="row">
+                              <div class="row q-py-md">
                                 <div class="col">Payment:</div>
                                 <div class="col text-right q-px-sm">
-                                  {{ payment }}
+                                  ₱ {{ payment }}
                                 </div>
                               </div>
 
@@ -405,7 +405,7 @@
                               <div class="row">
                                 <div class="col">Change:</div>
                                 <div class="col text-right q-px-sm">
-                                  {{ change }}
+                                  ₱ {{ change }}
                                 </div>
                               </div>
                             </q-card-section>
@@ -554,53 +554,34 @@
                                     </p>
                                   </div>
                                   <div class="flex flex-center row">
-                                    <q-table
-                                      :rows="allCart"
-                                      :columns="selectedOrder"
-                                      :rows-per-page-options="[]"
-                                      row-key="SelProd"
-                                      wrap-cells
-                                      hide-bottom
-                                      flat
-                                      style="height: 200px; max-height: 500px"
-                                    >
-                                      <template v-slot:body="props">
-                                        <q-tr :props="props">
-                                          <q-td
-                                            key="productName"
-                                            :props="props"
-                                          >
-                                            {{ props.row.orderName }}
-                                          </q-td>
-                                          <q-td key="orderQuant" :props="props">
-                                            {{ props.row.orderQuant }}
-                                          </q-td>
-                                          <q-td key="orderSize" :props="props">
-                                            {{ props.row.orderSize }}
-                                          </q-td>
-                                          <q-td key="orderPrice" :props="props">
-                                            {{ props.row.orderPrice }}
-                                          </q-td>
-                                          <q-td
-                                            key="orderSubTotal"
-                                            :props="props"
-                                          >
-                                            {{ props.row.orderSubTotal }}
-                                          </q-td>
-                                        </q-tr>
-                                      </template>
-
-                                      <template v-slot:body-cell-action="props">
-                                        <q-td :props="props"> </q-td>
-                                      </template>
-                                    </q-table>
+                                    <div class="row">
+                                      <q-table
+                                        :rows="allCart"
+                                        :columns="selectedOrder"
+                                        :rows-per-page-options="[]"
+                                        row-key="SelProd"
+                                        wrap-cells
+                                        hide-bottom
+                                        flat
+                                        style="height: 200px; max-height: 500px"
+                                      >
+                                        <template
+                                          v-slot:body-cell-action="props"
+                                        >
+                                          <q-td :props="props"> </q-td>
+                                        </template>
+                                      </q-table>
+                                    </div>
+                                    <div class="row" align="right">
+                                      <p>Grand Total: {{ grandTotal() }}</p>
+                                    </div>
                                   </div>
+
                                   <q-card-section>
-                                    <p>Payment: {{ payment }}</p>
-                                    <p>Change: {{ change }}</p>
                                     <p>Discount: 0% - ₱ 00.00</p>
                                     <p>Tax: 0% - ₱ 00.00</p>
-                                    <p>Grand Total: {{ grandTotal() }}</p>
+                                    <p>Payment: {{ payment }}</p>
+                                    <p>Change: {{ change }}</p>
                                   </q-card-section>
                                 </q-card-section>
                               </q-card>
@@ -793,15 +774,15 @@ export default class POS extends Vue {
     },
     {
       name: 'orderPrice',
-      align: 'right',
+      align: 'center',
       label: 'Price',
-      field: 'orderPrice',
+      field: (row: ICartInfo) => '₱ ' + row.orderPrice,
     },
     {
       name: 'orderSubTotal',
-      align: 'right',
+      align: 'center',
       label: 'SubTotal',
-      field: 'orderSubTotal',
+      field: (row: ICartInfo) => '₱ ' + row.orderSubTotal,
     },
     {
       name: 'action',
@@ -838,6 +819,14 @@ export default class POS extends Vue {
         timeout: 500,
       });
     }
+    // if (this.allCart.orderQuant === 0) {
+    //   this.$q.notify({
+    //     type: 'negative',
+    //     message: 'You have to enter greater payment!',
+    //     position: 'center',
+    //     timeout: 500,
+    //   });
+    // }
   }
   print() {
     window.print();

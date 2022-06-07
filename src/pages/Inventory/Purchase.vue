@@ -7,7 +7,7 @@
         color="teal"
         style="font-size: 3rem"
       />
-      Purchase record
+      Purchase
     </div>
     <div class="q-mt-lg">
       <div class="q-gutter-sm q-pa-sm row">
@@ -70,10 +70,11 @@
                   <div class="row q-gutter-md">
                     <div class="col">
                       <q-input
+                        autofocus
                         v-model="inputPurchase.purchaseProduct"
                         outlined
                         label="Enter Purchase Item"
-                        color="secondary"
+                        color="primary"
                         lazy-rules
                         :rules="[
                           (val) =>
@@ -88,7 +89,7 @@
                         transition-show="flip-up"
                         transition-hide="flip-down"
                         outlined
-                        color="secondary"
+                        color="primary"
                         :options="allSupplier"
                         option-label="company"
                         option-value="supplierID"
@@ -102,7 +103,7 @@
                     <div class="col">
                       <q-input
                         outlined
-                        color="secondary"
+                        color="primary"
                         v-model="inputPurchase.productQuantity"
                         type="number"
                         label="Quantity"
@@ -118,7 +119,7 @@
                     <div class="col">
                       <q-select
                         outlined
-                        color="secondary"
+                        color="primary"
                         :options="unitProduct"
                         v-model="inputPurchase.productUnit"
                         transition-show="flip-up"
@@ -172,7 +173,7 @@
                   <div class="q-gutter-md q-pt-md" align="right">
                     <q-btn
                       label="Cancel"
-                      color="red"
+                      color="red-5"
                       v-close-popup
                       @click="resetModel()"
                     />
@@ -217,10 +218,11 @@
                     <div class="row q-gutter-md">
                       <div class="col">
                         <q-input
+                          autofocus
                           v-model="inputPurchase.purchaseProduct"
                           outlined
                           label="Enter Purchase Item"
-                          color="secondary"
+                          color="primary"
                         />
                       </div>
                       <div class="col">
@@ -229,7 +231,7 @@
                           transition-show="flip-up"
                           transition-hide="flip-down"
                           outlined
-                          color="secondary"
+                          color="primary"
                           :options="allSupplier"
                           option-label="company"
                           option-value="supplierID"
@@ -243,7 +245,7 @@
                       <div class="col">
                         <q-input
                           outlined
-                          color="secondary"
+                          color="primary"
                           v-model="inputPurchase.productQuantity"
                           type="number"
                           label="Quantity"
@@ -253,7 +255,7 @@
                       <div class="col">
                         <q-select
                           outlined
-                          color="secondary"
+                          color="primary"
                           :options="unitProduct"
                           v-model="inputPurchase.productUnit"
                           transition-show="flip-up"
@@ -286,29 +288,10 @@
                         />
                       </div>
                     </div>
-                    <div class="q-px-sm">
-                      <div class="q-pt-md">Purchase Status:</div>
-                      <q-radio
-                        v-model="inputPurchase.purchaseStatus"
-                        val="Pending"
-                        label="Pending"
-                        color="orange"
-                        size="lg"
-                        checked-icon="task_alt"
-                        unchecked-icon="panorama_fish_eye"
-                      />
-                      <q-radio
-                        v-model="inputPurchase.purchaseStatus"
-                        val="Completed"
-                        label="Completed"
-                        size="lg"
-                        color="secondary"
-                      />
-                    </div>
                     <div class="q-gutter-md q-pt-md" align="right">
                       <q-btn
                         label="Cancel"
-                        color="red"
+                        color="red-5"
                         v-close-popup
                         @click="resetModel()"
                       />
@@ -319,7 +302,7 @@
               </q-card>
             </q-dialog>
             <q-btn
-              color="red-10"
+              color="red-5"
               icon="delete"
               size="sm"
               class="q-ml-sm"
@@ -331,7 +314,7 @@
 
             <q-btn
               round
-              color="secondary"
+              color="primary"
               icon="done_all"
               size="sm"
               flat
@@ -348,28 +331,28 @@
                         v-model="inputPurchase.purchaseStatus"
                         val="Pending"
                         label="Pending"
-                        color="teal"
+                        color="warning"
                         size="lg"
                       />
                       <q-radio
                         v-model="inputPurchase.purchaseStatus"
                         val="Completed"
                         label="Completed"
-                        color="secondary"
+                        color="positive"
                         size="lg"
                       />
                       <q-radio
                         v-model="inputPurchase.purchaseStatus"
                         val="Canceled"
-                        label="Cancel"
-                        color="red"
+                        label="Canceled"
+                        color="red-5"
                         size="lg"
                       />
                     </div>
                     <div class="q-gutter-md q-pt-lg" align="right">
                       <q-btn
                         label="Cancel"
-                        color="red"
+                        color="red-5"
                         v-close-popup
                         @click="resetModel()"
                       />
@@ -380,6 +363,16 @@
               </q-card>
             </q-dialog>
           </div>
+        </q-td>
+      </template>
+      <template #body-cell-status="props">
+        <q-td :props="props">
+          <q-chip
+            flat
+            color="white"
+            :text-color="colorManipulation(props.row.purchaseStatus)"
+            :label="labelManipulation(props.row.purchaseStatus)"
+          />
         </q-td>
       </template>
     </q-table>
@@ -424,17 +417,10 @@ export default class Pruchase extends Vue {
   }
   columns = [
     {
-      name: 'itemCode',
-      required: true,
-      label: 'Purchase Reference',
-      align: 'left',
-      field: 'purchaseID',
-    },
-    {
       name: 'purchaseProduct',
       required: true,
       label: 'Product Name',
-      align: 'center',
+      align: 'left',
       field: 'purchaseProduct',
     },
     {
@@ -471,12 +457,12 @@ export default class Pruchase extends Vue {
     },
     {
       name: 'purchaseAmount',
-      align: 'right',
+      align: 'center',
       label: 'Amount',
-      field: 'purchaseAmount',
+      field: (row: PurchaseDto) => '₱ ' + row.purchaseAmount,
     },
     {
-      name: 'purchaseStatus',
+      name: 'status',
       align: 'center',
       label: 'Purchase Status',
       field: 'purchaseStatus',
@@ -563,6 +549,17 @@ export default class Pruchase extends Vue {
       productUnit: '',
       purchaseStatus: 'Pending',
     };
+  }
+
+  colorManipulation(purchaseStatus: string) {
+    if (purchaseStatus.match('Pending')) {
+      return 'warning';
+    }
+  }
+  labelManipulation(purchaseStatus: string) {
+    if (purchaseStatus.match('Pending')) {
+      return 'PENDING';
+    }
   }
 
   wrapCsvValue(

@@ -1,10 +1,7 @@
 <template>
   <div>
-    <canvas
-      class="q-pl-md"
-      id="myChart"
-      style="height: 450px; width: 70px"
-    ></canvas>
+    <canvas class="q-pl-md" id="myChart" style="height: 450px; width: 70px">
+    </canvas>
   </div>
 </template>
 
@@ -47,7 +44,7 @@ export default class ChartComponent extends Vue {
           label: 'Revenue',
           backgroundColor: ['rgb(255, 205, 86)', 'rgb(255, 99, 132)'],
           data: [this.getDailySale, this.getDailyExpenses],
-          hoverOffset: 30,
+          hoverOffset: 20,
         },
       ],
     };
@@ -64,15 +61,6 @@ export default class ChartComponent extends Vue {
         maintainAspectRatio: false,
       },
     });
-  }
-
-  getSumExpenses() {
-    const result = this.allExpenses
-      .filter((s) => s.expensesDate.match(TodayDate))
-      .reduce<number>((accumulator, current) => {
-        return accumulator + current.amount;
-      }, 0);
-    return result;
   }
 }
 </script>

@@ -156,7 +156,7 @@ export interface InventoryDto {
      * @type {number}
      * @memberof InventoryDto
      */
-    'itemQuantProd'?: number;
+    'itemQuantProd': number;
     /**
      * 
      * @type {number}
@@ -174,19 +174,19 @@ export interface InventoryDto {
      * @type {string}
      * @memberof InventoryDto
      */
-    'itemUnitProd'?: string;
+    'itemUnitProd': string;
     /**
      * 
      * @type {string}
      * @memberof InventoryDto
      */
-    'itemExpiryDate'?: string;
+    'itemExpiryDate': string;
     /**
      * 
      * @type {string}
      * @memberof InventoryDto
      */
-    'itemCategory'?: string;
+    'itemCategory': string;
     /**
      * 
      * @type {string}

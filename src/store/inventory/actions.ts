@@ -1,3 +1,4 @@
+import { date } from 'quasar';
 import { Inventory } from 'src/interfaces/inventory.interface';
 import inventoryService from 'src/services/inventory.service';
 import { InventoryDto } from 'src/services/rest-api';
@@ -27,6 +28,22 @@ const actions: ActionTree<InventoryStateInterface, StateInterface> = {
   async getAllInventory(context): Promise<any> {
     const res = await inventoryService.getAll();
     context.commit('getAllInventory', res);
+  },
+
+  async getExpiry(context) {
+    const dateNow = new Date();
+    const currentMonth = date.formatDate(dateNow, 'YYYY-MM-DD');
+    const check = context.state.allInventory.map(async (stock) => {
+      if (stock.itemExpiryDate === currentMonth) {
+        await context.dispatch('editInventory', {
+          ...stock,
+          itemStatus: 'Expired',
+        });
+      }
+    });
+
+    context.commit('editInventoryStatus', check);
+    await context.dispatch('getAllInventory');
   },
 
   async editInventoryStatus(context) {

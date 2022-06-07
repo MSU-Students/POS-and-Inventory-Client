@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="myChart" width="400" height="200"></canvas>
+    <canvas width="400" height="200"></canvas>
   </div>
 </template>
 
@@ -57,56 +57,56 @@ export default class monthlyProductSales extends Vue {
         {
           label: '2022',
           data: [this.get2022Sale],
-          backgroundColor: 'teal',
-          borderColor: 'teal',
+          backgroundColor: 'green',
+          borderColor: 'green',
         },
         {
           label: '2023',
           data: [this.get2023Sale],
-          backgroundColor: 'teal',
-          borderColor: 'teal',
+          backgroundColor: 'green',
+          borderColor: 'green',
         },
         {
           label: '2024',
           data: [this.get2024Sale],
-          backgroundColor: 'teal',
-          borderColor: 'teal',
+          backgroundColor: 'green',
+          borderColor: 'green',
         },
         {
           label: '2025',
           data: [this.get2025Sale],
-          backgroundColor: 'teal',
-          borderColor: 'teal',
+          backgroundColor: 'green',
+          borderColor: 'green',
         },
         {
           label: '2026',
           data: [this.get2026Sale],
-          backgroundColor: 'teal',
-          borderColor: 'teal',
+          backgroundColor: 'green',
+          borderColor: 'green',
         },
         {
           label: '2027',
           data: [this.get2027Sale],
-          backgroundColor: 'teal',
-          borderColor: 'teal',
+          backgroundColor: 'green',
+          borderColor: 'green',
         },
         {
           label: '2028',
           data: [this.get2028Sale],
-          backgroundColor: 'teal',
-          borderColor: 'teal',
+          backgroundColor: 'green',
+          borderColor: 'green',
         },
         {
           label: '2029',
           data: [this.get2029Sale],
-          backgroundColor: 'teal',
-          borderColor: 'teal',
+          backgroundColor: 'green',
+          borderColor: 'green',
         },
         {
           label: '2030',
           data: [this.get2030Sale],
-          backgroundColor: 'teal',
-          borderColor: 'teal',
+          backgroundColor: 'green',
+          borderColor: 'green',
         },
       ],
     };

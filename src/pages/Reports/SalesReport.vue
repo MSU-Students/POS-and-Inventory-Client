@@ -1,9 +1,9 @@
 <template>
   <q-page class="q-pa-lg bg-grey-1">
-    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+    <div class="text-h4 text-teal-4 q-pb-lg q-pt-md text-bold flex flex-center">
       <q-icon
         class="bi bi-graph-down q-pr-sm"
-        color="teal"
+        color="teal-4"
         style="font-size: 3rem"
       />
       Sales Report
@@ -51,7 +51,7 @@
                 </q-input>
               </div>
               <q-btn
-                color="teal"
+                color="teal-4"
                 icon-right="archive"
                 label="Export to csv"
                 @click="exportTable()"
@@ -63,7 +63,7 @@
                 <div>
                   <q-btn
                     round
-                    color="teal"
+                    color="teal-4"
                     icon="preview"
                     size="sm"
                     flat
@@ -73,35 +73,60 @@
                 </div>
                 <q-dialog v-model="showOrderList">
                   <q-card style="width: 800px; max-width: 100vw" flat bordered>
-                    <q-card-section class="flex flex-center text-h6">
-                      <q-item-label> Order List </q-item-label>
-                    </q-card-section>
-                    <q-card-section>
-                      <div>
-                        Invoice Reference:
-                        <strong> {{ inputSaleRecord.invoiceID }}</strong>
+                    <div class="text-h5 text-teal-4 q-pt-lg row">
+                      <div class="col-11 flex flex-center">
+                        <q-icon
+                          class="bi bi-cart-check-fill q-pr-sm"
+                          color="teal-4"
+                          style="font-size: 2rem"
+                        />
+                        Order List
                       </div>
-                      <div>
-                        Customer Name:
-                        <strong>
-                          {{ inputSaleRecord.customer?.customerName }}
-                        </strong>
+
+                      <div class="col q-pr-md" align="right">
+                        <q-btn
+                          color="red-5"
+                          flat
+                          round
+                          dense
+                          icon="close"
+                          v-close-popup
+                        />
                       </div>
-                      <div>
-                        Cashier:
-                        <strong>
-                          {{
-                            inputSaleRecord.user?.FName +
-                            ' ' +
-                            inputSaleRecord.user?.LName
-                          }}
-                        </strong>
+                    </div>
+                    <q-card-section class="row">
+                      <div class="col">
+                        <div>
+                          Invoice Reference:
+                          <strong> {{ inputSaleRecord.invoiceID }}</strong>
+                        </div>
+                        <div>
+                          Customer Name:
+                          <strong>
+                            {{ inputSaleRecord.customer?.customerName }}
+                          </strong>
+                        </div>
+                        <div>
+                          Cashier:
+                          <strong>
+                            {{
+                              inputSaleRecord.user?.FName +
+                              ' ' +
+                              inputSaleRecord.user?.LName
+                            }}
+                          </strong>
+                        </div>
+                        <div>
+                          Total Amount:
+                          <strong>
+                            {{ inputSaleRecord.totalAmount }}
+                          </strong>
+                        </div>
                       </div>
-                      <div>
-                        Total Amount:
-                        <strong>
-                          {{ inputSaleRecord.totalAmount }}
-                        </strong>
+                      <div class="col" align="right">
+                        <q-avatar size="100px">
+                          <q-img src="../../assets/BesTea.jpg" />
+                        </q-avatar>
                       </div>
                     </q-card-section>
                     <q-separator />
@@ -110,7 +135,6 @@
                         :rows="mapSalesOrder(inputSaleRecord)"
                         :columns="orderColumn"
                         row-key="subCategoryID"
-                        :rows-per-page-options="[0]"
                       />
                     </q-card-section>
                   </q-card>
@@ -122,11 +146,11 @@
         <div class="col">
           <q-card>
             <q-list bordered class="rounded-borders" style="max-width: 800px">
-              <q-item-label header> Expenses Overview </q-item-label>
+              <q-item-label header> Sale's Overview </q-item-label>
 
               <q-item>
                 <q-item-section avatar top>
-                  <q-icon name="payment" color="teal" size="35px" />
+                  <q-icon name="payment" color="teal-4" size="35px" />
                 </q-item-section>
 
                 <q-item-section top>
@@ -134,14 +158,14 @@
                 </q-item-section>
 
                 <q-item-section top side>
-                  <q-item-label class="q-mt-sm">
-                    {{ getDailySale }}</q-item-label
+                  <q-item-label class="q-mt-sm text-weight-bolder text-dark">
+                    ₱ {{ getDailySale }}</q-item-label
                   >
                 </q-item-section>
               </q-item>
               <q-item>
                 <q-item-section avatar top>
-                  <q-icon name="payment" color="teal" size="35px" />
+                  <q-icon name="payment" color="teal-4" size="35px" />
                 </q-item-section>
 
                 <q-item-section top>
@@ -149,24 +173,26 @@
                 </q-item-section>
 
                 <q-item-section top side>
-                  <q-item-label class="q-mt-sm">
-                    {{ getMonthlySale }}</q-item-label
+                  <q-item-label class="q-mt-sm text-weight-bolder text-dark">
+                    ₱ {{ getMonthlySale }}</q-item-label
                   >
                 </q-item-section>
               </q-item>
               <q-item>
                 <q-item-section avatar top>
-                  <q-icon name="payment" color="teal" size="35px" />
+                  <q-icon name="payment" color="teal-4" size="35px" />
                 </q-item-section>
 
                 <q-item-section top>
                   <q-item-label class="q-mt-sm"> Yearly Sales </q-item-label>
                 </q-item-section>
 
-                <q-item-section top side>
-                  <q-item-label class="q-mt-sm">
-                    {{ getYearlySale }}</q-item-label
-                  >
+                <q-item-section
+                  class="q-mt-sm text-weight-bolder text-dark"
+                  top
+                  side
+                >
+                  ₱ {{ getYearlySale }}
                 </q-item-section>
               </q-item>
 
@@ -185,7 +211,7 @@
       <q-tabs
         v-model="tab"
         dense
-        class="text-teal"
+        class="text-teal-4"
         active-color="primary"
         indicator-color="primary"
         align="justify"
@@ -359,15 +385,15 @@ export default class SaleRecord extends Vue {
     },
     {
       name: 'total',
-      align: 'right',
+      align: 'center',
       label: 'Total Amount',
-      field: 'totalAmount',
+      field: (row: SaleRecordDto) => '₱ ' + row.totalAmount,
     },
     {
       name: 'payment',
-      align: 'right',
+      align: 'center',
       label: 'Payment Amount',
-      field: 'payment',
+      field: (row: SaleRecordDto) => '₱ ' + row.payment,
     },
 
     {
@@ -390,7 +416,7 @@ export default class SaleRecord extends Vue {
       name: 'order',
       label: 'Order',
       align: 'left',
-      field: (row: any) => row.orderName,
+      field: (row: SaleOrderDto) => row.orderName,
       sortable: true,
     },
 
@@ -398,35 +424,35 @@ export default class SaleRecord extends Vue {
       name: 'quantity',
       align: 'center',
       label: 'Order Quantity',
-      field: (row: any) => row.orderQuant,
+      field: (row: SaleOrderDto) => row.orderQuant,
       sortable: true,
     },
     {
       name: 'price',
-      align: 'right',
+      align: 'center',
       label: 'Price',
-      field: (row: any) => row.orderPrice,
+      field: (row: SaleOrderDto) => '₱ ' + row.orderPrice,
       sortable: true,
     },
     {
       name: 'size',
       align: 'center',
       label: 'Order Size',
-      field: (row: any) => row.orderSize,
+      field: (row: SaleOrderDto) => row.orderSize,
       sortable: true,
     },
     {
       name: 'category',
       align: 'center',
       label: 'Category',
-      field: (row: any) => row.orderCategory,
+      field: (row: SaleOrderDto) => row.orderCategory,
       sortable: true,
     },
     {
       name: 'subCategory',
       align: 'center',
       label: 'Sub-Categories',
-      field: (row: any) => row.orderSubCategory,
+      field: (row: SaleOrderDto) => row.orderSubCategory,
       sortable: true,
     },
   ];

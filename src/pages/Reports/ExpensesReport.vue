@@ -104,9 +104,9 @@
                 </q-item-section>
 
                 <q-item-section top side>
-                  <q-item-label class="q-mt-sm">{{
-                    this.getSumExpensesToday()
-                  }}</q-item-label>
+                  <q-item-label class="q-mt-sm text-weight-bolder text-dark">
+                    ₱ {{ this.getSumExpensesToday() }}</q-item-label
+                  >
                 </q-item-section>
               </q-item>
               <q-item>
@@ -121,9 +121,9 @@
                 </q-item-section>
 
                 <q-item-section top side>
-                  <q-item-label class="q-mt-sm">{{
-                    this.getSumExpensesMonthly()
-                  }}</q-item-label>
+                  <q-item-label class="q-mt-sm text-weight-bolder text-dark">
+                    ₱ {{ this.getSumExpensesMonthly() }}</q-item-label
+                  >
                 </q-item-section>
               </q-item>
               <q-item>
@@ -136,9 +136,9 @@
                 </q-item-section>
 
                 <q-item-section top side>
-                  <q-item-label class="q-mt-sm">{{
-                    this.getSumExpensesYearly()
-                  }}</q-item-label>
+                  <q-item-label class="q-mt-sm text-weight-bolder text-dark">
+                    ₱ {{ this.getSumExpensesYearly() }}</q-item-label
+                  >
                 </q-item-section>
               </q-item>
 
@@ -247,9 +247,9 @@ export default class ExpensesReport extends Vue {
 
     {
       name: 'amount',
-      align: 'right',
+      align: 'center',
       label: 'Amount',
-      field: 'amount',
+      field: (row: ExpensesDto) => '₱ ' + row.amount,
     },
   ];
 }

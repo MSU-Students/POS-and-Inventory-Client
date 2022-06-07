@@ -1,3 +1,4 @@
+import { date } from 'quasar';
 import { Inventory } from 'src/interfaces/inventory.interface';
 import { InventoryDto } from 'src/services/rest-api';
 import { MutationTree } from 'vuex';
@@ -14,7 +15,7 @@ const mutation: MutationTree<InventoryStateInterface> = {
     state.allInventory.push(payload);
   },
 
-  getAllInventory(state, payload) {
+  getAllInventory(state, payload: InventoryDto[]) {
     state.allInventory = [];
     state.allInventory.push(...payload);
   },

@@ -1,19 +1,76 @@
 <template>
   <q-page class="q-pa-lg bg-grey-1">
-    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+    <div class="text-h4 text-teal-4 q-pb-lg q-pt-md text-bold flex flex-center">
       <q-icon
         class="bi bi-box-seam q-pr-sm"
-        color="teal"
+        color="teal-4"
         style="font-size: 3rem"
       />
       Inventory
     </div>
-    <div class="q-pr-md">
+
+    <div class="q-pt-xl">
+      <div class="row q-col-gutter-lg q-px-md">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+          <q-card>
+            <q-card-section
+              :class="$q.dark.isActive ? 'teal_dark' : 'bg-teal-4'"
+              class="text-white"
+            >
+              <div class="row">
+                <div class="col-10">
+                  <div class="text-h6">Total Available Item</div>
+                  <div class="text-h5">{{ availableInventory.length }}</div>
+                </div>
+                <div class="col-2">
+                  <q-icon size="62px" name="auto_stories" />
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+          <q-card>
+            <q-card-section
+              :class="$q.dark.isActive ? 'red_dark' : 'bg-teal-4'"
+              class="text-white"
+            >
+              <div class="row">
+                <div class="col-10">
+                  <div class="text-h6">Total Low Item Stock</div>
+                  <div class="text-h5">{{ getLowStock.length }}</div>
+                </div>
+                <div class="col-2">
+                  <q-icon size="60px" class="bi bi-box-arrow-in-down" />
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+          <q-card>
+            <q-card-section
+              :class="$q.dark.isActive ? 'red_dark' : 'bg-teal-4'"
+              class="text-white"
+            >
+              <div class="row">
+                <div class="col-10">
+                  <div class="text-h6">Near Expiry</div>
+                  <div class="text-h5">{{ getNearExpire.length }}</div>
+                </div>
+                <div class="col-2" align="right">
+                  <q-icon size="45px" class="bi bi-calendar-week-fill" />
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+      </div>
       <div class="q-mt-lg">
         <div class="q-gutter-sm q-pa-sm row">
           <q-space />
           <q-btn
-            color="teal"
+            color="teal-4"
             icon-right="archive"
             label="Export to csv"
             @click="exportTable()"
@@ -30,7 +87,7 @@
         <template v-slot:top-right>
           <div>
             <q-fab
-              color="teal-8"
+              color="teal-4"
               icon="sort"
               direction="left"
               label="Filter by:"
@@ -69,7 +126,7 @@
               outlined
               rounded
               dense
-              color="green"
+              color="teal-3"
               debounce="300"
               v-model="filter"
               placeholder="Search"
@@ -80,7 +137,7 @@
             </q-input>
             <q-btn
               label="Add Product"
-              color="teal"
+              color="teal-4"
               dense
               flat
               icon="add"
@@ -109,7 +166,7 @@
                           autofocus
                           outlined
                           label="Item Name"
-                          color="green"
+                          color="teal-3"
                           v-model="inputInventory.itemName"
                           lazy-rules
                           :rules="[
@@ -123,7 +180,7 @@
                         <q-select
                           outlined
                           :options="categoryOpt"
-                          color="green"
+                          color="teal-3"
                           label="Category"
                           v-model="inputInventory.itemCategory"
                           transition-show="flip-up"
@@ -141,7 +198,7 @@
                       <div class="col">
                         <q-select
                           outlined
-                          color="green"
+                          color="teal-3"
                           v-model="inputInventory.itemUnitProd"
                           :options="unitInvOpt"
                           label="Unit"
@@ -158,7 +215,7 @@
                       <div class="col">
                         <q-input
                           outlined
-                          color="green"
+                          color="teal-3"
                           label="Quantity"
                           v-model="inputInventory.itemQuantProd"
                           type="number"
@@ -173,7 +230,7 @@
                       </div>
                       <div class="col">
                         <q-input
-                          color="green"
+                          color="teal-3"
                           v-model="inputInventory.itemExpiryDate"
                           outlined
                           type="date"
@@ -189,7 +246,7 @@
                         v-close-popup
                         @click="resetModel()"
                       />
-                      <q-btn flat label="Add" color="green" type="submit" />
+                      <q-btn flat label="Add" color="teal-4" type="submit" />
                     </div>
                   </q-form>
                 </q-card-section>
@@ -202,7 +259,7 @@
             <div class="q-gutter-sm">
               <q-btn
                 round
-                color="secondary"
+                color="teal-4"
                 icon="edit"
                 size="sm"
                 flat
@@ -229,9 +286,10 @@
                       <div class="q-py-sm q-gutter-md row">
                         <div class="col">
                           <q-input
+                            autofocus
                             outlined
                             label="Item Name"
-                            color="green"
+                            color="teal-3"
                             v-model="inputInventory.itemName"
                           />
                         </div>
@@ -239,7 +297,7 @@
                           <q-select
                             outlined
                             :options="categoryOpt"
-                            color="green"
+                            color="teal-3"
                             label="Category"
                             v-model="inputInventory.itemCategory"
                             transition-show="flip-up"
@@ -251,7 +309,7 @@
                         <div class="col">
                           <q-select
                             outlined
-                            color="green"
+                            color="teal-3"
                             v-model="inputInventory.itemUnitProd"
                             :options="unitInvOpt"
                             label="Unit"
@@ -260,19 +318,33 @@
                           />
                         </div>
                         <div class="col">
-                          <q-input
-                            outlined
-                            color="green"
-                            label="Quantity"
-                            v-model="inputInventory.itemQuantProd"
-                            type="number"
-                            min="0"
-                            hint="Note: You can only change the quantity if you put wrong input"
-                          />
+                          <div v-if="removeRestriction">
+                            <q-input
+                              outlined
+                              color="teal-3"
+                              label="Quantity"
+                              v-model="inputInventory.itemQuantProd"
+                              type="number"
+                              min="0"
+                              hint="Note: You can only change the quantity if you put wrong input"
+                            />
+                          </div>
+                          <div v-else>
+                            <q-input
+                              outlined
+                              readonly
+                              color="teal-3"
+                              label="Quantity"
+                              v-model="inputInventory.itemQuantProd"
+                              type="number"
+                              min="0"
+                              hint="Note: You can only change the quantity if you put wrong input"
+                            />
+                          </div>
                         </div>
                         <div class="col">
                           <q-input
-                            color="green"
+                            color="teal-3"
                             v-model="inputInventory.itemExpiryDate"
                             outlined
                             type="date"
@@ -280,7 +352,13 @@
                           />
                         </div>
                       </div>
-                      <div align="right">
+                      <div class="q-pt-lg" align="right">
+                        <q-btn
+                          flat
+                          color="teal-4"
+                          @click="showMessage()"
+                          label="Edit Quantity"
+                        />
                         <q-btn
                           flat
                           label="Cancel"
@@ -288,7 +366,7 @@
                           v-close-popup
                           @click="resetModel()"
                         />
-                        <q-btn flat label="Save" color="green" type="submit" />
+                        <q-btn flat label="Save" color="teal-4" type="submit" />
                       </div>
                     </q-form>
                   </q-card-section>
@@ -306,7 +384,7 @@
               />
               <q-btn
                 round
-                color="secondary"
+                color="teal-4"
                 icon="done_all"
                 size="sm"
                 flat
@@ -316,15 +394,24 @@
               <q-dialog v-model="statusInventory">
                 <q-card style="width: 400px; max-width: 100vw" class="q-ma-md">
                   <q-card-section class="row">
-                    <div class="text-h6">Edit Product Status</div>
+                    <div class="text-h6 text-teal-5">Edit Product Status</div>
                     <q-space />
                     <q-btn
                       flat
+                      color="red-5"
                       round
                       dense
                       icon="close"
                       v-close-popup
                       @click="resetModel()"
+                    />
+                  </q-card-section>
+                  <q-card-section class="text-h6 flex flex-center text-teal-4">
+                    Available Quantity:
+                    <q-chip
+                      :label="inputInventory.itemQuantStatus"
+                      color="teal-4"
+                      text-color="white"
                     />
                   </q-card-section>
                   <q-card-section>
@@ -333,9 +420,9 @@
                         <q-input
                           autofocus
                           outlined
-                          color="green"
-                          label="Quantity"
-                          v-model="inputInventory.itemQuantStatus"
+                          color="teal-3"
+                          label="Enter Quantity Used"
+                          v-model="editQuantity"
                           :rules="[
                             (val, prev) =>
                               (val && isExceeded(val, oldInventoryValue)) ||
@@ -351,7 +438,7 @@
                           v-close-popup
                           @click="resetModel()"
                         />
-                        <q-btn flat label="Save" color="green" type="submit" />
+                        <q-btn flat label="Save" color="teal-4" type="submit" />
                       </div>
                     </q-form>
                   </q-card-section>
@@ -361,6 +448,91 @@
           </q-td>
         </template>
       </q-table>
+      <div class="q-py-lg row q-gutter-md">
+        <div class="col">
+          <q-card style="height: 300px">
+            <q-layout container style="height: 300px">
+              <q-list bordered class="rounded-borders">
+                <q-item-label header class="text-teal-4 text-h6">
+                  <q-icon
+                    class="bi bi-cart-x-fill"
+                    color="teal-4"
+                    size="30px"
+                  />
+                  Low Stock Item
+                </q-item-label>
+
+                <q-item v-for="data in getLowStock" v-bind:key="data.itemName">
+                  <q-item-section top>
+                    {{ data.itemName }}
+                  </q-item-section>
+
+                  <q-item-section class="flex flex-center" top>
+                    <q-item-label caption> Product Category </q-item-label>
+                    <strong> {{ data.itemCategory }} </strong>
+                  </q-item-section>
+
+                  <q-item-section class="flex flex-center" top>
+                    <q-item-label caption> Available Product </q-item-label>
+                    <strong class="text-red-5">
+                      {{ data.itemQuantStatus }}
+                    </strong>
+                  </q-item-section>
+
+                  <q-item-section class="flex flex-center" top side>
+                    <q-item-label caption> Date Stock-In </q-item-label>
+                    {{ data.itemDateCreated }}
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-layout>
+          </q-card>
+        </div>
+        <div class="col">
+          <q-card style="height: 300px">
+            <q-layout container style="height: 300px">
+              <q-list bordered class="rounded-borders">
+                <q-item-label header class="text-teal-4 text-h6">
+                  <q-icon
+                    class="bi bi-calendar-week-fill"
+                    color="teal-4"
+                    size="30px"
+                  />
+                  Expiry Item
+                </q-item-label>
+
+                <q-item
+                  v-for="data in getNearExpire"
+                  v-bind:key="data.itemName"
+                >
+                  <q-item-section top>
+                    <q-item-label class="text-overline">
+                      {{ data.itemName }}
+                    </q-item-label>
+                  </q-item-section>
+
+                  <q-item-section class="flex flex-center" top>
+                    <q-item-label caption> Product Category </q-item-label>
+                    <strong> {{ data.itemCategory }} </strong>
+                  </q-item-section>
+
+                  <q-item-section class="flex flex-center" top>
+                    <q-item-label caption> Expiry Date </q-item-label>
+                    <strong class="text-red-5">
+                      {{ data.itemExpiryDate }}
+                    </strong>
+                  </q-item-section>
+
+                  <q-item-section class="flex flex-center" top side>
+                    <q-item-label caption> Date Stock-In </q-item-label>
+                    {{ data.itemDateCreated }}
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-layout>
+          </q-card>
+        </div>
+      </div>
     </div>
   </q-page>
 </template>
@@ -376,7 +548,11 @@ const curentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 
 @Options({
   computed: {
-    ...mapGetters('inventory', ['availableInventory']),
+    ...mapGetters('inventory', [
+      'availableInventory',
+      'getNearExpire',
+      'getLowStock',
+    ]),
     ...mapState('inventory', ['allInventory']),
   },
   methods: {
@@ -387,21 +563,27 @@ const curentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
       'getAllInventory',
       'getByItemName',
       'editInventoryStatus',
+      'getExpiry',
     ]),
   },
 })
 export default class Inventory extends Vue {
   allInventory!: InventoryDto[];
   availableInventory!: InventoryDto[];
+  getNearExpire!: InventoryDto[];
+  getLowStock!: InventoryDto[];
   addInventory!: (payload: InventoryDto) => Promise<void>;
   editInventory!: (payload: InventoryDto) => Promise<void>;
   deleteInventory!: (payload: InventoryDto) => Promise<void>;
   getAllInventory!: () => Promise<void>;
   getByItemName!: () => Promise<void>;
   editInventoryStatus!: () => Promise<void>;
+  getExpiry!: () => Promise<void>;
+  editQuantity = '';
 
   async mounted() {
     await this.getAllInventory();
+    await this.getExpiry();
   }
   columns = [
     {
@@ -411,24 +593,28 @@ export default class Inventory extends Vue {
       align: 'left',
       field: (row: InventoryDto) => row.itemName,
       format: (val: string) => `${val}`,
+      sortable: true,
     },
     {
       name: 'itemCategory',
       align: 'center',
       label: 'Category',
       field: 'itemCategory',
+      sortable: true,
     },
     {
       name: 'itemQuantStatus',
       align: 'center',
       label: 'Quantity',
       field: 'itemQuantStatus',
+      sortable: true,
     },
     {
       name: 'itemUnitProd',
       align: 'center',
       label: 'Unit',
       field: 'itemUnitProd',
+      sortable: true,
     },
 
     {
@@ -436,12 +622,14 @@ export default class Inventory extends Vue {
       align: 'center',
       label: 'Status',
       field: 'itemStatus',
+      sortable: true,
     },
     {
       name: 'itemConsumeAt',
       align: 'center',
       label: 'Recent Consume',
       field: 'itemConsumeAt',
+      sortable: true,
     },
 
     {
@@ -449,6 +637,7 @@ export default class Inventory extends Vue {
       align: 'center',
       label: 'Expiry Date',
       field: 'itemExpiryDate',
+      sortable: true,
     },
 
     {
@@ -456,6 +645,7 @@ export default class Inventory extends Vue {
       align: 'center',
       label: 'Date Stock In',
       field: 'itemDateCreated',
+      sortable: true,
     },
 
     {
@@ -466,6 +656,7 @@ export default class Inventory extends Vue {
     },
   ];
 
+  removeRestriction = false;
   prodIssue = false;
   addNewInventory = false;
   editRowInventory = false;
@@ -491,9 +682,10 @@ export default class Inventory extends Vue {
     itemStatus: 'Available',
     itemConsumeAt: '',
     itemQuantStatus: 0,
+    itemQuantProd: 0,
   };
   isExceeded(val: number | string, on: number | string) {
-    return Number(val) < Number(on);
+    return Number(val) <= Number(on);
   }
   async onAddInventory() {
     const newInputInventory: any = {
@@ -529,6 +721,8 @@ export default class Inventory extends Vue {
     const newInputInventory = {
       ...this.inputInventory,
       itemConsumeAt: curentDate,
+      itemQuantStatus:
+        this.inputInventory.itemQuantStatus - Number(this.editQuantity),
     };
     await this.editInventory(newInputInventory);
     await this.editInventoryStatus();
@@ -551,8 +745,24 @@ export default class Inventory extends Vue {
       .onOk(async () => {
         await this.deleteInventory(val.itemCode as any);
         this.$q.notify({
-          type: 'warning',
+          type: 'teal-4',
           message: 'Successfully deleted',
+        });
+      });
+  }
+
+  showMessage() {
+    this.$q
+      .dialog({
+        message: 'Confirm to Edit, This only for correcting wrong quantity!! ',
+        cancel: true,
+        persistent: true,
+      })
+      .onOk(async () => {
+        this.removeRestriction = true;
+        this.$q.notify({
+          type: 'teal-4',
+          message: 'Succesfully remove restriction',
         });
       });
   }
@@ -578,7 +788,9 @@ export default class Inventory extends Vue {
       itemStatus: 'Available',
       itemConsumeAt: '',
       itemQuantStatus: 0,
+      itemQuantProd: 0,
     };
+    this.removeRestriction = false;
   }
   wrapCsvValue(
     val: string,
@@ -637,7 +849,7 @@ export default class Inventory extends Vue {
       this.$q.notify({
         message: 'Browser denied file download...',
         color: 'negative',
-        icon: 'warning',
+        icon: 'teal-4',
       });
     }
   }

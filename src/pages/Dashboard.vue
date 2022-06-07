@@ -12,7 +12,7 @@
                 <q-item-label>
                   <span class="text-h6">Today Profit </span>
                 </q-item-label>
-                <q-item-label>
+                <q-item-label class="text-weight-bolder">
                   <span> ₱ </span>
                   {{ getTodayProfit() }}
                 </q-item-label>
@@ -32,7 +32,7 @@
                 <q-item-label>
                   <span class="text-h6">Today Revenue </span>
                 </q-item-label>
-                <q-item-label>
+                <q-item-label class="text-weight-bolder">
                   <span> ₱ </span>
                   {{ getDailySale }}
                 </q-item-label>
@@ -52,7 +52,7 @@
                 <q-item-label>
                   <span class="text-h6">Today Purchase </span>
                 </q-item-label>
-                <q-item-label>
+                <q-item-label class="text-weight-bolder">
                   <span> ₱ </span>
                   {{ getDailyPurchase }}
                 </q-item-label>
@@ -72,7 +72,7 @@
                 <q-item-label>
                   <span class="text-h6">Today Expenses </span>
                 </q-item-label>
-                <q-item-label>
+                <q-item-label class="text-weight-bolder">
                   <span> ₱ </span>
                   {{ getDailyExpenses }}
                 </q-item-label>
@@ -83,101 +83,127 @@
       </div>
     </div>
     <div class="q-pt-md row q-gutter-xl q-pb-lg">
-      <div class="col">
-        <div class="q-pt-lg row">
-          <q-card class="text-secondary" style="width: 750px; max-width: 80vw">
-            <q-list>
-              <q-item clickable to="/Inventory">
-                <q-item-section>
-                  <q-item-label class="text-h6">
-                    Invetory Details
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item>
-                <q-item-section>Total Stock Item</q-item-section>
-                <q-item-section class="text-h6 text-bold" side>
-                  {{ allInventory.length }}
-                </q-item-section>
-              </q-item>
-              <q-separator inset />
-              <q-item>
-                <q-item-section>Total Available Stock</q-item-section>
-                <q-item-section class="text-h6 text-bold" side>
-                  {{ availableInventory.length }}
-                </q-item-section>
-              </q-item>
-              <q-separator inset />
-              <q-item>
-                <q-item-section>Total Used Stock</q-item-section>
-                <q-item-section class="text-h6 text-bold" side>
-                  {{ usedInventory.length }}
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card>
-        </div>
-        <div class="q-pt-xl row">
-          <q-card class="text-secondary" style="width: 750px; max-width: 80vw">
-            <q-list>
-              <q-item clickable to="/Inventory">
-                <q-item-section>
-                  <q-item-label class="text-h6">
-                    Purchase Details
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <div class="row">
-                <div class="col">
-                  <q-item>
-                    <q-item-section>No. of Purchase</q-item-section>
-                    <q-item-section class="text-h6 text-bold" side>
-                      {{ allPurchase.length }}
-                    </q-item-section>
-                  </q-item>
-                  <q-separator inset />
-                  <q-item>
-                    <q-item-section>Monthly Cost</q-item-section>
-                    <q-item-section class="text-h6 text-bold" side>
-                      {{ getMonthlyPurchase }}
-                    </q-item-section>
-                  </q-item>
-                  <q-separator inset />
-                  <q-item>
-                    <q-item-section>Completed/Recieved</q-item-section>
-                    <q-item-section class="text-h6 text-bold" side>
-                      {{ completePurchase.length }}
-                    </q-item-section>
-                  </q-item>
-                </div>
-                <div class="col">
-                  <q-item>
-                    <q-item-section>Pending</q-item-section>
-                    <q-item-section class="text-h6 text-bold" side>
-                      {{ pendingPurchase.length }}
-                    </q-item-section>
-                  </q-item>
-                  <q-separator inset />
-                  <q-item>
-                    <q-item-section>Cancel</q-item-section>
-                    <q-item-section class="text-h6 text-bold" side>
-                      {{ cancelPurchase.length }}
-                    </q-item-section>
-                  </q-item>
-                  <q-separator inset />
-                </div>
+      <div class="q-pt-lg col">
+        <q-card style="width: 750px; max-width: 80vw">
+          <q-list>
+            <q-item clickable to="/StockReport">
+              <q-item-section>
+                <q-item-label class="text-h6 text-teal-4">
+                  Invetory Details
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <div class="row">
+              <div class="col">
+                <q-item>
+                  <q-item-section>Total Stock Item</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-dark" side>
+                    {{ allInventory.length }}
+                  </q-item-section>
+                </q-item>
+                <q-separator inset />
+                <q-item>
+                  <q-item-section>Total Available Stock</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-dark" side>
+                    {{ availableInventory.length }}
+                  </q-item-section>
+                </q-item>
+                <q-separator inset />
+                <q-item>
+                  <q-item-section>Total Used Stock</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-dark" side>
+                    {{ usedInventory.length }}
+                  </q-item-section>
+                </q-item>
               </div>
-            </q-list>
-          </q-card>
-        </div>
+              <div class="col">
+                <q-item>
+                  <q-item-section>Total Expired Item</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-dark" side>
+                    {{ expiredInventory.length }}
+                  </q-item-section>
+                </q-item>
+                <q-separator inset />
+                <q-item>
+                  <q-item-section>Expiring Item</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-dark" side>
+                    {{ cancelPurchase.length }}
+                  </q-item-section>
+                </q-item>
+                <q-separator inset />
+                <q-item>
+                  <q-item-section>Low Stock Item</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-dark" side>
+                    {{ cancelPurchase.length }}
+                  </q-item-section>
+                </q-item>
+              </div>
+            </div>
+          </q-list>
+        </q-card>
       </div>
-      <div class="col q-pt-lg">
+      <div class="q-pt-lg col">
+        <q-card style="width: 750px; max-width: 80vw">
+          <q-list>
+            <q-item clickable to="/PurchaseReport">
+              <q-item-section>
+                <q-item-label class="text-h6 text-teal-4">
+                  Purchase Details
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <div class="row">
+              <div class="col">
+                <q-item>
+                  <q-item-section>No. of Purchase</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-dark" side>
+                    {{ allPurchase.length }}
+                  </q-item-section>
+                </q-item>
+                <q-separator inset />
+                <q-item>
+                  <q-item-section>Monthly Cost</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-dark" side>
+                    {{ getMonthlyPurchase }}
+                  </q-item-section>
+                </q-item>
+                <q-separator inset />
+                <q-item>
+                  <q-item-section>Completed/Recieved</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-dark" side>
+                    {{ completePurchase.length }}
+                  </q-item-section>
+                </q-item>
+              </div>
+              <div class="col">
+                <q-item>
+                  <q-item-section>Pending</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-dark" side>
+                    {{ pendingPurchase.length }}
+                  </q-item-section>
+                </q-item>
+                <q-separator inset />
+                <q-item>
+                  <q-item-section>Cancel</q-item-section>
+                  <q-item-section class="text-h6 text-bold text-dark" side>
+                    {{ cancelPurchase.length }}
+                  </q-item-section>
+                </q-item>
+                <q-separator inset />
+              </div>
+            </div>
+          </q-list>
+        </q-card>
+      </div>
+    </div>
+    <div class="row q-gutter-md q-pt-md q-pb-xl">
+      <div class="col">
         <q-table
-          style="max-height: 435px"
-          class="text-secondary"
+          style="max-height: 545px"
           title="Recent Transanction"
+          title-class="text-teal-4"
           :rows="getTodaySale()"
           :columns="orderColumn"
           row-key="customer"
@@ -186,16 +212,38 @@
           hide-bottom
         />
       </div>
+      <div class="col">
+        <q-card>
+          <q-item>
+            <q-item>
+              <q-item-section avatar>
+                <q-icon
+                  color="teal-4"
+                  class="bi bi-calendar-check"
+                  size="35px"
+                />
+              </q-item-section>
+
+              <q-item-section>
+                <div class="text-h6 text-teal-4">Today's Profit</div>
+              </q-item-section>
+            </q-item>
+          </q-item>
+          <div class="q-pb-lg">
+            <MonthCashFlowChart />
+          </div>
+        </q-card>
+      </div>
     </div>
     <q-card>
       <q-card-section class="text-h6 q-pb-none">
         <q-item>
           <q-item-section avatar>
-            <q-icon color="blue" name="fas fa-chart-line" size="44px" />
+            <q-icon color="teal" name="fas fa-chart-line" size="44px" />
           </q-item-section>
 
           <q-item-section>
-            <div class="text-h6 text-blue">Monthly Sales</div>
+            <div class="text-h6 text-teal">Monthly Sales</div>
           </q-item-section>
         </q-item>
       </q-card-section>
@@ -218,11 +266,18 @@ import monthlyProductSales from 'components/Charts/monthlyProductSales.vue';
 import { date } from 'quasar';
 const dateNow = new Date();
 const TodayDate = date.formatDate(dateNow, 'YYYY-MM-DD');
+import MonthCashFlowChart from 'components/Charts/DashMonthlyCashFlow.vue';
 
 @Options({
-  components: { monthlyProductSales },
+  components: { monthlyProductSales, MonthCashFlowChart },
   computed: {
-    ...mapGetters('inventory', ['usedInventory', 'availableInventory']),
+    ...mapGetters('inventory', [
+      'usedInventory',
+      'availableInventory',
+      'getNearExpire',
+      'getLowStock',
+      'expiredInventory',
+    ]),
     ...mapState('inventory', ['allInventory']),
     ...mapGetters('purchase', [
       'completePurchase',
@@ -258,6 +313,9 @@ export default class Dashboard extends Vue {
   getDailyExpenses!: number;
   getDailyPurchase!: number;
   getMonthlyPurchase!: number;
+  getNearExpire!: InventoryDto[];
+  getLowStock!: InventoryDto[];
+  expiredInventory!: InventoryDto[];
   getAllPurchase!: () => Promise<void>;
   getAllSaleRecord!: () => Promise<void>;
   getAllExpenses!: () => Promise<void>;

@@ -81,38 +81,58 @@
             </q-input>
           </div>
         </template>
+        <template #body-cell-status="props">
+          <q-td :props="props">
+            <q-chip
+              flat
+              color="white"
+              :text-color="colorManipulation(props.row.purchaseStatus)"
+              :label="labelManipulation(props.row.purchaseStatus)"
+            />
+          </q-td>
+        </template>
       </q-table>
     </div>
-    <div class="q-py-lg row q-gutter-xl">
+    <div class="q-py-lg row q-gutter-md">
       <div class="col">
         <q-card style="height: 300px">
           <q-layout container style="height: 300px">
-            <q-list style="max-height: 300px" class="rounded-borders">
-              <q-item-label header>Pending Purchase</q-item-label>
+            <q-list bordered class="rounded-borders">
+              <q-item-label header class="text-warning text-h6">
+                <q-icon class="bi bi-cart-fill" color="warning" size="30px" />
+                Pending Purchase
+              </q-item-label>
 
               <q-item
                 v-for="pending in pendingPurchase"
                 v-bind:key="pending.purchaseProduct"
               >
-                <q-item-section avatar top>
-                  <q-icon name="pending_actions" color="green" size="34px" />
-                </q-item-section>
-
                 <q-item-section top class="col-2 gt-sm">
-                  <q-item-label class="q-mt-sm">{{
-                    pending.purchaseProduct
-                  }}</q-item-label>
+                  <q-item-label class="q-mt-sm">
+                    {{ pending.purchaseProduct }}
+                  </q-item-label>
                 </q-item-section>
 
                 <q-item-section top>
                   <q-item-label lines="1">
                     <span class="text-weight-medium">Supplier: </span>
                     <span class="text-grey-8">
-                      {{ pending.supplierPurchase?.company }}</span
-                    >
+                      {{ pending.supplierPurchase?.company || 'None' }}
+                    </span>
                   </q-item-label>
                   <q-item-label caption lines="1">
                     Purchase Quantity: {{ pending.productQuantity }}
+                  </q-item-label>
+                </q-item-section>
+
+                <q-item-section top>
+                  <q-item-label>
+                    <q-chip
+                      flat
+                      color="white"
+                      :text-color="colorManipulation(pending.purchaseStatus)"
+                      :label="labelManipulation(pending.purchaseStatus)"
+                    />
                   </q-item-label>
                 </q-item-section>
 
@@ -120,33 +140,31 @@
                   <q-item-label lines="1">
                     <span class="text-weight-medium">Price:</span>
                     <span class="text-grey-8">
-                      ₱{{ pending.purchaseAmount }}</span
-                    >
+                      ₱ {{ pending.purchaseAmount }}
+                    </span>
                   </q-item-label>
                   <q-item-label caption lines="1">
                     Date: {{ pending.purchaseDate }}
                   </q-item-label>
                 </q-item-section>
               </q-item>
-              <q-separator spaced />
             </q-list>
           </q-layout>
         </q-card>
       </div>
-      <div class="col-5">
+      <div class="col">
         <q-card style="height: 300px">
           <q-layout container style="height: 300px">
             <q-list bordered class="rounded-borders">
-              <q-item-label header>Canceled List</q-item-label>
+              <q-item-label header class="text-red-5 text-h6">
+                <q-icon class="bi bi-cart-x-fill" color="red-5" size="30px" />
+                Canceled List
+              </q-item-label>
 
               <q-item
                 v-for="data in cancelPurchase"
                 v-bind:key="data.purchaseID"
               >
-                <q-item-section avatar top>
-                  <q-icon name="assignment_return" color="red" size="34px" />
-                </q-item-section>
-
                 <q-item-section top class="col-2 gt-sm">
                   <q-item-label class="q-mt-sm">
                     {{ data.purchaseProduct }}
@@ -157,18 +175,31 @@
                   <q-item-label lines="1">
                     <span class="text-weight-medium">Supplier: </span>
                     <span class="text-grey-8">
-                      {{ data.supplierPurchase?.company || 'None' }}</span
-                    >
+                      {{ data.supplierPurchase?.company || 'None' }}
+                    </span>
                   </q-item-label>
                   <q-item-label caption lines="1">
                     Purchase Quantity: {{ data.productQuantity }}
                   </q-item-label>
                 </q-item-section>
 
+                <q-item-section top>
+                  <q-item-label>
+                    <q-chip
+                      flat
+                      color="white"
+                      :text-color="colorManipulation(data.purchaseStatus)"
+                      :label="labelManipulation(data.purchaseStatus)"
+                    />
+                  </q-item-label>
+                </q-item-section>
+
                 <q-item-section top side>
                   <q-item-label lines="1">
                     <span class="text-weight-medium">Price: </span>
-                    <span class="text-grey-8"> ₱{{ data.purchaseAmount }}</span>
+                    <span class="text-grey-8">
+                      ₱ {{ data.purchaseAmount }}</span
+                    >
                   </q-item-label>
                   <q-item-label caption lines="1">
                     Date: {{ data.purchaseDate }}
@@ -192,10 +223,16 @@
     </div>
     <div class="q-pt-sm">
       <q-card class="flex flex-center">
-        <q-card-section>
-          <q-item-section>
-            <div class="text-h6">Monthly Cost</div>
-          </q-item-section>
+        <q-card-section
+          header
+          class="text-h5 text-teal text-bold flex flex-center"
+        >
+          <q-icon
+            class="bi bi-cash-stack q-pr-sm"
+            color="teal"
+            style="font-size: 2rem"
+          />
+          Monthly Cost
         </q-card-section>
         <q-card-section>
           <costChart />
@@ -284,12 +321,12 @@ export default class Expenses extends Vue {
     },
     {
       name: 'purchaseAmount',
-      align: 'right',
+      align: 'center',
       label: 'Amount',
-      field: 'purchaseAmount',
+      field: (row: PurchaseDto) => '₱' + row.purchaseAmount,
     },
     {
-      name: 'purchaseStatus',
+      name: 'status',
       align: 'center',
       label: 'Purchase Status',
       field: 'purchaseStatus',
@@ -311,6 +348,30 @@ export default class Expenses extends Vue {
         });
       });
   }
+
+  colorManipulation(purchaseStatus: string) {
+    if (purchaseStatus.match('Pending')) {
+      return 'warning';
+    }
+    if (purchaseStatus.match('Completed')) {
+      return 'positive';
+    }
+    if (purchaseStatus.match('Canceled')) {
+      return 'negative';
+    }
+  }
+  labelManipulation(purchaseStatus: string) {
+    if (purchaseStatus.match('Pending')) {
+      return 'PENDING';
+    }
+    if (purchaseStatus.match('Completed')) {
+      return 'COMPLETED';
+    }
+    if (purchaseStatus.match('Canceled')) {
+      return 'CANCELED';
+    }
+  }
+
   wrapCsvValue(
     val: string,
     formatFn?: (v: string, r: any) => string,
