@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr fFf">
-    <q-header elevated class="bg-green">
+    <q-header elevated class="bg-teal-4">
       <q-toolbar>
         <q-avatar>
           <img src="../assets/BesTea.jpg" />
@@ -35,7 +35,7 @@
         <q-btn
           to="/changepass"
           size="md"
-          color="green-5"
+          color="teal-4"
           rounded
           label="Change Password"
         ></q-btn>
@@ -72,7 +72,7 @@ import { mapActions, mapState } from 'vuex';
 export default class MainLayout extends Vue {
   authUser!: () => Promise<void>;
   currentUser!: AUser;
-  drawer = true;
+  drawer = false;
 
   async mounted() {
     await this.authUser();

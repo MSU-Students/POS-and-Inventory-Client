@@ -1,9 +1,9 @@
 <template>
   <q-page class="q-pa-lg bg-grey-1">
-    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+    <div class="text-h4 text-teal-4 q-pb-lg q-pt-md text-bold flex flex-center">
       <q-icon
         class="bi bi-person-fill q-pr-sm"
-        color="teal"
+        color="teal-4"
         style="font-size: 3rem"
       />
       Manage Account
@@ -13,7 +13,7 @@
       <div class="q-gutter-sm q-pa-sm row">
         <q-space />
         <q-btn
-          color="teal"
+          color="teal-4"
           icon-right="archive"
           label="Export to csv"
           @click="exportTable()"
@@ -472,7 +472,7 @@ export default class ManageAccount extends Vue {
 
   colorManipulation(status: string) {
     if (status == 'Active') {
-      return 'teal';
+      return 'teal-4';
     } else if (status == 'Inactive') {
       return 'red';
     }

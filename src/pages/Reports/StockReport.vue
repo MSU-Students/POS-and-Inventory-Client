@@ -18,10 +18,10 @@
             <div class="row">
               <div class="col-10">
                 <div class="text-h6">Total Stock-in Item</div>
-                <div class="text-h5">{{ allInventory.length }}</div>
+                <div class="text-h5 text-bold">{{ allInventory.length }}</div>
               </div>
               <div class="col-2">
-                <q-icon size="62px" name="auto_stories" />
+                <q-icon size="50px" class="bi bi-inboxes-fill" />
               </div>
             </div>
           </q-card-section>
@@ -36,10 +36,12 @@
             <div class="row">
               <div class="col-10">
                 <div class="text-h6">Total Available Item</div>
-                <div class="text-h5">{{ availableInventory.length }}</div>
+                <div class="text-h5 text-bold">
+                  {{ availableInventory.length }}
+                </div>
               </div>
               <div class="col-2">
-                <q-icon size="60px" class="bi bi-box-arrow-in-down" />
+                <q-icon size="50px" class="bi bi-box-arrow-in-down" />
               </div>
             </div>
           </q-card-section>
@@ -54,10 +56,10 @@
             <div class="row">
               <div class="col-10">
                 <div class="text-h6">Total Used Item</div>
-                <div class="text-h5">{{ usedInventory.length }}</div>
+                <div class="text-h5 text-bold">{{ usedInventory.length }}</div>
               </div>
               <div class="col-2" align="right">
-                <q-icon size="45px" class="bi bi-calendar-week-fill" />
+                <q-icon size="50px" class="bi bi-calendar-week-fill" />
               </div>
             </div>
           </q-card-section>
@@ -72,10 +74,12 @@
             <div class="row">
               <div class="col-10">
                 <div class="text-h6">Total Expired Item</div>
-                <div class="text-h5">{{ expiredInventory.length }}</div>
+                <div class="text-h5 text-bold">
+                  {{ expiredInventory.length }}
+                </div>
               </div>
               <div class="col-2" align="right">
-                <q-icon size="45px" class="bi bi-calendar-week-fill" />
+                <q-icon size="50px" class="bi bi-calendar-week-fill" />
               </div>
             </div>
           </q-card-section>

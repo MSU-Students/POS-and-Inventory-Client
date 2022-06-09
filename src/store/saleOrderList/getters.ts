@@ -7,7 +7,7 @@ const getters: GetterTree<SaleOrderStateInterface, StateInterface> = {
     const product = state.allSaleOrder
       .filter((s) => s.orderCategory === 'Beverage/Drinks')
       .sort((a, b) => a.orderQuant - b.orderQuant);
-    return product.concat();
+    return product;
   },
 
   getAllTimeFavoriteTotal(state) {

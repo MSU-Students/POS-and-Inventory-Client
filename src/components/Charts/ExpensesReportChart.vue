@@ -80,6 +80,7 @@ export default class ExpensesChart extends Vue {
           ],
         },
       ],
+      borderWidth: 1,
     };
 
     const wrapper = this.$el as HTMLElement;
@@ -88,6 +89,11 @@ export default class ExpensesChart extends Vue {
       type: 'bar',
       data: data,
       options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
         responsive: true,
       },
     });

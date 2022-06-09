@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf" class="q-pa-md bg-image">
-    <q-header reveal elevated class="bg-green text-white">
+    <q-header reveal elevated class="bg-teal-4 text-white">
       <q-toolbar>
         <q-toolbar-title> Welcome to POS </q-toolbar-title>
         <q-btn
@@ -17,7 +17,7 @@
       <div class="row q-gutter-md">
         <div class="col-7">
           <q-card style="max-height: 700px">
-            <div class="bg-green text-white shadow-transition">
+            <div class="bg-teal-4 text-white shadow-transition">
               <div
                 class="row text-center flex flex-center"
                 :style="$q.platform.is.desktop ? 'height: 38px' : ''"
@@ -121,7 +121,7 @@
                   <q-form @submit="model = 'allProducts'">
                     <q-input
                       clearable
-                      color="green"
+                      color="teal-4"
                       dense
                       square
                       outlined
@@ -129,7 +129,7 @@
                       v-model="filter"
                     >
                       <template v-slot:append>
-                        <q-icon name="search" color="green" />
+                        <q-icon name="search" color="teal-4" />
                       </template>
                     </q-input>
                   </q-form>
@@ -138,7 +138,7 @@
                   <q-form @submit="model = filter">
                     <q-input
                       clearable
-                      color="green"
+                      color="teal-4"
                       dense
                       square
                       outlined
@@ -146,7 +146,7 @@
                       v-model="filter"
                     >
                       <template v-slot:append>
-                        <q-icon name="search" color="green" />
+                        <q-icon name="search" color="teal-4" />
                       </template>
                     </q-input>
                   </q-form>
@@ -207,7 +207,7 @@
                         <q-btn
                           unelevated
                           square
-                          color="green"
+                          color="teal-4"
                           label="Add Product"
                           class="full-width absolute-bottom"
                           @click="
@@ -251,7 +251,7 @@
                             round
                             @click="openEditDialog(props.row)"
                             text-color="white"
-                            color="green-6"
+                            color="teal-4"
                           >
                             {{ props.row.orderQuant }}
                             <q-dialog v-model="editOrderQuant">
@@ -274,7 +274,7 @@
                                       <q-btn
                                         label="Save"
                                         type="submit"
-                                        color="green"
+                                        color="teal-4"
                                         flat
                                       />
                                       <q-btn
@@ -314,7 +314,7 @@
                   <q-btn
                     class="full-width"
                     push
-                    color="red"
+                    color="red-5"
                     label="Clear Order"
                     @click="clearOrder"
                   />
@@ -347,7 +347,7 @@
                     <q-btn
                       class="full-width"
                       push
-                      color="green"
+                      color="teal-4"
                       label="Confirm Order"
                       type="submit"
                     />
@@ -358,7 +358,7 @@
                       <q-stepper
                         v-model="StepConfirm"
                         ref="stepper"
-                        color="green"
+                        color="teal-4"
                         animated
                         style="width: 800px; max-width: 100vw"
                       >
@@ -366,7 +366,7 @@
                           :name="1"
                           title="Confirming Order"
                           icon="settings"
-                          color="green"
+                          color="teal-4"
                           :done="done1"
                         >
                           <q-card flat bordered>
@@ -422,7 +422,7 @@
                                   StepConfirm = 2;
                                 }
                               "
-                              color="green"
+                              color="teal-4"
                               label="Continue"
                             />
                             <q-btn
@@ -436,7 +436,7 @@
                         <q-step
                           :name="2"
                           title="Customer Name"
-                          color="green"
+                          color="teal-4"
                           caption="Optional"
                           icon="Transanction Finish"
                           :done="StepConfirm > 2"
@@ -464,7 +464,7 @@
                                 </div>
                                 <div class="q-gutter-md" align="center">
                                   <q-btn
-                                    color="green"
+                                    color="teal-4"
                                     type="submit"
                                     label="Save"
                                   />
@@ -484,7 +484,7 @@
                         <q-step
                           :name="3"
                           title="Transanction Complete"
-                          color="green"
+                          color="tea-4"
                           caption="Optional"
                           icon="Transanction Finish"
                           :done="StepConfirm > 3"
@@ -493,7 +493,7 @@
                             <q-avatar
                               size="sm"
                               icon="task_alt"
-                              color="green-5"
+                              color="teal-4"
                               style="font-size: 3rem"
                             />
                             Transanction Finish
@@ -503,7 +503,7 @@
                             align="center"
                           >
                             <q-btn
-                              color="green"
+                              color="teal-4"
                               @click="
                                 done2 = true;
                                 clearOrder();
@@ -513,7 +513,7 @@
                               v-close-popup
                             />
                             <q-btn
-                              color="green"
+                              color="teal-4"
                               @click="printPreview = true"
                               label="Print"
                             />

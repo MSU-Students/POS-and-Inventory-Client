@@ -82,9 +82,9 @@
         </q-card>
       </div>
     </div>
-    <div class="q-pt-md row q-gutter-xl q-pb-lg">
+    <div class="q-pt-md row q-gutter-md q-pb-lg">
       <div class="q-pt-lg col">
-        <q-card style="width: 750px; max-width: 80vw">
+        <q-card>
           <q-list>
             <q-item clickable to="/StockReport">
               <q-item-section>
@@ -144,7 +144,7 @@
         </q-card>
       </div>
       <div class="q-pt-lg col">
-        <q-card style="width: 750px; max-width: 80vw">
+        <q-card>
           <q-list>
             <q-item clickable to="/PurchaseReport">
               <q-item-section>
@@ -201,7 +201,7 @@
     <div class="row q-gutter-md q-pt-md q-pb-xl">
       <div class="col">
         <q-table
-          style="max-height: 545px"
+          style="height: 540px; max-height: 540px"
           title="Recent Transanction"
           title-class="text-teal-4"
           :rows="getTodaySale()"

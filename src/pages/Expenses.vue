@@ -1,9 +1,9 @@
 <template>
   <q-page class="q-pa-lg bg-grey-1">
-    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+    <div class="text-h4 text-teal-4 q-pb-lg q-pt-md text-bold flex flex-center">
       <q-icon
         class="bi bi-wallet q-pr-sm"
-        color="teal"
+        color="teal-4"
         style="font-size: 3rem"
       />
       Expenses
@@ -12,7 +12,7 @@
       <div class="q-gutter-sm q-pa-sm row">
         <q-space />
         <q-btn
-          color="teal"
+          color="teal-4"
           icon-right="archive"
           label="Export to csv"
           @click="exportTable()"
@@ -42,7 +42,7 @@
           </q-input>
           <q-btn
             label="Add Expenses"
-            color="teal"
+            color="teal-4"
             dense
             flat
             icon="add"
@@ -151,7 +151,7 @@
                       v-close-popup
                       @click="resetModel()"
                     />
-                    <q-btn flat label="Save" color="teal" type="submit" />
+                    <q-btn flat label="Save" color="teal-4" type="submit" />
                   </div>
                 </q-form>
               </q-card-section>
@@ -164,7 +164,7 @@
           <div class="q-gutter-sm">
             <q-btn
               round
-              color="green"
+              color="teal-4"
               icon="description"
               size="sm"
               flat
@@ -217,7 +217,7 @@
           <div class="q-gutter-sm">
             <q-btn
               round
-              color="teal"
+              color="teal-4"
               icon="edit"
               size="sm"
               flat
@@ -308,7 +308,7 @@
                         v-close-popup
                         @click="resetModel()"
                       />
-                      <q-btn flat label="Save" color="teal" type="submit" />
+                      <q-btn flat label="Save" color="teal-4" type="submit" />
                     </div>
                   </q-form>
                 </q-card-section>

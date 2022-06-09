@@ -1,14 +1,18 @@
 <template>
   <q-page class="q-pa-lg bg-grey-1">
-    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
-      <q-icon class="bi bi-shop q-pr-sm" color="teal" style="font-size: 3rem" />
+    <div class="text-h4 text-teal-4 q-pb-lg q-pt-md text-bold flex flex-center">
+      <q-icon
+        class="bi bi-shop q-pr-sm"
+        color="teal-4"
+        style="font-size: 3rem"
+      />
       Manage Product
     </div>
     <div class="q-mt-lg">
       <div class="q-gutter-sm q-pa-sm row">
         <q-space />
         <q-btn
-          color="teal"
+          color="teal-4"
           icon-right="archive"
           label="Export to csv"
           @click="exportTable()"
@@ -168,7 +172,7 @@
                             'You must enter an input',
                         ]"
                       >
-                        <template class="text-teal-4" v-slot:prepend>
+                        <template class="text-teal-4-4" v-slot:prepend>
                           ₱
                         </template>
                       </q-input>

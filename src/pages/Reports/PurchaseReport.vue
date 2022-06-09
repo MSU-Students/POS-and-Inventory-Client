@@ -1,99 +1,174 @@
 <template>
   <q-page class="q-pa-lg bg-grey-1">
-    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+    <div class="text-h4 text-teal-4 q-pb-lg q-pt-md text-bold flex flex-center">
       <q-icon
         class="bi bi-graph-down q-pr-sm"
-        color="teal"
+        color="teal-4"
         style="font-size: 3rem"
       />
       Purchase Report
     </div>
     <div class="q-py-lg">
-      <div>
-        <div class="q-gutter-sm q-pa-sm row">
-          <q-space />
-          <q-btn
-            color="teal"
-            icon-right="archive"
-            label="Export to csv"
-            @click="exportTable()"
-          />
+      <div class="row q-col-gutter-lg q-pt-xl">
+        <div class="col">
+          <q-card>
+            <q-card-section
+              :class="$q.dark.isActive ? 'teal-4_dark' : 'bg-teal-4'"
+              class="text-white"
+            >
+              <div class="row">
+                <div class="col-10">
+                  <div class="text-h6">Pending Purchase</div>
+                  <div class="text-h5 text-bold">
+                    {{ pendingPurchase.length }}
+                  </div>
+                </div>
+                <div class="col-2">
+                  <q-icon size="50px" class="bi bi-cart-plus" />
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col">
+          <q-card>
+            <q-card-section
+              :class="$q.dark.isActive ? 'red_dark' : 'bg-teal-4'"
+              class="text-white"
+            >
+              <div class="row">
+                <div class="col-10">
+                  <div class="text-h6">Completed Purchase</div>
+                  <div class="text-h5 text-bold">
+                    {{ completePurchase.length }}
+                  </div>
+                </div>
+                <div class="col-2">
+                  <q-icon size="50px" class="bi bi-cart-check" />
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col">
+          <q-card>
+            <q-card-section
+              :class="$q.dark.isActive ? 'red_dark' : 'bg-teal-4'"
+              class="text-white"
+            >
+              <div class="row">
+                <div class="col-10">
+                  <div class="text-h6">Total Daily Purchase</div>
+                  <div class="text-h5 text-bold">₱ {{ getDailyPurchase }}</div>
+                </div>
+                <div class="col-2" align="right">
+                  <q-icon size="50px" class="bi bi-cash-stack" />
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col">
+          <q-card>
+            <q-card-section
+              :class="$q.dark.isActive ? 'red_dark' : 'bg-teal-4'"
+              class="text-white"
+            >
+              <div class="row">
+                <div class="col-10">
+                  <div class="text-h6">Total Monthly Purchase</div>
+                  <div class="text-h5 text-bold">
+                    ₱ {{ getMonthlyPurchase }}
+                  </div>
+                </div>
+                <div class="col-2" align="right">
+                  <q-icon size="50px" class="bi bi-cash-stack" />
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
         </div>
       </div>
-      <q-table
-        title="Purchase History"
-        :rows="completePurchase"
-        :columns="columns"
-        row-key="itemCode"
-        style="max-height: 600px"
-        :rows-per-page-options="[0]"
-        :filter="filter"
-      >
-        <template v-slot:top-right>
-          <div>
-            <q-fab
-              color="teal-8"
-              icon="sort"
-              direction="left"
-              label="Filter by:"
-              label-position="top"
-              external-label
-              padding="xs"
-            >
-              <q-fab-action
-                color="white"
-                text-color="black"
-                @click="filter = 'utensil'"
-                label="Utensil"
-              />
-              <q-fab-action
-                color="white"
-                text-color="black"
-                @click="filter = 'Ingredient'"
-                label="Ingredient"
-              />
-              <q-fab-action
-                color="white"
-                text-color="black"
-                @click="filter = 'Equipment'"
-                label="Equipment"
-              />
-              <q-fab-action
-                color="white"
-                text-color="black"
-                @click="filter = ''"
-                icon="clear"
-              />
-            </q-fab>
-          </div>
-          <div class="q-pa-md q-gutter-sm row">
-            <q-input
-              outlined
-              rounded
-              dense
-              debounce="300"
-              v-model="filter"
-              placeholder="Search"
-            >
-              <template v-slot:append>
-                <q-icon name="search" />
-              </template>
-            </q-input>
-          </div>
-        </template>
-        <template #body-cell-status="props">
-          <q-td :props="props">
-            <q-chip
-              flat
-              color="white"
-              :text-color="colorManipulation(props.row.purchaseStatus)"
-              :label="labelManipulation(props.row.purchaseStatus)"
+      <div class="q-pt-lg">
+        <q-table
+          title="Purchase History"
+          :rows="completePurchase"
+          :columns="columns"
+          row-key="itemCode"
+          :filter="filter"
+        >
+          <template v-slot:top-right>
+            <div>
+              <q-fab
+                color="teal-4"
+                icon="sort"
+                direction="left"
+                label="Filter by:"
+                label-position="top"
+                external-label
+                padding="xs"
+              >
+                <q-fab-action
+                  color="white"
+                  text-color="black"
+                  @click="filter = 'utensil'"
+                  label="Utensil"
+                />
+                <q-fab-action
+                  color="white"
+                  text-color="black"
+                  @click="filter = 'Ingredient'"
+                  label="Ingredient"
+                />
+                <q-fab-action
+                  color="white"
+                  text-color="black"
+                  @click="filter = 'Equipment'"
+                  label="Equipment"
+                />
+                <q-fab-action
+                  color="white"
+                  text-color="black"
+                  @click="filter = ''"
+                  icon="clear"
+                />
+              </q-fab>
+            </div>
+            <div class="q-pa-md q-gutter-sm row">
+              <q-input
+                outlined
+                rounded
+                dense
+                debounce="300"
+                v-model="filter"
+                placeholder="Search"
+              >
+                <template v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
+            <q-btn
+              color="teal-4"
+              icon-right="archive"
+              label="Export to csv"
+              @click="exportTable()"
             />
-          </q-td>
-        </template>
-      </q-table>
+          </template>
+          <template #body-cell-status="props">
+            <q-td :props="props">
+              <q-chip
+                flat
+                color="white"
+                :text-color="colorManipulation(props.row.purchaseStatus)"
+                :label="labelManipulation(props.row.purchaseStatus)"
+              />
+            </q-td>
+          </template>
+        </q-table>
+      </div>
     </div>
-    <div class="q-py-lg row q-gutter-md">
+    <div class="row q-gutter-md">
       <div class="col">
         <q-card style="height: 300px">
           <q-layout container style="height: 300px">
@@ -225,11 +300,11 @@
       <q-card class="flex flex-center">
         <q-card-section
           header
-          class="text-h5 text-teal text-bold flex flex-center"
+          class="text-h5 text-bold text-teal-4 text-bold flex flex-center"
         >
           <q-icon
             class="bi bi-cash-stack q-pr-sm"
-            color="teal"
+            color="teal-4"
             style="font-size: 2rem"
           />
           Monthly Cost
@@ -256,6 +331,8 @@ import { exportFile } from 'quasar';
       'completePurchase',
       'cancelPurchase',
       'pendingPurchase',
+      'getDailyPurchase',
+      'getMonthlyPurchase',
     ]),
   },
   methods: {
@@ -266,6 +343,8 @@ export default class Expenses extends Vue {
   completePurchase!: PurchaseDto[];
   cancelPurchase!: PurchaseDto[];
   pendingPurchase!: PurchaseDto[];
+  getMonthlyPurchase!: number;
+  getDailyPurchase!: number;
   deletePurchase!: (payload: PurchaseDto) => Promise<void>;
   getAllPurchase!: () => Promise<void>;
 

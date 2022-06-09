@@ -14,6 +14,28 @@ const getters: GetterTree<ExpensesStateInterface, StateInterface> = {
       }, 0);
     return result.toFixed(2);
   },
+
+  getMonthlyExpenses(state) {
+    const dateNow = new Date();
+    const currentMonth = date.formatDate(dateNow, 'YYYY-MM');
+    const result = state.allExpenses
+      .filter((s) => s.expensesDate.match(currentMonth))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.amount;
+      }, 0);
+    return result.toFixed(2);
+  },
+
+  getYearlyExpenses(state) {
+    const dateNow = new Date();
+    const currentMonth = date.formatDate(dateNow, 'YYYY');
+    const result = state.allExpenses
+      .filter((s) => s.expensesDate.match(currentMonth))
+      .reduce<number>((accumulator, current) => {
+        return accumulator + current.amount;
+      }, 0);
+    return result.toFixed(2);
+  },
   getRentExpenses(state) {
     const dateNow = new Date();
     const CurrentMonth = date.formatDate(dateNow, 'YYYY-MM');

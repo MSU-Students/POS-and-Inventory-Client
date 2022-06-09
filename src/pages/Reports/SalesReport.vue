@@ -8,200 +8,190 @@
       />
       Sales Report
     </div>
-    <div class="q-py-lg">
-      <div class="row q-gutter-lg">
-        <div class="col-9">
-          <q-table
-            style="max-height: 580px"
-            title="Sales Record"
-            :rows="allSaleRecord"
-            :columns="column"
-            row-key="subCategoryID"
-            :rows-per-page-options="[0]"
-            :filter="saleFilter"
+    <div class="row q-col-gutter-lg q-pt-xl">
+      <div class="col">
+        <q-card>
+          <q-card-section
+            :class="$q.dark.isActive ? 'teal-4_dark' : 'bg-teal-4'"
+            class="text-white"
           >
-            <template v-slot:top-right>
-              <div class="q-pa-md" style="max-width: 300px">
-                <q-input clearable dense borderless v-model="saleFilter">
-                  <template v-slot:append>
-                    <q-icon
-                      name="event"
-                      color="secondary"
-                      class="cursor-pointer"
-                    >
-                      <q-popup-proxy
-                        ref="qDateProxy"
-                        cover
-                        transition-show="scale"
-                        transition-hide="scale"
-                      >
-                        <q-date v-model="saleFilter" mask="YYYY-MM-DD">
-                          <div class="row items-center justify-end">
-                            <q-btn
-                              v-close-popup
-                              label="Close"
-                              color="primary"
-                              flat
-                            />
-                          </div>
-                        </q-date>
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
+            <div class="row">
+              <div class="col-10">
+                <div class="text-h6">Today's Sale</div>
+                <div class="text-h5 text-bold">₱ {{ getDailySale }}</div>
               </div>
-              <q-btn
-                color="teal-4"
-                icon-right="archive"
-                label="Export to csv"
-                @click="exportTable()"
-              />
-            </template>
-
-            <template v-slot:body-cell-viewOrderList="props">
-              <q-td :props="props">
-                <div>
-                  <q-btn
-                    round
-                    color="teal-4"
-                    icon="preview"
-                    size="sm"
-                    flat
-                    dense
-                    @click="openViewOrderList(props.row)"
-                  />
-                </div>
-                <q-dialog v-model="showOrderList">
-                  <q-card style="width: 800px; max-width: 100vw" flat bordered>
-                    <div class="text-h5 text-teal-4 q-pt-lg row">
-                      <div class="col-11 flex flex-center">
-                        <q-icon
-                          class="bi bi-cart-check-fill q-pr-sm"
-                          color="teal-4"
-                          style="font-size: 2rem"
-                        />
-                        Order List
-                      </div>
-
-                      <div class="col q-pr-md" align="right">
-                        <q-btn
-                          color="red-5"
-                          flat
-                          round
-                          dense
-                          icon="close"
-                          v-close-popup
-                        />
-                      </div>
-                    </div>
-                    <q-card-section class="row">
-                      <div class="col">
-                        <div>
-                          Invoice Reference:
-                          <strong> {{ inputSaleRecord.invoiceID }}</strong>
-                        </div>
-                        <div>
-                          Customer Name:
-                          <strong>
-                            {{ inputSaleRecord.customer?.customerName }}
-                          </strong>
-                        </div>
-                        <div>
-                          Cashier:
-                          <strong>
-                            {{
-                              inputSaleRecord.user?.FName +
-                              ' ' +
-                              inputSaleRecord.user?.LName
-                            }}
-                          </strong>
-                        </div>
-                        <div>
-                          Total Amount:
-                          <strong>
-                            {{ inputSaleRecord.totalAmount }}
-                          </strong>
-                        </div>
-                      </div>
-                      <div class="col" align="right">
-                        <q-avatar size="100px">
-                          <q-img src="../../assets/BesTea.jpg" />
-                        </q-avatar>
-                      </div>
-                    </q-card-section>
-                    <q-separator />
-                    <q-card-section>
-                      <q-table
-                        :rows="mapSalesOrder(inputSaleRecord)"
-                        :columns="orderColumn"
-                        row-key="subCategoryID"
-                      />
-                    </q-card-section>
-                  </q-card>
-                </q-dialog>
-              </q-td>
-            </template>
-          </q-table>
-        </div>
-        <div class="col">
-          <q-card>
-            <q-list bordered class="rounded-borders" style="max-width: 800px">
-              <q-item-label header> Sale's Overview </q-item-label>
-
-              <q-item>
-                <q-item-section avatar top>
-                  <q-icon name="payment" color="teal-4" size="35px" />
-                </q-item-section>
-
-                <q-item-section top>
-                  <q-item-label class="q-mt-sm"> Today's Sale </q-item-label>
-                </q-item-section>
-
-                <q-item-section top side>
-                  <q-item-label class="q-mt-sm text-weight-bolder text-dark">
-                    ₱ {{ getDailySale }}</q-item-label
-                  >
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section avatar top>
-                  <q-icon name="payment" color="teal-4" size="35px" />
-                </q-item-section>
-
-                <q-item-section top>
-                  <q-item-label class="q-mt-sm"> Monthly Sale </q-item-label>
-                </q-item-section>
-
-                <q-item-section top side>
-                  <q-item-label class="q-mt-sm text-weight-bolder text-dark">
-                    ₱ {{ getMonthlySale }}</q-item-label
-                  >
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section avatar top>
-                  <q-icon name="payment" color="teal-4" size="35px" />
-                </q-item-section>
-
-                <q-item-section top>
-                  <q-item-label class="q-mt-sm"> Yearly Sales </q-item-label>
-                </q-item-section>
-
-                <q-item-section
-                  class="q-mt-sm text-weight-bolder text-dark"
-                  top
-                  side
-                >
-                  ₱ {{ getYearlySale }}
-                </q-item-section>
-              </q-item>
-
-              <q-separator spaced />
-            </q-list>
-          </q-card>
-        </div>
+              <div class="col-2">
+                <q-icon size="50px" class="bi bi-cash-stack" />
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col">
+        <q-card>
+          <q-card-section
+            :class="$q.dark.isActive ? 'red_dark' : 'bg-teal-4'"
+            class="text-white"
+          >
+            <div class="row">
+              <div class="col-10">
+                <div class="text-h6">Monthly Sale</div>
+                <div class="text-h5 text-bold">₱ {{ getMonthlySale }}</div>
+              </div>
+              <div class="col-2">
+                <q-icon size="50px" class="bi bi-cash-stack" />
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col">
+        <q-card>
+          <q-card-section
+            :class="$q.dark.isActive ? 'red_dark' : 'bg-teal-4'"
+            class="text-white"
+          >
+            <div class="row">
+              <div class="col-10">
+                <div class="text-h6">Yearly Sale</div>
+                <div class="text-h5 text-bold">₱ {{ getYearlySale }}</div>
+              </div>
+              <div class="col-2" align="right">
+                <q-icon size="50px" class="bi bi-cash-stack" />
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
       </div>
     </div>
+    <div class="q-py-lg">
+      <q-table
+        title="Sales Record"
+        :rows="allSaleRecord"
+        :columns="column"
+        row-key="subCategoryID"
+        :filter="saleFilter"
+      >
+        <template v-slot:top-right>
+          <div class="q-pa-md" style="max-width: 300px">
+            <q-input clearable dense borderless v-model="saleFilter">
+              <template v-slot:append>
+                <q-icon name="event" color="secondary" class="cursor-pointer">
+                  <q-popup-proxy
+                    ref="qDateProxy"
+                    cover
+                    transition-show="scale"
+                    transition-hide="scale"
+                  >
+                    <q-date v-model="saleFilter" mask="YYYY-MM-DD">
+                      <div class="row items-center justify-end">
+                        <q-btn
+                          v-close-popup
+                          label="Close"
+                          color="primary"
+                          flat
+                        />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+          <q-btn
+            color="teal-4"
+            icon-right="archive"
+            label="Export to csv"
+            @click="exportTable()"
+          />
+        </template>
+
+        <template v-slot:body-cell-viewOrderList="props">
+          <q-td :props="props">
+            <div>
+              <q-btn
+                round
+                color="teal-4"
+                icon="open_in_new"
+                size="sm"
+                flat
+                dense
+                @click="openViewOrderList(props.row)"
+              />
+            </div>
+            <q-dialog v-model="showOrderList">
+              <q-card style="width: 800px; max-width: 100vw" flat bordered>
+                <div class="text-h5 text-teal-4 q-pt-lg row">
+                  <div class="col-11 flex flex-center">
+                    <q-icon
+                      class="bi bi-cart-check-fill q-pr-sm"
+                      color="teal-4"
+                      style="font-size: 2rem"
+                    />
+                    Order List
+                  </div>
+
+                  <div class="col q-pr-md" align="right">
+                    <q-btn
+                      color="red-5"
+                      flat
+                      round
+                      dense
+                      icon="close"
+                      v-close-popup
+                    />
+                  </div>
+                </div>
+                <q-card-section class="row">
+                  <div class="col">
+                    <div>
+                      Invoice Reference:
+                      <strong> {{ inputSaleRecord.invoiceID }}</strong>
+                    </div>
+                    <div>
+                      Customer Name:
+                      <strong>
+                        {{ inputSaleRecord.customer?.customerName }}
+                      </strong>
+                    </div>
+                    <div>
+                      Cashier:
+                      <strong>
+                        {{
+                          inputSaleRecord.user?.FName +
+                          ' ' +
+                          inputSaleRecord.user?.LName
+                        }}
+                      </strong>
+                    </div>
+                    <div>
+                      Total Amount:
+                      <strong>
+                        {{ inputSaleRecord.totalAmount }}
+                      </strong>
+                    </div>
+                  </div>
+                  <div class="col" align="right">
+                    <q-avatar size="100px">
+                      <q-img src="../../assets/BesTea.jpg" />
+                    </q-avatar>
+                  </div>
+                </q-card-section>
+                <q-separator />
+                <q-card-section>
+                  <q-table
+                    :rows="mapSalesOrder(inputSaleRecord)"
+                    :columns="orderColumn"
+                    row-key="subCategoryID"
+                  />
+                </q-card-section>
+              </q-card>
+            </q-dialog>
+          </q-td>
+        </template>
+      </q-table>
+    </div>
+
     <!-- <q-card class="q-py-md">
       <q-card-section>
         <q-item-section>
@@ -251,11 +241,11 @@
           <q-card-section class="text-h6 q-pb-none">
             <q-item>
               <q-item-section avatar>
-                <q-icon color="blue" name="fas fa-chart-line" size="44px" />
+                <q-icon color="teal-4" name="fas fa-chart-line" size="44px" />
               </q-item-section>
 
               <q-item-section>
-                <div class="text-h6 text-blue">Monthly Sales</div>
+                <div class="text-h6 text-teal-4">Monthly Sales</div>
               </q-item-section>
             </q-item>
           </q-card-section>
@@ -270,14 +260,14 @@
               <q-item>
                 <q-item-section avatar>
                   <q-icon
-                    color="blue"
+                    color="teal-4"
                     class="bi bi-calendar-check"
                     size="35px"
                   />
                 </q-item-section>
 
                 <q-item-section>
-                  <div class="text-h6 text-blue">Today's Profit</div>
+                  <div class="text-h6 text-teal-4">Today's Profit</div>
                 </q-item-section>
               </q-item>
             </q-card-section>
@@ -291,9 +281,15 @@
 
     <q-card class="q-my-lg">
       <q-card-section>
-        <q-item-section>
-          <div class="text-h6">Yearly Sales</div>
-        </q-item-section>
+        <q-item>
+          <q-item-section avatar>
+            <q-icon color="teal-4" name="fas fa-chart-line" size="44px" />
+          </q-item-section>
+
+          <q-item-section>
+            <div class="text-h6 text-teal-4">Yearly Sales</div>
+          </q-item-section>
+        </q-item>
       </q-card-section>
       <div class="q-pa-lg">
         <YearlySaleReport />

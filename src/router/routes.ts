@@ -29,7 +29,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../pages/Dashboard.vue'),
       },
       {
-        path: 'account',
+        path: 'manageaccount',
         component: () => import('../pages/ManageAccount.vue'),
       },
       {

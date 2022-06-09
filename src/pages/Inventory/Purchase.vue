@@ -1,10 +1,10 @@
 <template>
   <q-page class="q-pa-lg bg-grey-1">
-    <div class="text-h4 text-teal q-pb-lg q-pt-md text-bold flex flex-center">
+    <div class="text-h4 text-teal-4 q-pb-lg q-pt-md text-bold flex flex-center">
       <q-icon
         class="b q-pr-sm"
         name="shopping_bag"
-        color="teal"
+        color="teal-4"
         style="font-size: 3rem"
       />
       Purchase
@@ -13,7 +13,7 @@
       <div class="q-gutter-sm q-pa-sm row">
         <q-space />
         <q-btn
-          color="teal"
+          color="teal-4"
           icon-right="archive"
           label="Export to csv"
           @click="exportTable()"
@@ -44,7 +44,7 @@
           <q-btn
             size="13px"
             label="Add Purchase"
-            color="teal"
+            color="teal-4"
             dense
             flat
             icon="add"
@@ -191,7 +191,7 @@
           <div class="q-gutter-sm">
             <q-btn
               round
-              color="teal"
+              color="teal-4"
               icon="edit"
               size="sm"
               flat

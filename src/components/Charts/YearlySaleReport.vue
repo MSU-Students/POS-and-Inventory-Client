@@ -57,56 +57,58 @@ export default class monthlyProductSales extends Vue {
         {
           label: '2022',
           data: [this.get2022Sale],
-          backgroundColor: 'green',
-          borderColor: 'green',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgb(75, 192, 192)',
+          borderWidth: 1,
         },
         {
           label: '2023',
           data: [this.get2023Sale],
-          backgroundColor: 'green',
-          borderColor: 'green',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgb(75, 192, 192)',
         },
         {
           label: '2024',
           data: [this.get2024Sale],
-          backgroundColor: 'green',
-          borderColor: 'green',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgb(75, 192, 192)',
         },
         {
           label: '2025',
           data: [this.get2025Sale],
-          backgroundColor: 'green',
-          borderColor: 'green',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgb(75, 192, 192)',
         },
         {
           label: '2026',
           data: [this.get2026Sale],
-          backgroundColor: 'green',
-          borderColor: 'green',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgb(75, 192, 192)',
         },
         {
           label: '2027',
           data: [this.get2027Sale],
-          backgroundColor: 'green',
-          borderColor: 'green',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgb(75, 192, 192)',
         },
         {
           label: '2028',
           data: [this.get2028Sale],
-          backgroundColor: 'green',
-          borderColor: 'green',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgb(75, 192, 192)',
         },
         {
           label: '2029',
           data: [this.get2029Sale],
-          backgroundColor: 'green',
-          borderColor: 'green',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgb(75, 192, 192)',
         },
         {
           label: '2030',
           data: [this.get2030Sale],
-          backgroundColor: 'green',
-          borderColor: 'green',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgb(75, 192, 192)',
+          borderWidth: 1,
         },
       ],
     };
@@ -117,6 +119,11 @@ export default class monthlyProductSales extends Vue {
       type: 'bar',
       data: data,
       options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
         responsive: true,
         plugins: {
           legend: {

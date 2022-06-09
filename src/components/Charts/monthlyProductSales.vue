@@ -129,6 +129,11 @@ export default class MonthlySales extends Vue {
       type: 'bar',
       data: data,
       options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
         responsive: true,
         plugins: {
           legend: {
