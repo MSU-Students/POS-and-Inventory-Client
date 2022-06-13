@@ -189,7 +189,7 @@
                       <q-toggle
                         outlined
                         size="lg"
-                        color="green"
+                        color="teal-4"
                         false-value="No"
                         true-value="Yes"
                         v-model="inputManageSale.productAvailability"
@@ -363,7 +363,7 @@
                         <q-toggle
                           outlined
                           size="lg"
-                          color="green"
+                          color="teal-4"
                           false-value="No"
                           true-value="Yes"
                           v-model="inputManageSale.productAvailability"

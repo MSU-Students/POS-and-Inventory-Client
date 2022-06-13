@@ -23,7 +23,7 @@
               </div>
 
               <q-list>
-                <q-item clickable v-ripple to="/Account">
+                <q-item clickable v-ripple to="/manageaccount">
                   <q-item-section avatar>
                     <q-avatar
                       icon="settings"

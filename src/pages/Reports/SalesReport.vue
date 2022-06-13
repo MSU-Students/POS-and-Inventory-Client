@@ -83,14 +83,13 @@
                     transition-show="scale"
                     transition-hide="scale"
                   >
-                    <q-date v-model="saleFilter" mask="YYYY-MM-DD">
+                    <q-date
+                      color="teal-4"
+                      v-model="saleFilter"
+                      mask="YYYY-MM-DD"
+                    >
                       <div class="row items-center justify-end">
-                        <q-btn
-                          v-close-popup
-                          label="Close"
-                          color="primary"
-                          flat
-                        />
+                        <q-btn v-close-popup label="Close" color="red-5" flat />
                       </div>
                     </q-date>
                   </q-popup-proxy>
@@ -192,49 +191,210 @@
       </q-table>
     </div>
 
-    <!-- <q-card class="q-py-md">
-      <q-card-section>
-        <q-item-section>
-          <div class="text-center text-h6">Best Seller</div>
-        </q-item-section>
-      </q-card-section>
-      <q-tabs
-        v-model="tab"
-        dense
-        class="text-teal-4"
-        active-color="primary"
-        indicator-color="primary"
-        align="justify"
-        narrow-indicator
-      >
-        <q-tab icon="dinner_dining" name="Food" label="Food" />
-        <q-tab
-          icon="local_drink"
-          name="Drink/Beverages"
-          label="Drink/Beverages"
-        />
-        <q-tab icon="add_box" name="Add-ons" label="Add-ons" />
-      </q-tabs>
-      <q-separator />
+    <div class="q-pb-lg row q-gutter-md">
+      <div class="col">
+        <q-card
+          class="bg-teal-4 flex flex-center text-h5 text-white text-weight-medium"
+          style="height: 40px"
+        >
+          Sale Record
+        </q-card>
+        <q-card class>
+          <q-tabs
+            v-model="CategoryTab"
+            dense
+            class="text-teal-4"
+            active-color="blue"
+            indicator-color="blue"
+            align="justify"
+            narrow-indicator
+          >
+            <q-tab
+              icon="dinner_dining"
+              name="AllProducts"
+              label="All Products"
+            />
+            <q-tab
+              icon="local_drink"
+              name="Drink/Beverages"
+              label="Drink/Beverages"
+            />
+            <q-tab icon="dinner_dining" name="Food" label="Food" />
+          </q-tabs>
+          <q-separator />
 
-      <q-tab-panels v-model="tab" animated>
-        <q-tab-panel name="Food">
-          <div class="text-h6">Best Seller in food</div>
-          <BestSellerFood />
-        </q-tab-panel>
+          <q-tab-panels v-model="CategoryTab" animated>
+            <q-tab-panel name="AllProducts">
+              <q-tabs
+                v-model="AllProductsTab"
+                dense
+                class="text-grey"
+                active-color="blue"
+                indicator-color="blue"
+                align="justify"
+                narrow-indicator
+              >
+                <q-tab name="allTheTime" label="All The Time" />
+                <q-tab name="daily" label="Daily" />
+                <q-tab name="monthly" label="Monthly" />
+              </q-tabs>
 
-        <q-tab-panel name="Drink/Beverages">
-          <div class="text-h6">Best Seller in Drinks/Beverages</div>
-          <BestSellerChartDrinks />
-        </q-tab-panel>
+              <q-separator />
 
-        <q-tab-panel name="Add-ons">
-          <div class="text-h6">Best Seller in Add-ons</div>
-          <BestSellerChartAddons />
-        </q-tab-panel>
-      </q-tab-panels>
-      <div class="q-pa-lg"></div>
-    </q-card> -->
+              <q-tab-panels v-model="AllProductsTab" animated>
+                <q-tab-panel name="daily">
+                  <q-table
+                    title="Daily Sell Record"
+                    :rows="getDailyBestSeller"
+                    :columns="allProducts"
+                    row-key="name"
+                  />
+                </q-tab-panel>
+
+                <q-tab-panel name="monthly">
+                  <q-table
+                    title="Daily Sell Record"
+                    :rows="getMonthlyBestSeller"
+                    :columns="allProducts"
+                    row-key="name"
+                  />
+                </q-tab-panel>
+
+                <q-tab-panel name="allTheTime">
+                  <q-table
+                    title="Daily Sell Record"
+                    :rows="getBestSeller"
+                    :columns="allProducts"
+                    row-key="name"
+                  />
+                </q-tab-panel>
+              </q-tab-panels>
+            </q-tab-panel>
+            <q-tab-panel name="Food">
+              <q-tabs
+                v-model="FoodTab"
+                dense
+                class="text-grey"
+                active-color="blue"
+                indicator-color="blue"
+                align="justify"
+                narrow-indicator
+              >
+                <q-tab name="allTheTime" label="All The Time" />
+                <q-tab name="daily" label="Daily" />
+                <q-tab name="monthly" label="Monthly" />
+              </q-tabs>
+
+              <q-separator />
+
+              <q-tab-panels v-model="FoodTab" animated>
+                <q-tab-panel name="daily">
+                  <q-table
+                    title="Daily Sell Record"
+                    :rows="getDailyFoodBestSeller"
+                    :columns="allProducts"
+                    row-key="name"
+                  />
+                </q-tab-panel>
+
+                <q-tab-panel name="monthly">
+                  <q-table
+                    title="Daily Sell Record"
+                    :rows="getMonthlyFoodBestSeller"
+                    :columns="allProducts"
+                    row-key="name"
+                  />
+                </q-tab-panel>
+
+                <q-tab-panel name="allTheTime">
+                  <q-table
+                    title="Daily Sell Record"
+                    :rows="getFoodBestSeller"
+                    :columns="allProducts"
+                    row-key="name"
+                  />
+                </q-tab-panel>
+              </q-tab-panels>
+            </q-tab-panel>
+
+            <q-tab-panel name="Drink/Beverages">
+              <q-tabs
+                v-model="DrinksTab"
+                dense
+                class="text-grey"
+                active-color="blue"
+                indicator-color="blue"
+                align="justify"
+                narrow-indicator
+              >
+                <q-tab name="allTheTime" label="All The Time" />
+                <q-tab name="daily" label="Daily" />
+                <q-tab name="monthly" label="Monthly" />
+              </q-tabs>
+
+              <q-separator />
+
+              <q-tab-panels v-model="DrinksTab" animated>
+                <q-tab-panel name="daily">
+                  <q-table
+                    title="Daily Sell Record"
+                    :rows="getDailyDrinksBestSeller"
+                    :columns="allProducts"
+                    row-key="name"
+                  />
+                </q-tab-panel>
+
+                <q-tab-panel name="monthly">
+                  <q-table
+                    title="Daily Sell Record"
+                    :rows="getMonthlyDrinksBestSeller"
+                    :columns="allProducts"
+                    row-key="name"
+                  />
+                </q-tab-panel>
+
+                <q-tab-panel name="allTheTime">
+                  <q-table
+                    title="Daily Sell Record"
+                    :rows="getDrinksBestSeller"
+                    :columns="allProducts"
+                    row-key="name"
+                  />
+                </q-tab-panel>
+              </q-tab-panels>
+            </q-tab-panel>
+          </q-tab-panels>
+          <div class="q-pa-lg"></div>
+        </q-card>
+      </div>
+      <div class="col-3">
+        <q-card
+          class="bg-teal-4 flex flex-center text-h5 text-white text-weight-medium"
+          style="height: 40px"
+        >
+          Best Seller
+        </q-card>
+        <q-card class="flex flex-center q-pa-md">
+          <div>
+            <div
+              class="q-pa-md"
+              v-for="data in getTop3BestSeller"
+              v-bind:key="data.orderName"
+            >
+              <q-card class="bg-teal-4 text-white q-pa-lg">
+                <div class="text-h5 text-weight-bold flex flex-center">
+                  {{ data.orderName }}
+                </div>
+                <div class="flex flex-center text-overline">
+                  Total Sale: {{ data.orderQuant }}
+                </div>
+              </q-card>
+            </div>
+          </div>
+        </q-card>
+      </div>
+    </div>
+
     <q-card class="q-pa-sm">
       <div class="row q-gutter-md">
         <div class="col-7">
@@ -326,7 +486,18 @@ import { exportFile } from 'quasar';
       'getMonthlySale',
       'getYearlySale',
     ]),
-    ...mapGetters('saleOrder', ['getBestSeller']),
+    ...mapGetters('saleOrder', [
+      'getBestSeller',
+      'getMonthlyBestSeller',
+      'getDaillyBestSeller',
+      'getDrinksBestSeller',
+      'getDailyDrinksBestSeller',
+      'getMonthlyDrinksBestSeller',
+      'getFoodBestSeller',
+      'getDailyFoodBestSeller',
+      'getMonthlyFoodBestSeller',
+      'getTop3BestSeller',
+    ]),
   },
   methods: {
     ...mapActions('saleRecord', ['getAllSaleRecord']),
@@ -341,8 +512,16 @@ export default class SaleRecord extends Vue {
   getDailySale!: number;
   getMonthlySale!: number;
   getYearlySale!: number;
-  getMilkteaTotal!: SaleOrderDto[];
   getBestSeller!: SaleOrderDto[];
+  getMonthlyBestSeller!: SaleOrderDto[];
+  getDailyBestSeller!: SaleOrderDto[];
+  getMonthlyFoodBestSeller!: SaleOrderDto[];
+  getDailyFoodBestSeller!: SaleOrderDto[];
+  getFoodBestSeller!: SaleOrderDto[];
+  getMonthlyDrinksBestSeller!: SaleOrderDto[];
+  getDailyDrinksBestSeller!: SaleOrderDto[];
+  getDrinksBestSeller!: SaleOrderDto[];
+  getTop3BestSeller!: SaleOrderDto[];
   getAllSaleRecord!: () => Promise<void>;
   getAllSaleOrder!: () => Promise<void>;
   mapSalesOrder(invoice: SaleRecordDto) {
@@ -353,9 +532,12 @@ export default class SaleRecord extends Vue {
   async mounted() {
     await this.getAllSaleRecord();
     await this.getAllSaleOrder();
-    console.log(this.getBestSeller);
+    console.log(this.getTop3BestSeller);
   }
-  tab = 'Food';
+  CategoryTab = 'AllProducts';
+  AllProductsTab = 'allTheTime';
+  DrinksTab = 'allTheTime';
+  FoodTab = 'allTheTime';
   saleFilter = '';
   showOrderList = false;
 
@@ -449,6 +631,25 @@ export default class SaleRecord extends Vue {
       align: 'center',
       label: 'Sub-Categories',
       field: (row: SaleOrderDto) => row.orderSubCategory,
+      sortable: true,
+    },
+  ];
+
+  allProducts = [
+    {
+      name: 'name',
+      required: true,
+      label: 'Product Name',
+      align: 'center',
+      field: (row: SaleOrderDto) => row.orderName,
+      sortable: true,
+    },
+
+    {
+      name: 'quantity',
+      label: 'Quantity',
+      align: 'center',
+      field: (row: SaleOrderDto) => row.orderQuant,
       sortable: true,
     },
   ];

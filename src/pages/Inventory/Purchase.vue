@@ -177,7 +177,7 @@
                       v-close-popup
                       @click="resetModel()"
                     />
-                    <q-btn label="Submit" color="green" type="submit" />
+                    <q-btn label="Submit" color="teal-4" type="submit" />
                   </div>
                 </q-form>
               </q-card-section>
@@ -295,7 +295,7 @@
                         v-close-popup
                         @click="resetModel()"
                       />
-                      <q-btn label="Submit" color="green" type="submit" />
+                      <q-btn label="Submit" color="teal-4" type="submit" />
                     </div>
                   </q-form>
                 </q-card-section>
@@ -356,7 +356,7 @@
                         v-close-popup
                         @click="resetModel()"
                       />
-                      <q-btn label="Done" color="green" type="submit" />
+                      <q-btn label="Done" color="teal-4" type="submit" />
                     </div>
                   </q-form>
                 </q-card-section>

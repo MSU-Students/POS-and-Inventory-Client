@@ -178,7 +178,7 @@
     <div class="q-pr-md q-pt-xl">
       <q-card
         class="bg-teal-4 flex flex-center text-h5 text-white text-weight-medium"
-        style="height: 50px"
+        style="height: 40px"
       >
         Expired Item
       </q-card>

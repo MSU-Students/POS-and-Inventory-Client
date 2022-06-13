@@ -111,10 +111,30 @@
             </div>
             <div class="row">
               <div class="q-pa-md col-5">
-                <q-radio v-model="radioSizes" val="Regular" label="Regular" />
-                <q-radio v-model="radioSizes" val="Small" label="Small" />
-                <q-radio v-model="radioSizes" val="Medium" label="Medium" />
-                <q-radio v-model="radioSizes" val="Large" label="Large" />
+                <q-radio
+                  v-model="radioSizes"
+                  val="Regular"
+                  label="Regular"
+                  color="teal-4"
+                />
+                <q-radio
+                  v-model="radioSizes"
+                  val="Small"
+                  label="Small"
+                  color="teal-4"
+                />
+                <q-radio
+                  v-model="radioSizes"
+                  val="Medium"
+                  label="Medium"
+                  color="teal-4"
+                />
+                <q-radio
+                  v-model="radioSizes"
+                  val="Large"
+                  label="Large"
+                  color="teal-4"
+                />
               </div>
               <div class="q-pa-md col-7">
                 <div v-if="filter === null || filter === ''">
@@ -191,13 +211,11 @@
                               {{ data.productName }}
                             </q-item-label>
                             <q-item-label
-                              class="text-weight-bolder text-red-10 q-pt-sm"
+                              class="text-weight-bolder text-red-5 q-pt-sm"
                             >
                               Price:
                             </q-item-label>
-                            <q-item-label
-                              class="text-weight-bolder text-red-10"
-                            >
+                            <q-item-label class="text-weight-bolder text-red-5">
                               ₱ {{ data.productPrice }}
                             </q-item-label>
                           </div>
@@ -211,13 +229,7 @@
                           label="Add Product"
                           class="full-width absolute-bottom"
                           @click="
-                            tempInput.orderPrice = data.productPrice;
-                            tempInput.orderSize = data.productSize;
-                            tempInput.orderName = data.productName;
-                            tempInput.orderCategory = data.productCategory;
-                            tempInput.orderSubCategory =
-                              data.productSubCategory;
-                            onaddCart();
+                            onaddCart(data);
                             StepConfirm = 1;
                           "
                         />
@@ -297,7 +309,7 @@
                       <q-td :props="props">
                         <div>
                           <q-btn
-                            color="red-10"
+                            color="red-5"
                             icon="delete"
                             size="sm"
                             class="q-ml-xs"
@@ -305,8 +317,9 @@
                             round
                             dense
                             @click="onDeleteSpecificCart(props.row)"
-                          /></div
-                      ></q-td>
+                          />
+                        </div>
+                      </q-td>
                     </template>
                   </q-table>
                 </q-card-section>
@@ -331,6 +344,7 @@
                       <div class="q-py-sm col">Payment:</div>
                       <q-input
                         dense
+                        color="teal-4"
                         square
                         outlined
                         v-model="payment"
@@ -376,7 +390,6 @@
                                 :columns="selectedOrder"
                                 title="Selected Order"
                                 wrap-cells
-                                hide-bottom
                               >
                               </q-table>
                             </q-card-section>
@@ -427,7 +440,7 @@
                             />
                             <q-btn
                               label="Cancel"
-                              color="red"
+                              color="red-5"
                               v-close-popup="cancelOrder"
                               :disable="!cancelOrder"
                             />
@@ -819,14 +832,6 @@ export default class POS extends Vue {
         timeout: 500,
       });
     }
-    // if (this.allCart.orderQuant === 0) {
-    //   this.$q.notify({
-    //     type: 'negative',
-    //     message: 'You have to enter greater payment!',
-    //     position: 'center',
-    //     timeout: 500,
-    //   });
-    // }
   }
   print() {
     window.print();
@@ -850,8 +855,19 @@ export default class POS extends Vue {
       orderSubTotal: 0,
     };
   }
-  async onaddCart() {
-    await this.addCart(this.tempInput);
+  async onaddCart(data: ManageProductDto) {
+    if (data.product_ID) {
+      const res = await this.addCart({
+        orderName: data.productName,
+        orderSize: data.productSize,
+        orderPrice: data.productPrice,
+        orderCategory: data.productCategory,
+        orderSubCategory: data.productSubCategory,
+        orderSubTotal: data.productPrice,
+      } as ICartInfo);
+      console.log(res);
+    }
+
     this.resetOrder();
   }
   async onEditCart() {

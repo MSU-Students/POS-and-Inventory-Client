@@ -34,7 +34,7 @@
           <div class="q-pa-md q-gutter-sm row">
             <q-input
               outlined
-              color="green"
+              color="teal-4"
               rounded
               dense
               debounce="300"
@@ -75,7 +75,7 @@
                       <div class="col">
                         <q-input
                           autofocus
-                          color="green"
+                          color="teal-4"
                           outlined
                           v-model="inputSupplier.supplierName"
                           label="Supplier Name"
@@ -89,7 +89,7 @@
                       </div>
                       <div class="col">
                         <q-input
-                          color="green"
+                          color="teal-4"
                           outlined
                           v-model="inputSupplier.company"
                           label="Company Name"
@@ -108,7 +108,7 @@
                           outlined
                           v-model="inputSupplier.email"
                           label="Email"
-                          color="green"
+                          color="teal-4"
                           type="email"
                         />
                       </div>
@@ -127,7 +127,7 @@
                         outlined
                         v-model="inputSupplier.address"
                         label="Address"
-                        color="green"
+                        color="teal-4"
                       />
                     </div>
 
@@ -180,7 +180,7 @@
                         <div class="col">
                           <q-input
                             autofocus
-                            color="green"
+                            color="teal-4"
                             outlined
                             v-model="inputSupplier.supplierName"
                             label="Supplier Name"
@@ -188,7 +188,7 @@
                         </div>
                         <div class="col">
                           <q-input
-                            color="green"
+                            color="teal-4"
                             outlined
                             v-model="inputSupplier.company"
                             label="Company Name"
@@ -201,7 +201,7 @@
                             outlined
                             v-model="inputSupplier.email"
                             label="Email"
-                            color="green"
+                            color="teal-4"
                             type="email"
                           />
                         </div>
@@ -220,7 +220,7 @@
                           outlined
                           v-model="inputSupplier.address"
                           label="Address"
-                          color="green"
+                          color="teal-4"
                         />
                       </div>
 

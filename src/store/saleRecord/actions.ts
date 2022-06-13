@@ -21,17 +21,7 @@ const actions: ActionTree<SaleRecordStateInterface, StateInterface> = {
           )
       );
     }
-    const Orders = context.rootState.cart.allCart;
-    if (listOrders.length > 0 && result) {
-      listOrders.map(
-        async (b) =>
-          await context.dispatch(
-            'manageProduct/editManageProduct',
-            { ...b, invoice: result.invoiceID },
-            { root: true }
-          )
-      );
-    }
+
     return result;
   },
 
@@ -53,9 +43,10 @@ const actions: ActionTree<SaleRecordStateInterface, StateInterface> = {
     await this.dispatch('saleOrder/getAllSaleOrder');
   },
 
-  async getOneSaleRecord(context, id: number): Promise<any> {
-    const res = await saleRecordService.getOne(id);
+  async findOneByID(context, order_ID: number): Promise<any> {
+    const res = await saleRecordService.getOne(order_ID);
     context.commit('getOneSaleRecord', res);
+    return res;
   },
 };
 

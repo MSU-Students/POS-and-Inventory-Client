@@ -1,11 +1,11 @@
 <template>
   <q-layout view="hHh lpR fFf" class="q-pa-md bg-image">
-    <q-header reveal elevated class="bg-green text-white">
+    <q-header reveal elevated class="bg-teal-4 text-white">
       <q-toolbar>
         <q-toolbar-title> Welcome to POS </q-toolbar-title>
         <q-btn
           class="q-py-sm"
-          to="/LandingPage"
+          to="/Dashboard"
           icon="logout"
           label="Back"
           flat
@@ -17,7 +17,7 @@
       <div class="row q-gutter-md">
         <div class="col-7">
           <q-card style="max-height: 700px">
-            <div class="bg-green text-white shadow-transition">
+            <div class="bg-teal-4 text-white shadow-transition">
               <div
                 class="row text-center flex flex-center"
                 :style="$q.platform.is.desktop ? 'height: 38px' : ''"
@@ -111,32 +111,70 @@
             </div>
             <div class="row">
               <div class="q-pa-md col-5">
-                <q-radio v-model="radioSizes" val="Regular" label="Regular" />
-                <q-radio v-model="radioSizes" val="Small" label="Small" />
-                <q-radio v-model="radioSizes" val="Medium" label="Medium" />
-                <q-radio v-model="radioSizes" val="Large" label="Large" />
+                <q-radio
+                  v-model="radioSizes"
+                  val="Regular"
+                  label="Regular"
+                  color="teal-4"
+                />
+                <q-radio
+                  v-model="radioSizes"
+                  val="Small"
+                  label="Small"
+                  color="teal-4"
+                />
+                <q-radio
+                  v-model="radioSizes"
+                  val="Medium"
+                  label="Medium"
+                  color="teal-4"
+                />
+                <q-radio
+                  v-model="radioSizes"
+                  val="Large"
+                  label="Large"
+                  color="teal-4"
+                />
               </div>
               <div class="q-pa-md col-7">
-                <q-form @submit="model = filter">
-                  <q-input
-                    color="green"
-                    dense
-                    square
-                    outlined
-                    debounce="300"
-                    v-model="filter"
-                  >
-                    <template v-slot:append>
-                      <q-btn flat @click="model = filter">
-                        <q-icon name="search" color="green" />
-                      </q-btn>
-                    </template>
-                  </q-input>
-                </q-form>
+                <div v-if="filter === null || filter === ''">
+                  <q-form @submit="model = 'allProducts'">
+                    <q-input
+                      clearable
+                      color="teal-4"
+                      dense
+                      square
+                      outlined
+                      debounce="300"
+                      v-model="filter"
+                    >
+                      <template v-slot:append>
+                        <q-icon name="search" color="teal-4" />
+                      </template>
+                    </q-input>
+                  </q-form>
+                </div>
+                <div v-else>
+                  <q-form @submit="model = filter">
+                    <q-input
+                      clearable
+                      color="teal-4"
+                      dense
+                      square
+                      outlined
+                      debounce="300"
+                      v-model="filter"
+                    >
+                      <template v-slot:append>
+                        <q-icon name="search" color="teal-4" />
+                      </template>
+                    </q-input>
+                  </q-form>
+                </div>
               </div>
             </div>
 
-            <q-scroll-area style="height: 600px; max-height: 600px">
+            <q-scroll-area class="q-pb-md" style="height: 600px">
               <div class="row">
                 <div
                   v-for="data in availableProduct"
@@ -156,20 +194,29 @@
                     <q-card class="my-card" :class="class_val">
                       <div class="row">
                         <div class="col q-pt-md q-px-md">
-                          <q-img
-                            :src="`http://localhost:3000/media/${data.url}`"
-                          />
+                          <q-avatar size="110px">
+                            <q-img
+                              v-if="data.url"
+                              :src="`http://localhost:3000/media/${data.url}`"
+                            />
+                            <q-img
+                              v-if="!data.url"
+                              src="../../assets/BesTea.jpg"
+                            />
+                          </q-avatar>
                         </div>
                         <div class="col">
                           <div class="q-py-xl text-subtitle7">
-                            <q-item-label>
+                            <q-item-label class="text-bold">
                               {{ data.productName }}
                             </q-item-label>
                             <q-item-label
-                              class="text-weight-bolder text-red-10"
+                              class="text-weight-bolder text-red-5 q-pt-sm"
                             >
                               Price:
-                              {{ data.productPrice }}
+                            </q-item-label>
+                            <q-item-label class="text-weight-bolder text-red-5">
+                              ₱ {{ data.productPrice }}
                             </q-item-label>
                           </div>
                         </div>
@@ -178,14 +225,12 @@
                         <q-btn
                           unelevated
                           square
-                          color="green"
+                          color="teal-4"
                           label="Add Product"
                           class="full-width absolute-bottom"
                           @click="
-                            tempInput.orderPrice = data.productPrice;
-                            tempInput.orderSize = data.productSize;
-                            tempInput.orderName = data.productName;
-                            onaddCart();
+                            onaddCart(data);
+                            StepConfirm = 1;
                           "
                         />
                       </div>
@@ -218,7 +263,7 @@
                             round
                             @click="openEditDialog(props.row)"
                             text-color="white"
-                            color="green-6"
+                            color="teal-4"
                           >
                             {{ props.row.orderQuant }}
                             <q-dialog v-model="editOrderQuant">
@@ -229,13 +274,19 @@
                                       <q-input
                                         v-model="tempInput.orderQuant"
                                         label="Edit Quantity"
+                                        autofocus
+                                        :rules="[
+                                          (val) =>
+                                            (val < 5000 && val > 0) ||
+                                            'You can only input greater than 0 and less than 5000',
+                                        ]"
                                       />
                                     </div>
                                     <div class="q-gutter-md" align="right">
                                       <q-btn
                                         label="Save"
                                         type="submit"
-                                        color="green"
+                                        color="teal-4"
                                         flat
                                       />
                                       <q-btn
@@ -258,7 +309,7 @@
                       <q-td :props="props">
                         <div>
                           <q-btn
-                            color="red-10"
+                            color="red-5"
                             icon="delete"
                             size="sm"
                             class="q-ml-xs"
@@ -266,8 +317,9 @@
                             round
                             dense
                             @click="onDeleteSpecificCart(props.row)"
-                          /></div
-                      ></q-td>
+                          />
+                        </div>
+                      </q-td>
                     </template>
                   </q-table>
                 </q-card-section>
@@ -275,7 +327,7 @@
                   <q-btn
                     class="full-width"
                     push
-                    color="red"
+                    color="red-5"
                     label="Clear Order"
                     @click="clearOrder"
                   />
@@ -283,48 +335,44 @@
                 <q-separator inset />
 
                 <q-card-section>
-                  <div class="row q-py-sm">
-                    <div class="col">Grand Total:</div>
-                    <div class="q-px-sm text-red-5">₱ {{ grandTotal() }}</div>
-                  </div>
-                  <div class="row q-py-sm">
-                    <div class="q-py-sm col">Payment:</div>
-                    <q-input
-                      dense
-                      square
-                      outlined
-                      v-model="payment"
-                      type="number"
-                      style="width: 300px"
-                      prefix="₱"
-                      @keyup.enter="change = payment - grandTotal()"
-                    >
-                    </q-input>
-                  </div>
-                  <div class="row q-py-sm">
-                    <div class="col">Change:</div>
-                    <div class="q-px-sm text-red-5">₱ {{ change }}</div>
-                  </div>
-
-                  <div class="q-pt-lg">
+                  <q-form @submit="OrderConfimition()">
+                    <div class="row q-py-sm">
+                      <div class="col">Grand Total:</div>
+                      <div class="q-px-sm text-red-5">₱ {{ grandTotal() }}</div>
+                    </div>
+                    <div class="row q-py-sm">
+                      <div class="q-py-sm col">Payment:</div>
+                      <q-input
+                        dense
+                        color="teal-4"
+                        square
+                        outlined
+                        v-model="payment"
+                        type="number"
+                        style="width: 300px"
+                        prefix="₱"
+                        key="payment"
+                      />
+                    </div>
+                    <div class="row q-py-sm">
+                      <div class="col">Change:</div>
+                      <div class="q-px-sm text-red-5">₱ {{ change }}</div>
+                    </div>
                     <q-btn
                       class="full-width"
                       push
-                      color="green"
+                      color="teal-4"
                       label="Confirm Order"
-                      @click="
-                        ConfirmOrder =
-                          true &&
-                          this.payment != 0 &&
-                          this.allCart.length > 0 &&
-                          this.change > 0
-                      "
+                      type="submit"
                     />
+                  </q-form>
+
+                  <div class="q-pt-lg">
                     <q-dialog v-model="ConfirmOrder" persistent>
                       <q-stepper
                         v-model="StepConfirm"
                         ref="stepper"
-                        color="green"
+                        color="teal-4"
                         animated
                         style="width: 800px; max-width: 100vw"
                       >
@@ -332,7 +380,7 @@
                           :name="1"
                           title="Confirming Order"
                           icon="settings"
-                          color="green"
+                          color="teal-4"
                           :done="done1"
                         >
                           <q-card flat bordered>
@@ -341,9 +389,7 @@
                                 :rows="allCart"
                                 :columns="selectedOrder"
                                 title="Selected Order"
-                                :rows-per-page-options="[]"
                                 wrap-cells
-                                hide-bottom
                               >
                               </q-table>
                             </q-card-section>
@@ -352,20 +398,27 @@
 
                             <q-card-section>
                               <div class="row">
-                                <div class="col">Change:</div>
-                                <div class="col text-right q-px-sm">
-                                  {{ change }}
-                                </div>
-                              </div>
-                            </q-card-section>
-
-                            <q-separator inset />
-
-                            <q-card-section>
-                              <div class="row">
                                 <div class="col">Grand Total:</div>
                                 <div class="col text-right q-px-sm">
-                                  {{ grandTotal() }}
+                                  ₱ {{ grandTotal() }}
+                                </div>
+                              </div>
+
+                              <q-separator inset />
+
+                              <div class="row q-py-md">
+                                <div class="col">Payment:</div>
+                                <div class="col text-right q-px-sm">
+                                  ₱ {{ payment }}
+                                </div>
+                              </div>
+
+                              <q-separator inset />
+
+                              <div class="row">
+                                <div class="col">Change:</div>
+                                <div class="col text-right q-px-sm">
+                                  ₱ {{ change }}
                                 </div>
                               </div>
                             </q-card-section>
@@ -382,12 +435,12 @@
                                   StepConfirm = 2;
                                 }
                               "
-                              color="green"
+                              color="teal-4"
                               label="Continue"
                             />
                             <q-btn
                               label="Cancel"
-                              color="red"
+                              color="red-5"
                               v-close-popup="cancelOrder"
                               :disable="!cancelOrder"
                             />
@@ -396,7 +449,7 @@
                         <q-step
                           :name="2"
                           title="Customer Name"
-                          color="green"
+                          color="teal-4"
                           caption="Optional"
                           icon="Transanction Finish"
                           :done="StepConfirm > 2"
@@ -424,7 +477,7 @@
                                 </div>
                                 <div class="q-gutter-md" align="center">
                                   <q-btn
-                                    color="green"
+                                    color="teal-4"
                                     type="submit"
                                     label="Save"
                                   />
@@ -444,7 +497,7 @@
                         <q-step
                           :name="3"
                           title="Transanction Complete"
-                          color="green"
+                          color="tea-4"
                           caption="Optional"
                           icon="Transanction Finish"
                           :done="StepConfirm > 3"
@@ -453,7 +506,7 @@
                             <q-avatar
                               size="sm"
                               icon="task_alt"
-                              color="green-5"
+                              color="teal-4"
                               style="font-size: 3rem"
                             />
                             Transanction Finish
@@ -463,7 +516,7 @@
                             align="center"
                           >
                             <q-btn
-                              color="green"
+                              color="teal-4"
                               @click="
                                 done2 = true;
                                 clearOrder();
@@ -473,29 +526,29 @@
                               v-close-popup
                             />
                             <q-btn
-                              color="green"
+                              color="teal-4"
                               @click="printPreview = true"
                               label="Print"
                             />
                             <q-dialog v-model="printPreview">
                               <q-card
-                                style="width: 800px; height: 600px"
+                                bordered="false"
+                                style="width: 800px"
                                 class="q-px-sm q-pb-md"
                                 @click="print()"
                               >
-                                <div class="row">
-                                  <div class="col-9">
-                                    <q-card-section>
-                                      <q-avatar size="125px">
-                                        <img class="logo" />
-                                      </q-avatar>
-                                    </q-card-section>
-                                  </div>
-                                  <div class="col-3">
+                                <q-card-section>
+                                  <q-avatar
+                                    size="125px"
+                                    class="absolute-top-right"
+                                  >
+                                    <img src="~assets/BesTea.jpg" />
+                                  </q-avatar>
+                                </q-card-section>
+                                <q-card-section>
+                                  <div class="row">
                                     <p>Date: {{ today }}</p>
                                   </div>
-                                </div>
-                                <q-card-section>
                                   <div class="row">
                                     <p>
                                       <strong
@@ -504,52 +557,44 @@
                                       >
                                     </p>
                                   </div>
-                                  <div class="flex flex-center row">
-                                    <q-table
-                                      :rows="allCart"
-                                      :columns="selectedOrder"
-                                      :rows-per-page-options="[]"
-                                      row-key="SelProd"
-                                      wrap-cells
-                                      hide-bottom
-                                      flat
-                                      style="height: 200px; max-height: 500px"
-                                    >
-                                      <template v-slot:body="props">
-                                        <q-tr :props="props">
-                                          <q-td
-                                            key="productName"
-                                            :props="props"
-                                          >
-                                            {{ props.row.orderName }}
-                                          </q-td>
-                                          <q-td key="orderQuant" :props="props">
-                                            {{ props.row.orderQuant }}
-                                          </q-td>
-                                          <q-td key="orderSize" :props="props">
-                                            {{ props.row.orderSize }}
-                                          </q-td>
-                                          <q-td key="orderPrice" :props="props">
-                                            {{ props.row.orderPrice }}
-                                          </q-td>
-                                          <q-td
-                                            key="orderSubTotal"
-                                            :props="props"
-                                          >
-                                            {{ props.row.orderSubTotal }}
-                                          </q-td>
-                                        </q-tr>
-                                      </template>
-
-                                      <template v-slot:body-cell-action="props">
-                                        <q-td :props="props"> </q-td>
-                                      </template>
-                                    </q-table>
+                                  <div class="row">
+                                    <p>
+                                      <strong
+                                        >Cashier: {{ currentUser.FName }}
+                                        {{ currentUser.MName }}
+                                        {{ currentUser.LName }}</strong
+                                      >
+                                    </p>
                                   </div>
+                                  <div class="flex flex-center row">
+                                    <div class="row">
+                                      <q-table
+                                        :rows="allCart"
+                                        :columns="selectedOrder"
+                                        :rows-per-page-options="[]"
+                                        row-key="SelProd"
+                                        wrap-cells
+                                        hide-bottom
+                                        flat
+                                        style="height: 200px; max-height: 500px"
+                                      >
+                                        <template
+                                          v-slot:body-cell-action="props"
+                                        >
+                                          <q-td :props="props"> </q-td>
+                                        </template>
+                                      </q-table>
+                                    </div>
+                                    <div class="row" align="right">
+                                      <p>Grand Total: {{ grandTotal() }}</p>
+                                    </div>
+                                  </div>
+
                                   <q-card-section>
+                                    <p>Discount: 0% - ₱ 00.00</p>
+                                    <p>Tax: 0% - ₱ 00.00</p>
                                     <p>Payment: {{ payment }}</p>
                                     <p>Change: {{ change }}</p>
-                                    <p>Grand Total: {{ grandTotal() }}</p>
                                   </q-card-section>
                                 </q-card-section>
                               </q-card>
@@ -581,6 +626,7 @@ import {
 } from 'src/services/rest-api';
 import { ICartInfo } from 'src/store/cart/state';
 import { date } from 'quasar';
+import { AUser } from 'src/store/auth/state';
 const timeStamp = Date.now();
 const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
 @Options({
@@ -590,6 +636,7 @@ const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
     ...mapState('customer', ['allCustomer']),
     ...mapState('saleOrder', ['allSaleOrder']),
     ...mapState('saleRecord', ['allSaleRecord']),
+    ...mapState('auth', ['currentUser']),
   },
   methods: {
     ...mapActions('cart', ['addCart', 'editCart', 'deleteCart', 'clear']),
@@ -598,6 +645,7 @@ const currentDate = date.formatDate(timeStamp, 'YYYY-MM-DD:HH:mm');
     ...mapActions('saleOrder', ['addSaleOrder']),
     ...mapActions('saleRecord', ['addSaleRecord']),
     ...mapActions('account', ['getProfile']),
+    ...mapActions('auth', ['authUser']),
   },
 })
 export default class POS extends Vue {
@@ -606,6 +654,8 @@ export default class POS extends Vue {
   editCart!: (payload: ICartInfo) => Promise<void>;
   deleteCart!: (payload: ICartInfo) => Promise<void>;
   clear!: () => Promise<void>;
+  authUser!: () => Promise<void>;
+  currentUser!: AUser;
   allCart!: ICartInfo[];
   addCustomer!: (payload: CustomerDto) => Promise<void>;
   addSaleRecord!: (payload: SaleRecordDto) => Promise<void>;
@@ -614,6 +664,7 @@ export default class POS extends Vue {
   getAllManageProduct!: () => Promise<void>;
   async mounted() {
     await this.getAllManageProduct();
+    await this.authUser();
   }
   radioSizes = 'Regular';
   model = 'allProducts';
@@ -624,14 +675,11 @@ export default class POS extends Vue {
   done2 = false;
   done3 = false;
   cancelOrder = true;
-  chooseSize = false;
   editOrderQuant = false;
-  quantity = 0;
-  tempPrice = 0;
   payment = 0;
   change = 0;
   printPreview = false;
-  today = new Date().toLocaleDateString();
+  today = new Date().toLocaleString();
   foodCat = false;
   drinksCat = false;
   addOnsCat = false;
@@ -739,15 +787,15 @@ export default class POS extends Vue {
     },
     {
       name: 'orderPrice',
-      align: 'right',
+      align: 'center',
       label: 'Price',
-      field: 'orderPrice',
+      field: (row: ICartInfo) => '₱ ' + row.orderPrice,
     },
     {
       name: 'orderSubTotal',
-      align: 'right',
+      align: 'center',
       label: 'SubTotal',
-      field: 'orderSubTotal',
+      field: (row: ICartInfo) => '₱ ' + row.orderSubTotal,
     },
     {
       name: 'action',
@@ -764,6 +812,27 @@ export default class POS extends Vue {
     orderSubCategory: '',
     orderSubTotal: 0,
   };
+  OrderConfimition() {
+    if (this.grandTotal() > 0 && this.change >= 0 && this.payment != 0) {
+      this.ConfirmOrder = true;
+    }
+    if (this.grandTotal() === 0 && this.addCart.length <= 0) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'You have to add an order.',
+        position: 'center',
+        timeout: 500,
+      });
+    }
+    if (this.change < 0) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'You have to enter greater payment!',
+        position: 'center',
+        timeout: 500,
+      });
+    }
+  }
   print() {
     window.print();
   }
@@ -771,6 +840,8 @@ export default class POS extends Vue {
     const result = this.allCart.reduce<number>((accumulator, current) => {
       return accumulator + current.orderSubTotal;
     }, 0);
+
+    this.change = this.payment - result;
     return result;
   }
   resetOrder() {
@@ -784,8 +855,19 @@ export default class POS extends Vue {
       orderSubTotal: 0,
     };
   }
-  async onaddCart() {
-    await this.addCart(this.tempInput);
+  async onaddCart(data: ManageProductDto) {
+    if (data.product_ID) {
+      const res = await this.addCart({
+        orderName: data.productName,
+        orderSize: data.productSize,
+        orderPrice: data.productPrice,
+        orderCategory: data.productCategory,
+        orderSubCategory: data.productSubCategory,
+        orderSubTotal: data.productPrice,
+      } as ICartInfo);
+      console.log(res);
+    }
+
     this.resetOrder();
   }
   async onEditCart() {

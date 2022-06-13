@@ -168,16 +168,18 @@
         </q-table>
       </div>
     </div>
-    <div class="row q-gutter-md">
+    <div class="row q-gutter-md q-pb-md">
       <div class="col">
-        <q-card style="height: 300px">
-          <q-layout container style="height: 300px">
-            <q-list bordered class="rounded-borders">
-              <q-item-label header class="text-warning text-h6">
-                <q-icon class="bi bi-cart-fill" color="warning" size="30px" />
-                Pending Purchase
-              </q-item-label>
-
+        <q-card
+          class="bg-teal-4 flex flex-center text-h5 text-white text-weight-medium"
+          style="height: 40px"
+        >
+          <q-icon class="bi bi-cart-fill q-pr-sm" color="white" size="30px" />
+          Pending Purchase
+        </q-card>
+        <q-card style="height: 400px">
+          <q-layout container style="height: 400px">
+            <q-list separator bordered>
               <q-item
                 v-for="pending in pendingPurchase"
                 v-bind:key="pending.purchaseProduct"
@@ -223,19 +225,22 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+              <q-separator inset vertical />
             </q-list>
           </q-layout>
         </q-card>
       </div>
       <div class="col">
-        <q-card style="height: 300px">
-          <q-layout container style="height: 300px">
-            <q-list bordered class="rounded-borders">
-              <q-item-label header class="text-red-5 text-h6">
-                <q-icon class="bi bi-cart-x-fill" color="red-5" size="30px" />
-                Canceled List
-              </q-item-label>
-
+        <q-card
+          class="bg-teal-4 flex flex-center text-h5 text-white text-weight-medium"
+          style="height: 40px"
+        >
+          <q-icon class="bi bi-cart-x-fill q-pr-sm" color="white" size="30px" />
+          Canceled Purchase
+        </q-card>
+        <q-card style="height: 400px">
+          <q-layout container style="height: 400px">
+            <q-list separator bordered>
               <q-item
                 v-for="data in cancelPurchase"
                 v-bind:key="data.purchaseID"

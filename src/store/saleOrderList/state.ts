@@ -1,7 +1,8 @@
 import { SaleOrder } from 'src/interfaces/saleOrder.interface';
+import { SaleOrderDto } from 'src/services/rest-api';
 
 export interface SaleOrderStateInterface {
-  allSaleOrder: SaleOrder[];
+  allSaleOrder: SaleOrderDto[];
   newSaleOrder?: SaleOrder;
 }
 
