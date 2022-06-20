@@ -459,7 +459,7 @@ export default class Pruchase extends Vue {
       name: 'purchaseAmount',
       align: 'center',
       label: 'Amount',
-      field: (row: PurchaseDto) => '₱ ' + row.purchaseAmount,
+      field: (row: PurchaseDto) => '₱ ' + this.formatPrice(row.purchaseAmount),
     },
     {
       name: 'status',
@@ -581,6 +581,10 @@ export default class Pruchase extends Vue {
     // .split('\r').join('\\r')
 
     return `"${formatted}"`;
+  }
+  formatPrice(value: number) {
+    let val = (value / 1).toFixed(2).replace(',', '.');
+    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   exportTable() {

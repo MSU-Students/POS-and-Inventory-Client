@@ -217,7 +217,7 @@
                   <q-item-label lines="1">
                     <span class="text-weight-medium">Price:</span>
                     <span class="text-grey-8">
-                      ₱ {{ pending.purchaseAmount }}
+                      ₱ {{ formatPrice(pending.purchaseAmount) }}
                     </span>
                   </q-item-label>
                   <q-item-label caption lines="1">
@@ -278,7 +278,7 @@
                   <q-item-label lines="1">
                     <span class="text-weight-medium">Price: </span>
                     <span class="text-grey-8">
-                      ₱ {{ data.purchaseAmount }}</span
+                      ₱ {{ formatPrice(data.purchaseAmount) }}</span
                     >
                   </q-item-label>
                   <q-item-label caption lines="1">
@@ -407,7 +407,7 @@ export default class Expenses extends Vue {
       name: 'purchaseAmount',
       align: 'center',
       label: 'Amount',
-      field: (row: PurchaseDto) => '₱' + row.purchaseAmount,
+      field: (row: PurchaseDto) => '₱' + this.formatPrice(row.purchaseAmount),
     },
     {
       name: 'status',
@@ -431,6 +431,10 @@ export default class Expenses extends Vue {
           message: 'Successfully deleted',
         });
       });
+  }
+  formatPrice(value: number) {
+    let val = (value / 1).toFixed(2).replace(',', '.');
+    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   colorManipulation(purchaseStatus: string) {

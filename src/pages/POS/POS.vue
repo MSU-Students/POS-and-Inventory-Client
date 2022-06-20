@@ -216,7 +216,7 @@
                               Price:
                             </q-item-label>
                             <q-item-label class="text-weight-bolder text-red-5">
-                              ₱ {{ data.productPrice }}
+                              ₱ <b>{{ formatPrice(data.productPrice) }}</b>
                             </q-item-label>
                           </div>
                         </div>
@@ -338,7 +338,9 @@
                   <q-form @submit="OrderConfimition()">
                     <div class="row q-py-sm">
                       <div class="col">Grand Total:</div>
-                      <div class="q-px-sm text-red-5">₱ {{ grandTotal() }}</div>
+                      <div class="q-px-sm text-red-5">
+                        ₱ <b>{{ formatPrice(grandTotal()) }}</b>
+                      </div>
                     </div>
                     <div class="row q-py-sm">
                       <div class="q-py-sm col">Payment:</div>
@@ -356,7 +358,9 @@
                     </div>
                     <div class="row q-py-sm">
                       <div class="col">Change:</div>
-                      <div class="q-px-sm text-red-5">₱ {{ change }}</div>
+                      <div class="q-px-sm text-red-5">
+                        ₱ {{ formatPrice(change) }}
+                      </div>
                     </div>
                     <q-btn
                       class="full-width"
@@ -400,7 +404,7 @@
                               <div class="row">
                                 <div class="col">Grand Total:</div>
                                 <div class="col text-right q-px-sm">
-                                  ₱ {{ grandTotal() }}
+                                  ₱ {{ formatPrice(grandTotal()) }}
                                 </div>
                               </div>
 
@@ -409,7 +413,7 @@
                               <div class="row q-py-md">
                                 <div class="col">Payment:</div>
                                 <div class="col text-right q-px-sm">
-                                  ₱ {{ payment }}
+                                  ₱ {{ formatPrice(payment) }}
                                 </div>
                               </div>
 
@@ -418,7 +422,7 @@
                               <div class="row">
                                 <div class="col">Change:</div>
                                 <div class="col text-right q-px-sm">
-                                  ₱ {{ change }}
+                                  ₱ {{ formatPrice(change) }}
                                 </div>
                               </div>
                             </q-card-section>
@@ -530,11 +534,11 @@
                               @click="printPreview = true"
                               label="Print"
                             />
-                            <q-dialog v-model="printPreview">
+                            <q-dialog v-model="printPreview" full-height>
                               <q-card
                                 bordered="false"
                                 style="width: 800px"
-                                class="q-px-sm q-pb-md"
+                                class="q-px-sm q-pb-md column full-height"
                                 @click="print()"
                               >
                                 <q-card-section>
@@ -576,7 +580,7 @@
                                         wrap-cells
                                         hide-bottom
                                         flat
-                                        style="height: 200px; max-height: 500px"
+                                        :dense="$q.screen.lt.md"
                                       >
                                         <template
                                           v-slot:body-cell-action="props"
@@ -586,15 +590,18 @@
                                       </q-table>
                                     </div>
                                     <div class="row" align="right">
-                                      <p>Grand Total: {{ grandTotal() }}</p>
+                                      <p>
+                                        Grand Total:
+                                        {{ formatPrice(grandTotal()) }}
+                                      </p>
                                     </div>
                                   </div>
 
                                   <q-card-section>
                                     <p>Discount: 0% - ₱ 00.00</p>
                                     <p>Tax: 0% - ₱ 00.00</p>
-                                    <p>Payment: {{ payment }}</p>
-                                    <p>Change: {{ change }}</p>
+                                    <p>Payment: {{ formatPrice(payment) }}</p>
+                                    <p>Change: {{ formatPrice(change) }}</p>
                                   </q-card-section>
                                 </q-card-section>
                               </q-card>
@@ -789,13 +796,13 @@ export default class POS extends Vue {
       name: 'orderPrice',
       align: 'center',
       label: 'Price',
-      field: (row: ICartInfo) => '₱ ' + row.orderPrice,
+      field: (row: ICartInfo) => '₱ ' + this.formatPrice(row.orderPrice),
     },
     {
       name: 'orderSubTotal',
       align: 'center',
       label: 'SubTotal',
-      field: (row: ICartInfo) => '₱ ' + row.orderSubTotal,
+      field: (row: ICartInfo) => '₱ ' + this.formatPrice(row.orderSubTotal),
     },
     {
       name: 'action',
@@ -832,6 +839,10 @@ export default class POS extends Vue {
         timeout: 500,
       });
     }
+  }
+  formatPrice(value: number) {
+    let val = (value / 1).toFixed(2).replace(',', '.');
+    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   print() {
     window.print();

@@ -565,13 +565,13 @@ export default class SaleRecord extends Vue {
       name: 'total',
       align: 'center',
       label: 'Total Amount',
-      field: (row: SaleRecordDto) => '₱ ' + row.totalAmount,
+      field: (row: SaleRecordDto) => '₱ ' + this.formatPrice(row.totalAmount),
     },
     {
       name: 'payment',
       align: 'center',
       label: 'Payment Amount',
-      field: (row: SaleRecordDto) => '₱ ' + row.payment,
+      field: (row: SaleRecordDto) => '₱ ' + this.formatPrice(row.payment),
     },
 
     {
@@ -609,7 +609,7 @@ export default class SaleRecord extends Vue {
       name: 'price',
       align: 'center',
       label: 'Price',
-      field: (row: SaleOrderDto) => '₱ ' + row.orderPrice,
+      field: (row: SaleOrderDto) => '₱ ' + this.formatPrice(row.orderPrice),
       sortable: true,
     },
     {
@@ -691,6 +691,10 @@ export default class SaleRecord extends Vue {
     // .split('\r').join('\\r')
 
     return `"${formatted}"`;
+  }
+  formatPrice(value: number) {
+    let val = (value / 1).toFixed(2).replace(',', '.');
+    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   exportTable() {

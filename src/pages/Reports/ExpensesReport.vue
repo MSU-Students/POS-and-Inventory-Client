@@ -233,7 +233,7 @@ export default class ExpensesReport extends Vue {
       name: 'amount',
       align: 'center',
       label: 'Amount',
-      field: (row: ExpensesDto) => '₱ ' + row.amount,
+      field: (row: ExpensesDto) => '₱ ' + this.formatPrice(row.amount),
     },
   ];
 
@@ -257,7 +257,10 @@ export default class ExpensesReport extends Vue {
 
     return `"${formatted}"`;
   }
-
+  formatPrice(value: number) {
+    let val = (value / 1).toFixed(2).replace(',', '.');
+    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
   exportTable() {
     // naive encoding to csv format
     const header = [

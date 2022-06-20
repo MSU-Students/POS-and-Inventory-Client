@@ -397,7 +397,7 @@ export default class Expenses extends Vue {
       name: 'amount',
       align: 'center',
       label: 'Amount',
-      field: (row: ExpensesDto) => '₱ ' + row.amount,
+      field: (row: ExpensesDto) => '₱ ' + this.formatPrice(row.amount),
     },
     {
       name: 'expensesNote',
@@ -507,6 +507,10 @@ export default class Expenses extends Vue {
     // .split('\r').join('\\r')
 
     return `"${formatted}"`;
+  }
+  formatPrice(value: number) {
+    let val = (value / 1).toFixed(2).replace(',', '.');
+    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   exportTable() {

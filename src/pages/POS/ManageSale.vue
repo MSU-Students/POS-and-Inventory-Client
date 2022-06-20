@@ -499,7 +499,8 @@ export default class ManageProduct extends Vue {
       name: 'productPrice',
       align: 'center',
       label: 'Price',
-      field: (row: ManageProductDto) => '₱ ' + row.productPrice,
+      field: (row: ManageProductDto) =>
+        '₱ ' + this.formatPrice(row.productPrice),
       sortable: true,
     },
     {
@@ -605,6 +606,10 @@ export default class ManageProduct extends Vue {
     }
   }
 
+  formatPrice(value: number) {
+    let val = (value / 1).toFixed(2).replace(',', '.');
+    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
   async oneditManageProduct() {
     try {
       if (this.imageAttachement.size > 0) {

@@ -23,8 +23,10 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 600,
+    icon: 'src/assets/BesTea.jpg',
     useContentSize: true,
     frame: true,
+    autoHideMenuBar: true,
     webPreferences: {
       contextIsolation: true,
       // More info: /quasar-cli/developing-electron-apps/electron-preload-script
