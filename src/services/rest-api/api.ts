@@ -256,6 +256,12 @@ export interface ManageProductDto {
     'productDateCreated': string;
     /**
      * 
+     * @type {string}
+     * @memberof ManageProductDto
+     */
+    'productLastEdited': string;
+    /**
+     * 
      * @type {number}
      * @memberof ManageProductDto
      */
@@ -453,6 +459,12 @@ export interface SaleRecordDto {
     'payment': number;
     /**
      * 
+     * @type {number}
+     * @memberof SaleRecordDto
+     */
+    'totalSale': number;
+    /**
+     * 
      * @type {UserDto}
      * @memberof SaleRecordDto
      */
@@ -512,6 +524,12 @@ export interface SupplierDto {
      * @memberof SupplierDto
      */
     'address'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SupplierDto
+     */
+    'offeredItem'?: string;
 }
 /**
  * 
@@ -2927,7 +2945,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getProducts(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManageProductDto>> {
+        async getProducts(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ManageProductDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getProducts(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3522,7 +3540,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getProducts(options?: any): AxiosPromise<ManageProductDto> {
+        getProducts(options?: any): AxiosPromise<Array<ManageProductDto>> {
             return localVarFp.getProducts(options).then((request) => request(axios, basePath));
         },
         /**

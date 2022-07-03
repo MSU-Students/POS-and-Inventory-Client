@@ -27,6 +27,7 @@
         title="List of suppliers"
         :rows="allSupplier"
         :columns="columns"
+        table-header-class="bg-teal-4 text-white"
         row-key="supplierName"
         :filter="filter"
       >
@@ -130,7 +131,15 @@
                         color="teal-4"
                       />
                     </div>
-
+                    <div class="q-py-md">
+                      <q-input
+                        outlined
+                        label="Offered Item"
+                        type="textarea"
+                        color="secondary"
+                        v-model="inputSupplier.offeredItem"
+                      />
+                    </div>
                     <div align="right">
                       <q-btn
                         flat
@@ -162,7 +171,7 @@
               <q-dialog v-model="editRowSupplier" persistent>
                 <q-card style="width: 600px; max-width: 80vw">
                   <q-card-section class="row">
-                    <div class="text-h6">Edit User</div>
+                    <div class="text-h6">Edit Supplier</div>
                     <q-space />
                     <q-btn
                       flat
@@ -184,6 +193,12 @@
                             outlined
                             v-model="inputSupplier.supplierName"
                             label="Supplier Name"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                (val && val.length > 0) ||
+                                'Does not accept empty input',
+                            ]"
                           />
                         </div>
                         <div class="col">
@@ -192,6 +207,12 @@
                             outlined
                             v-model="inputSupplier.company"
                             label="Company Name"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                (val && val.length > 0) ||
+                                'You must put the product unit',
+                            ]"
                           />
                         </div>
                       </div>
@@ -221,6 +242,15 @@
                           v-model="inputSupplier.address"
                           label="Address"
                           color="teal-4"
+                        />
+                      </div>
+                      <div class="q-py-md">
+                        <q-input
+                          outlined
+                          label="Offered Item"
+                          type="textarea"
+                          color="secondary"
+                          v-model="inputSupplier.offeredItem"
                         />
                       </div>
 
@@ -256,6 +286,83 @@
             </div>
           </q-td>
         </template>
+        <template v-slot:body-cell-view="props">
+          <q-td :props="props">
+            <div class="q-gutter-sm">
+              <q-btn
+                round
+                color="teal-4"
+                icon="description"
+                size="sm"
+                flat
+                dense
+                @click="openSupplier(props.row)"
+              />
+            </div>
+            <q-dialog v-model="viewSupplier">
+              <q-card flat bordered style="width: 600px; max-width: 80vw">
+                <q-card-section>
+                  <div class="text-h6">
+                    Supplier Details
+                    <q-btn
+                      round
+                      flat
+                      dense
+                      icon="close"
+                      class="float-right"
+                      color="grey-8"
+                      v-close-popup
+                    >
+                    </q-btn>
+                  </div>
+                </q-card-section>
+                <q-card-section horizontal>
+                  <q-card-section class="q-pt-xs col">
+                    <div class="text-overline">
+                      {{ inputSupplier.supplierName }}
+                    </div>
+                    <div class="text-h5 q-mt-sm q-mb-xs">
+                      {{ inputSupplier.company }}
+                    </div>
+                    <div class="text-caption text-grey q-pt-md">
+                      {{ inputSupplier.address }}
+                    </div>
+                    <div class="text-caption text-grey">
+                      {{ inputSupplier.contact }}
+                    </div>
+                    <div class="text-caption text-grey">
+                      {{ inputSupplier.email }}
+                    </div>
+                  </q-card-section>
+
+                  <q-card-section class="col-5 flex flex-center">
+                    <q-avatar
+                      round
+                      size="120px"
+                      font-size="82px"
+                      color="teal"
+                      text-color="white"
+                      icon="account_circle"
+                    />
+                  </q-card-section>
+                </q-card-section>
+
+                <q-separator spaced inset />
+
+                <q-card-section>
+                  <div class="flex flex-center text-h6">Offered Item</div>
+                  <q-list>
+                    <q-item>
+                      <q-item-section>
+                        {{ inputSupplier.offeredItem }}
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-card-section>
+              </q-card>
+            </q-dialog>
+          </q-td>
+        </template>
       </q-table>
     </div>
   </q-page>
@@ -286,6 +393,7 @@ export default class Supplier extends Vue {
   deleteSupplier!: (payload: SupplierDto) => Promise<void>;
   getAllSupplier!: () => Promise<void>;
   allSupplier!: SupplierDto[];
+  viewSupplier = false;
 
   async mounted() {
     await this.getAllSupplier();
@@ -324,6 +432,7 @@ export default class Supplier extends Vue {
       label: 'Address',
       field: (row: SupplierDto) => row.address || 'None',
     },
+    { name: 'view', align: 'center', label: 'View Info', field: 'view' },
     { name: 'Actions', align: 'center', label: 'Actions', field: 'Actions' },
   ];
   addNewSupplier = false;
@@ -336,6 +445,7 @@ export default class Supplier extends Vue {
     email: '',
     contact: '',
     address: '',
+    offeredItem: '',
   };
 
   async onAddSupplier() {
@@ -376,6 +486,10 @@ export default class Supplier extends Vue {
 
   openEditDialog(val: SupplierDto) {
     this.editRowSupplier = true;
+    this.inputSupplier = { ...val };
+  }
+  openSupplier(val: SupplierDto) {
+    this.viewSupplier = true;
     this.inputSupplier = { ...val };
   }
 

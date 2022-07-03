@@ -86,8 +86,8 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../pages/Landingpage.vue'),
       },
       {
-        path: '/changepass',
-        component: () => import('../pages/ChangePassword.vue'),
+        path: '/cashierchangepass',
+        component: () => import('../pages/Cashier/CashierChangePassword.vue'),
       },
     ],
   },

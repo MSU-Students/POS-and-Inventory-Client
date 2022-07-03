@@ -3,6 +3,10 @@
     <q-header reveal elevated class="bg-teal-4 text-white">
       <q-toolbar>
         <q-toolbar-title> Welcome to POS </q-toolbar-title>
+        <div class="q-pr-md text-h6">
+          {{ currentUser.FName }}
+          {{ currentUser.LName }}
+        </div>
         <q-btn
           class="q-py-sm"
           to="/Dashboard"
@@ -10,6 +14,7 @@
           label="Back"
           flat
           dense
+          @click="clearOrder()"
         />
       </q-toolbar>
     </q-header>
@@ -216,7 +221,10 @@
                               Price:
                             </q-item-label>
                             <q-item-label class="text-weight-bolder text-red-5">
-                              ₱ <b>{{ formatPrice(data.productPrice) }}</b>
+                              ₱
+                              <b>
+                                {{ formatPrice(data.productPrice) }}
+                              </b>
                             </q-item-label>
                           </div>
                         </div>
@@ -275,6 +283,7 @@
                                         v-model="tempInput.orderQuant"
                                         label="Edit Quantity"
                                         autofocus
+                                        color="teal-4"
                                         :rules="[
                                           (val) =>
                                             (val < 5000 && val > 0) ||
@@ -329,7 +338,7 @@
                     push
                     color="red-5"
                     label="Clear Order"
-                    @click="clearOrder"
+                    @click="clearOrder()"
                   />
                 </div>
                 <q-separator inset />
@@ -477,6 +486,11 @@
                                     color="teal"
                                     outlined
                                     v-model="inputCustomer.customerName"
+                                    :rules="[
+                                      (val) =>
+                                        (val && val.length > 0) ||
+                                        'Input your Customer Name',
+                                    ]"
                                   />
                                 </div>
                                 <div class="q-gutter-md" align="center">
@@ -501,7 +515,7 @@
                         <q-step
                           :name="3"
                           title="Transanction Complete"
-                          color="tea-4"
+                          color="teal-4"
                           caption="Optional"
                           icon="Transanction Finish"
                           :done="StepConfirm > 3"
@@ -512,6 +526,7 @@
                               icon="task_alt"
                               color="teal-4"
                               style="font-size: 3rem"
+                              text-color="white"
                             />
                             Transanction Finish
                           </div>
@@ -542,64 +557,67 @@
                                 @click="print()"
                               >
                                 <q-card-section>
-                                  <q-avatar
-                                    size="125px"
-                                    class="absolute-top-right"
-                                  >
-                                    <img src="~assets/BesTea.jpg" />
-                                  </q-avatar>
+                                  <div class="row flex flex-center">
+                                    <q-avatar size="60px">
+                                      <img src="~assets/BesTea.jpg" />
+                                    </q-avatar>
+                                    <div class="text-h6 q-pl-sm">
+                                      BesTea Milktea and Restaurant
+                                    </div>
+                                  </div>
+                                  <div class="flex flex-center">
+                                    BesTea Mikltea and Restaurant
+                                  </div>
+                                  <div class="flex flex-center">
+                                    Gate 2 of Lancaf, Basak Malutlut, Marawi
+                                    City
+                                  </div>
+                                  <div class="flex flex-center">
+                                    Contact No.: 0948 348 6112
+                                  </div>
+                                  <div class="flex flex-center">
+                                    Date: {{ today }}
+                                  </div>
                                 </q-card-section>
                                 <q-card-section>
-                                  <div class="row">
-                                    <p>Date: {{ today }}</p>
-                                  </div>
-                                  <div class="row">
+                                  <div>
                                     <p>
-                                      <strong
-                                        >Bill to:
-                                        {{ inputCustomer.customerName }}</strong
-                                      >
+                                      Customer Name:
+                                      <strong>
+                                        {{ inputCustomer.customerName }}
+                                      </strong>
                                     </p>
-                                  </div>
-                                  <div class="row">
                                     <p>
-                                      <strong
-                                        >Cashier: {{ currentUser.FName }}
+                                      Cashier:
+                                      <strong>
+                                        {{ currentUser.FName }}
                                         {{ currentUser.MName }}
-                                        {{ currentUser.LName }}</strong
-                                      >
+                                        {{ currentUser.LName }}
+                                      </strong>
                                     </p>
                                   </div>
-                                  <div class="flex flex-center row">
-                                    <div class="row">
-                                      <q-table
-                                        :rows="allCart"
-                                        :columns="selectedOrder"
-                                        :rows-per-page-options="[]"
-                                        row-key="SelProd"
-                                        wrap-cells
-                                        hide-bottom
-                                        flat
-                                        :dense="$q.screen.lt.md"
-                                      >
-                                        <template
-                                          v-slot:body-cell-action="props"
-                                        >
-                                          <q-td :props="props"> </q-td>
-                                        </template>
-                                      </q-table>
-                                    </div>
-                                    <div class="row" align="right">
-                                      <p>
-                                        Grand Total:
-                                        {{ formatPrice(grandTotal()) }}
-                                      </p>
+                                  <div class="flex flex-center">
+                                    <q-table
+                                      :rows="allCart"
+                                      :columns="selectedOrder"
+                                      :rows-per-page-options="[]"
+                                      row-key="SelProd"
+                                      wrap-cells
+                                      hide-bottom
+                                      flat
+                                      :dense="$q.screen.lt.md"
+                                    />
+                                  </div>
+                                  <div class="row q-pr-md q-pt-sm">
+                                    <div class="col q-pl-md">Grand Total:</div>
+                                    <div class="col q-pr-xl text-right">
+                                      ₱ {{ formatPrice(grandTotal()) }}
                                     </div>
                                   </div>
 
                                   <q-card-section>
                                     <p>Discount: 0% - ₱ 00.00</p>
-                                    <p>Tax: 0% - ₱ 00.00</p>
+                                    <p>Vat: 2% - ₱ {{ tax() }}</p>
                                     <p>Payment: {{ formatPrice(payment) }}</p>
                                     <p>Change: {{ formatPrice(change) }}</p>
                                   </q-card-section>
@@ -784,7 +802,6 @@ export default class POS extends Vue {
       align: 'center',
       label: 'Quantity',
       field: 'orderQuant',
-      sortable: true,
     },
     {
       name: 'orderSize',
@@ -855,6 +872,17 @@ export default class POS extends Vue {
     this.change = this.payment - result;
     return result;
   }
+  tax() {
+    const result = 0.02 * this.grandTotal();
+    return this.formatPrice(result);
+  }
+
+  totalTax() {
+    const tax = 0.02 * this.grandTotal();
+    const result = this.grandTotal() - tax;
+    return result;
+  }
+
   resetOrder() {
     this.tempInput = {
       orderName: '',
@@ -866,6 +894,13 @@ export default class POS extends Vue {
       orderSubTotal: 0,
     };
   }
+  resetCustomer() {
+    this.inputCustomer = {
+      customerName: '',
+      date_created: '',
+    };
+  }
+
   async onaddCart(data: ManageProductDto) {
     if (data.product_ID) {
       const res = await this.addCart({
@@ -878,7 +913,7 @@ export default class POS extends Vue {
       } as ICartInfo);
       console.log(res);
     }
-
+    this.resetCustomer();
     this.resetOrder();
   }
   async onEditCart() {
@@ -891,6 +926,7 @@ export default class POS extends Vue {
       .dialog({
         message: 'Confirm to delete?',
         cancel: true,
+        color: 'teal-4',
         persistent: true,
       })
       .onOk(async () => {
@@ -905,6 +941,7 @@ export default class POS extends Vue {
     this.editOrderQuant = true;
     this.tempInput = { ...val };
   }
+
   async onPunchOrder() {
     const name: any = await this.addCustomer(this.inputCustomer);
     const getUser: any = await this.getProfile();
@@ -914,12 +951,14 @@ export default class POS extends Vue {
       user: getUser.id,
       totalAmount: this.grandTotal(),
       payment: this.payment,
+      totalSale: this.totalTax(),
     });
   }
   inputSaleRecord: SaleRecordDto = {
     sales_order_created: currentDate,
     totalAmount: 0,
     payment: 0,
+    totalSale: 0,
   };
   inputCustomer: CustomerDto = {
     customerName: '',

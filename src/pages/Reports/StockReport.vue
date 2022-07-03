@@ -99,6 +99,7 @@
         title="Inventory Report"
         :rows="usedInventory"
         :columns="columns"
+        table-header-class="bg-teal-4 text-white"
         row-key="itemCode"
         :filter="filter"
       >
@@ -188,6 +189,7 @@
       <q-table
         :rows="expiredInventory"
         :columns="expiredColumn"
+        table-header-class="bg-teal-4 text-white"
         row-key="itemCode"
         :filter="expiredFilter"
       >

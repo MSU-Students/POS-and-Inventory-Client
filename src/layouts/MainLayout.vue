@@ -7,7 +7,13 @@
           <img src="../assets/BesTea.jpg" />
         </q-avatar>
         <q-toolbar-title>BesTea Restaurant</q-toolbar-title>
-        <q-btn-dropdown elevated flat dropdown-icon="account_circle">
+        <q-btn-dropdown
+          elevated
+          flat
+          dropdown-icon="account_circle"
+          :label="currentUser.FName + ' ' + currentUser.LName"
+          size="18px"
+        >
           <div class="bg-teal-1 row no-wrap q-px-xl q-py-lg">
             <div class="column items-center">
               <q-avatar size="80px">
@@ -242,6 +248,7 @@ export default class MainLayout extends Vue {
 
   async mounted() {
     await this.authUser();
+    window.postMessage('posprint', '*');
   }
 
   async logout() {

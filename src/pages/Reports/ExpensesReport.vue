@@ -74,6 +74,7 @@
           title="Expenses List"
           :rows="allExpenses"
           :columns="columns"
+          table-header-class="bg-teal-4 text-white"
           row-key="reference"
           :search="search"
         >
@@ -150,9 +151,19 @@
           </template>
         </q-table>
       </div>
-      <q-card class="q-pa-md">
-        <ExpensesChart />
-      </q-card>
+      <div class="q-py-md">
+        <ExpensesMonth />
+      </div>
+      <div class="q-py-md">
+        <q-card class="q-pa-md">
+          <ExpensesChart />
+        </q-card>
+      </div>
+      <div class="q-py-md">
+        <q-card class="q-pa-md">
+          <MonthlyExpense />
+        </q-card>
+      </div>
     </div>
   </q-page>
 </template>
@@ -162,14 +173,12 @@ import { Vue, Options } from 'vue-class-component';
 import ExpensesChart from 'components/Charts/ExpensesReportChart.vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
 import { ExpensesDto } from 'src/services/rest-api';
-import { date, exportFile } from 'quasar';
-const dateNow = new Date();
-const CurrentDate = date.formatDate(dateNow, 'YYYY-MM-DD');
-const CurrentMonth = date.formatDate(dateNow, 'YYYY-MM');
-const CurrentYear = date.formatDate(dateNow, 'YYYY');
+import { exportFile } from 'quasar';
+import MonthlyExpense from 'src/components/Charts/monthlyExp.vue';
+import ExpensesMonth from 'src/components/ExpensesMonth.vue';
 
 @Options({
-  components: { ExpensesChart },
+  components: { ExpensesChart, MonthlyExpense, ExpensesMonth },
   computed: {
     ...mapState('expenses', ['allExpenses']),
     ...mapGetters('expenses', [

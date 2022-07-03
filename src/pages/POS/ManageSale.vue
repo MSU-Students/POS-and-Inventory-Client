@@ -24,6 +24,7 @@
       :rows="allProduct"
       :columns="columns"
       row-key="name"
+      table-header-class="bg-teal-4 text-white"
       :filter="filter"
     >
       <template v-slot:top-right>
@@ -519,6 +520,13 @@ export default class ManageProduct extends Vue {
       sortable: true,
     },
     {
+      name: 'ProductDate',
+      align: 'center',
+      label: 'Last Edited',
+      field: (row: ManageProductDto) => row.productLastEdited || 'None',
+      sortable: true,
+    },
+    {
       name: 'Actions',
       align: 'center',
       label: 'Actions',
@@ -541,6 +549,7 @@ export default class ManageProduct extends Vue {
     productCategory: '',
     productSubCategory: '',
     productSize: 'Regular',
+    productLastEdited: '',
   };
 
   selectSubCategory() {
@@ -618,9 +627,13 @@ export default class ManageProduct extends Vue {
         await this.editManageProduct({
           ...this.inputManageSale,
           url: media.id,
+          productLastEdited: formattedString,
         });
       } else {
-        await this.editManageProduct(this.inputManageSale);
+        await this.editManageProduct({
+          ...this.inputManageSale,
+          productLastEdited: formattedString,
+        });
       }
       this.loading = false;
       this.editRowManageSale = false;

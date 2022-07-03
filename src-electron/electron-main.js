@@ -51,8 +51,15 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+  mainWindow.on('posprint', () => {
+    console.log('pos printing.................................');
+    mainWindow.webContents.print(
+      { silent: true, pageSize: 'A4', margins: { marginType: 'none' } },
+      (success, errorType) => {}
+    );
+  });
 }
-
+console.log('started electron.................................');
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {

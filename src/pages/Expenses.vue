@@ -24,6 +24,7 @@
       :rows="allExpenses"
       :columns="columns"
       row-key="reference"
+      table-header-class="bg-teal-4 text-white"
       :filter="filter"
     >
       <template v-slot:top-right>

@@ -94,6 +94,7 @@
           title="Purchase History"
           :rows="completePurchase"
           :columns="columns"
+          table-header-class="bg-teal-4 text-white"
           row-key="itemCode"
           :filter="filter"
         >

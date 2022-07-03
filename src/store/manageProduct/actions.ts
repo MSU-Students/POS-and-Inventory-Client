@@ -9,6 +9,7 @@ const actions: ActionTree<ManageProductStateInterface, StateInterface> = {
     const result = await manageProductService.create(payload);
     context.commit('setNewManageProduct', result);
     await context.dispatch('getAllManageProduct');
+    return result;
   },
 
   async editManageProduct(context, payload: any): Promise<any> {
@@ -18,6 +19,7 @@ const actions: ActionTree<ManageProductStateInterface, StateInterface> = {
     );
     context.commit('updateManageProduct', result);
     await context.dispatch('getAllManageProduct');
+    return result;
   },
 
   async deleteManageProduct(context, product_ID: number): Promise<any> {

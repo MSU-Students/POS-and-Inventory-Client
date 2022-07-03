@@ -10,7 +10,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth + '-01'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -20,7 +20,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth + '-02'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -30,7 +30,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth + '-03'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -40,7 +40,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth + '-04'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -50,7 +50,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth + '-05'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -60,7 +60,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth + '-06'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -70,7 +70,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth + '-07'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -80,7 +80,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth + '-08'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -90,7 +90,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth + '-09'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -100,7 +100,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth + '-10'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -110,7 +110,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth + '-11'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -120,7 +120,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth + '-12'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -130,7 +130,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -140,7 +140,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -151,7 +151,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match(currentMonth))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -160,7 +160,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match('2022'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -168,7 +168,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match('2023'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -176,7 +176,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match('2024'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -184,7 +184,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match('2025'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -192,7 +192,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match('2026'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -200,7 +200,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match('2027'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -208,7 +208,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match('2028'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -216,7 +216,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match('2029'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },
@@ -224,7 +224,7 @@ const getters: GetterTree<SaleRecordStateInterface, StateInterface> = {
     const result = state.allSaleRecord
       .filter((s) => s.sales_order_created.match('2030'))
       .reduce<number>((accumulator, current) => {
-        return accumulator + current.totalAmount;
+        return accumulator + current.totalSale;
       }, 0);
     return result.toFixed(2);
   },

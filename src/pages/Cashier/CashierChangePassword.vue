@@ -6,9 +6,10 @@
     >
       <q-card-section>
         <q-avatar size="125px" class="absolute-center shadow-10">
-          <img src="../assets/BesTea.jpg" />
-        </q-avatar> </q-card-section
-      ><br />
+          <img src="src/assets/BesTea.jpg" />
+        </q-avatar>
+      </q-card-section>
+      <br />
       <q-card-section>
         <div class="text-center q-pt-lg">
           <div class="col text-bold text-h4">Change Password</div>
@@ -22,22 +23,14 @@
               autofocus
               v-model="password.oldPassword"
               dense
+              :type="isPwd1 ? 'password' : 'text'"
               label="Current Password"
-              :type="isPwdCurrent ? 'password' : 'text'"
               lazy-rules
               :rules="[
                 (val) =>
                   (val && val.length > 0) || 'Input your  current password',
               ]"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="isPwdCurrent ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwdCurrent = !isPwdCurrent"
-                />
-              </template>
-            </q-input>
+            />
 
             <q-input
               color="secondary"
@@ -91,7 +84,7 @@
                 />
                 <q-btn
                   label="Cancel"
-                  to="/Dashboard"
+                  to="/landingPage"
                   color="red-5"
                   class="q-ml-sm"
                 />
@@ -131,7 +124,6 @@ export default class LibrarianChangePass extends Vue {
     newPassword: '',
   };
   confirmpassword = '';
-  isPwdCurrent = true;
   isPwd = true;
   isPwd1 = true;
   user = 'librarian';
@@ -185,7 +177,7 @@ export default class LibrarianChangePass extends Vue {
 </script>
 <style>
 .bg-image {
-  background-image: url('../assets/green.jpg');
+  background-image: url('src/assets/green.jpg');
   background-size: cover;
 }
 </style>

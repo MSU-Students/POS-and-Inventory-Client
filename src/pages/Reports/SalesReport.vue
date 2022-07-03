@@ -69,6 +69,7 @@
         title="Sales Record"
         :rows="allSaleRecord"
         :columns="column"
+        table-header-class="bg-teal-4 text-white"
         row-key="subCategoryID"
         :filter="saleFilter"
       >
@@ -244,27 +245,30 @@
               <q-tab-panels v-model="AllProductsTab" animated>
                 <q-tab-panel name="daily">
                   <q-table
-                    title="Daily Sell Record"
-                    :rows="getDailyBestSeller"
+                    title="Daily Sale Record"
+                    :rows="getDailySeller"
                     :columns="allProducts"
+                    table-header-class="bg-teal-4 text-white"
                     row-key="name"
                   />
                 </q-tab-panel>
 
                 <q-tab-panel name="monthly">
                   <q-table
-                    title="Daily Sell Record"
+                    title="Month;y Sell Record"
                     :rows="getMonthlyBestSeller"
                     :columns="allProducts"
+                    table-header-class="bg-teal-4 text-white"
                     row-key="name"
                   />
                 </q-tab-panel>
 
                 <q-tab-panel name="allTheTime">
                   <q-table
-                    title="Daily Sell Record"
+                    title="All Sale Record"
                     :rows="getBestSeller"
                     :columns="allProducts"
+                    table-header-class="bg-teal-4 text-white"
                     row-key="name"
                   />
                 </q-tab-panel>
@@ -290,27 +294,30 @@
               <q-tab-panels v-model="FoodTab" animated>
                 <q-tab-panel name="daily">
                   <q-table
-                    title="Daily Sell Record"
+                    title="Daily Sale Record"
                     :rows="getDailyFoodBestSeller"
                     :columns="allProducts"
+                    table-header-class="bg-teal-4 text-white"
                     row-key="name"
                   />
                 </q-tab-panel>
 
                 <q-tab-panel name="monthly">
                   <q-table
-                    title="Daily Sell Record"
+                    title="Monthly Sale Record"
                     :rows="getMonthlyFoodBestSeller"
                     :columns="allProducts"
                     row-key="name"
+                    table-header-class="bg-teal-4 text-white"
                   />
                 </q-tab-panel>
 
                 <q-tab-panel name="allTheTime">
                   <q-table
-                    title="Daily Sell Record"
+                    title="All Sale Record"
                     :rows="getFoodBestSeller"
                     :columns="allProducts"
+                    table-header-class="bg-teal-4 text-white"
                     row-key="name"
                   />
                 </q-tab-panel>
@@ -337,27 +344,30 @@
               <q-tab-panels v-model="DrinksTab" animated>
                 <q-tab-panel name="daily">
                   <q-table
-                    title="Daily Sell Record"
+                    title="Daily Sale Record"
                     :rows="getDailyDrinksBestSeller"
                     :columns="allProducts"
+                    table-header-class="bg-teal-4 text-white"
                     row-key="name"
                   />
                 </q-tab-panel>
 
                 <q-tab-panel name="monthly">
                   <q-table
-                    title="Daily Sell Record"
+                    title="Monthly Sale Record"
                     :rows="getMonthlyDrinksBestSeller"
                     :columns="allProducts"
+                    table-header-class="bg-teal-4 text-white"
                     row-key="name"
                   />
                 </q-tab-panel>
 
                 <q-tab-panel name="allTheTime">
                   <q-table
-                    title="Daily Sell Record"
+                    title="All Sale Record"
                     :rows="getDrinksBestSeller"
                     :columns="allProducts"
+                    table-header-class="bg-teal-4 text-white"
                     row-key="name"
                   />
                 </q-tab-panel>
@@ -489,7 +499,7 @@ import { exportFile } from 'quasar';
     ...mapGetters('saleOrder', [
       'getBestSeller',
       'getMonthlyBestSeller',
-      'getDaillyBestSeller',
+      'getDailySeller',
       'getDrinksBestSeller',
       'getDailyDrinksBestSeller',
       'getMonthlyDrinksBestSeller',
@@ -514,7 +524,7 @@ export default class SaleRecord extends Vue {
   getYearlySale!: number;
   getBestSeller!: SaleOrderDto[];
   getMonthlyBestSeller!: SaleOrderDto[];
-  getDailyBestSeller!: SaleOrderDto[];
+  getDailySeller!: SaleOrderDto[];
   getMonthlyFoodBestSeller!: SaleOrderDto[];
   getDailyFoodBestSeller!: SaleOrderDto[];
   getFoodBestSeller!: SaleOrderDto[];
@@ -532,7 +542,7 @@ export default class SaleRecord extends Vue {
   async mounted() {
     await this.getAllSaleRecord();
     await this.getAllSaleOrder();
-    console.log(this.getTop3BestSeller);
+    console.log(this.getDailySeller);
   }
   CategoryTab = 'AllProducts';
   AllProductsTab = 'allTheTime';
@@ -572,6 +582,13 @@ export default class SaleRecord extends Vue {
       align: 'center',
       label: 'Payment Amount',
       field: (row: SaleRecordDto) => '₱ ' + this.formatPrice(row.payment),
+    },
+
+    {
+      name: 'payment',
+      align: 'center',
+      label: 'Total Sale',
+      field: (row: SaleRecordDto) => '₱ ' + this.formatPrice(row.totalSale),
     },
 
     {
@@ -658,6 +675,7 @@ export default class SaleRecord extends Vue {
     sales_order_created: '',
     totalAmount: 0,
     payment: 0,
+    totalSale: 0,
   };
 
   inputSaleOrder: SaleOrderDto = {

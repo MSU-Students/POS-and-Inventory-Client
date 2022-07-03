@@ -206,6 +206,7 @@
           title-class="text-teal-4"
           :rows="getTodaySale()"
           :columns="orderColumn"
+          table-header-class="bg-teal-4 text-white"
           row-key="customer"
           :rows-per-page-options="[0]"
           hide-no-data

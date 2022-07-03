@@ -7,6 +7,10 @@
         </q-avatar>
         <q-toolbar-title>BesTea Restaurant</q-toolbar-title>
         <q-space />
+        <div class="q-pr-md text-h6">
+          {{ currentUser.FName }}
+          {{ currentUser.LName }}
+        </div>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
       </q-toolbar>
     </q-header>
@@ -33,7 +37,7 @@
 
       <div class="q-pa-md flex flex-center">
         <q-btn
-          to="/changepass"
+          to="/cashierchangepass"
           size="md"
           color="teal-4"
           rounded

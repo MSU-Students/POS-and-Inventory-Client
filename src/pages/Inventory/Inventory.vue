@@ -80,6 +80,7 @@
       <q-table
         title="Inventory List"
         :rows="availableInventory"
+        table-header-class="bg-teal-4 text-white"
         :columns="columns"
         row-key="itemName"
         :filter="filter"
@@ -136,7 +137,7 @@
               </template>
             </q-input>
             <q-btn
-              label="Add Product"
+              label="Add Item"
               color="teal-4"
               dense
               flat
@@ -269,7 +270,7 @@
               <q-dialog v-model="editRowInventory" persistent>
                 <q-card style="width: 800px; max-width: 100vw" class="q-pa-md">
                   <q-card-section class="row">
-                    <div class="text-h6">Edit Product</div>
+                    <div class="text-h6">Edit Item</div>
                     <q-space />
                     <q-btn
                       flat
@@ -740,6 +741,7 @@ export default class Inventory extends Vue {
       .dialog({
         message: 'Confirm to delete?',
         cancel: true,
+        color: 'teal-4',
         persistent: true,
       })
       .onOk(async () => {

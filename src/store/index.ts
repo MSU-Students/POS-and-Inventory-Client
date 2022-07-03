@@ -66,7 +66,7 @@ export interface StateInterface {
   media: MediaStateInterface;
   customer: CustomertateInterface;
   saleOrder: SaleOrderStateInterface;
-  saleRecord: SaleOrderStateInterface;
+  saleRecord: SaleRecordStateInterface;
 }
 
 // provide typings for `this.$store`

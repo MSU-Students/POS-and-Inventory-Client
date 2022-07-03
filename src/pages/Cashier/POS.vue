@@ -3,13 +3,18 @@
     <q-header reveal elevated class="bg-teal-4 text-white">
       <q-toolbar>
         <q-toolbar-title> Welcome to POS </q-toolbar-title>
+        <div class="q-pr-md text-h6">
+          {{ currentUser.FName }}
+          {{ currentUser.LName }}
+        </div>
         <q-btn
           class="q-py-sm"
-          to="/Dashboard"
+          to="/landingPage"
           icon="logout"
           label="Back"
           flat
           dense
+          @click="clearOrder()"
         />
       </q-toolbar>
     </q-header>
@@ -216,7 +221,7 @@
                               Price:
                             </q-item-label>
                             <q-item-label class="text-weight-bolder text-red-5">
-                              ₱ {{ formatPrice(data.productPrice) }}
+                              ₱ {{ data.productPrice }}
                             </q-item-label>
                           </div>
                         </div>
@@ -275,6 +280,7 @@
                                         v-model="tempInput.orderQuant"
                                         label="Edit Quantity"
                                         autofocus
+                                        color="teal-4"
                                         :rules="[
                                           (val) =>
                                             (val < 5000 && val > 0) ||
@@ -329,7 +335,7 @@
                     push
                     color="red-5"
                     label="Clear Order"
-                    @click="clearOrder"
+                    @click="clearOrder()"
                   />
                 </div>
                 <q-separator inset />
@@ -477,6 +483,11 @@
                                     color="teal"
                                     outlined
                                     v-model="inputCustomer.customerName"
+                                    :rules="[
+                                      (val) =>
+                                        (val && val.length > 0) ||
+                                        'Input your Customer Name',
+                                    ]"
                                   />
                                 </div>
                                 <div class="q-gutter-md" align="center">
@@ -501,7 +512,7 @@
                         <q-step
                           :name="3"
                           title="Transanction Complete"
-                          color="tea-4"
+                          color="teal-4"
                           caption="Optional"
                           icon="Transanction Finish"
                           :done="StepConfirm > 3"
@@ -512,6 +523,7 @@
                               icon="task_alt"
                               color="teal-4"
                               style="font-size: 3rem"
+                              text-color="white"
                             />
                             Transanction Finish
                           </div>
@@ -534,11 +546,11 @@
                               @click="printPreview = true"
                               label="Print"
                             />
-                            <q-dialog v-model="printPreview">
+                            <q-dialog v-model="printPreview" full-height>
                               <q-card
                                 bordered="false"
                                 style="width: 800px"
-                                class="q-px-sm q-pb-md"
+                                class="q-px-sm q-pb-md column full-height"
                                 @click="print()"
                               >
                                 <q-card-section>
@@ -866,6 +878,13 @@ export default class POS extends Vue {
       orderSubTotal: 0,
     };
   }
+  resetCustomer() {
+    this.inputCustomer = {
+      customerName: '',
+      date_created: '',
+    };
+  }
+
   async onaddCart(data: ManageProductDto) {
     if (data.product_ID) {
       const res = await this.addCart({
@@ -878,7 +897,7 @@ export default class POS extends Vue {
       } as ICartInfo);
       console.log(res);
     }
-
+    this.resetCustomer();
     this.resetOrder();
   }
   async onEditCart() {
@@ -891,6 +910,7 @@ export default class POS extends Vue {
       .dialog({
         message: 'Confirm to delete?',
         cancel: true,
+        color: 'teal-4',
         persistent: true,
       })
       .onOk(async () => {
@@ -920,6 +940,7 @@ export default class POS extends Vue {
     sales_order_created: currentDate,
     totalAmount: 0,
     payment: 0,
+    totalSale: 0,
   };
   inputCustomer: CustomerDto = {
     customerName: '',
